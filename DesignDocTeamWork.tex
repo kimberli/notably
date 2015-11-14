@@ -233,12 +233,18 @@ The implementation of Notably is divided roughly into the following tasks, along
 
 A risk is that our moderation system doesn't work as intended and the quality of snippets is low. The result would be that there wouldn't be a strong lure for students to use the app. We can mitigate this by testing and observing instances and properties of desirable and undesirable behavior. We would then implement criteria that allows the desirable behavior while blocking undesirable behavior.
 
+Another risk is that lazy students will abuse the system by using other students' notes to justify not attending class. To prevent this, we mandate that students contribute a few snippets in order to view other students' notes in the session feed.
+
+To allow for students to filter through many potentially redundant notes, we also will implement a rating system in which snippets that are the most popular (saved to most users' stashes) will bubble up to the top of the feed. 
+
+Although the app may need a critical mass for the sharing features to be useful, we intend for the system also offer an elegant way to manage students' personal notes. That way, individuals would be incentivized to use the app even when there aren't too many other users on it. 
+
 \subsection*{Minimum Viable Product}
 In our MVP, we expect to have the following features implemented:
 \begin{itemize}
 \item User and Class home
 \item Lecture feed with rudimentary note-taking capabilities
-\item stash and Save Capabilities
+\item Stash and Save Capabilities
 \end{itemize}
 
 The MVP includes almost all of the concepts (snippet, stash, feed, save); the missing concepts are flags and unlocking. We will delay certain features of the full product until after the MVP. These include rich text markup in snippets, creating a comprehensive list of MIT classes, and views for user and class home.
