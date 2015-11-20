@@ -7,11 +7,11 @@
 \usepackage{amsmath}
 \usepackage{mathtools}
 \usepackage{amssymb}
-\usepackage{fancyhdr} 
+\usepackage{fancyhdr}
 \usepackage{fullpage}
 \usepackage{graphicx}
 \usepackage{pgfplots}
-\usepackage{hyperref} 
+\usepackage{hyperref}
 \usepackage{parskip}
 \usepackage{titlesec}
 \usepackage{adjustbox}
@@ -37,8 +37,8 @@
 %--- Title ---
 
 \begin{center}
-~\\[1cm] 
-{\huge \class} \\[0.4cm] 
+~\\[1cm]
+{\huge \class} \\[0.4cm]
 {\large \authors} \\[0.2cm]
 {\large \duedate} \\[0.2cm]
 {\large \classsection}
@@ -48,12 +48,12 @@
 \subsection*{Motivation}
 Writing notes during class can be a struggle; it can be hard to write detailed notes and follow the lecture at the same time. This leads to both low-quality notes and an incomplete understanding of the material.
 
-For our final project, we are creating Notably, an application for collaboratively creating and curating notes. MIT students will be able to log into the system and join a lecture feed for a particular class; then, they can contribute notes, flag inappropriate posts, and save useful notes to their personal stash. 
+For our final project, we are creating Notably, an application for collaboratively creating and curating notes. MIT students will be able to log into the system and join a lecture feed for a particular class; then, they can contribute notes, flag inappropriate posts, and save useful notes to their personal stash.
 
 Notably aims to achieve the following:
 
 \begin{itemize}
-\item  \textbf{To encourage collaboration within an entire class.} 
+\item  \textbf{To encourage collaboration within an entire class.}
 
 While there already exist note-taking tools, many of these aren't collaborative. Those that support collaboration (Google Docs, Evernote, etc.), however, are not readily accessible to the entire class; friends have to send each other a link to access the document. With Notably, all the students in a class can easily access its feed, making classwide collaboration effortless.
 
@@ -137,8 +137,8 @@ Textual constraints:
 
 Insights:
 \begin{itemize}
-\item The feed is consolidated globally so that every user subscribed to its class can see it, given that they've unlocked the view. 
-\item We use a session model to represent each class session. For each session, users can then add notes (snippets) to that session's feed. 
+\item The feed is consolidated globally so that every user subscribed to its class can see it, given that they've unlocked the view.
+\item We use a session model to represent each class session. For each session, users can then add notes (snippets) to that session's feed.
 \end{itemize}
 
 \subsection*{Security concerns}
@@ -159,7 +159,7 @@ We are assuming attackers are anyone on the Internet (not just MIT students) who
 \end{figure}
 
 \begin{figure}[h!]
-  \caption{Home view}
+  \caption{User Home view}
   \centering
     \includegraphics[width=6in]{UI3.png}
 \end{figure}
@@ -171,20 +171,26 @@ We are assuming attackers are anyone on the Internet (not just MIT students) who
 \end{figure}
 
 \begin{figure}[h!]
-  \caption{Session \& stash view}
+  \caption{Session Feed+Stash view}
   \centering
     \includegraphics[width=6in]{UI1.png}
 \end{figure}
 
 \begin{figure}[h!]
-  \caption{Profile view}
+  \caption{User Profile view}
   \centering
     \includegraphics[width=6in]{UI5.png}
 \end{figure}
 
+\begin{figure}[h!]
+  \caption{Page Flow Diagram}
+  \centering
+    \includegraphics[width=6in]{PageFlowDiagram.png}
+\end{figure}
+
 \newpage
 % TODO change this:
-Upon login with certificate authentication, the user will see a sidebar with options to select her class, and a secondary sidebar (not shown) that will display the sessions for the class. When a session is viewed, the feed for that session is displayed, with snippets obscured when the user hasn't contributed enough. 
+Upon login with certificate authentication, the user will see a sidebar with options to select her class, and a secondary sidebar (not shown) that will display the sessions for the class. When a session is viewed, the feed for that session is displayed, with snippets obscured when the user hasn't contributed enough.
 
 The snippet editor features rich text editing and inline math. The system will also have a photo upload option for drawings and graphs. Meanwhile, the feed display shows all snippets for a given session and gives user the option to save snippets to their own stashes or flag snippets as inaccurate.
 
@@ -196,12 +202,14 @@ Another challenge is deciding how to administer which feeds exist. Ideally we wa
 
 Another challenge is deciding the mechanism for unlocking. Our goal is to incentivize contribution by requiring a user to add snippets before having access to the feed, so the feed won't be fully visible right away. At the same time, we want to encourage users to join by immediately showing the benefits of using the system for notes. Our solution is to show the first 10 snippets (as opposed to no snippets) of a feed to anyone and require at least 3 snippets to unlock the rest.
 
+
+\newpage
 % TEAM WORK PLAN
 \section*{Team Work Plan}
 \subsection*{Stakeholders}
-The stakeholders involved are students as well as instructors and TAs for classes. 
+The stakeholders involved are students as well as instructors and TAs for classes.
 
-Students can join a particular class, access its feeds, contribute notes, and curate their stashes. The system would provide them an easy way to manage their own study material as well as collaborate and share resources with other students in the class. 
+Students can join a particular class, access its feeds, contribute notes, and curate their stashes. The system would provide them an easy way to manage their own study material as well as collaborate and share resources with other students in the class.
 
 Instructors and TAs are invested in their students' learning and should encourage them to take good notes and learn collaboratively. They can incentivize students to use the app and open up session feeds (lecture, recitation, review session) in which students can contribute notes.
 
@@ -219,29 +227,29 @@ The implementation of Notably is divided roughly into the following tasks, along
 \textbf{Category} & \multicolumn{1}{|c|}{\textbf{Task}} & \textbf{Point Person} & \textbf{Deadline} \\
 \hline
 
-\multirow{4}{*}{Stack} 
+\multirow{4}{*}{Stack}
 & Certificate Authorization  & Akshay  &  11/19/15 \\\cline{2-4}
 & Heroku/Athena    & Vahid  &  11/19/15    \\\cline{2-4}
 & MongoDB/Mongolab & Vahid  &  11/19/15    \\\cline{2-4}
 & Express/Node  & Vahid  &  11/19/15    \\\cline{2-4}
-\hline 
+\hline
 
-\multirow{5}{*}{Core Functionality} 
+\multirow{5}{*}{Core Functionality}
 & Real-time browser updating  & Akshay  &  11/19/15 \\\cline{2-4}
 & Database models    & Alex  &  11/19/15    \\\cline{2-4}
 & Client/server communication & Kimberli  &  11/19/15    \\\cline{2-4}
 & Save a snippet & Alex  &  11/23/15    \\\cline{2-4}
 & Flag a snippet & Akshay  &  12/06/15    \\\cline{2-4}
-\hline 
+\hline
 
-\multirow{4}{*}{Views} 
+\multirow{4}{*}{Views}
 & Feed View  & Kimberli  &  11/23/15 \\\cline{2-4}
 & Stash View  & Alex  &  11/23/15    \\\cline{2-4}
 & User Home View (list of stashes)  & Alex  &  11/23/15    \\\cline{2-4}
 & Class Home View (list of feeds) & Kimberli  &  11/23/15    \\\cline{2-4}
-\hline 
+\hline
 
-\multirow{4}{*}{Features} 
+\multirow{4}{*}{Features}
 & List of MIT classes/descriptions  & Akshay  &  12/06/15 \\\cline{2-4}
 & Rich Markdown (Text/code formatting, MathJax, etc.)  & Akshay  &  12/06/15    \\\cline{2-4}
 & Keyboard shortcuts (list of stashes)  & Kimberli  &  12/06/15    \\\cline{2-4}
@@ -249,12 +257,12 @@ The implementation of Notably is divided roughly into the following tasks, along
 \hline
 
 
-\multirow{2}{*}{Testing} 
+\multirow{2}{*}{Testing}
 & Model  & Kimberli  &  12/06/15 \\\cline{2-4}
 & UI  & Akshay  &  12/06/15    \\\cline{2-4}
 \hline
 
-\multirow{4}{*}{Logistics} 
+\multirow{4}{*}{Logistics}
 & Revised Design Document & Whole Team  &  11/19/15 \\\cline{2-4}
 & Meeting Agenda & Kimberli  &  per meeting \\\cline{2-4}
 & Meeting Progress Report & Alex  &  per meeting \\\cline{2-4}
@@ -272,9 +280,9 @@ A risk is that our moderation system doesn't work as intended and the quality of
 
 Another risk is that lazy students will abuse the system by using other students' notes to justify not attending class. To prevent this, we mandate that students contribute a few snippets in order to view other students' notes in the session feed.
 
-To allow for students to filter through many potentially redundant notes, we also will implement a rating system in which snippets that are the most popular (saved to most users' stashes) will bubble up to the top of the feed. 
+To allow for students to filter through many potentially redundant notes, we also will implement a rating system in which snippets that are the most popular (saved to most users' stashes) will bubble up to the top of the feed.
 
-Although the app may need a critical mass for the sharing features to be useful, we intend for the system also offer an elegant way to manage students' personal notes. That way, individuals would be incentivized to use the app even when there aren't too many other users on it. 
+Although the app may need a critical mass for the sharing features to be useful, we intend for the system also offer an elegant way to manage students' personal notes. That way, individuals would be incentivized to use the app even when there aren't too many other users on it.
 
 \subsection*{Minimum Viable Product}
 In our MVP, we expect to have the following features implemented:
