@@ -85,6 +85,12 @@ Stash
 \item Operational Principle: If a user wants to review his or her personal notes for a lecture before an exam, he or she can look at his or her own stash for that lecture.
 \end{itemize}
 
+Session
+\begin{itemize}
+\item Purpose: To allow organization of stashes and snippets
+\item Operational Principle: A session can correspond to a class lecture, recitation, etc. When a user visits a session page, he or she can see the class feed for that session as well as the user's stash for that particular session.
+\end{itemize}
+
 Feed
 \begin{itemize}
 \item Purpose: To allow a user to see a consolidated list of all notes taken by students in a class session
@@ -106,7 +112,7 @@ Flag
 Unlocking
 \begin{itemize}
 \item Purpose: To encourage students to be engaged in class
-\item Operational Principle: Upon logging into Notably, a user can only see the top ten snippets in the class feed. If the user wishes to see more of the snippets in the class feed, he or she must contribute three good snippets to unlock access to the entire class feed.
+\item Operational Principle: Upon logging into Notably, a user can only see the top ten snippets (by timestamp) in the class feed. If the user wishes to see more of the snippets in the class feed, he or she must contribute three good snippets (not flagged) to unlock access to the entire class feed.
 \item Potential Misfit: The concept of unlocking alone doesn't necessarily incentivize students to attend class.
 \end{itemize}
 
@@ -126,6 +132,7 @@ Definitions:
 Textual constraints:
 \begin{itemize}
 \item A stash for a given session cannot contain snippets not in that session's feed
+\item A snippet is flagged by a user different than its author.
 \end{itemize}
 
 Insights:
@@ -136,7 +143,7 @@ Insights:
 
 \subsection*{Security concerns}
 
-We want notes to be as open as possible within classes, but to make participants comfortable with that we would like to limit access to the notes to MIT students. This also prevents spam from outside users. To do so, we will use a simple MIT certificate authorization system. That is, accessing any page of the system requires an MIT certificate. This also allows us to identify users by Kerberos ID.
+We want notes to be as open as possible within classes, but to make participants comfortable with that we would like to limit access to the notes to MIT students. This also prevents spam from outside users. To do so, we will use a simple MIT certificate authorization system. That is, accessing any page of the system requires an MIT certificate. This also allows us to identify users by Kerberos ID. As mentioned on Piazza, we can consider redirecting a user to a site with a PHP script to verify the certificate, and if successful, redirect the user back.
 
 We will prevent standard web attacks (XSS, CSRF, etc.) using standard techniques presented in lecture such as input sanitization (e.g. for snippets) and using authorization tokens. We will manage who has access to resources (such as feeds that aren't unlocked) on the server-side to prevent users from being able to access restricted content through HTML sources.
 
