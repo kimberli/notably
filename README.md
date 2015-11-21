@@ -1,6 +1,7 @@
 Notably
 ==================================
 6.170 final project
+
 Created by Vahid Fazel-Rezai, Alexander Luh, Akshay Ravikumar, Kimberli Zhong
 
 URL: `mitnotably.herokuapp.com`
@@ -23,9 +24,17 @@ To test:
 * `npm run test` (or `mocha`)
 
 ## API
-* `/api/auth`
-* `/api/user`
-* `/api/user/classes`
-* `/api/search`
-* `/api/class`
-* `/api/session`
+### `/api/auth`
+**params**
+
+    {
+        username: {string}
+        password: {string}
+    }
+
+### `/api/user`
+### `/api/user/classes`
+### `/api/user/subscribe`
+### `/api/class/all`
+### `/api/class`
+### `/api/session`
