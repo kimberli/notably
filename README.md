@@ -1,6 +1,9 @@
-kimberli_akshayr_vfazel_aluh_final
+Notably
 ==================================
+6.170 final project
+Created by Vahid Fazel-Rezai, Alexander Luh, Akshay Ravikumar, Kimberli Zhong
 
+URL: `mitnotably.herokuapp.com`
 
 ## Instructions
 
@@ -18,3 +21,11 @@ For dev:
 
 To test:
 * `npm run test` (or `mocha`)
+
+## API
+* `/api/auth`
+* `/api/user`
+* `/api/user/classes`
+* `/api/search`
+* `/api/class`
+* `/api/session`
