@@ -24,12 +24,22 @@ To test:
 * `npm run test` (or `mocha`)
 
 ## API
-### `/api/auth`
+### `/api/auth` - POST
 **params**
 
     {
-        username: {string}
-        password: {string}
+        "username": (string)
+        "password": (string)
+    }
+
+**result**
+
+    {
+        "success": (bool - true if authentication successful, false otherwise)
+        "error": (string - the error message)
+        "result": {
+            username: (string - username of user just logged in)
+        }
     }
 
 ### `/api/user`
