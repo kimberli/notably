@@ -61,8 +61,9 @@ userSchema.statics.verifyPassword = function(rawUsername, candidatepw, callback)
  * @param email {string} - email
  * @param callback {function} - function to be called with err and result
  */
-userSchema.statics.createNewUser = function(username, password, name, email, callback) {
+userSchema.statics.createNewUser = function(rawUsername, password, name, email, callback) {
   var User = this;
+  var username = rawUsername.toLowerCase();
   // Should we check that email has valid format?
   if (username.match("^[a-z0-9_-]{3,16}") && typeof password === 'string') {
     User.userExists(username, function(user) {
@@ -85,21 +86,58 @@ userSchema.statics.createNewUser = function(username, password, name, email, cal
   }
 }
 
-/*
-  Get a particular stash belonging to a user.
-*/
+/**
+ * Get a particular stash belonging to a user.
+ *
+ * @param stashId {ObjectId} - ID of stash
+ * @param callback {function} - function to be called with err and result
+ */
 userSchema.statics.getStash = function(stashId, callback) {
   Stash.findById(stashId, callback);
 }
 
-/*
-  Get all stashes belonging to a user.
-*/
-userSchema.statics.getStashes = function(username, callback) {
+/**
+ * Get all stashes belonging to a user.
+ *
+ * @param rawUsername {string} - username to get stashes for
+ * @param callback {function} - function to be called with err and result
+ */
+userSchema.statics.getStashes = function(rawUsername, callback) {
   var User = this;
+  var username = rawUsername.toLowerCase();
   User.userExists(username, function(user) {
     if (user) {
       Stash.find({'_id': { $in: user.stashes}}, callback);
+    } else {
+      callback('User does not exist.', false);
+    }
+  });
+}
+
+/**
+ * Create a new stash
+ *
+ * @param rawUsername {string} - username creating stash
+ * @param session {ObjectId} - ID of session that stash is being made for
+ */
+userSchema.statics.addStash = function(rawUsername, session, callback) {
+  var User = this;
+  var username = rawUsername.toLowerCase();
+  User.userExists(username, function(user) {
+    if (user) {
+      var newStash = new Stash({
+        creator: user,
+        session: session,
+        snippets: []
+      });
+      user.stashes.push(newStash);
+      user.save(function(err) {
+        if (err) {
+          callback('Error.', false);
+        } else {
+          newStash.save(callback);
+        }
+      });
     } else {
       callback('User does not exist.', false);
     }
