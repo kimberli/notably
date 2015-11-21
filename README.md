@@ -24,10 +24,16 @@ To test:
 * `npm run test` (or `mocha`)
 
 ## API
-* `/api/auth`
-* `/api/user`
-* `/api/user/classes`
-* `/api/user/subscribe`
-* `/api/search`
-* `/api/class`
-* `/api/session`
+### `/api/auth`
+'''params'''
+```{
+    username:
+    password:
+}```
+
+### `/api/user`
+### `/api/user/classes`
+### `/api/user/subscribe`
+### `/api/class/all`
+### `/api/class`
+### `/api/session`
