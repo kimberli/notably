@@ -46,7 +46,7 @@ To update table of contents:
 ## API
 Generic result format:
 
-```javascript
+```json
 {
     "success": (boolean),
     "error": (string - error message if not successful),
