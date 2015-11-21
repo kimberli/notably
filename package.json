@@ -1,0 +1,36 @@
+{
+  "name": "notably",
+  "version": "1.0.0",
+  "description": "realtime collaborative note-taking",
+  "main": "run.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "node run.js",
+    "dev": "nodemon run.js",
+    "db": "mongod",
+    "gulp": "gulp",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.mit.edu:6170-fa15/kimberli_akshayr_vfazel_aluh_final.git"
+  },
+  "author": "Kimberli Zhong, Akshay Ravikumar, Vahid Fazel-Rezai, Alex Luh",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "cookie-session": "^2.0.0-alpha.1",
+    "express": "^4.13.3",
+    "mongoose": "^4.2.7",
+    "morgan": "^1.6.1",
+    "serve-favicon": "^2.3.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-sass": "^2.1.0",
+    "mocha": "^2.3.4",
+    "nodemon": "^1.8.1"
+  }
+}
