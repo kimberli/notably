@@ -40,26 +40,61 @@ For dev:
 To test:
 * `npm run test` (or `mocha`)
 
+To update table of contents:
+* `doctoc README.md`
+
 ## API
+Generic result format:
+
+```javascript
+{
+    "success": (boolean),
+    "error": (string - error message if not successful),
+    "result": (object - if successful, contains result of API call if any)
+}
+```
+
 ### `/api/auth` - POST
 **params**
 
-    {
-        "username": (string)
-        "password": (string)
-    }
+```javascript
+{
+    "username": (string)
+    "password": (string)
+}
+```
 
 **result**
 
-    {
-        "success": (bool - true if authentication successful, false otherwise)
-        "error": (string - the error message)
-        "result": {
-            username: (string - username of user just logged in)
-        }
-    }
+```javascript
+{
+    username: (string - username of user just logged in)
+}
+```
 
-### `/api/user`
+### `/api/user` - GET
+**params**
+
+```javascript
+{
+    "username": (string)
+}
+```
+
+**result**
+
+```javascript
+{
+    "stats": {
+        "numSubmitted": (int - number of snippets submitted),
+        "numSaved": (int - number of snippets saved), 
+        "numSubscribed": (int - number of classes subscribed to)
+    },
+    "classes": [(string - class number)],
+    "recentSessions": [(string - session IDs)]
+}
+```
+
 ### `/api/user/classes`
 ### `/api/user/subscribe`
 ### `/api/class/all`
