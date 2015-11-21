@@ -26,6 +26,7 @@ To test:
 ## API
 ### `/api/auth`
 **params**
+
     {
         username: {string}
         password: {string}
