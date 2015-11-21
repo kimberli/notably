@@ -25,11 +25,11 @@ To test:
 
 ## API
 ### `/api/auth`
-'''params'''
-```{
-    username:
-    password:
-}```
+**params**
+    {
+        username: {string}
+        password: {string}
+    }
 
 ### `/api/user`
 ### `/api/user/classes`
