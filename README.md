@@ -26,6 +26,7 @@ To test:
 * `/api/auth`
 * `/api/user`
 * `/api/user/classes`
+* `/api/user/subscribe`
 * `/api/search`
 * `/api/class`
 * `/api/session`
