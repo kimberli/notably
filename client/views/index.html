@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html ng-app="notablyApp">
 
-    <head>
-        <meta charset="utf-8">
-        <title>Notably</title>
-        <link rel="stylesheet" href="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-        <script src="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-    </head>
+   <head>
+       <meta charset="utf-8">
+       <title>Notably</title>
+       <link rel="stylesheet" href="/assets/css/style.css">
+   </head>
 
-    <body>
+   <body>
+       <div ng-view></div>
+   </body>
 
-    <textarea rows="4" cols="50" id = "MyID">
-    </textarea>
-
-
-
-    </body>
-
-    <script>
-      var simplemde = new SimpleMDE({ element: document.getElementById("MyID") });
-    </script>
-
-    <!--  angular -->
+   <!--  angular -->
+   <script src="/assets/js/angular.min.js"></script>
+   <script src="/assets/js/angular-route.min.js"></script>
+   <script src="/assets/js/notably-app.js"></script>
+   <script src="/assets/js/splash-controller.js"></script>
+   <script src="/assets/js/home-controller.js"></script>
+   <script src="/assets/js/profile-controller.js"></script>
+   <script src="/assets/js/session-controller.js"></script>
+   <script src="/assets/js/class-controller.js"></script>
 
 </html>
