@@ -1,5 +1,5 @@
-angular.module('notablyApp').controller('classController', function ($scope) {
+angular.module('notablyApp').controller('classController', function ($scope, $routeParams) {
 
-    // empty
+    $scope.classNumber = $routeParams.classNumber;
 
 });

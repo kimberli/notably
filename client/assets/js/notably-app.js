@@ -15,11 +15,11 @@ angular.module('notablyApp', ['ngRoute']).config(['$routeProvider', '$locationPr
 			templateUrl: '/views/profile.html',
 			controller: 'profileController'
 		})
-		.when('/class/:class_number', {
+		.when('/class/:classNumber', {
 			templateUrl: '/views/class.html',
 			controller: 'classController'
 		})
-		.when('/session/:sessionid', {
+		.when('/session/:sessionId', {
 			templateUrl: '/views/session.html',
 			controller: 'sessionController'
 		})

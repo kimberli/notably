@@ -1,5 +1,5 @@
-angular.module('notablyApp').controller('profileController', function ($scope) {
+angular.module('notablyApp').controller('profileController', function ($scope, $routeParams) {
 
-    // empty
+    $scope.username = $routeParams.username;
 
 });

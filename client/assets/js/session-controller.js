@@ -1,5 +1,5 @@
-angular.module('notablyApp').controller('sessionController', function ($scope) {
+angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams) {
 
-    // empty
+    $scope.sessionId = $routeParams.sessionId;
 
 });
