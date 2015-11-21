@@ -6,6 +6,23 @@ Created by Vahid Fazel-Rezai, Alexander Luh, Akshay Ravikumar, Kimberli Zhong
 
 URL: `mitnotably.herokuapp.com`
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Notably](#notably)
+  - [Instructions](#instructions)
+  - [API](#api)
+    - [`/api/auth` - POST](#apiauth---post)
+    - [`/api/user`](#apiuser)
+    - [`/api/user/classes`](#apiuserclasses)
+    - [`/api/user/subscribe`](#apiusersubscribe)
+    - [`/api/class/all`](#apiclassall)
+    - [`/api/class`](#apiclass)
+    - [`/api/session`](#apisession)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Instructions
 
 To install:
