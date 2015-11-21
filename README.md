@@ -1,6 +1,7 @@
 Notably
 ==================================
 6.170 final project
+
 Created by Vahid Fazel-Rezai, Alexander Luh, Akshay Ravikumar, Kimberli Zhong
 
 URL: `mitnotably.herokuapp.com`
