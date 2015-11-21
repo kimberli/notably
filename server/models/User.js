@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Stash = require('./Stash');
+var bcrypt = require('bcrypt');
 
 var userSchema = mongoose.Schema({
   username: String,
@@ -9,12 +10,15 @@ var userSchema = mongoose.Schema({
   stashes: [{type: mongoose.Schema.Types.ObjectId, ref:'Stash'}],
 });
 
-/*
-  User methods for properly registering accounts with a username and password.
-  Usernames should be unique, and the server should authenticate user credentials.
-*/
-userSchema.statics.userExists = function(username, callback) {
+/**
+ * Check if a user already exists; usernames must be unique.
+
+ * @param rawUsername {string} - username of a potential user
+ * @param callback {function} - function to be called with err and result
+ */
+userSchema.statics.userExists = function(rawUsername, callback) {
   var User = this;
+  var username = rawUsername.toLowerCase();
   User.findOne({username: username}, function(err, result) {
     if (err) {
       console.log(err);
@@ -25,11 +29,19 @@ userSchema.statics.userExists = function(username, callback) {
   });
 }
 
-userSchema.statics.verifyPassword = function(username, candidatepw, callback) {
+/**
+ * Authenticate a user
+
+ * @param rawUsername {string} - username to check
+ * @param candidatepw {string} - password to check
+ * @param callback {function} - function to be called with err and result
+ */
+userSchema.statics.verifyPassword = function(rawUsername, candidatepw, callback) {
   var User = this;
+  var username = rawUsername.toLowerCase();
   User.userExists(username, function(user) {
     if (user) {
-      if (user.password === candidatepw) {
+      if (bcrypt.compareSync(candidatepw, user.password)) {
         callback(null, true);
       } else {
         callback('Wrong password.', false);
@@ -40,21 +52,37 @@ userSchema.statics.verifyPassword = function(username, candidatepw, callback) {
   });
 }
 
+/**
+ * Create a new user
+
+ * @param rawUsername {string} - username to create
+ * @param password {string} - password
+ * @param name {string} - name
+ * @param email {string} - email
+ * @param callback {function} - function to be called with err and result
+ */
 userSchema.statics.createNewUser = function(username, password, name, email, callback) {
   var User = this;
-  User.userExists(username, function(user) {
-    if (user) {
-      callback('Username already taken.', false);
-    } else {
-      User.create({
-        username: username,
-        password: password,
-        name: name,
-        email: email,
-        stashes: []
-      }, callback);
-    }
-  });
+  // Should we check that email has valid format?
+  if (username.match("^[a-z0-9_-]{3,16}") && typeof password === 'string') {
+    User.userExists(username, function(user) {
+      if (user) {
+        callback('Username already taken.', false);
+      } else {
+      	var salt = bcrypt.genSaltSync(10);
+      	var hash = bcrypt.hashSync(password, salt);
+        User.create({
+          username: username,
+          password: hash,
+          name: name,
+          email: email,
+          stashes: []
+        }, callback);
+      }
+    });
+  } else {
+  	callback('Invalid username/password.', false);
+  }
 }
 
 /*
