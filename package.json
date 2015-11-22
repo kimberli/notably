@@ -2,13 +2,13 @@
   "name": "notably",
   "version": "1.0.0",
   "description": "realtime collaborative note-taking",
-  "main": "run.js",
+  "main": "bin/www",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "start": "node run.js",
-    "dev": "nodemon run.js",
+    "start": "node bin/www",
+    "dev": "nodemon bin/www",
     "db": "mongod",
     "gulp": "gulp",
     "test": "mocha"
