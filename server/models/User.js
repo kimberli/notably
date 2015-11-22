@@ -119,6 +119,7 @@ userSchema.statics.getStashes = function(rawUsername, callback) {
  *
  * @param rawUsername {string} - username creating stash
  * @param session {ObjectId} - ID of session that stash is being made for
+ * @param callback {function} - function to be called with err and result
  */
 userSchema.statics.addStash = function(rawUsername, session, callback) {
   var User = this;
