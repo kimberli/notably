@@ -100,7 +100,12 @@ Generic result format:
       "number": (string - class number),
       "name": (string - class name)
   }],
-  "recentSessions": [(string - session IDs), up to 10]
+  "recentSessions": [{
+    "id": (string - session id),
+    "title": (string - session title),
+    "createdAt": (string - timestamp),
+    "activeUsers": (number - number of active users)
+  }] 
 }
 ```
 
@@ -195,7 +200,7 @@ Generic result format:
   "sessions": [{
     "id": (string - session id),
     "title": (string - session title),
-    "created": (string - timestamp),
+    "createdAt": (string - timestamp),
     "activeUsers": (number - number of active users)
   }]
 }
