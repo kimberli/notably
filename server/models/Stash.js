@@ -66,6 +66,21 @@ stashSchema.statics.saveSnippet = function(snippetId, callback) {
   });
 }
 
+/**
+ * Remove a snippet from the current user's stash
+ *
+ * @param snippetId {ObjectId} - ID of snippet to be deleted
+ * @param callback {function} - function to be called with err and result
+ */
+stashSchema.statics.removeSnippet = function(snippetId, callback) {
+  var Stash = this;
+  var index = Stash.snippets.indexOf(snippetId);
+  if (index >= 0) {
+    Stash.snippets.splice(index, 1);
+  }
+  Stash.save(callback);
+}
+
 var Stash = mongoose.model('Stash', stashSchema);
 
 module.exports = Stash;
