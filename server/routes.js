@@ -5,7 +5,7 @@ utils = require('./utils');
 
 // API ENDPOINTS //
 router.post('/api/auth', function(req, res) {
-    utils.sendSuccessResponse(res, { user : "kim" });
+    utils.sendSuccessResponse(res, { username : "kim" });
 });
 
 // VIEW ENDPOINT //
