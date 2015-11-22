@@ -20,7 +20,7 @@ URL: `mitnotably.herokuapp.com`
   - [`/api/class` - GET](#apiclass---get)
   - [`/api/session` - GET](#apisession---get)
   - [`/api/session` - POST](#apisession---post)
-  - [`/api/snippet` - GET](#apisnippet---get)
+  - [`/api/session` - PUT](#apisession---put)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -51,7 +51,7 @@ Generic result format:
 {
     "success": (boolean),
     "error": (string - error message when not successful),
-    "result": (object - when successful, contains result of API call)
+    "content": (object - when successful, contains content of API call)
 }
 ```
 
@@ -67,7 +67,7 @@ Generic result format:
 }
 ```
 
-**result**
+**content**
 
 ```javascript
 {
@@ -87,7 +87,7 @@ Generic result format:
 }
 ```
 
-**result**
+**content**
 
 ```javascript
 {
@@ -116,7 +116,7 @@ Generic result format:
 }
 ```
 
-**result**
+**content**
 
 ```javascript
 {
@@ -139,7 +139,7 @@ Generic result format:
 }
 ```
 
-**result**
+**content**
 
 ```javascript
 {
@@ -160,7 +160,7 @@ Generic result format:
 { }
 ```
 
-**result**
+**content**
 
 ```javascript
 {
@@ -183,7 +183,7 @@ Generic result format:
 }
 ```
 
-**result**
+**content**
 
 ```javascript
 {
