@@ -49,9 +49,9 @@ Generic result format:
 
 ```javascript
 {
-    "success": (boolean),
-    "error": (string - error message when not successful),
-    "content": (object - when successful, contains content of API call)
+  "success": (boolean),
+  "error": (string - error message when not successful),
+  "content": (object - when successful, contains content of API call)
 }
 ```
 
@@ -62,8 +62,8 @@ Generic result format:
 
 ```javascript
 {
-    "username": (string)
-    "password": (string)
+  "username": (string)
+  "password": (string)
 }
 ```
 
@@ -71,7 +71,7 @@ Generic result format:
 
 ```javascript
 {
-    "username": (string - username of user just logged in)
+  "username": (string - username of user just logged in)
 }
 ```
 
@@ -83,7 +83,7 @@ Generic result format:
 
 ```javascript
 {
-    "username": (string)
+  "username": (string)
 }
 ```
 
@@ -91,16 +91,16 @@ Generic result format:
 
 ```javascript
 {
-    "stats": {
-        "numSubmitted": (int - number of snippets submitted),
-        "numSaved": (int - number of snippets saved), 
-        "numSubscribed": (int - number of classes subscribed to)
-    },
-    "classes": [{
-        "number": (string - class number),
-        "name": (string - class name)
-    }],
-    "recentSessions": [(string - session IDs), up to 10]
+  "stats": {
+      "numSubmitted": (int - number of snippets submitted),
+      "numSaved": (int - number of snippets saved), 
+      "numSubscribed": (int - number of classes subscribed to)
+  },
+  "classes": [{
+      "number": (string - class number),
+      "name": (string - class name)
+  }],
+  "recentSessions": [(string - session IDs), up to 10]
 }
 ```
 
@@ -112,7 +112,7 @@ Generic result format:
 
 ```javascript
 {
-    "username": (string)
+  "username": (string)
 }
 ```
 
@@ -120,10 +120,10 @@ Generic result format:
 
 ```javascript
 {
-    "classes": [{
-        "number": (string - class number),
-        "name": (string - class name)
-    }]
+  "classes": [{
+      "number": (string - class number),
+      "name": (string - class name)
+  }]
 }
 ```
 
@@ -135,18 +135,18 @@ Generic result format:
 
 ```javascript
 {
-    "class": (string - class number)
-}
+  "class": (string - class number)
+} 
 ```
 
 **content**
 
 ```javascript
 {
-    "classes": [{
-        "number": (string - class number),
-        "name": (string - class name)
-    }]
+  "classes": [{
+      "number": (string - class number),
+      "name": (string - class name)
+  }]
 }
 ```
 
@@ -164,10 +164,10 @@ Generic result format:
 
 ```javascript
 {
-    "classes": [{
-        "number": (string - class number),
-        "name": (string - class name)
-    }]
+  "classes": [{
+      "number": (string - class number),
+      "name": (string - class name)
+  }]
 }
 ```
 
@@ -179,7 +179,7 @@ Generic result format:
 
 ```javascript
 { 
-    "number": 
+  "number": (string - class number)
 }
 ```
 
@@ -187,13 +187,74 @@ Generic result format:
 
 ```javascript
 {
+  "meta": {
     "number": (string - class number),
     "name": (string - class name),
-
+    "desc": (string - class description),
+  }
+  "sessions": [{
+    "id": (string - session id),
+    "title": (string - session title),
+    "created": (string - timestamp),
+    "activeUsers": (number - number of active users)
+  }]
 }
 ```
 
 ### `/api/session` - GET
-### `/api/session` - POST
-### `/api/snippet` - GET
+* Get session info and snippets
+* Must be authenticated
 
+**params**
+
+```javascript
+{ 
+    "id": (string - session id)
+}
+```
+
+**content**
+
+```javascript
+{
+  "meta": {
+    "number": (string - class number),
+    "name": (string - class name)
+  }
+  "snippets": [{
+    "author": (string - snippet author),
+    "text": (string - snippet text),
+    "flaggedBy": [(string - usernames of flaggers)],
+    "savedBy": [(string - usernames of savers)]
+  }]
+
+}
+```
+
+### `/api/snippet` - GET
+* Get snippet info
+* Must be authenticated
+
+**params**
+
+```javascript
+{ 
+  "id": (string - snippet id)
+}
+```
+
+**content**
+
+```javascript
+{
+  "meta": {
+    "number": (string - class number),
+    "name": (string - class name),
+    "sessionId": (string - session id)
+  },
+  "author": (string - snippet author),
+  "text": (string - snippet text),
+  "flaggedBy": [(string - usernames of flaggers)],
+  "savedBy": [(string - usernames of savers)]
+}
+```
