@@ -1,4 +1,4 @@
-var app = require('./server');
+var app = require('./app');
 
 // SOCKETS //
 var server = require('http').Server(app);
