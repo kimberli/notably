@@ -1,4 +1,4 @@
-angular.module('notablyApp', ['ngRoute']).config(['$routeProvider', '$locationProvider',
+angular.module('notablyApp', ['ngRoute', 'ngFitText']).config(['$routeProvider', '$locationProvider',
 	function($routeProvider, $locationProvider) {
 
 		// routing definitions
@@ -26,7 +26,6 @@ angular.module('notablyApp', ['ngRoute']).config(['$routeProvider', '$locationPr
 		.otherwise({
 	        redirectTo: '/'
 	    });
-
 	    // remove # from URL
 	    $locationProvider.html5Mode({
 	        enabled: true,
