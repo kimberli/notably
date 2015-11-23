@@ -27,6 +27,11 @@ mongoose.connect('mongodb://localhost/model_test',function(){
     })).save();
 });
 
+var sessionId = null;
+var stashId = null;
+var snippetId1 = null;
+var snippetId2 = null;
+
 // test user model
 describe('User', function() {
 
@@ -263,11 +268,187 @@ describe('Course', function() {
                 assert.equal(err, null);
                 assert.equal(result.title, 'Lecture 1');
                 assert.equal(result.number, '6.170');
+                sessionId = result._id.toString();
                 Course.findCourse('6.170', function(err, result) {
                     assert.equal(result.sessions.length, 1);
+                    done();
                 })
+            });
+        });
+    });
+});
+
+// test session model
+describe('Session', function() {
+
+    //test findSession
+    describe('#findSession', function () {
+        // test nonexistent session
+        it('should return error when session does not exist', function (done) {
+            Session.findSession('blah', function(err, result) {
+                assert.notEqual(err, null);
                 done();
             });
         });
+
+        // test existing session; depends on addSession of Course tests
+        it('should not return error when session exists', function (done) {
+            Session.findSession(sessionId, function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.meta.title, 'Lecture 1');
+                assert.deepEqual(result.feed, []);
+                done();
+            });
+        });
+    });
+
+    //test addStash
+    describe('#addStash', function () {
+        // test adding user
+        it('should return error when invalid session id', function (done) {
+            Session.addStash('blah', 'kim', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test adding user
+        it('should not return error when valid user', function (done) {
+            Session.addStash(sessionId, 'kim', function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.creator, 'kim');
+                assert.equal(result.snippets.length, 0);
+                stashId = result._id;
+                done();
+            });
+        });
+
+        // test existing stash
+        it('should return error when user stash exists', function (done) {
+            Session.addStash(sessionId, 'kim', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+    });
+
+    //test addSnippet
+    describe('#addSnippet', function () {
+        // test adding with invalid session id
+        it('should return error when invalid session id', function (done) {
+            Session.addSnippet('blah', 'kim', 'hihihsnippet 123', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test adding when user has no stash
+        it('should return error when user has no stash', function (done) {
+            Session.addSnippet(sessionId, '123', 'hihihsnippet 123', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test adding valid snippet 1
+        it('should not return error when valid session', function (done) {
+            Session.addSnippet(sessionId, 'kim', 'snippet test text', function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.author, 'kim');
+                assert.equal(result.text, 'snippet test text');
+                snippetId1 = result._id;
+                Session.findSession(sessionId, function(err, result) {
+                    assert.equal(result.feed.length, 1);
+                    assert.equal(result.feed[0].author, 'kim');
+                    assert.equal(result.feed[0].sessionId, sessionId);
+                    done();
+                });
+            });
+        });
+        // test adding valid snippet 2 and saving snippet to stash
+        it('should not return error and should save snippet to user stash', function (done) {
+            Session.addSnippet(sessionId, 'kim', 'snippet 2', function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.author, 'kim');
+                assert.equal(result.text, 'snippet 2');
+                assert.equal(result.savedBy.length, 1);
+                assert.equal(result.savedBy[0], 'kim');
+                snippetId2 = result._id;
+                Session.findSession(sessionId, function(err, result) {
+                    assert.equal(result.feed.length, 2);
+                    assert.notEqual(result.feed[0]._id, result.feed[1]._id);
+                    done();
+                });
+            });
+        });
+    });
+});
+
+// test snippet model
+describe('Snippet', function() {
+
+    //test findSnippet
+    describe('#findSnippet', function () {
+        // test nonexistent snippet
+        it('should return error when snippet does not exist', function (done) {
+            Snippet.findSnippet('blah', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test snippet1
+        it('should not return error when snippet does not exist', function (done) {
+            Snippet.findSnippet(snippetId1, function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.text, 'snippet test text');
+                assert.equal(result.sessionId, sessionId)
+                done();
+            });
+        });
+        // test snippet2
+        it('should return correct snippet', function (done) {
+            Snippet.findSnippet(snippetId2, function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.text, 'snippet 2');
+                assert.equal(result.sessionId, sessionId)
+                done();
+            });
+        });
+    });
+});
+
+// visually inspect model
+describe.skip('Model', function() {
+    // view users
+    it('display all users', function (done) {
+        User.find({}, function(err, result) {
+            console.log(result);
+            done();
+        })
+    });
+    // view courses
+    it('display all courses', function (done) {
+        Course.find({}, function(err, result) {
+            console.log(result);
+            done();
+        })
+    });
+    // view sessions
+    it('display all sessions', function (done) {
+        Session.find({}, function(err, result) {
+            console.log(result);
+            done();
+        })
+    });
+    // view stashes
+    it('display all stashes', function (done) {
+        Stash.find({}, function(err, result) {
+            console.log(result);
+            done();
+        })
+    });
+    // view snippets
+    it('display all snippets', function (done) {
+        Snippet.find({}, function(err, result) {
+            console.log(result);
+            done();
+        })
     });
 });

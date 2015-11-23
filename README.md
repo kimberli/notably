@@ -12,6 +12,7 @@ URL: `mitnotably.herokuapp.com`
 
 - [Instructions](#instructions)
 - [API](#api)
+  - [Snippet](#snippet)
   - [`/api/user` - GET](#apiuser---get)
   - [`/api/user/create` - POST](#apiusercreate---post)
   - [`/api/user/login` - POST](#apiuserlogin---post)
@@ -22,6 +23,8 @@ URL: `mitnotably.herokuapp.com`
   - [`/api/course` - GET](#apicourse---get)
   - [`/api/course/newsession` - POST](#apicoursenewsession---post)
   - [`/api/session` - GET](#apisession---get)
+  - [`/api/session/newstash` - POST](#apisessionnewstash---post)
+  - [`/api/session/newsnippet` - POST](#apisessionnewsnippet---post)
   - [`/api/snippet` - GET](#apisnippet---get)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -48,6 +51,21 @@ To update table of contents:
 
 
 ## API
+
+### Snippet
+The snippet object looks like this:
+```javascript
+{
+  "author": (string - username),
+  "text": (string - snippet text),
+  "timestamp": (string - timestamp),
+  "saveCount": (number - number of saves),
+  "hidden": (bool - true if should be hidden, false otherwise),
+  "savedBy": [(string - usernames)],
+  "flaggedBy": [(string - usernames)],
+  "sessionId": (string - session id it belongs to)
+}
+```
 
 ### `/api/user` - GET
 * Get a user's profile information
@@ -270,7 +288,7 @@ To update table of contents:
 
 ```javascript
 { 
-    "_id": (string - session id)
+    "sessionId": (string - session id)
 }
 ```
 
@@ -282,16 +300,53 @@ To update table of contents:
   "meta": {
     "number": (string - course number),
     "title": (string - session title)
-  }
-  "snippets": [{
-    "_id": (string - snippet id),
-    "author": (string - snippet author),
-    "text": (string - snippet text),
-    "flaggedBy": [(string - usernames of flaggers)],
-    "savedBy": [(string - usernames of savers)]
-  }]
+  },
+  "feed": [(Snippet)],
+  "stash": [(Snippet)]
 
 }
+```
+
+### `/api/session/newstash` - POST
+* Add a new user's stash; will return error if user already has a stash
+* Must be authenticated
+
+**params**
+
+```javascript
+{ 
+    "sessionId": (string - session id)
+}
+```
+
+**content**
+
+```javascript
+{
+  "_id": (string - session id),
+  "createdAt": (string - timestamp),
+  "creator": (string - username),
+  "snippets": [] 
+}
+```
+
+### `/api/session/newsnippet` - POST
+* Add a new user's stash; will return error if user already has a stash
+* Must be authenticated
+
+**params**
+
+```javascript
+{ 
+  "sessionId": (string - session id),
+  "text": (string - snippet text)
+}
+```
+
+**content**
+
+```javascript
+(Snippet)
 ```
 
 ### `/api/snippet` - GET
@@ -302,24 +357,12 @@ To update table of contents:
 
 ```javascript
 { 
-  "_id": (string - snippet id)
+  "snippetId": (string - snippet id)
 }
 ```
 
 **content**
 
 ```javascript
-{
-  "meta": {
-    "number": (string - course number),
-    "name": (string - course name),
-    "sessionId": (string - session id)
-  },
-  "author": (string - snippet author),
-  "text": (string - snippet text),
-  "saves": (number - number of saves),
-  "hidden": (boolean - true if hidden, false otherwise),
-  "flaggedBy": [(string - usernames of flaggers)],
-  "savedBy": [(string - usernames of savers)]
-}
+(Snippet)
 ```

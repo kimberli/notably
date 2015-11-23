@@ -109,29 +109,6 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
 }
 
 /**
- * Get a particular stash belonging to a user.
- *
- * @param rawUsername {string} - username of user
- * @param stashId {ObjectId} - ID of stash
- * @param callback {function} - function to be called with err and result
- */
-userSchema.statics.getStash = function(rawUsername, stashId, callback) {
-    var username = rawUsername.toLowerCase();
-    findUser(username, function(err, result) {
-        if (err) callback(err);
-        else {
-            if (user.stashes.indexOf(stashId) < 0) { callback('Stash not found'); }
-            else {
-                Stash.findById(stashId, function(err, result) {
-                    if (err) callback(err);
-                    else callback(null, result);
-                });
-            }
-        }
-    });
-}
-
-/**
  * Get all stashes belonging to a user.
  *
  * @param rawUsername {string} - username to get stashes for
@@ -155,37 +132,6 @@ userSchema.statics.getStashes = function(rawUsername, callback) {
                     );
                 }
             });
-        }
-    });
-}
-
-/**
- * Create a new stash
- *
- * @param rawUsername {string} - username creating stash
- * @param session {string} - ID of session that stash is being made for
- * @param callback {function} - function to be called with err and result
- */
-userSchema.statics.addStash = function(rawUsername, sessionId, callback) {
-    var username = rawUsername.toLowerCase();
-    findUser(username, function(err, result) {
-        if (err) callback(err);
-        else {
-            Session.findSession(sessionId, function(err, session) {
-                if (err) callback(err);
-                else {
-                    var newStash = new Stash({
-                        creator: result.username,
-                        session: session._id,
-                        snippets: []
-                    });
-                    result.stashes.push(newStash);
-                    result.save(function(err) {
-                        if (err) callback(err);
-                        else callback(null, { username: username });
-                    });
-                }
-            })
         }
     });
 }

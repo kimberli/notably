@@ -15,9 +15,9 @@ angular.module('notablyApp', ['ngRoute', 'ngFitText']).config(['$routeProvider',
 			templateUrl: '/views/profile.html',
 			controller: 'profileController'
 		})
-		.when('/class/:classNumber', {
-			templateUrl: '/views/class.html',
-			controller: 'classController'
+		.when('/course/:courseNumber', {
+			templateUrl: '/views/course.html',
+			controller: 'courseController'
 		})
 		.when('/session/:sessionId', {
 			templateUrl: '/views/session.html',

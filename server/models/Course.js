@@ -10,12 +10,12 @@ var courseSchema = mongoose.Schema({
 });
 
 /**
- * Find a course if exists; return error otherwise
+ * Get a course if exists; return error otherwise
  *
  * @param number {string} - number of course
  * @param callback {function} - function to be called with err and result
  */
-var findCourse = function(number, callback) {
+var getCourse = function(number, callback) {
     Course.find({ number: number }, function(err, result) {
         if (err) callback(err);
         else if (result.length > 0) callback(null, result[0]);
@@ -31,7 +31,7 @@ var findCourse = function(number, callback) {
  * @param callback {function} - function to be called with err and result
  */
 courseSchema.statics.findCourse = function(number, callback) {
-    findCourse(number, function(err, course) {
+    getCourse(number, function(err, course) {
         if (err) callback(err);
         else {
             Session.find({ _id: { $in: course.sessions } }, function(err, result) {
@@ -83,7 +83,7 @@ courseSchema.statics.getAllCourses = function(callback) {
  * @param callback {function} - function to be called with err and result
  */
 courseSchema.statics.addSession = function(number, title, username, callback) {
-    findCourse(number, function(err, course) {
+    getCourse(number, function(err, course) {
         if (err) callback(err);
         else {
             var newSession = new Session({
