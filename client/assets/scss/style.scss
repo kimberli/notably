@@ -130,6 +130,19 @@ $primary-color-dark: color("indigo", "darken-2") !default;
       }
     }
 
+
+  .card {
+    padding: 5px;
+  }
+  .card-title {
+    font-size: 16px
+  }
+
+  .snippet-card {
+    background-color: $primary-color-white;
+    color: black;
+  }
+
   #stash-view {
     background-color: $primary-color-dark;
     box-shadow: 2px 2px 2px #888888;
@@ -163,7 +176,7 @@ $primary-color-dark: color("indigo", "darken-2") !default;
   }
 
   .snippet-header {
-     padding: 5px;
+     font-weight: 300;
   }
 
   .snippet-content {

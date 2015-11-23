@@ -35,34 +35,31 @@
           <div> Your feed </div>
         </div>
 
-          <div ng-repeat="snip in snippets" class="snippet-container">
+          <div ng-repeat="snip in snippets" >
+            <div class="card snippet-card" style="width:90%;margin:auto;margin-top:5px;">
+              <div class="card-content white-text">
 
-              <div class="snippet-header">
-                <div style="float:left">
-                  <b>{{snip.creator}}</b> posted <em>1 minute ago</em>
+                <div class="snippet-header">
+                  <div style="float:left" class="black-text">
+                    <b>{{snip.creator}}</b> posted <em>1 minute ago</em>
+                  </div>
+                  <div style="float:right">
+                    <button class="center-align remove-button"><i class="material-icons">cancel</i></button>
+                  </div>
                 </div>
-                <div style="float:right">
-                  <button class="center-align remove-button"><i class="material-icons">cancel</i></button>
-                </div>
+                 <br/>
+                <p class="black-text" style="margin-top:5px">{{snip.content}}</p>
+
               </div>
-
-              <br/>
-              <hr style="color:grey; margin-top:5px">
-
-              <div class="snippet-content" >
-                {{snip.content}} <br/>
-              </div>
-
-              <hr style="color:grey">
-
-              <div class="snippet-footer right-align">
+              <div class="card-action right-align" style="padding:5px">
                 <button class="center-align save-button"><i class="material-icons">star</i></button>
                 {{snip.saves}}
                 <button class="center-align flag-button"><i class="material-icons">flag</i></button>
                 {{snip.flags}}
-             </div>
-
+              </div>
+            </div>
         </div>
+
         </div>
         </div>
         <div ng-class="{true: 's6', false: 's12'}[showOption === 'both']" class="col" ng-hide="showOption === 'left'">
@@ -72,31 +69,31 @@
             <div> Your Stash </div>
           </div>
 
-          <div ng-repeat="snip in snippets" class="snippet-container">
-              <div class="snippet-header">
-                <div style="float:left">
-                  <b>{{snip.creator}}</b> posted <em>1 minute ago</em>
-                </div>
-                <div style="float:right">
-                  <button class="center-align remove-button"><i class="material-icons">cancel</i></button>
-                </div>
-              </div>
-              <br/>
-              <hr style="color:grey; margin-top:5px">
+          <div ng-repeat="snip in snippets" >
+             <div class="card snippet-card" style="width:90%;margin:auto;margin-top:5px;">
+               <div class="card-content white-text">
 
-              <div class="snippet-content">
-                {{snip.content}} <br/>
-              </div>
+                 <div class="snippet-header">
+                   <div style="float:left" class="black-text">
+                     <b>{{snip.creator}}</b> posted <em>1 minute ago</em>
+                   </div>
+                   <div style="float:right">
+                     <button class="center-align remove-button"><i class="material-icons">cancel</i></button>
+                   </div>
+                 </div>
+                  <br/>
+                 <p class="black-text" style="margin-top:5px">{{snip.content}}</p>
 
-              <hr style="color:grey">
-
-              <div class="snippet-footer right-align">
-                <button class="center-align save-button"><i class="material-icons">star</i></button>
-                {{snip.saves}}
-                <button class="center-align flag-button"><i class="material-icons">flag</i></button>
-                {{snip.flags}}
+               </div>
+               <div class="card-action right-align" style="padding:5px">
+                 <button class="center-align save-button"><i class="material-icons">star</i></button>
+                 {{snip.saves}}
+                 <button class="center-align flag-button"><i class="material-icons">flag</i></button>
+                 {{snip.flags}}
+               </div>
              </div>
         </div>
+
       </div>
       </div>
     </div>
