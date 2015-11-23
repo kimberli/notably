@@ -223,6 +223,7 @@ To update table of contents:
 
 ```javascript
 {
+  "_id": (string),
   "meta": {
     "number": (string - course number),
     "name": (string - course name),

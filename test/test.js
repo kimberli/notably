@@ -236,7 +236,7 @@ describe('Course', function() {
         it('should return error when course does not exist', function (done) {
             Course.findCourse('6.170', function(err, result) {
                 assert.deepEqual(err, null);
-                assert.deepEqual(result.name, 'Software Studio');
+                assert.deepEqual(result.meta.name, 'Software Studio');
                 done();
             });
         });

@@ -18,7 +18,27 @@ var courseSchema = mongoose.Schema({
 courseSchema.statics.findCourse = function(number, callback) {
     this.find({ number: number }, function(err, result) {
         if (err) callback(err);
-        else if (result.length > 0) callback(null, result[0]);
+        else if (result.length > 0) {
+            var course = result[0];
+            var sessions = [];
+            Session.find({ _id: { $in: course.sessions } }, function(err, result) {
+                if (err) callback(err);
+                else callback(null, {
+                    _id: course._id,
+                    meta: {
+                        name: course.name,
+                        number: course.number
+                    },
+                    sessions: result.map(function(item) {
+                        return {
+                            _id: item._id,
+                            title: item.title,
+                            createdAt: item.createdAt
+                        };
+                    })
+                });
+            })
+        }
         else callback('Course not found');
     });
 }
