@@ -22,6 +22,16 @@
 
   #title-container {
     padding-top: 20vh;
+
+    #title {
+      color: $primary-color-white;
+      font-family: 'Pacifico', cursive;
+      text-shadow: 2px 2px 5px #333;
+      cursor: default;
+      -webkit-user-select: none; /* Chrome/Safari */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* IE10+ */
+    }
   }
 
   #auth-container {
