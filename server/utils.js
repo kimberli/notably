@@ -9,10 +9,7 @@ module.exports = (function () {
      * @param content {object} - content to send
      */
     _utils.sendSuccessResponse = function(res, content) {
-        res.status(200).json({
-            success: true,
-            content: content
-        }).end();
+        res.status(200).json(content).end();
     };
 
     /**
@@ -24,7 +21,6 @@ module.exports = (function () {
      */
     _utils.sendErrResponse = function(res, errcode, error) {
         res.status(errcode).json({
-            success: false,
             error: error
         }).end();
     };
