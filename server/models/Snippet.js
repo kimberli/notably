@@ -3,13 +3,13 @@ var User = require('./User');
 var Stash = require('./Stash');
 
 var snippetSchema = mongoose.Schema({
-    author: {type: mongoose.Schema.Types.ObjectId, ref:'User'},
+    author: String,
     content: String,
     timestamp: Date,
     saves: Number,
     flagged: Boolean,
-    savedBy: [{type: mongoose.Schema.Types.ObjectId, ref:'User'}],
-    flaggedBy: [{type: mongoose.Schema.Types.ObjectId, ref:'User'}]
+    savedBy: [String],
+    flaggedBy: [String]
 });
 
 /**

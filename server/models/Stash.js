@@ -4,7 +4,7 @@ var Snippet = require('./Snippet');
 var Session = require('./Session');
 
 var stashSchema = mongoose.Schema({
-    creator: {type: mongoose.Schema.Types.ObjectId, ref:'User'},
+    creator: String,
     session: {type: mongoose.Schema.Types.ObjectId, ref:'Session'},
     snippets: [{type: mongoose.Schema.Types.ObjectId, ref:'Snippet'}]
 });
@@ -12,12 +12,11 @@ var stashSchema = mongoose.Schema({
 /**
  * Create a new snippet
  *
- * @param currentUser {ObjectID} - ID of current user
+ * @param currentUser {string} - username of current user
  * @param snippet {string} - content of the snippet
  * @param callback {function} - function to be called with err and result
  */
-stashSchema.statics.addSnippet = function(currentUser, snippet, callback) {
-    var Stash = this;
+stashSchema.methods.addSnippet = function(currentUser, snippet, callback) {
     var newSnippet = new Snippet({
     	author: currentUser,
         content: snippet,
@@ -27,8 +26,8 @@ stashSchema.statics.addSnippet = function(currentUser, snippet, callback) {
         savedBy: [],
         flaggedBy: []
     });
-    Stash.snippets.push(newSnippet);
-    Stash.save(function(err) {
+    this.snippets.push(newSnippet);
+    this.save(function(err) {
     if (err) {
         callback(err, false);
     } else {
