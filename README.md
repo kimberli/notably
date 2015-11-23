@@ -143,15 +143,13 @@ To update table of contents:
 ```
 
 ### `/api/user/courses` - GET
-* Gets all of a user's courses
+* Gets all of logged in user's courses
 * Must be authenticated
 
 **params**
 
 ```javascript
-{
-  "username": (string)
-}
+{ }
 ```
 
 **content**

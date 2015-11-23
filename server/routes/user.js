@@ -89,7 +89,7 @@ router.post('/logout', function(req, res) {
  */
 router.get('/courses', function(req, res) {
     if (req.currentUser) {
-        User.getCourses(req.currentUser, req.body.course, function(err,result) {
+        User.getCourses(req.currentUser, function(err,result) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {
