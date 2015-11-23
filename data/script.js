@@ -1,0 +1,41 @@
+var data = require('./data');
+var config = require('../server/config');
+var mongoose = require('mongoose');
+var Course = require('../server/models/Course');
+
+var classes = Object.keys(data);
+
+mongoose.connect(config.mongoURI);
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
+mongoose.connection.once('open', function (callback) {
+    mongoose.connection.db.dropDatabase();
+    console.log('db connected');
+    console.log('adding courses');
+    var count = 0;
+    classes.forEach(function(item, index) {
+        var info = data[item];
+        var newCourse = Course({
+            number: item,
+            name: info.name,
+            description: info.description,
+            location: info.location,
+            lectureTime: info.lecture,
+            sessions: []
+        });
+        newCourse.save(function(err) {
+            if (err) console.log(err);
+            else {
+                // console.log('Added ' + item);
+                count += 1;
+            }
+            if (index == classes.length - 1) {
+                Course.count({}, function( err, numDocs){
+                    console.log('done');
+                    console.log('added ' + count + ' courses');
+                    console.log('db now contains ' + numDocs + ' courses');
+                    mongoose.connection.close();
+                })
+            }
+        });
+    });
+});

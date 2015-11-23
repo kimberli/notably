@@ -49,6 +49,14 @@ To test:
 To update table of contents:
 * `doctoc README.md`
 
+To add data to database:
+* `node data/script.js`
+
+Run mongo shell:
+* `mongo`
+* `use notably`
+* `db.courses.find()`
+
 
 ## API
 
