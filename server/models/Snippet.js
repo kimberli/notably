@@ -39,7 +39,7 @@ snippetSchema.statics.create = function(rawUsername, text, sessionId, callback) 
         author: username,
         text: text,
         timestamp: Date.now(),
-        saveCount: 0,
+        saveCount: 1,
         hidden: false,
         flaggedBy: [],
         savedBy: [username],
