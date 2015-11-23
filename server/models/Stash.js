@@ -14,7 +14,7 @@ var stashSchema = mongoose.Schema({
  * @param stashId {string} - stash id
  * @param callback {function} - function to be called with err and result
  */
-var getStash = function(stashId, callback) {
+stashSchema.statics.getStash = function(stashId, callback) {
     Stash.find({ _id: stashId }, function(err, result) {
         if (err) callback(err);
         else if (result.length > 0) callback(null, result[0]);
@@ -30,7 +30,7 @@ var getStash = function(stashId, callback) {
  * @param username {string} - username of creator
  * @param callback {function} - function to be called with err and result
  */
-stashSchema.methods.findBySessionAndUsername = function(sessionId, rawUsername, callback) {
+stashSchema.statics.findBySessionAndUsername = function(sessionId, rawUsername, callback) {
     var username = rawUsername.toLowerCase();
     Stash.find({ creator: username, session: sessionId}, function(err, result) {
         if (err) callback(err);
@@ -38,19 +38,17 @@ stashSchema.methods.findBySessionAndUsername = function(sessionId, rawUsername, 
             var stash = result[0];
             Snippet.find({ _id: {$in: stash.snippets}}, function(err, result) {
                 if (err) callback(err);
-                else callback(null, {
-                    _id: result[0]._id,
-                    creator: username,
-                    session: sessionId,
-                    snippets: result.map(function(item) {
+                else {
+                    stash.snippets = result.map(function(item) {
                         return {
                             _id: item._id,
                             author: item.author,
                             text: item.text,
                             timestamp: item.timestamp
                         }
-                    })
-                })
+                    });
+                    callback(null, stash)
+                }
             });
         } else callback('Session not found');
     });

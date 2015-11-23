@@ -7,7 +7,8 @@ var snippetSchema = mongoose.Schema({
     saveCount: Number,
     hidden: Boolean,
     savedBy: [String],
-    flaggedBy: [String]
+    flaggedBy: [String],
+    sessionId: String
 });
 
 /**

@@ -47,13 +47,7 @@ sessionSchema.statics.findSession = function(sessionId, callback) {
                                 title: session.title,
                                 number: session.number
                             },
-                            feed: result.map(function(item) {
-                                return {
-                                    _id: item._id,
-                                    author: item.author,
-                                    text: item.text
-                                };
-                            })
+                            feed: result
                         });
                     })
                 }
@@ -62,11 +56,11 @@ sessionSchema.statics.findSession = function(sessionId, callback) {
     });
 }
 
-/** TODO
+/**
  * Add stash to a session
  *
  * @param sessionId {string} - session id
- * @param username {string} - creator
+ * @param username {string} - username of creator; must be valid
  * @param callback {function} - function to be called with err and result
  */
 sessionSchema.statics.addStash = function(sessionId, username, callback) {
@@ -81,6 +75,19 @@ sessionSchema.statics.addStash = function(sessionId, username, callback) {
                         createdAt: Date.now(),
                         snippets: []
                     });
+                    session.stashes.push(newStash);
+                    session.save(function(err) {
+                        if (err) callback(err);
+                        else newStash.save(function(err) {
+                            if (err) callback(err);
+                            else callback(null, {
+                                _id: newStash._id,
+                                creator: newStash.creator,
+                                createdAt: newStash.createdAt,
+                                snippets: newStash.snippets
+                            })
+                        })
+                    })
                 }
                 else if (err) callback(err);
                 else callback('Stash already exists');
@@ -93,11 +100,11 @@ sessionSchema.statics.addStash = function(sessionId, username, callback) {
  * Create a new snippet
  *
  * @param sessionId {string} - id of session
- * @param currentUser {string} - username of current user
+ * @param currentUser {string} - username of current user; must be valid
  * @param text {string} - content of the snippet
  * @param callback {function} - function to be called with err and result
  */
-sessionSchema.methods.addSnippet = function(sessionId, currentUser, text, callback) {
+sessionSchema.statics.addSnippet = function(sessionId, currentUser, text, callback) {
     getSession(sessionId, function(err, session) {
         if (err) callback(err);
         else {
@@ -111,16 +118,21 @@ sessionSchema.methods.addSnippet = function(sessionId, currentUser, text, callba
                         saveCount: 0,
                         hidden: false,
                         flaggedBy: [],
-                        savedBy: [stash.creator]
+                        savedBy: [stash.creator],
+                        sessionId: session._id
                     });
-                    session.snippets.push(newSnippet);
+                    var id = stash._id;
+                    session.feed.push(newSnippet);
                     session.save(function(err) {
                         if (err) callback(err);
                         else {
-                            stash.save(function(err) {
-                                if (err) callback(err);
-                                else newSnippet.save(callback);
-                            })
+                            var stash = Stash.getStash(id, function(err, stash) {
+                                stash.snippets.push(newSnippet);
+                                stash.save(function(err) {
+                                    if (err) callback(err);
+                                    else newSnippet.save(callback);
+                                });
+                            });
                         }
                     })
                 }
