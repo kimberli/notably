@@ -141,7 +141,7 @@ userSchema.statics.getStashes = function(rawUsername, callback) {
     findUser(username, function(err, result) {
         if (err) callback(err);
         else {
-            Stash.find({'_id': { $in: result.stashes}}, function(err, stashes) {
+            Stash.find({_id: { $in: result.stashes}}, function(err, stashes) {
                 if (err) callback(err);
                 else {
                     callback(null,
@@ -195,7 +195,7 @@ userSchema.statics.getCourses = function(rawUsername, callback) {
     findUser(username, function(err, result) {
         if (err) callback(err);
         else {
-            Course.find({'_id': { $in: result.courses}}, function(err, courses) {
+            Course.find({_id: { $in: result.courses}}, function(err, courses) {
                 if (err) callback(err);
                 else {
                     callback(null, {courses:

@@ -75,7 +75,7 @@ To update table of contents:
       "name": (string - course name)
   }],
   "recentSessions": [{
-    "id": (string - session id),
+    "_id": (string - session id),
     "title": (string - session title),
     "createdAt": (string - timestamp),
     "activeUsers": (number - number of active users)
@@ -143,15 +143,13 @@ To update table of contents:
 ```
 
 ### `/api/user/courses` - GET
-* Gets all of a user's courses
+* Gets all of logged in user's courses
 * Must be authenticated
 
 **params**
 
 ```javascript
-{
-  "username": (string)
-}
+{ }
 ```
 
 **content**
@@ -225,13 +223,14 @@ To update table of contents:
 
 ```javascript
 {
+  "_id": (string),
   "meta": {
     "number": (string - course number),
     "name": (string - course name),
-    "desc": (string - course description),
+    "description": (string - course description),
   }
   "sessions": [{
-    "id": (string - session id),
+    "_id": (string - session id),
     "title": (string - session title),
     "createdAt": (string - timestamp),
     "activeUsers": (number - number of active users)
@@ -247,7 +246,7 @@ To update table of contents:
 
 ```javascript
 { 
-    "id": (string - session id)
+    "_id": (string - session id)
 }
 ```
 
@@ -277,7 +276,7 @@ To update table of contents:
 
 ```javascript
 { 
-  "id": (string - snippet id)
+  "_id": (string - snippet id)
 }
 ```
 
