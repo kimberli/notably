@@ -87,7 +87,7 @@ router.post('/logout', function(req, res) {
 /**
  * GET - /api/user/courses
  */
-router.put('/courses', function(req, res) {
+router.get('/courses', function(req, res) {
     if (isValidUserReq(req, res)) {
         User.getCourses(req.currentUser, req.body.course, function(err,result) {
             if (err) {
