@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 var Course = require('./Course');
+var Session = require('./Session');
 
 var userSchema = mongoose.Schema({
     username: String,
@@ -170,16 +171,21 @@ userSchema.statics.addStash = function(rawUsername, sessionId, callback) {
     findUser(username, function(err, result) {
         if (err) callback(err);
         else {
-            var newStash = new Stash({
-                creator: result.username,
-                session: ObjectId(sessionId),
-                snippets: []
-            });
-            result.stashes.push(newStash);
-            result.save(function(err) {
+            Session.findSession(sessionId, function(err, session) {
                 if (err) callback(err);
-                else callback(null, { username: username });
-            });
+                else {
+                    var newStash = new Stash({
+                        creator: result.username,
+                        session: session._id,
+                        snippets: []
+                    });
+                    result.stashes.push(newStash);
+                    result.save(function(err) {
+                        if (err) callback(err);
+                        else callback(null, { username: username });
+                    });
+                }
+            })
         }
     });
 }
