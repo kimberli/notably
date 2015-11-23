@@ -20,6 +20,7 @@ URL: `mitnotably.herokuapp.com`
   - [`/api/user/subscribe` - PUT](#apiusersubscribe---put)
   - [`/api/course/all` - GET](#apicourseall---get)
   - [`/api/course` - GET](#apicourse---get)
+  - [`/api/course/newsession` - POST](#apicoursenewsession---post)
   - [`/api/session` - GET](#apisession---get)
   - [`/api/snippet` - GET](#apisnippet---get)
 
