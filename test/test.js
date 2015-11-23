@@ -188,4 +188,25 @@ describe('User', function() {
 
     });
 
+    //test getCourses
+    describe('#getCourses', function () {
+        // test user without subscribed courses
+        it('should not return error user has no courses', function (done) {
+            User.getCourses('123', function(err, result) {
+                assert.deepEqual(err, null);
+                assert.deepEqual(result, {courses: []});
+                done();
+            });
+        });
+
+        // test adding course
+        it('should not return error when user has courses', function (done) {
+            User.getCourses('kim', function(err, result) {
+                assert.deepEqual(err, null);
+                assert.deepEqual(result, { courses: [{name: 'Software Studio', number: '6.170'}] });
+                done();
+            });
+        });
+    });
+
 });
