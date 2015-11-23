@@ -3,7 +3,7 @@ var Snippet = require('./Snippet');
 
 var sessionSchema = mongoose.Schema({
     title: String,
-    timeCreated: Date,
+    createdAt: Date,
     course: {type: mongoose.Schema.Types.ObjectId, ref:'Course'},
     stashes: [{type: mongoose.Schema.Types.ObjectId, ref:'Stash'}],
     feed: [{type: mongoose.Schema.Types.ObjectId, ref:'Snippet'}]
