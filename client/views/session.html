@@ -1,5 +1,15 @@
 
-<div id="session-container" style="height:100%">
+<div id="session-container">
+
+  <div id="header">
+    <div id="header-background">
+      <div id="title-container">
+        <div id="title">
+          Notably
+        </div>
+      </div>
+    </div>
+  </div>
 
     <div class="row" id="session-header">
       <div> Session {{sessionId}} </div>
@@ -7,17 +17,17 @@
 
   <div style="text-align:center">
     <input name="display" type="radio" id="left_option" ng-model="showOption" value="left" />
-    <label for="left_option">Left</label>
+    <label for="left_option">Feed</label>
     <input name="display" type="radio" id="both_option"  ng-model="showOption" value="both" />
     <label for="both_option">Both</label>
     <input name="display" type="radio" id="right_option"  ng-model="showOption" value="right" />
-    <label for="right_option">Right</label>
+    <label for="right_option">Stash</label>
   </div>
   <br/>
 
     <div class="row" style="height:auto">
-        <div ng-class="{true: 's6', false: 's12'}[showOption === 'both']" class="col" ng-hide="showOption === 'right'">
-
+        <div ng-class="{true: 's6', false: 's12'}[showOption === 'both']" class="col" ng-hide="showOption === 'right'" >
+        <div id="feed-view" style="width:90%;margin:auto">
         <div class="row" id="feed-header">
           <div> Your feed </div>
         </div>
@@ -50,10 +60,10 @@
              </div>
 
         </div>
-
-         </div>
+        </div>
+        </div>
         <div ng-class="{true: 's6', false: 's12'}[showOption === 'both']" class="col" ng-hide="showOption === 'left'">
-
+          <div id="stash-view" style="width:90%;margin:auto">
           <div class="row" id="stash-header">
             <div> Your Stash </div>
           </div>
@@ -85,7 +95,7 @@
              </div>
 
         </div>
-
+      </div>
       </div>
     </div>
 

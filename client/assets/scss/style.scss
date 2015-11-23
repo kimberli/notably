@@ -100,6 +100,38 @@ $primary-color-dark: color("indigo", "darken-2") !default;
 
 #session-container {
 
+    background-color: $primary-color-white;
+
+    #header {
+      #header-background {
+        background-image: url('/assets/img/blackboard.jpg');
+        height: 10vh;
+        width: 100vw;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+      }
+
+      #title-container {
+        padding-top: 2vh;
+
+        #title {
+          font-size: 4vh;
+        }
+      }
+    }
+
+  #stash-view {
+    background-color: $primary-color-dark;
+    //margin: 10px;
+  }
+
+  #feed-view {
+    background-color: $primary-color-dark;
+    //margin: 10px;
+
+  }
 
   .CodeMirror .CodeMirror-scroll {
       min-height: 200px;
@@ -112,6 +144,7 @@ $primary-color-dark: color("indigo", "darken-2") !default;
     margin-top: 5px;
     border: 1px solid grey;
     border-radius: 6px;
+    background-color: white;
   }
   .snippet-footer {
     // background:#e8eaf6;
@@ -135,7 +168,7 @@ $primary-color-dark: color("indigo", "darken-2") !default;
   }
 
   .save-button:hover {
-    color: yellow;
+    color: #f1c40f;
   }
 
   .remove-button {
@@ -145,17 +178,17 @@ $primary-color-dark: color("indigo", "darken-2") !default;
   }
 
   .remove-button:hover {
-    color: red;
+    color: #e74c3c;
   }
 
   .flag-button {
-    border: none; background: none; padding: 0;
+    border: none; background: none;  
     color: grey;
     font-size:20px;
   }
 
   .flag-button:hover {
-    color: blue;
+    color: #3498db;
   }
 
   #session-header {
@@ -169,12 +202,14 @@ $primary-color-dark: color("indigo", "darken-2") !default;
     padding:5px;
     font-size: 24px;
     text-align: center;
+    color: white;
   }
 
   #stash-header {
     padding:5px;
     font-size: 24px;
     text-align: center;
+    color: white;
   }
 
 }
