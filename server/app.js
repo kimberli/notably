@@ -8,8 +8,14 @@ var favicon = require('serve-favicon');
 var mongoose = require('mongoose');
 
 // SERVER FILES //
-var routes = require('./routes')
 var config = require('./config');
+
+// ROUTE HANDLERS
+var index = require('./routes/index');
+var user = require('./routes/user');
+var course = require('./routes/course');
+var session = require('./routes/session');
+var snippet = require('./routes/snippet');
 
 // APP //
 var app = express();
@@ -35,7 +41,14 @@ app.use(favicon(__dirname + '/../client/assets/img/favicon.ico')); // favicon
 app.use(cookieSession({secret: config.cookieSecret}))
 app.use(bodyParser.json()); // parse json
 app.use(bodyParser.urlencoded({ extended: true })); // parse forms
-app.use('/', routes); // index routes
+
+// ROUTES //
+app.use('/api/user', user);
+app.use('/api/course', course);
+app.use('/api/session', session);
+app.use('/api/snippet', snippet);
+app.use('/', index); // index routes
+
 app.use(function(err, req, res, next) { res.status(err.status || 500); }); // general error handler
 
 module.exports = app;

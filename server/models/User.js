@@ -8,6 +8,7 @@ var userSchema = mongoose.Schema({
     name: String,
     email: String,
     stashes: [{type: mongoose.Schema.Types.ObjectId, ref:'Stash'}],
+    courses: [{type: mongoose.Schema.Types.ObjectId, ref:'Course'}]
 });
 
 /**
@@ -68,7 +69,8 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
                             password: hash,
                             name: name,
                             email: email,
-                            stashes: []
+                            stashes: [],
+                            courses: []
                         });
                         user.save(function(err,result) {
                             if (err) callback(err);

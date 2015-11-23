@@ -14,10 +14,10 @@ URL: `mitnotably.herokuapp.com`
 - [API](#api)
   - [`/api/auth` - POST](#apiauth---post)
   - [`/api/user` - GET](#apiuser---get)
-  - [`/api/user/classes` - GET](#apiuserclasses---get)
+  - [`/api/user/courses` - GET](#apiusercourses---get)
   - [`/api/user/subscribe` - PUT](#apiusersubscribe---put)
-  - [`/api/class/all` - GET](#apiclassall---get)
-  - [`/api/class` - GET](#apiclass---get)
+  - [`/api/course/all` - GET](#apicourseall---get)
+  - [`/api/course` - GET](#apicourse---get)
   - [`/api/session` - GET](#apisession---get)
   - [`/api/session` - POST](#apisession---post)
   - [`/api/session` - PUT](#apisession---put)
@@ -75,11 +75,11 @@ Generic result format:
   "stats": {
       "numSubmitted": (int - number of snippets submitted),
       "numSaved": (int - number of snippets saved), 
-      "numSubscribed": (int - number of classes subscribed to)
+      "numSubscribed": (int - number of courses subscribed to)
   },
-  "classes": [{
-      "number": (string - class number),
-      "name": (string - class name)
+  "courses": [{
+      "number": (string - course number),
+      "name": (string - course name)
   }],
   "recentSessions": [{
     "id": (string - session id),
@@ -149,8 +149,8 @@ Generic result format:
 }
 ```
 
-### `/api/user/classes` - GET
-* Gets all of a user's classes
+### `/api/user/courses` - GET
+* Gets all of a user's courses
 * Must be authenticated
 
 **params**
@@ -165,22 +165,22 @@ Generic result format:
 
 ```javascript
 {
-  "classes": [{
-      "number": (string - class number),
-      "name": (string - class name)
+  "courses": [{
+      "number": (string - course number),
+      "name": (string - course name)
   }]
 }
 ```
 
 ### `/api/user/subscribe` - PUT
-* Subscribes a user to a class
+* Subscribes a user to a course
 * Must be authenticated
 
 **params**
 
 ```javascript
 {
-  "class": (string - class number)
+  "course": (string - course number)
 } 
 ```
 
@@ -188,15 +188,15 @@ Generic result format:
 
 ```javascript
 {
-  "classes": [{
-      "number": (string - class number),
-      "name": (string - class name)
+  "courses": [{
+      "number": (string - course number),
+      "name": (string - course name)
   }]
 }
 ```
 
-### `/api/class/all` - GET
-* Returns all class numbers and names
+### `/api/course/all` - GET
+* Returns all course numbers and names
 * Must be authenticated
 
 **params**
@@ -209,22 +209,22 @@ Generic result format:
 
 ```javascript
 {
-  "classes": [{
-      "number": (string - class number),
-      "name": (string - class name)
+  "courses": [{
+      "number": (string - course number),
+      "name": (string - course name)
   }]
 }
 ```
 
-### `/api/class` - GET
-* Get class info and sessions
+### `/api/course` - GET
+* Get course info and sessions
 * Must be authenticated
 
 **params**
 
 ```javascript
 { 
-  "number": (string - class number)
+  "number": (string - course number)
 }
 ```
 
@@ -233,9 +233,9 @@ Generic result format:
 ```javascript
 {
   "meta": {
-    "number": (string - class number),
-    "name": (string - class name),
-    "desc": (string - class description),
+    "number": (string - course number),
+    "name": (string - course name),
+    "desc": (string - course description),
   }
   "sessions": [{
     "id": (string - session id),
@@ -263,8 +263,8 @@ Generic result format:
 ```javascript
 {
   "meta": {
-    "number": (string - class number),
-    "name": (string - class name)
+    "number": (string - course number),
+    "name": (string - course name)
   }
   "snippets": [{
     "author": (string - snippet author),
@@ -293,8 +293,8 @@ Generic result format:
 ```javascript
 {
   "meta": {
-    "number": (string - class number),
-    "name": (string - class name),
+    "number": (string - course number),
+    "name": (string - course name),
     "sessionId": (string - session id)
   },
   "author": (string - snippet author),
