@@ -78,15 +78,7 @@ sessionSchema.statics.addStash = function(sessionId, username, callback) {
                     session.stashes.push(newStash);
                     session.save(function(err) {
                         if (err) callback(err);
-                        else newStash.save(function(err) {
-                            if (err) callback(err);
-                            else callback(null, {
-                                _id: newStash._id,
-                                creator: newStash.creator,
-                                createdAt: newStash.createdAt,
-                                snippets: newStash.snippets
-                            })
-                        })
+                        else newStash.save(callback);
                     })
                 }
                 else if (err) callback(err);

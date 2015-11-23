@@ -417,35 +417,35 @@ describe('Snippet', function() {
 // visually inspect model
 describe.skip('Model', function() {
     // view users
-    it('should display all users', function (done) {
+    it('display all users', function (done) {
         User.find({}, function(err, result) {
             console.log(result);
             done();
         })
     });
     // view courses
-    it('should display all courses', function (done) {
+    it('display all courses', function (done) {
         Course.find({}, function(err, result) {
             console.log(result);
             done();
         })
     });
     // view sessions
-    it('should display all sessions', function (done) {
+    it('display all sessions', function (done) {
         Session.find({}, function(err, result) {
             console.log(result);
             done();
         })
     });
     // view stashes
-    it('should display all stashes', function (done) {
+    it('display all stashes', function (done) {
         Stash.find({}, function(err, result) {
             console.log(result);
             done();
         })
     });
     // view snippets
-    it('should display all snippets', function (done) {
+    it('display all snippets', function (done) {
         Snippet.find({}, function(err, result) {
             console.log(result);
             done();
