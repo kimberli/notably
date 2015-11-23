@@ -86,25 +86,22 @@ courseSchema.statics.addSession = function(number, title, username, callback) {
     getCourse(number, function(err, course) {
         if (err) callback(err);
         else {
-            var newSession = new Session({
-                number: course.number,
-                title: title,
-                createdBy: username,
-                createdAt: Date.now(),
-                stashes: [],
-                feed: []
-            });
-            course.sessions.push(newSession);
-            course.save(function(err) {
+            Session.create(number, title, username, function(err, newSession) {
                 if (err) callback(err);
-                else newSession.save(function(err, result) {
-                    if (err) callback(err);
-                    else callback(null, {
-                        _id: result._id,
-                        number: result.number,
-                        title: result.title
+                else {
+                    course.sessions.push(newSession);
+                    course.save(function(err) {
+                        if (err) callback(err);
+                        else newSession.save(function(err, result) {
+                            if (err) callback(err);
+                            else callback(null, {
+                                _id: result._id,
+                                number: result.number,
+                                title: result.title
+                            });
+                        });
                     });
-                });
+                }
             });
         }
     });

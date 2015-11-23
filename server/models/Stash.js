@@ -22,6 +22,24 @@ stashSchema.statics.getStash = function(stashId, callback) {
     });
 }
 
+/**
+ * Create a stash
+ *
+ * @param rawUsername {string} - username of snippet author; must be valid
+ * @param sessionId {string} - session id; must be valid
+ * @param callback {function} - function to be called with err and result
+ */
+stashSchema.statics.create = function(rawUsername, sessionId, callback) {
+    var username = rawUsername.toLowerCase();
+    var newStash = new Stash({
+        creator: username,
+        createdAt: Date.now(),
+        snippets: [],
+        session: sessionId
+    });
+    newStash.save(callback);
+}
+
 
 /**
  * Find a stash by session and username

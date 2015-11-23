@@ -103,7 +103,7 @@ router.get('/courses', function(req, res) {
 /**
  * POST - /api/user/subscribe
  */
-router.put('/subscribe', function(req, res) {
+router.post('/subscribe', function(req, res) {
     if (req.currentUser) {
         User.addCourse(req.currentUser, req.body.course, function(err,result) {
             if (err) {

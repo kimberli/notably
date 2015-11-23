@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
-var ObjectId = mongoose.Schema.Types.ObjectId;
 var Course = require('./Course');
 var Session = require('./Session');
 
