@@ -23,7 +23,9 @@ stashSchema.statics.addSnippet = function(currentUser, snippet, callback) {
     content: snippet,
     timestamp: Date.now(),
     saves: 0,
-    flagged: false
+    flagged: false,
+    savedBy: [],
+    flaggedBy: []
   });
   Stash.snippets.push(newSnippet);
   Stash.save(function(err) {
