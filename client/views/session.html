@@ -1,26 +1,30 @@
 
 <div id="session-container" style="height:100%">
 
-    <div class="row" class="center-align" style="padding:5px; background: red; font-size: 24px">
-      <div style="margin: auto"> Session {{sessionId}} </div>
+    <div class="row" id="session-header">
+      <div> Session {{sessionId}} </div>
     </div>
 
+  <div style="text-align:center">
     <input name="display" type="radio" id="left_option" ng-model="showOption" value="left" />
     <label for="left_option">Left</label>
     <input name="display" type="radio" id="both_option"  ng-model="showOption" value="both" />
     <label for="both_option">Both</label>
     <input name="display" type="radio" id="right_option"  ng-model="showOption" value="right" />
     <label for="right_option">Right</label>
-
+  </div>
   <br/>
 
-    <div class="row">
+    <div class="row" style="height:auto">
         <div ng-class="{true: 's6', false: 's12'}[showOption === 'both']" class="col" ng-hide="showOption === 'right'">
 
+        <div class="row" id="feed-header">
+          <div> Your feed </div>
+        </div>
 
           <div ng-repeat="snip in snippets" class="snippet-container">
 
-              <div class="snippet-header" style="padding: 5px;">
+              <div class="snippet-header">
                 <div style="float:left">
                   <b>{{snip.creator}}</b> posted <em>1 minute ago</em>
                 </div>
@@ -32,13 +36,13 @@
               <br/>
               <hr style="color:grey; margin-top:5px">
 
-              <div class="snippet-content" style="padding: 5px;">
+              <div class="snippet-content" >
                 {{snip.content}} <br/>
               </div>
 
               <hr style="color:grey">
 
-              <div class="snippet-footer right-align" style="padding: 5px;">
+              <div class="snippet-footer right-align">
                 <button class="center-align save-button"><i class="material-icons">star</i></button>
                 {{snip.saves}}
                 <button class="center-align flag-button"><i class="material-icons">flag</i></button>
@@ -46,15 +50,17 @@
              </div>
 
         </div>
-
-        <textarea id = "MyID"> lkj </textarea>
 
          </div>
-        <div ng-class="{true: 's6', false: 's12'}[showOption === 'both']" class="col" ng-hide="showOption === 'left'" style="overflow:scrolll;height: auto !important;">
+        <div ng-class="{true: 's6', false: 's12'}[showOption === 'both']" class="col" ng-hide="showOption === 'left'">
+
+          <div class="row" id="stash-header">
+            <div> Your Stash </div>
+          </div>
 
           <div ng-repeat="snip in snippets" class="snippet-container">
 
-              <div class="snippet-header" style="padding: 5px;">
+              <div class="snippet-header">
                 <div style="float:left">
                   <b>{{snip.creator}}</b> posted <em>1 minute ago</em>
                 </div>
@@ -65,13 +71,13 @@
               <br/>
               <hr style="color:grey; margin-top:5px">
 
-              <div class="snippet-content" style="padding: 5px;">
+              <div class="snippet-content">
                 {{snip.content}} <br/>
               </div>
 
               <hr style="color:grey">
 
-              <div class="snippet-footer right-align" style="padding: 5px;">
+              <div class="snippet-footer right-align">
                 <button class="center-align save-button"><i class="material-icons">star</i></button>
                 {{snip.saves}}
                 <button class="center-align flag-button"><i class="material-icons">flag</i></button>
@@ -80,6 +86,12 @@
 
         </div>
 
+      </div>
+    </div>
+
+    <div class="row" style="bottom:0;height:200px">
+      <div style="width:90%;margin:auto">
+        <textarea id = "MyID">  </textarea>
       </div>
     </div>
 

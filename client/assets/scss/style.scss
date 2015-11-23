@@ -24,34 +24,40 @@ $primary-color-dark: color("indigo", "darken-2") !default;
     -ms-user-select: none; /* IE10+ */
   }
 
-  .col {
-    min-width: 10px;
-  }
-
   #splash-background {
     background-image: url('/assets/img/stata.jpg');
     height: 100vh;
-    width: 100%;
+    width: 100vw;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
   }
 
-  #main-title {
-    font-family: 'Pacifico', cursive;
-    color: white;
-    text-align: center;
-    text-shadow: 2px 2px 5px #333;
+  #title-container {
+    padding-top: 20vh;
+
+    #title {
+      font-family: 'Pacifico', cursive;
+      color: white;
+      text-align: center;
+      text-shadow: 2px 2px 5px #333;
+    }
   }
 
-  #splash-button {
-    font-size: 30px;
-    text-transform: none;
+  #button-container {
+    margin-top: 35px;
+
+    #splash-button {
+      font-size: 30px;
+      text-transform: none;
+    }
   }
+
 }
 
 #session-container {
+
 
   .CodeMirror .CodeMirror-scroll {
       min-height: 200px;
@@ -67,10 +73,17 @@ $primary-color-dark: color("indigo", "darken-2") !default;
   }
   .snippet-footer {
     // background:#e8eaf6;
+    padding: 5px;
   }
 
   .snippet-header {
     // background:#c5cae9;
+    padding: 5px;
+  }
+
+  .snippet-content {
+    // background:#c5cae9;
+    padding: 5px;
   }
 
   .save-button {
@@ -94,13 +107,32 @@ $primary-color-dark: color("indigo", "darken-2") !default;
   }
 
   .flag-button {
-    border: none; background: none;
+    border: none; background: none; padding: 0;
     color: grey;
     font-size:20px;
   }
 
   .flag-button:hover {
     color: blue;
+  }
+
+  #session-header {
+    padding:5px;
+    font-size: 24px;
+    text-align: center;
+    background: grey;
+  }
+
+  #feed-header {
+    padding:5px;
+    font-size: 24px;
+    text-align: center;
+  }
+
+  #stash-header {
+    padding:5px;
+    font-size: 24px;
+    text-align: center;
   }
 
 }
