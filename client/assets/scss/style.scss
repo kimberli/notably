@@ -83,6 +83,16 @@ $primary-color-dark: color("indigo", "darken-2") !default;
 
   #profile-body {
     height: 90vh;
+    padding-top: 10px;
+
+    .card {
+      margin: 20px;
+      background-color: $primary-color-dark;
+    }
+
+    .spacer {
+      height: 10px;
+    }
   }
 }
 

@@ -10,4 +10,6 @@ angular.module('notablyApp').controller('profileController', function ($scope, $
         }
     })
 
+    $scope.stashes = [{'title': 'stash111'}, {'title': 'hi22'}, {'title': 'heyo'}]
+
 });
