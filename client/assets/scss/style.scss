@@ -131,6 +131,9 @@ $radio-fill-color: $primary-color-dark !default;
       }
     }
 
+  .spacer {
+    height: 10px;
+  }
 
   .card {
     padding: 5px;
@@ -142,6 +145,9 @@ $radio-fill-color: $primary-color-dark !default;
   .snippet-card {
     background-color: $primary-color-white;
     color: black;
+    width:90%;
+    margin:auto;
+    margin-top:5px;
   }
 
   #stash-view, #feed-view {
@@ -212,21 +218,24 @@ $radio-fill-color: $primary-color-dark !default;
   }
 
   #session-header {
-    padding:5px;
     font-size: 36px;
     text-align: center;
+    font-weight: 300;
   }
 
-  #feed-header {
+  .thin-header {
     font-size: 28px;
     text-align: center;
+    font-weight: 300;
     color: white;
   }
 
-  #stash-header {
-     font-size: 28px;
-    text-align: center;
-    color: white;
+  #snippet-input-area {
+    background:white;
+  }
+
+  #submit-snippet {
+    background-color: $primary-color-light;
   }
 
 }
