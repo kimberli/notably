@@ -210,3 +210,28 @@ describe('User', function() {
     });
 
 });
+
+
+// test course model
+describe('Course', function() {
+
+    //test findCourse
+    describe('#findCourse', function () {
+        // test nonexistent course
+        it('should return error when course does not exist', function (done) {
+            Course.findCourse('hello', function(err, result) {
+                assert.notDeepEqual(err, null);
+                done();
+            });
+        });
+
+        // test existing course
+        it('should return error when course does not exist', function (done) {
+            Course.findCourse('6.170', function(err, result) {
+                assert.deepEqual(err, null);
+                assert.deepEqual(result.name, 'Software Studio');
+                done();
+            });
+        });
+    });
+});
