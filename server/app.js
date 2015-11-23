@@ -42,6 +42,24 @@ app.use(cookieSession({secret: config.cookieSecret}))
 app.use(bodyParser.json()); // parse json
 app.use(bodyParser.urlencoded({ extended: true })); // parse forms
 
+// AUTH MIDDLEWARE
+app.use(function(req, res, next) {
+  if (req.session.username) {
+    User.findProfile(req.session.username,
+      function(err, user) {
+        if (err) {
+          req.currentUser = user;
+        } else {
+          req.currentUser = undefined;
+          req.session.destroy();
+        }
+        next();
+      });
+  } else {
+      next();
+  }
+});
+
 // ROUTES //
 app.use('/api/user', user);
 app.use('/api/course', course);

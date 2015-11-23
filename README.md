@@ -12,15 +12,16 @@ URL: `mitnotably.herokuapp.com`
 
 - [Instructions](#instructions)
 - [API](#api)
-  - [`/api/auth` - POST](#apiauth---post)
   - [`/api/user` - GET](#apiuser---get)
+  - [`/api/user/create` - POST](#apiusercreate---post)
+  - [`/api/user/login` - POST](#apiuserlogin---post)
+  - [`/api/user/logout` - POST](#apiuserlogout---post)
   - [`/api/user/courses` - GET](#apiusercourses---get)
   - [`/api/user/subscribe` - PUT](#apiusersubscribe---put)
   - [`/api/course/all` - GET](#apicourseall---get)
   - [`/api/course` - GET](#apicourse---get)
   - [`/api/session` - GET](#apisession---get)
-  - [`/api/session` - POST](#apisession---post)
-  - [`/api/session` - PUT](#apisession---put)
+  - [`/api/snippet` - GET](#apisnippet---get)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -46,15 +47,6 @@ To update table of contents:
 
 
 ## API
-Generic result format:
-
-```javascript
-{
-  "success": (boolean),
-  "error": (string - error message when not successful),
-  "content": (object - when successful, contains content of API call)
-}
-```
 
 ### `/api/user` - GET
 * Get a user's profile information
@@ -83,7 +75,7 @@ Generic result format:
       "name": (string - course name)
   }],
   "recentSessions": [{
-    "id": (string - session id),
+    "_id": (string - session id),
     "title": (string - session title),
     "createdAt": (string - timestamp),
     "activeUsers": (number - number of active users)
@@ -151,15 +143,13 @@ Generic result format:
 ```
 
 ### `/api/user/courses` - GET
-* Gets all of a user's courses
+* Gets all of logged in user's courses
 * Must be authenticated
 
 **params**
 
 ```javascript
-{
-  "username": (string)
-}
+{ }
 ```
 
 **content**
@@ -233,13 +223,14 @@ Generic result format:
 
 ```javascript
 {
+  "_id": (string),
   "meta": {
     "number": (string - course number),
     "name": (string - course name),
-    "desc": (string - course description),
+    "description": (string - course description),
   }
   "sessions": [{
-    "id": (string - session id),
+    "_id": (string - session id),
     "title": (string - session title),
     "createdAt": (string - timestamp),
     "activeUsers": (number - number of active users)
@@ -255,7 +246,7 @@ Generic result format:
 
 ```javascript
 { 
-    "id": (string - session id)
+    "_id": (string - session id)
 }
 ```
 
@@ -285,7 +276,7 @@ Generic result format:
 
 ```javascript
 { 
-  "id": (string - snippet id)
+  "_id": (string - snippet id)
 }
 ```
 

@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
-var Stash = require('./Stash');
+var ObjectId = mongoose.Schema.Types.ObjectId;
 var Course = require('./Course');
 
 var userSchema = mongoose.Schema({
@@ -18,9 +18,9 @@ var userSchema = mongoose.Schema({
  * @param rawUsername {string} - username of a potential user
  * @param callback {function} - function to be called with err and result
  */
-userSchema.statics.findUser = function(rawUsername, callback) {
+var findUser = function(rawUsername, callback) {
     var username = rawUsername.toLowerCase();
-    this.find({ username: username }, function(err, result) {
+    User.find({ username: username }, function(err, result) {
         if (err) callback(err);
         else if (result.length > 0) callback(null, result[0]);
         else callback('User not found');
@@ -35,12 +35,13 @@ userSchema.statics.findUser = function(rawUsername, callback) {
  */
 userSchema.statics.findProfile = function(rawUsername, callback) {
     var username = rawUsername.toLowerCase();
-    this.findUser(username, function(err, result) {
+    findUser(username, function(err, result) {
         if (err) callback(err);
         else {
-            this.getCourses(username, function(err, courses) {
+            User.getCourses(username, function(err, courses) {
                 if (err) callback(err);
                 else callback(null, {
+                    username: result.username,
                     name: result.name,
                     courses: courses.courses
                 })
@@ -58,7 +59,7 @@ userSchema.statics.findProfile = function(rawUsername, callback) {
  */
 userSchema.statics.verifyPassword = function(rawUsername, candidatepw, callback) {
     var username = rawUsername.toLowerCase();
-    this.findUser(username, function(err, result) {
+    findUser(username, function(err, result) {
         if (err) callback('Incorrect username/password combination');
         else {
             if (bcrypt.compareSync(candidatepw, result.password)) {
@@ -82,7 +83,7 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
     if (username.match('^[a-z0-9_-]{3,16}$')) {
         if(typeof password === 'string') {
             if (email.match('^[a-z0-9_-]+@mit.edu$')) {
-                this.find({$or: [{username: username}, {email: email}]}, function(err, result) {
+                User.find({$or: [{username: username}, {email: email}]}, function(err, result) {
                     if (err) callback(err);
                     else if (result.length === 0) {
                         var salt = bcrypt.genSaltSync(10);
@@ -115,7 +116,7 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
  */
 userSchema.statics.getStash = function(rawUsername, stashId, callback) {
     var username = rawUsername.toLowerCase();
-    this.findUser(username, function(err, result) {
+    findUser(username, function(err, result) {
         if (err) callback(err);
         else {
             if (user.stashes.indexOf(stashId) < 0) { callback('Stash not found'); }
@@ -137,17 +138,22 @@ userSchema.statics.getStash = function(rawUsername, stashId, callback) {
  */
 userSchema.statics.getStashes = function(rawUsername, callback) {
     var username = rawUsername.toLowerCase();
-    this.findUser(username, function(err, result) {
+    findUser(username, function(err, result) {
         if (err) callback(err);
         else {
-            var result = [];
-            Stash.find({'_id': { $in: result.stashes}}).each(function(err, doc) {
-                result.push({
-                    name: doc.name,
-                    _id: doc._id,
-                });
+            Stash.find({_id: { $in: result.stashes}}, function(err, stashes) {
+                if (err) callback(err);
+                else {
+                    callback(null,
+                        stashes.map(function(item) {
+                            return {
+                                name: item.name,
+                                _id: item._id
+                            };
+                        })
+                    );
+                }
             });
-            callback(null, { stashes: result });
         }
     });
 }
@@ -161,7 +167,7 @@ userSchema.statics.getStashes = function(rawUsername, callback) {
  */
 userSchema.statics.addStash = function(rawUsername, sessionId, callback) {
     var username = rawUsername.toLowerCase();
-    this.findUser(username, function(err, result) {
+    findUser(username, function(err, result) {
     if (err) callback(err);
     else {
         var newStash = new Stash({
@@ -186,17 +192,22 @@ userSchema.statics.addStash = function(rawUsername, sessionId, callback) {
  */
 userSchema.statics.getCourses = function(rawUsername, callback) {
     var username = rawUsername.toLowerCase();
-    this.findUser(username, function(err, result) {
+    findUser(username, function(err, result) {
         if (err) callback(err);
         else {
-            var result = [];
-            Course.find({'_id': { $in: result.courses}}).each(function(err, doc) {
-                result.push({
-                    name: doc.name,
-                    number: doc.number,
-                })
+            Course.find({_id: { $in: result.courses}}, function(err, courses) {
+                if (err) callback(err);
+                else {
+                    callback(null, {courses:
+                        courses.map(function(item) {
+                            return {
+                                name: item.name,
+                                number: item.number
+                            };
+                        }) }
+                    );
+                }
             });
-            callback(null, { courses: result });
         }
     });
 }
@@ -213,25 +224,23 @@ userSchema.statics.addCourse = function(rawUsername, courseNumber, callback) {
     Course.findCourse(courseNumber, function(err, result) {
         if (err) callback(err);
         else {
-            this.findUser(username, function(err, user) {
+            findUser(username, function(err, user) {
                 if (err) callback(err);
-                user.courses.push(ObjectId(result._id));
-                user.save(function(err) {
-                    if (err) callback(err);
+                else {
+                    if (user.courses.indexOf(result._id) > -1) { callback('Already subscribed') }
                     else {
-                        this.getCourses(username, callback);
+                        user.courses.push(result._id);
+                        user.save(function(err) {
+                            if (err) callback(err);
+                            else {
+                                User.getCourses(username, callback);
+                            }
+                        });
                     }
-                })
+                }
             });
         }
     });
-}
-
-/**
- * Clear all users
- */
-userSchema.statics.clearUsers = function() {
-    this.remove({}, function() {});
 }
 
 var User = mongoose.model('User', userSchema);
