@@ -28,6 +28,22 @@ var findUser = function(rawUsername, callback) {
 }
 
 /**
+ * Authenticate user; return error otherwise
+ *
+ * @param rawUsername {string} - username of a potential user
+ * @param callback {function} - function to be called with err and result
+ */
+userSchema.statics.auth = function(rawUsername, callback) {
+    var username = rawUsername.toLowerCase();
+    findUser(username, function(err, result) {
+        if (err) callback(err);
+        else {
+            callback(null, {username: result.username});
+        }
+    })
+}
+
+/**
  * Get a user's profile if exists; return error otherwise
  *
  * @param rawUsername {string} - username of a potential user

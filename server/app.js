@@ -44,20 +44,18 @@ app.use(bodyParser.urlencoded({ extended: true })); // parse forms
 
 // AUTH MIDDLEWARE
 app.use(function(req, res, next) {
-  if (req.session.username) {
-    User.findProfile(req.session.username,
-      function(err, user) {
-        if (user) {
-          req.currentUser = user.username;
-        } else {
-          req.currentUser = undefined;
-          req.session.destroy();
-        }
-        next();
-      });
-  } else {
-      next();
-  }
+    if (req.session.username) {
+        User.auth(req.session.username, function(err, user) {
+            console.log(user);
+            if (user) {
+                req.currentUser = user.username;
+            } else {
+                req.currentUser = undefined;
+                req.session.destroy();
+            }
+            next();
+        });
+    } else next();
 });
 
 // ROUTES //
