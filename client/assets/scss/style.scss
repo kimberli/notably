@@ -58,12 +58,49 @@ $primary-color-dark: color("indigo", "darken-2") !default;
       height: 200px;
   }
 
+  .snippet-container {
+    width: 90%;
+    margin: auto;
+    margin-top: 5px;
+    border: 1px solid grey;
+    border-radius: 6px;
+  }
   .snippet-footer {
-    background:#e8eaf6;
+    // background:#e8eaf6;
   }
 
   .snippet-header {
-    background:#c5cae9;
+    // background:#c5cae9;
+  }
+
+  .save-button {
+    border: none; background: none;
+    color: grey;
+    font-size:20px;
+  }
+
+  .save-button:hover {
+    color: yellow;
+  }
+
+  .remove-button {
+    border: none; background: none;
+    color: grey;
+    font-size:20px;
+  }
+
+  .remove-button:hover {
+    color: red;
+  }
+
+  .flag-button {
+    border: none; background: none;
+    color: grey;
+    font-size:20px;
+  }
+
+  .flag-button:hover {
+    color: blue;
   }
 
 }
