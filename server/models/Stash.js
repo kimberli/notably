@@ -17,22 +17,24 @@ var stashSchema = mongoose.Schema({
  * @param callback {function} - function to be called with err and result
  */
 stashSchema.statics.addSnippet = function(currentUser, snippet, callback) {
-    var Stash = this;
-    var newSnippet = new Snippet({
-        author: currentUser,
-        content: snippet,
-        timestamp: Date.now(),
-        saves: 0,
-        flagged: false
-    });
-    Stash.snippets.push(newSnippet);
-    Stash.save(function(err) {
-        if (err) {
-            callback('Error.', false);
-        } else {
-            newSnippet.save(callback);
-        }
-    });
+  var Stash = this;
+  var newSnippet = new Snippet({
+  	author: currentUser,
+    content: snippet,
+    timestamp: Date.now(),
+    saves: 0,
+    flagged: false,
+    savedBy: [],
+    flaggedBy: []
+  });
+  Stash.snippets.push(newSnippet);
+  Stash.save(function(err) {
+  	if (err) {
+  	  callback('Error.', false);
+  	} else {
+  	  newSnippet.save(callback);
+  	}
+  });
 }
 
 /**
