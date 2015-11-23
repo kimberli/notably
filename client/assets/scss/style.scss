@@ -6,6 +6,7 @@ $primary-color: color("indigo", "base") !default;
 $primary-color-light: color("indigo", "lighten-2") !default;
 $primary-color-white: color("indigo", "lighten-5") !default;
 $primary-color-dark: color("indigo", "darken-2") !default;
+$radio-fill-color: $primary-color-dark !default;
 
 @import "../lib/materialize/sass/materialize";
 
@@ -143,14 +144,11 @@ $primary-color-dark: color("indigo", "darken-2") !default;
     color: black;
   }
 
-  #stash-view {
-    background-color: $primary-color-dark;
-    box-shadow: 2px 2px 2px #888888;
-    border-radius: 4px;
-    padding-bottom: 10px;
+  #stash-view, #feed-view {
+    width:95%;margin:auto
   }
 
-  #feed-view {
+  .dark-container {
     background-color: $primary-color-dark;
     box-shadow: 2px 2px 2px #888888;
     border-radius: 4px;
