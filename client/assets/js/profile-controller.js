@@ -10,6 +10,8 @@ angular.module('notablyApp').controller('profileController', function ($scope, $
         }
     })
 
-    $scope.stashes = [{'title': 'stash111'}, {'title': 'hi22'}, {'title': 'heyo'}]
+    $scope.stashes = [{'title': 'stash111', 'count': 14},
+        {'title': 'hi22', 'count': 201}, 
+        {'title': 'heyo', 'count': 2}]
 
 });

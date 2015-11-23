@@ -28,7 +28,7 @@
             <span class="card-title">{{ username }}'s stashes</span>
             <div class="spacer"></div>
             <div class="collection">
-              <a ng-repeat="stash in stashes" href="#!" class="collection-item">{{ stash.title }}</a>
+              <a ng-repeat="stash in stashes" href="#!" class="collection-item">{{ stash.title }}<span class="badge">{{ stash.count }}</span></a>
             </div>
           </div>
         </div>

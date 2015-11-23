@@ -94,6 +94,14 @@ $primary-color-dark: color("indigo", "darken-2") !default;
     .spacer {
       height: 10px;
     }
+
+    a {
+      color: $primary-color-dark;
+    }
+
+    a:hover {
+      background-color: $primary-color-white;
+    }
   }
 }
 
