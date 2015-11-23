@@ -1,5 +1,6 @@
 angular.module('notablyApp').controller('homeController', function ($scope) {
 
+    $scope.username = 'Kimberli';
     $scope.classes = ['6.034', '6.006', '6.170', '14.01'];
     $scope.schedule = [
         {time:'9', course:'', location:''},
