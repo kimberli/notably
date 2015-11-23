@@ -17,21 +17,24 @@ var stashSchema = mongoose.Schema({
  * @param callback {function} - function to be called with err and result
  */
 stashSchema.statics.addSnippet = function(currentUser, snippet, callback) {
+    var Stash = this;
     var newSnippet = new Snippet({
-        author: currentUser,
+    	author: currentUser,
         content: snippet,
         timestamp: Date.now(),
         saves: 0,
-        flagged: false
+        flagged: false,
+        savedBy: [],
+        flaggedBy: []
     });
-    this.snippets.push(newSnippet);
-    this.save(function(err) {
-        if (err) {
-            callback('Error.', false);
-        } else {
-            newSnippet.save(callback);
-        }
-    });
+    Stash.snippets.push(newSnippet);
+    Stash.save(function(err) {
+    if (err) {
+        callback(err, false);
+    } else {
+        newSnippet.save(callback);
+    }
+  });
 }
 
 /**
@@ -48,12 +51,12 @@ stashSchema.statics.saveSnippet = function(snippetId, callback) {
             snippet.saves += 1;
             snippet.save(function(err) {
             if (err) {
-                callback('Error', false);
+                callback(err, false);
             } else {
                 this.snippets.push(snippet);
                 this.save(function(err) {
                 if (err) {
-                    callback('Error.', false);
+                    callback(err, false);
                 } else {
                     callback(null, true);
                 }

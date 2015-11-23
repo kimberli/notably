@@ -91,7 +91,13 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
  * @param callback {function} - function to be called with err and result
  */
 userSchema.statics.getStash = function(stashId, callback) {
-    Stash.findById(stashId, callback);
+  Stash.findById(stashId, function(err, stash) {
+    if (err) {
+      callback('Stash does not exist.', false);
+    } else {
+      callback(stash);
+    }
+  });
 }
 
 /**

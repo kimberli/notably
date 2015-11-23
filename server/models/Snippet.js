@@ -7,7 +7,9 @@ var snippetSchema = mongoose.Schema({
     content: String,
     timestamp: Date,
     saves: Number,
-    flagged: Boolean
+    flagged: Boolean,
+    savedBy: [{type: mongoose.Schema.Types.ObjectId, ref:'User'}],
+    flaggedBy: [{type: mongoose.Schema.Types.ObjectId, ref:'User'}]
 });
 
 /**
