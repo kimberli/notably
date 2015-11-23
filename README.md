@@ -257,6 +257,7 @@ To update table of contents:
 ```javascript
 {
   "_id": (string - session id),
+  "number": (string - course number),
   "title": (string - session title),
 }
 ```

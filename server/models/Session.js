@@ -6,7 +6,7 @@ var sessionSchema = mongoose.Schema({
     number: String,
     title: String,
     createdAt: Date,
-    course: {type: mongoose.Schema.Types.ObjectId, ref:'Course'},
+    createdBy: String,
     stashes: [{type: mongoose.Schema.Types.ObjectId, ref:'Stash'}],
     feed: [{type: mongoose.Schema.Types.ObjectId, ref:'Snippet'}]
 });
