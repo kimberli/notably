@@ -2,26 +2,6 @@
 
     background-color: $primary-color-white;
 
-    #header {
-      #header-background {
-        background-image: url('/assets/img/blackboard.jpg');
-        height: 10vh;
-        width: 100vw;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
-      }
-
-      #title-container {
-        padding-top: 2vh;
-
-        #title {
-          font-size: 4vh;
-        }
-      }
-    }
-
   .spacer {
     height: 10px;
   }

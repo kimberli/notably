@@ -1,0 +1,23 @@
+nav {
+
+  .nav-wrapper {
+    background-image: url('/assets/img/blackboard.jpg');
+    width: 100vw;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+
+    .brand-logo {
+      color: $primary-color-white;
+      font-family: 'Pacifico', cursive;
+      text-align: center;
+      text-shadow: 2px 2px 5px #333;
+      cursor: default;
+      -webkit-user-select: none; /* Chrome/Safari */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* IE10+ */
+      padding-right: 30px;
+    }
+  }
+}

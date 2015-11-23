@@ -34,3 +34,10 @@ angular.module('notablyApp', ['ngRoute', 'ngFitText']).config(['$routeProvider',
 
 	}
 ])
+
+.directive("navBar", function() {
+	return {
+		restrict: 'E',
+		templateUrl: '/views/navbar.html'
+	};
+});

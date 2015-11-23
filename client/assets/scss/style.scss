@@ -1,7 +1,6 @@
-// Materialize variable overriding
-
 @import "../lib/materialize/sass/components/color";
 
+// Materialize variable overriding
 $primary-color: color("indigo", "base") !default;
 $primary-color-light: color("indigo", "lighten-2") !default;
 $primary-color-white: color("indigo", "lighten-5") !default;
@@ -15,32 +14,4 @@ $radio-fill-color: $primary-color-dark !default;
 @import "profile";
 @import "course";
 @import "session";
-
-// Styling
-
-* {
-  margin: 0;
-  padding: 0;
-}
-
-#header {
-  background-image: url('/assets/img/blackboard.jpg');
-  width: 100vw;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-
-
-  #title {
-    color: $primary-color-white;
-    font-family: 'Pacifico', cursive;
-    text-align: center;
-    text-shadow: 2px 2px 5px #333;
-    cursor: default;
-    -webkit-user-select: none; /* Chrome/Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+ */
-    padding-right: 30px;
-  }
-}
+@import "navbar";
