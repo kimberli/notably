@@ -132,16 +132,16 @@ $primary-color-dark: color("indigo", "darken-2") !default;
 
   #stash-view {
     background-color: $primary-color-dark;
-    box-shadow: 1px 1px 1px #888888;
-    border-radius: 2px;
-    //margin: 10px;
+    box-shadow: 2px 2px 2px #888888;
+    border-radius: 4px;
+    padding-bottom: 10px;
   }
 
   #feed-view {
     background-color: $primary-color-dark;
-    box-shadow: 1px 1px 1px #888888;
-    border-radius: 2px;
-    //margin: 10px;
+    box-shadow: 2px 2px 2px #888888;
+    border-radius: 4px;
+    padding-bottom: 10px;
   }
 
   .CodeMirror .CodeMirror-scroll {
@@ -153,23 +153,21 @@ $primary-color-dark: color("indigo", "darken-2") !default;
     width: 90%;
     margin: auto;
     margin-top: 5px;
+    margin-bottom: 5px;
     border: 1px solid grey;
     border-radius: 6px;
     background-color: white;
   }
   .snippet-footer {
-    // background:#e8eaf6;
-    padding: 5px;
+     padding: 5px;
   }
 
   .snippet-header {
-    // background:#c5cae9;
-    padding: 5px;
+     padding: 5px;
   }
 
   .snippet-content {
-    // background:#c5cae9;
-    padding: 5px;
+     padding: 5px;
   }
 
   .save-button {
