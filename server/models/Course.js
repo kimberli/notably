@@ -23,6 +23,26 @@ courseSchema.statics.findCourse = function(number, callback) {
     });
 }
 
+/**
+ * Get all courses
+ *
+ * @param callback {function} - function to be called with err and result
+ */
+courseSchema.statics.getAllCourses = function(callback) {
+    this.find({}, function(err, courses) {
+        if (err) callback(err);
+        else callback(null, {courses:
+            courses.map(function(item) {
+                return {
+                    name: item.name,
+                    number: item.number
+                };
+            }) }
+        );
+    });
+}
+
+
 var Course = mongoose.model('Course', courseSchema);
 
 module.exports = Course;

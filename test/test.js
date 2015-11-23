@@ -15,7 +15,14 @@ mongoose.connect('mongodb://localhost/model_test',function(){
         name: 'Software Studio',
         number: '6.170',
         professor: 'Daniel Jackson',
-        description: 'This is a class',
+        description: 'This is a class about JavaScript',
+        sessions: []
+    })).save();
+    (new Course({
+        name: 'Elements of Software Construction',
+        number: '6.005',
+        professor: 'Robert Miller',
+        description: 'This is a class about Java',
         sessions: []
     })).save();
 });
@@ -230,6 +237,18 @@ describe('Course', function() {
             Course.findCourse('6.170', function(err, result) {
                 assert.deepEqual(err, null);
                 assert.deepEqual(result.name, 'Software Studio');
+                done();
+            });
+        });
+    });
+
+    //test getAllCourses
+    describe('#getAllCourses', function () {
+        // test existing course
+        it('should return error when course does not exist', function (done) {
+            Course.getAllCourses(function(err, result) {
+                assert.deepEqual(err, null);
+                assert.deepEqual(result.courses.length, 2);
                 done();
             });
         });
