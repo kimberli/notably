@@ -1,34 +1,54 @@
 <div id="home-container">
 
-  <div class="row">
-    <div class="col s12">
-      <p>Welcome, {{username}}</p>
+  <div id="header">
+    <div id="header-background">
+      <div id="title-container">
+        <div id="title">
+          Notably
+        </div>
+      </div>
     </div>
-    <div class="col s2">
-      <table>
-        <th>My Classes</th>
-        <tr ng-repeat="class in classes">
-          <td>{{class}}</td>
-        </tr>
-      </table>
-    </div>
+  </div>
 
-    <div class="col s4">
-      <table>
-        <th>Today's Schedule</th>
-        <tr ng-repeat="slot in schedule">
-          <td>{{slot.time + " " + slot.course + " " + slot.location}}</td>
-        </tr>
-      </table>
-    </div>
+  <div id="home-body">
 
-    <div class="col s6">
-      <table>
-        <th>Recent Stashes</th>
-        <tr ng-repeat="stash in stashes">
-          <td>{{stash.course + " - " + stash.session}}</td>
-        </tr>
-      </table>
+    <div class="row">
+      <div class="col s12 m6 l6">
+        <div class="row">
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title"><b>Welcome {{ username }}!</b></span>
+              <div class="spacer"></div>
+              Snippets: {{ numSnippets }}
+              <br>
+              Stashes: {{ numStashes }}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">Your courses</span>
+              <div class="spacer"></div>
+              <div class="collection">
+                <a ng-repeat="course in courses" href="#!" class="collection-item">{{ course }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m6 l6">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Your stashes</span>
+            <div class="spacer"></div>
+            <div class="collection">
+              <a ng-repeat="stash in stashes" href="#!" class="collection-item">{{ stash.course }} - {{ stash.session }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
