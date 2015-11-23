@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
-var ObjectId = mongoose.Schema.Types.ObjectId;
 var Snippet = require('./Snippet');
+var Stash = require('./Stash');
 
 var sessionSchema = mongoose.Schema({
     number: String,
@@ -12,35 +12,120 @@ var sessionSchema = mongoose.Schema({
 });
 
 /**
+ * Get a session if exists; return error otherwise
+ *
+ * @param sessionId {string} - session id
+ * @param callback {function} - function to be called with err and result
+ */
+var getSession = function(sessionId, callback) {
+    Session.find({ _id: sessionId }, function(err, result) {
+        if (err) callback(err);
+        else if (result.length > 0) callback(null, result[0]);
+        else callback('Session not found');
+    });
+}
+
+
+/**
  * Find a session if exists; return error otherwise
  *
  * @param sessionId {string} - session id
  * @param callback {function} - function to be called with err and result
  */
 sessionSchema.statics.findSession = function(sessionId, callback) {
-    this.find({ _id: ObjectId(sessionId) }, function(err, result) {
+    Session.find({ _id: sessionId }, function(err, result) {
         if (err) callback(err);
-        else if (result.length > 0) {
-            var session = result[0];
-            Snippet.find({ _id: { $in: session.feed } }, function(err, result) {
+        else {
+            getSession(sessionId, function(err, session) {
                 if (err) callback(err);
-                else callback(null, {
-                    _id: session._id,
-                    meta: {
-                        title: session.title,
-                        number: session.number
-                    },
-                    snippets: result.map(function(item) {
-                        return {
-                            _id: item._id,
-                            author: item.author,
-                            text: item.text
-                        };
+                else {
+                    Snippet.find({ _id: { $in: session.feed } }, function(err, result) {
+                        if (err) callback(err);
+                        else callback(null, {
+                            _id: session._id,
+                            meta: {
+                                title: session.title,
+                                number: session.number
+                            },
+                            feed: result.map(function(item) {
+                                return {
+                                    _id: item._id,
+                                    author: item.author,
+                                    text: item.text
+                                };
+                            })
+                        });
                     })
-                });
+                }
             })
         }
-        else callback('Session not found');
+    });
+}
+
+/** TODO
+ * Add stash to a session
+ *
+ * @param sessionId {string} - session id
+ * @param username {string} - creator
+ * @param callback {function} - function to be called with err and result
+ */
+sessionSchema.statics.addStash = function(sessionId, username, callback) {
+    getSession(sessionId, function(err, session) {
+        if (err) callback(err);
+        else {
+            Stash.findBySessionAndUsername(sessionId, username, function(err, result) {
+                if (err === 'Session not found') {
+                    var newStash = new Stash({
+                        creator: username,
+                        session: session._id,
+                        createdAt: Date.now(),
+                        snippets: []
+                    });
+                }
+                else if (err) callback(err);
+                else callback('Stash already exists');
+            });
+        }
+    });
+}
+
+/**
+ * Create a new snippet
+ *
+ * @param sessionId {string} - id of session
+ * @param currentUser {string} - username of current user
+ * @param text {string} - content of the snippet
+ * @param callback {function} - function to be called with err and result
+ */
+sessionSchema.methods.addSnippet = function(sessionId, currentUser, text, callback) {
+    getSession(sessionId, function(err, session) {
+        if (err) callback(err);
+        else {
+            Stash.findBySessionAndUsername(sessionId, currentUser, function(err, stash) {
+                if (err) callback(err);
+                else {
+                    var newSnippet = new Snippet({
+                        author: stash.creator,
+                        text: text,
+                        timestamp: Date.now(),
+                        saveCount: 0,
+                        hidden: false,
+                        flaggedBy: [],
+                        savedBy: [stash.creator]
+                    });
+                    session.snippets.push(newSnippet);
+                    session.save(function(err) {
+                        if (err) callback(err);
+                        else {
+                            stash.save(function(err) {
+                                if (err) callback(err);
+                                else newSnippet.save(callback);
+                            })
+                        }
+                    })
+                }
+            })
+        }
     });
 }
 

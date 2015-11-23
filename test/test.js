@@ -27,6 +27,8 @@ mongoose.connect('mongodb://localhost/model_test',function(){
     })).save();
 });
 
+var sessionId = null;
+
 // test user model
 describe('User', function() {
 
@@ -263,9 +265,35 @@ describe('Course', function() {
                 assert.equal(err, null);
                 assert.equal(result.title, 'Lecture 1');
                 assert.equal(result.number, '6.170');
+                sessionId = result._id.toString();
                 Course.findCourse('6.170', function(err, result) {
                     assert.equal(result.sessions.length, 1);
                 })
+                done();
+            });
+        });
+    });
+});
+
+// test session model
+describe('Session', function() {
+
+    //test findSession
+    describe('#findSession', function () {
+        // test nonexistent session
+        it('should return error when session does not exist', function (done) {
+            Session.findSession('blah', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+
+        // test existing session; depends on addSession of Course tests
+        it('should not return error when session exists', function (done) {
+            Session.findSession(sessionId, function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.meta.title, 'Lecture 1');
+                assert.deepEqual(result.feed, []);
                 done();
             });
         });

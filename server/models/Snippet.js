@@ -13,18 +13,18 @@ var snippetSchema = mongoose.Schema({
 /**
  * Find a snippet if exists; return error otherwise
  *
- * @param id {string} - snippet id
+ * @param snippetId {string} - snippet id
  * @param callback {function} - function to be called with err and result
  */
-snippetSchema.statics.findSnippet = function(id, callback) {
-    this.find({ _id: id }, function(err, result) {
+snippetSchema.statics.findSnippet = function(snippetId, callback) {
+    this.find({ _id: snippetId }, function(err, result) {
         if (err) callback(err);
         else if (result.length > 0) callback(null, result[0]);
         else callback('Course not found');
     });
 }
 
-/**
+/** TODO
  * Flag a snippet
  *
  * @param snippetId {ObjectId} - ID of snippet to be flagged

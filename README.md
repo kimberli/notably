@@ -283,10 +283,11 @@ To update table of contents:
     "number": (string - course number),
     "title": (string - session title)
   }
-  "snippets": [{
+  "feed": [{
     "_id": (string - snippet id),
     "author": (string - snippet author),
     "text": (string - snippet text),
+    "timestamp": (string - snippet timestamp),
     "flaggedBy": [(string - usernames of flaggers)],
     "savedBy": [(string - usernames of savers)]
   }]
