@@ -14,10 +14,10 @@ $primary-color-dark: color("indigo", "darken-2") !default;
 * {
   margin: 0;
   padding: 0;
-  color: $primary-color-white;
 }
 
 #title {
+  color: $primary-color-white;
   font-family: 'Pacifico', cursive;
   text-align: center;
   text-shadow: 2px 2px 5px #333;
@@ -60,6 +60,7 @@ $primary-color-dark: color("indigo", "darken-2") !default;
 #profile-container {
 
   background-color: $primary-color-white;
+  color: $primary-color-white;
 
   #header {
     #header-background {
