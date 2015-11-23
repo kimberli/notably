@@ -34,16 +34,13 @@ userSchema.statics.findUser = function(rawUsername, callback) {
  */
 userSchema.statics.verifyPassword = function(rawUsername, candidatepw, callback) {
     var username = rawUsername.toLowerCase();
-    this.findUser(username, function(err, user) {
-        if (user) {
-            if (bcrypt.compareSync(candidatepw, user.password)) {
-                callback(null, true);
-            } else {
-                callback('Incorrect username/password combination', false);
-            }
-        } else {
-            callback('Incorrect username/password combination', false);
-        }
+    this.findUser(username, function(err, result) {
+        if (err) callback(err);
+        else {
+            if (bcrypt.compareSync(candidatepw, result.password)) {
+                callback(null, {username: username});
+            } else callback('Incorrect username/password combination');
+        } else callback('Incorrect username/password combination');
     });
 }
 
@@ -77,11 +74,11 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
                             if (err) callback(err);
                             else callback(null, {username: username});
                         });
-                    } else { callback('User already exists'); }
+                    } else callback('User already exists');
                 });
-            } else { callback('Must have MIT email address'); }
-        } else { callback('Invalid password'); }
-    } else { callback('Invalid username (must be between 3 and 16 characters and consist of letters, numbers, underscores, and hyphens)'); }
+            } else callback('Must have MIT email address');
+        } else callback('Invalid password');
+    } else callback('Invalid username (must be between 3 and 16 characters and consist of letters, numbers, underscores, and hyphens)');
 }
 
 /**
@@ -94,15 +91,13 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
 userSchema.statics.getStash = function(rawUsername, stashId, callback) {
     var username = rawUsername.toLowerCase();
     this.findUser(username, function(err, result) {
-        if (err) { callback(err); }
+        if (err) callback(err);
         else {
             if (user.stashes.indexOf(stashId) < 0) { callback('Stash not found'); }
             else {
                 Stash.findById(stashId, function(err, result) {
-                    if (err) { callback(err); }
-                    else {
-                        callback(null, result);
-                    }
+                    if (err) callback(err);
+                    else callback(null, result);
                 });
             }
         }
@@ -117,11 +112,10 @@ userSchema.statics.getStash = function(rawUsername, stashId, callback) {
  */
 userSchema.statics.getStashes = function(rawUsername, callback) {
     var username = rawUsername.toLowerCase();
-    this.findUser(username, function(user) {
-        if (user) {
-            Stash.find({'_id': { $in: user.stashes}}, callback);
-        } else {
-            callback('User does not exist', false);
+    this.findUser(username, function(err, result) {
+        if (err) callback(err);
+        else {
+            Stash.find({'_id': { $in: result.stashes}}, callback);
         }
     });
 }
@@ -133,25 +127,21 @@ userSchema.statics.getStashes = function(rawUsername, callback) {
  * @param session {ObjectId} - ID of session that stash is being made for
  * @param callback {function} - function to be called with err and result
  */
-userSchema.statics.addStash = function(rawUsername, session, callback) {
+userSchema.statics.addStash = function(rawUsername, sessionId, callback) {
     var username = rawUsername.toLowerCase();
-    this.findUser(username, function(user) {
-    if (user) {
+    this.findUser(username, function(err, result) {
+    if (err) callback(err);
+    else {
         var newStash = new Stash({
-            creator: user,
-            session: session,
+            creator: result.username,
+            session: sessionId,
             snippets: []
         });
-        user.stashes.push(newStash);
-        user.save(function(err) {
-            if (err) {
-                callback(err, false);
-            } else {
-                newStash.save(callback);
-            }
+        result.stashes.push(newStash);
+        result.save(function(err) {
+            if (err) callback(err);
+            else callback(null, {username: username});
         });
-    } else {
-        callback('User does not exist', false);
     }
     });
 }
