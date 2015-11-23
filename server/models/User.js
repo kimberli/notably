@@ -17,7 +17,7 @@ var userSchema = mongoose.Schema({
  * @param rawUsername {string} - username of a potential user
  * @param callback {function} - function to be called with err and result
  */
-userSchema.statics.findUser = function(rawUsername, callback) {
+ var findUser = function(rawUsername, callback) {
     var username = rawUsername.toLowerCase();
     User.find({ username: username }, function(err, result) {
         if (err) callback(err);
@@ -34,8 +34,7 @@ userSchema.statics.findUser = function(rawUsername, callback) {
  */
 userSchema.statics.findProfile = function(rawUsername, callback) {
     var username = rawUsername.toLowerCase();
-    var User = this;
-    User.findUser(username, function(err, result) {
+    findUser(username, function(err, result) {
         if (err) callback(err);
         else {
             User.getCourses(username, function(err, courses) {
@@ -59,7 +58,7 @@ userSchema.statics.findProfile = function(rawUsername, callback) {
  */
 userSchema.statics.verifyPassword = function(rawUsername, candidatepw, callback) {
     var username = rawUsername.toLowerCase();
-    this.findUser(username, function(err, result) {
+    findUser(username, function(err, result) {
         if (err) callback('Incorrect username/password combination');
         else {
             if (bcrypt.compareSync(candidatepw, result.password)) {
@@ -83,7 +82,7 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
     if (username.match('^[a-z0-9_-]{3,16}$')) {
         if(typeof password === 'string') {
             if (email.match('^[a-z0-9_-]+@mit.edu$')) {
-                this.find({$or: [{username: username}, {email: email}]}, function(err, result) {
+                User.find({$or: [{username: username}, {email: email}]}, function(err, result) {
                     if (err) callback(err);
                     else if (result.length === 0) {
                         var salt = bcrypt.genSaltSync(10);
@@ -116,7 +115,7 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
  */
 userSchema.statics.getStash = function(rawUsername, stashId, callback) {
     var username = rawUsername.toLowerCase();
-    this.findUser(username, function(err, result) {
+    findUser(username, function(err, result) {
         if (err) callback(err);
         else {
             if (user.stashes.indexOf(stashId) < 0) { callback('Stash not found'); }
@@ -138,7 +137,7 @@ userSchema.statics.getStash = function(rawUsername, stashId, callback) {
  */
 userSchema.statics.getStashes = function(rawUsername, callback) {
     var username = rawUsername.toLowerCase();
-    this.findUser(username, function(err, result) {
+    findUser(username, function(err, result) {
         if (err) callback(err);
         else {
             Stash.find({'_id': { $in: result.stashes}}, function(err, stashes) {
@@ -167,7 +166,7 @@ userSchema.statics.getStashes = function(rawUsername, callback) {
  */
 userSchema.statics.addStash = function(rawUsername, sessionId, callback) {
     var username = rawUsername.toLowerCase();
-    this.findUser(username, function(err, result) {
+    findUser(username, function(err, result) {
     if (err) callback(err);
     else {
         var newStash = new Stash({
@@ -192,11 +191,10 @@ userSchema.statics.addStash = function(rawUsername, sessionId, callback) {
  */
 userSchema.statics.getCourses = function(rawUsername, callback) {
     var username = rawUsername.toLowerCase();
-    this.findUser(username, function(err, result) {
+    findUser(username, function(err, result) {
         if (err) callback(err);
         else {
             var result = [];
-            console.log(Course.findCourse);
             Course.find({'_id': { $in: result.courses}}, function(err, courses) {
                 if (err) callback(err);
                 else {
@@ -226,7 +224,7 @@ userSchema.statics.addCourse = function(rawUsername, courseNumber, callback) {
     Course.findCourse(courseNumber, function(err, result) {
         if (err) callback(err);
         else {
-            this.findUser(username, function(err, user) {
+            findUser(username, function(err, user) {
                 if (err) callback(err);
                 user.courses.push(ObjectId(result._id));
                 user.save(function(err) {
@@ -238,13 +236,6 @@ userSchema.statics.addCourse = function(rawUsername, courseNumber, callback) {
             });
         }
     });
-}
-
-/**
- * Clear all users
- */
-userSchema.statics.clearUsers = function() {
-    this.remove({}, function() {});
 }
 
 var User = mongoose.model('User', userSchema);

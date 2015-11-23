@@ -6,20 +6,19 @@ var Snippet = require('../server/models/Snippet');
 var Stash = require('../server/models/Stash');
 var User = require('../server/models/User');
 
-mongoose.connect('mongodb://localhost/model_test');
-User.clearUsers();
-
-User.createNewUser('kim', 'pass123', 'Kim Zhong', 'kimberli@mit.edu', function() {});
-User.createNewUser('123', 'pass', 'Ben Bitdiddle', 'bendit@mit.edu', function(){});
-User.createNewUser('456', 'pa1242412ss2', 'Alyssa Hacker', 'alyssa@mit.edu', function(){});
-
-(new Course({
-    name: 'Software Studio',
-    number: '6.170',
-    professor: 'Daniel Jackson',
-    description: 'This is a class',
-    sessions: []
-})).save();
+mongoose.connect('mongodb://localhost/model_test',function(){
+    mongoose.connection.db.dropDatabase();
+    User.createNewUser('kim', 'pass123', 'Kim Zhong', 'kimberli@mit.edu', function() {});
+    User.createNewUser('123', 'pass', 'Ben Bitdiddle', 'bendit@mit.edu', function(){});
+    User.createNewUser('456', 'pa1242412ss2', 'Alyssa Hacker', 'alyssa@mit.edu', function(){});
+    (new Course({
+        name: 'Software Studio',
+        number: '6.170',
+        professor: 'Daniel Jackson',
+        description: 'This is a class',
+        sessions: []
+    })).save();
+});
 
 // test user model
 describe('User', function() {
