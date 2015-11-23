@@ -142,7 +142,33 @@ $radio-fill-color: $primary-color-dark !default;
   }
 }
 
+#home-container {
 
+  background-color: $primary-color-white;
+  color: $primary-color-white;
+
+  #home-body {
+    height: 90vh;
+    padding-top: 10px;
+
+    .card {
+      margin: 20px;
+      background-color: $primary-color-dark;
+    }
+
+    .spacer {
+      height: 10px;
+    }
+
+    a {
+      color: $primary-color-dark;
+    }
+
+    a:hover {
+      background-color: $primary-color-white;
+    }
+  }
+}
 
 #session-container {
 
