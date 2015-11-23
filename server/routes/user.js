@@ -77,8 +77,9 @@ router.post('/login', function(req, res) {
  */
 router.post('/logout', function(req, res) {
     if (req.currentUser) {
+        var user = req.currentUser;
         req.session.destroy();
-        utils.sendSuccessResponse(res, { username: req.currentUser });
+        utils.sendSuccessResponse(res, { username: user });
     } else {
         utils.sendErrResponse(res, 403, 'There is no user currently logged in.');
     }

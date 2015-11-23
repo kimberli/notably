@@ -47,8 +47,8 @@ app.use(function(req, res, next) {
   if (req.session.username) {
     User.findProfile(req.session.username,
       function(err, user) {
-        if (err) {
-          req.currentUser = user;
+        if (user) {
+          req.currentUser = user.username;
         } else {
           req.currentUser = undefined;
           req.session.destroy();
