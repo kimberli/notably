@@ -85,6 +85,21 @@ router.post('/logout', function(req, res) {
 });
 
 /**
+ * GET - /api/user/courses
+ */
+router.put('/courses', function(req, res) {
+    if (isValidUserReq(req, res)) {
+        User.getCourses(req.currentUser, req.body.course, function(err,result) {
+            if (err) {
+                utils.sendErrResponse(res, 403, err);
+            } else {
+                utils.sendSuccessResponse(res, result);
+            }
+        });
+    }
+});
+
+/**
  * POST - /api/user/subscribe
  */
 router.put('/subscribe', function(req, res) {
