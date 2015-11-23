@@ -110,33 +110,6 @@ courseSchema.statics.addSession = function(number, title, username, callback) {
     });
 }
 
-/**
- * Get all sessions
- *
- * @param number {string} - course number
- * @param callback {function} - function to be called with err and result
- */
-courseSchema.statics.getSessions = function(number, callback) {
-    findCourse(number, function(err, course) {
-        if (err) callback(err);
-        else {
-            Session.find({ _id: {$in: course.sessions}}, function(err, sessions) {
-                if (err) callback(err);
-                else callback(null, {
-                    sessions: sessions.map(function(item) {
-                        return {
-                            _id: item._id,
-                            title: item.title,
-                            number: item.number
-                        }
-                    })
-                })
-            })
-        }
-    });
-}
-
-
 var Course = mongoose.model('Course', courseSchema);
 
 module.exports = Course;

@@ -237,6 +237,7 @@ describe('Course', function() {
             Course.findCourse('6.170', function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.meta.name, 'Software Studio');
+                assert.deepEqual(result.sessions, []);
                 done();
             });
         });
@@ -262,27 +263,9 @@ describe('Course', function() {
                 assert.equal(err, null);
                 assert.equal(result.title, 'Lecture 1');
                 assert.equal(result.number, '6.170');
-                done();
-            });
-        });
-    });
-
-    //test getSessions
-    describe('#getSessions', function () {
-        // test getting sessions for a course with sessions
-        it('should not return error when course has sessions', function (done) {
-            Course.getSessions('6.170', function(err, result) {
-                assert.equal(err, null);
-                assert.equal(result.sessions.length, 1);
-                done();
-            });
-        });
-
-        // test getting sessions for a course with no sessions
-        it('should not return error when course has no sessions', function (done) {
-            Course.getSessions('6.005', function(err, result) {
-                assert.equal(err, null);
-                assert.equal(result.sessions.length, 0);
+                Course.findCourse('6.170', function(err, result) {
+                    assert.equal(result.sessions.length, 1);
+                })
                 done();
             });
         });
