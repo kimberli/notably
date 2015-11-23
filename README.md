@@ -182,7 +182,7 @@ The snippet object looks like this:
 }
 ```
 
-### `/api/user/subscribe` - PUT
+### `/api/user/subscribe` - POST
 * Subscribes a user to a course
 * Must be authenticated
 
