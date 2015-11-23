@@ -303,7 +303,6 @@ The snippet object looks like this:
   },
   "feed": [(Snippet)],
   "stash": [(Snippet)]
-
 }
 ```
 

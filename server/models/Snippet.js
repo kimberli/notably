@@ -25,6 +25,29 @@ snippetSchema.statics.findSnippet = function(snippetId, callback) {
     });
 }
 
+/**
+ * Create a snippet
+ *
+ * @param rawUsername {string} - username of snippet author; must be valid
+ * @param text {string} - snippet text
+ * @param sessionId {string} - session id; must be valid
+ * @param callback {function} - function to be called with err and result
+ */
+snippetSchema.statics.create = function(rawUsername, text, sessionId, callback) {
+    var username = rawUsername.toLowerCase();
+    var newSnippet = new Snippet({
+        author: username,
+        text: text,
+        timestamp: Date.now(),
+        saveCount: 0,
+        hidden: false,
+        flaggedBy: [],
+        savedBy: [username],
+        sessionId: sessionId
+    });
+    newSnippet.save(callback);
+}
+
 /** TODO
  * Flag a snippet
  *
