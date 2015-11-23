@@ -20,6 +20,7 @@ URL: `mitnotably.herokuapp.com`
   - [`/api/user/subscribe` - PUT](#apiusersubscribe---put)
   - [`/api/course/all` - GET](#apicourseall---get)
   - [`/api/course` - GET](#apicourse---get)
+  - [`/api/course/newsession` - POST](#apicoursenewsession---post)
   - [`/api/session` - GET](#apisession---get)
   - [`/api/snippet` - GET](#apisnippet---get)
 
@@ -238,6 +239,29 @@ To update table of contents:
 }
 ```
 
+### `/api/course/newsession` - POST
+* Add new session to a course
+* Must be authenticated
+
+**params**
+
+```javascript
+{ 
+  "number": (string - course number),
+  "title: (string - session title)
+}
+```
+
+**content**
+
+```javascript
+{
+  "_id": (string - session id),
+  "number": (string - course number),
+  "title": (string - session title),
+}
+```
+
 ### `/api/session` - GET
 * Get session info and snippets
 * Must be authenticated
@@ -254,11 +278,13 @@ To update table of contents:
 
 ```javascript
 {
+  "_id": (string - session id),
   "meta": {
     "number": (string - course number),
-    "name": (string - course name)
+    "title": (string - session title)
   }
   "snippets": [{
+    "_id": (string - snippet id),
     "author": (string - snippet author),
     "text": (string - snippet text),
     "flaggedBy": [(string - usernames of flaggers)],

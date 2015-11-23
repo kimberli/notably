@@ -35,7 +35,7 @@ describe('User', function() {
         // test nonexistent user
         it('should return error when user does not exist', function (done) {
             User.findProfile('hello', function(err, result) {
-                assert.notDeepEqual(err, null);
+                assert.notEqual(err, null);
                 done();
             });
         });
@@ -43,8 +43,8 @@ describe('User', function() {
         // test created user
         it('should return username when user exists', function (done) {
             User.findProfile('kim', function(err, result) {
-                assert.deepEqual(err, null);
-                assert.deepEqual(result.username, 'kim');
+                assert.equal(err, null);
+                assert.equal(result.username, 'kim');
                 done();
             });
         });
@@ -52,8 +52,8 @@ describe('User', function() {
         // test created user capitalized
         it('should return username when user exists even if capitalized', function (done) {
             User.findProfile('Kim', function(err, result) {
-                assert.deepEqual(err, null);
-                assert.deepEqual(result.username, 'kim');
+                assert.equal(err, null);
+                assert.equal(result.username, 'kim');
                 done();
             });
         });
@@ -66,7 +66,7 @@ describe('User', function() {
         // test nonexistent user
         it('should return error when user does not exist', function (done) {
             User.verifyPassword('hello', 'hoo', function(err, result) {
-                assert.notDeepEqual(err, null);
+                assert.notEqual(err, null);
                 done();
             });
         });
@@ -74,7 +74,7 @@ describe('User', function() {
         // test incorrect pass
         it('should return error when incorrect password', function (done) {
             User.verifyPassword('kim', 'pass', function(err, result) {
-                assert.notDeepEqual(err, null);
+                assert.notEqual(err, null);
                 done();
             });
         });
@@ -82,7 +82,7 @@ describe('User', function() {
         // test existing user
         it('should not return error when user exists', function (done) {
             User.verifyPassword('kim', 'pass123', function(err, result) {
-                assert.deepEqual(err, null);
+                assert.equal(err, null);
                 done();
             });
         });
@@ -90,7 +90,7 @@ describe('User', function() {
         // test existing user different capitalization
         it('should not return error when user exists with different capitalization', function (done) {
             User.verifyPassword('Kim', 'pass123', function(err, result) {
-                assert.deepEqual(err, null);
+                assert.equal(err, null);
                 done();
             });
         });
@@ -102,7 +102,7 @@ describe('User', function() {
         // test nonexistent user
         it('should return error when user exists', function (done) {
             User.createNewUser('kim', 'pass', 'name', 'email@mit.edu', function(err, result) {
-                assert.notDeepEqual(err, null);
+                assert.notEqual(err, null);
                 done();
             });
         });
@@ -110,7 +110,7 @@ describe('User', function() {
         // test username min length
         it('should return error when username too short', function (done) {
             User.createNewUser('ki', 'pass', 'name', 'email@mit.edu', function(err, result) {
-                assert.notDeepEqual(err, null);
+                assert.notEqual(err, null);
                 done();
             });
         });
@@ -118,7 +118,7 @@ describe('User', function() {
         // test username max length
         it('should return error when username too long', function (done) {
             User.createNewUser('kewfewfweewfefwgi', 'pass', 'name', 'email@mit.edu', function(err, result) {
-                assert.notDeepEqual(err, null);
+                assert.notEqual(err, null);
                 done();
             });
         });
@@ -126,7 +126,7 @@ describe('User', function() {
         // test username invalid characters
         it('should return error when username has invalid chars', function (done) {
             User.createNewUser('hi<>mi', 'pass', 'name', 'email@mit.edu', function(err, result) {
-                assert.notDeepEqual(err, null);
+                assert.notEqual(err, null);
                 done();
             });
         });
@@ -134,7 +134,7 @@ describe('User', function() {
         // test non-MIT email
         it('should return error when email is non-mit', function (done) {
             User.createNewUser('hief', 'pass', 'name', 'email@test.com', function(err, result) {
-                assert.notDeepEqual(err, null);
+                assert.notEqual(err, null);
                 done();
             });
         });
@@ -142,7 +142,7 @@ describe('User', function() {
         // test non-unique email
         it('should return error when email taken', function (done) {
             User.createNewUser('balggw', 'pass', 'name', 'kimberli@mit.edu', function(err, result) {
-                assert.notDeepEqual(err, null);
+                assert.notEqual(err, null);
                 done();
             });
         });
@@ -150,7 +150,7 @@ describe('User', function() {
         // test new user
         it('should not return error when user does not exist', function (done) {
             User.createNewUser('eek', 'pass', 'name', 'email@mit.edu', function(err, result) {
-                assert.deepEqual(err, null);
+                assert.equal(err, null);
                 assert.deepEqual(result, {username: 'eek'});
                 done();
             });
@@ -159,7 +159,7 @@ describe('User', function() {
         // test new user capitalized
         it('should not return error when username capitalized', function (done) {
             User.createNewUser('Blah', 'pass', 'name', 'email1@mit.edu', function(err, result) {
-                assert.deepEqual(err, null);
+                assert.equal(err, null);
                 assert.deepEqual(result, {username: 'blah'});
                 done();
             });
@@ -171,7 +171,7 @@ describe('User', function() {
         // test adding nonexistent course
         it('should return error when course not found', function (done) {
             User.addCourse('kim', '6170', function(err, result) {
-                assert.notDeepEqual(err, null);
+                assert.notEqual(err, null);
                 done();
             });
         });
@@ -179,7 +179,7 @@ describe('User', function() {
         // test adding course
         it('should not return error when course exists', function (done) {
             User.addCourse('kim', '6.170', function(err, result) {
-                assert.deepEqual(err, null);
+                assert.equal(err, null);
                 assert.deepEqual(result, { courses: [{name: 'Software Studio', number: '6.170'}] });
                 done();
             });
@@ -188,7 +188,7 @@ describe('User', function() {
         // test adding duplicate course
         it('should return error when course already subscribed to', function (done) {
             User.addCourse('kim', '6.170', function(err, result) {
-                assert.notDeepEqual(err, null);
+                assert.notEqual(err, null);
                 done();
             });
         });
@@ -198,9 +198,9 @@ describe('User', function() {
     //test getCourses
     describe('#getCourses', function () {
         // test user without subscribed courses
-        it('should not return error user has no courses', function (done) {
+        it('should not return error when user has no courses', function (done) {
             User.getCourses('123', function(err, result) {
-                assert.deepEqual(err, null);
+                assert.equal(err, null);
                 assert.deepEqual(result, {courses: []});
                 done();
             });
@@ -209,7 +209,7 @@ describe('User', function() {
         // test adding course
         it('should not return error when user has courses', function (done) {
             User.getCourses('kim', function(err, result) {
-                assert.deepEqual(err, null);
+                assert.equal(err, null);
                 assert.deepEqual(result, { courses: [{name: 'Software Studio', number: '6.170'}] });
                 done();
             });
@@ -227,16 +227,16 @@ describe('Course', function() {
         // test nonexistent course
         it('should return error when course does not exist', function (done) {
             Course.findCourse('hello', function(err, result) {
-                assert.notDeepEqual(err, null);
+                assert.notEqual(err, null);
                 done();
             });
         });
 
         // test existing course
-        it('should return error when course does not exist', function (done) {
+        it('should not return error when course exists', function (done) {
             Course.findCourse('6.170', function(err, result) {
-                assert.deepEqual(err, null);
-                assert.deepEqual(result.meta.name, 'Software Studio');
+                assert.equal(err, null);
+                assert.equal(result.meta.name, 'Software Studio');
                 done();
             });
         });
@@ -244,11 +244,45 @@ describe('Course', function() {
 
     //test getAllCourses
     describe('#getAllCourses', function () {
-        // test existing course
-        it('should return error when course does not exist', function (done) {
+        // test correct
+        it('should not return error', function (done) {
             Course.getAllCourses(function(err, result) {
-                assert.deepEqual(err, null);
-                assert.deepEqual(result.courses.length, 2);
+                assert.equal(err, null);
+                assert.equal(result.courses.length, 2);
+                done();
+            });
+        });
+    });
+
+    //test addSession
+    describe('#addSession', function () {
+        // test new session
+        it('should not return error when adding valid session', function (done) {
+            Course.addSession('6.170', 'Lecture 1', 'kim', function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.title, 'Lecture 1');
+                assert.equal(result.number, '6.170');
+                done();
+            });
+        });
+    });
+
+    //test getSessions
+    describe('#getSessions', function () {
+        // test getting sessions for a course with sessions
+        it('should not return error when course has sessions', function (done) {
+            Course.getSessions('6.170', function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.sessions.length, 1);
+                done();
+            });
+        });
+
+        // test getting sessions for a course with no sessions
+        it('should not return error when course has no sessions', function (done) {
+            Course.getSessions('6.005', function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.sessions.length, 0);
                 done();
             });
         });
