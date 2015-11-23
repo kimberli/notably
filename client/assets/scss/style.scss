@@ -94,6 +94,14 @@ $primary-color-dark: color("indigo", "darken-2") !default;
     .spacer {
       height: 10px;
     }
+
+    a {
+      color: $primary-color-dark;
+    }
+
+    a:hover {
+      background-color: $primary-color-white;
+    }
   }
 }
 
@@ -124,13 +132,16 @@ $primary-color-dark: color("indigo", "darken-2") !default;
 
   #stash-view {
     background-color: $primary-color-dark;
+    box-shadow: 1px 1px 1px #888888;
+    border-radius: 2px;
     //margin: 10px;
   }
 
   #feed-view {
     background-color: $primary-color-dark;
+    box-shadow: 1px 1px 1px #888888;
+    border-radius: 2px;
     //margin: 10px;
-
   }
 
   .CodeMirror .CodeMirror-scroll {
@@ -182,7 +193,7 @@ $primary-color-dark: color("indigo", "darken-2") !default;
   }
 
   .flag-button {
-    border: none; background: none;  
+    border: none; background: none;
     color: grey;
     font-size:20px;
   }
@@ -199,15 +210,13 @@ $primary-color-dark: color("indigo", "darken-2") !default;
   }
 
   #feed-header {
-    padding:5px;
-    font-size: 24px;
+    font-size: 28px;
     text-align: center;
     color: white;
   }
 
   #stash-header {
-    padding:5px;
-    font-size: 24px;
+     font-size: 28px;
     text-align: center;
     color: white;
   }
