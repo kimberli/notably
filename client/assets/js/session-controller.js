@@ -2,79 +2,98 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
 
     $scope.sessionId = $routeParams.sessionId;
     //$scope.simplemde = new SimpleMDE({ element: document.getElementById("MyID"), spellChecker: true, hideIcons: ["side-by-side"]});
-    $scope.showOption = 'both';
+
+    // author: String,
+    // text: String,
+    // timestamp: Date,
+    // saveCount: Number,
+    // hidden: Boolean,
+    // savedBy: [String],
+    // flaggedBy: [String],
+    // sessionId: String
+
+  $scope.showOption = 'both';
     $scope.snippets = [{
-      creator : "kim",
+      author : "kim",
       flags : 2,
-      saves: 3,
-      content : "i direct hack",
+      saveCount : 3,
+      text : "i direct hack",
       savedBy : ["ayy", "lmao"],
       flaggedBy : ["lmao","ayy"],
-      id: "aCd21as"
+      id: "aCd21as",
+      timestamp : Date.now()
     },{
-      creator : "aluh",
+      author : "aluh",
       flags : 2,
-      saves: 3,
-      content : "Fresh Fruit in Lounge (EOM)",
+      saveCount: 3,
+      text : "Fresh Fruit in Lounge (EOM)",
       savedBy : ["ayy", "lmao"],
       flaggedBy : ["lmao","ayy"],
-      id: "aCd21as"
+      id: "aCd21as",
+      timestamp : Date.now()
     },{
-      creator : "faz",
+      author : "faz",
       flags : 2,
-      saves: 3,
-      content : "what do u mean by chill",
+      saveCount: 3,
+      text : "what do u mean by chill",
       savedBy : ["ayy", "lmao"],
       flaggedBy : ["lmao","ayy"],
-      id: "aCd21as"
+      id: "aCd21as",
+      timestamp : Date.now()
     },{
-      creator : "kim",
+      author : "kim",
       flags : 2,
-      saves: 3,
-      content : "i direct hack",
+      saveCount: 3,
+      text : "i direct hack",
       savedBy : ["ayy", "lmao"],
       flaggedBy : ["lmao","ayy"],
-      id: "aCd21as"
+      id: "aCd21as",
+      timestamp : Date.now()
     },{
-      creator : "aluh",
+      author : "aluh",
       flags : 2,
-      saves: 3,
-      content : "Fresh Fruit in Lounge (EOM)",
+      saveCount: 3,
+      text : "Fresh Fruit in Lounge (EOM)",
       savedBy : ["ayy", "lmao"],
       flaggedBy : ["lmao","ayy"],
-      id: "aCd21as"
+      id: "aCd21as",
+      timestamp : Date.now()
     },{
-      creator : "faz",
+      author : "faz",
       flags : 2,
-      saves: 3,
-      content : "what do u mean by chill",
+      saveCount: 3,
+      text : "what do u mean by chill",
       savedBy : ["ayy", "lmao"],
       flaggedBy : ["lmao","ayy"],
-      id: "aCd21as"
+      id: "aCd21as",
+      timestamp : Date.now()
     },{
-      creator : "kim",
+      author : "kim",
       flags : 2,
-      saves: 3,
-      content : "i direct hack",
+      saveCount: 3,
+      text : "i direct hack",
       savedBy : ["ayy", "lmao"],
       flaggedBy : ["lmao","ayy"],
-      id: "aCd21as"
+      id: "aCd21as",
+      timestamp : Date.now()
     },{
-      creator : "aluh",
+      author : "aluh",
       flags : 2,
-      saves: 3,
-      content : "Fresh Fruit in Lounge (EOM)",
+      saveCount: 3,
+      text : "Fresh Fruit in Lounge (EOM)",
       savedBy : ["ayy", "lmao"],
       flaggedBy : ["lmao","ayy"],
-      id: "aCd21as"
+      id: "aCd21as",
+      timestamp : Date.now()
     },{
-      creator : "faz",
+      author : "faz",
       flags : 2,
-      saves: 3,
-      content : "what do u mean by chill",
+      saveCount: 3,
+      text : "what do u mean by chill",
       savedBy : ["ayy", "lmao"],
       flaggedBy : ["lmao","ayy"],
-      id: "aCd21as"
+      id: "aCd21as",
+      timestamp : Date.now()
     }];
 
     $scope.addSnippet = function() {
