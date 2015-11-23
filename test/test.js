@@ -159,4 +159,33 @@ describe('User', function() {
         });
     });
 
+    //test addCourse
+    describe('#addCourse', function () {
+        // test adding nonexistent course
+        it('should return error when course not found', function (done) {
+            User.addCourse('kim', '6170', function(err, result) {
+                assert.notDeepEqual(err, null);
+                done();
+            });
+        });
+
+        // test adding course
+        it('should not return error when course exists', function (done) {
+            User.addCourse('kim', '6.170', function(err, result) {
+                assert.deepEqual(err, null);
+                assert.deepEqual(result, { courses: [{name: 'Software Studio', number: '6.170'}] });
+                done();
+            });
+        });
+
+        // test adding duplicate course
+        it('should return error when course already subscribed to', function (done) {
+            User.addCourse('kim', '6.170', function(err, result) {
+                assert.notDeepEqual(err, null);
+                done();
+            });
+        });
+
+    });
+
 });

@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
+var ObjectId = mongoose.Schema.Types.ObjectId;
 var Course = require('./Course');
 
 var userSchema = mongoose.Schema({
@@ -17,7 +18,7 @@ var userSchema = mongoose.Schema({
  * @param rawUsername {string} - username of a potential user
  * @param callback {function} - function to be called with err and result
  */
- var findUser = function(rawUsername, callback) {
+var findUser = function(rawUsername, callback) {
     var username = rawUsername.toLowerCase();
     User.find({ username: username }, function(err, result) {
         if (err) callback(err);
@@ -194,17 +195,16 @@ userSchema.statics.getCourses = function(rawUsername, callback) {
     findUser(username, function(err, result) {
         if (err) callback(err);
         else {
-            var result = [];
             Course.find({'_id': { $in: result.courses}}, function(err, courses) {
                 if (err) callback(err);
                 else {
-                    callback(null,
+                    callback(null, {courses:
                         courses.map(function(item) {
                             return {
                                 name: item.name,
                                 number: item.number
                             };
-                        })
+                        }) }
                     );
                 }
             });
@@ -226,13 +226,18 @@ userSchema.statics.addCourse = function(rawUsername, courseNumber, callback) {
         else {
             findUser(username, function(err, user) {
                 if (err) callback(err);
-                user.courses.push(ObjectId(result._id));
-                user.save(function(err) {
-                    if (err) callback(err);
+                else {
+                    if (user.courses.indexOf(result._id) > -1) { callback('Already subscribed') }
                     else {
-                        this.getCourses(username, callback);
+                        user.courses.push(result._id);
+                        user.save(function(err) {
+                            if (err) callback(err);
+                            else {
+                                User.getCourses(username, callback);
+                            }
+                        });
                     }
-                })
+                }
             });
         }
     });

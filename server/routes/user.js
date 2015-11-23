@@ -34,6 +34,13 @@ router.get('/', function(req, res) {
 });
 
 /**
+ * GET - /api/user/courses
+ */
+router.get('/test', function(req, res) {
+    utils.sendSuccessResponse(res, { hi: "kim"});
+});
+
+/**
  * POST - /api/user/create
  */
 router.post('/create', function(req, res) {
