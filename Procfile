@@ -1,1 +1,1 @@
-web: node run.js
+web: node bin/www
