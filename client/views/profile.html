@@ -1,3 +1,39 @@
-<b>username:</b> {{ username }}
-<br>
-<b>courses:</b> {{ courses }}
+<div id="profile-container">
+
+  <div id="header">
+    <div id="header-background">
+      <div id="title-container">
+        <div id="title">
+          Notably
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="profile-body">
+    <div class="row">
+      <div class="col s12 m6 l6">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title"><b>{{ username }}</b></span>
+            <div class="spacer"></div>
+            username: {{ username }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m6 l6">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">{{ username }}'s stashes</span>
+            <div class="spacer"></div>
+            <div class="collection">
+              <a ng-repeat="stash in stashes" href="#!" class="collection-item">{{ stash.title }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

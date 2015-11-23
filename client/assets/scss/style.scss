@@ -4,6 +4,7 @@
 
 $primary-color: color("indigo", "base") !default;
 $primary-color-light: color("indigo", "lighten-2") !default;
+$primary-color-white: color("indigo", "lighten-5") !default;
 $primary-color-dark: color("indigo", "darken-2") !default;
 
 @import "../lib/materialize/sass/materialize";
@@ -13,6 +14,13 @@ $primary-color-dark: color("indigo", "darken-2") !default;
 * {
   margin: 0;
   padding: 0;
+}
+
+#title {
+  color: $primary-color-white;
+  font-family: 'Pacifico', cursive;
+  text-align: center;
+  text-shadow: 2px 2px 5px #333;
 }
 
 #splash-container {
@@ -36,13 +44,6 @@ $primary-color-dark: color("indigo", "darken-2") !default;
 
   #title-container {
     padding-top: 20vh;
-
-    #title {
-      font-family: 'Pacifico', cursive;
-      color: white;
-      text-align: center;
-      text-shadow: 2px 2px 5px #333;
-    }
   }
 
   #button-container {
@@ -52,6 +53,128 @@ $primary-color-dark: color("indigo", "darken-2") !default;
       font-size: 30px;
       text-transform: none;
     }
+  }
+
+}
+
+#profile-container {
+
+  background-color: $primary-color-white;
+  color: $primary-color-white;
+
+  #header {
+    #header-background {
+      background-image: url('/assets/img/blackboard.jpg');
+      height: 10vh;
+      width: 100vw;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+
+    #title-container {
+      padding-top: 2vh;
+
+      #title {
+        font-size: 4vh;
+      }
+    }
+  }
+
+  #profile-body {
+    height: 90vh;
+    padding-top: 10px;
+
+    .card {
+      margin: 20px;
+      background-color: $primary-color-dark;
+    }
+
+    .spacer {
+      height: 10px;
+    }
+  }
+}
+
+
+#session-container {
+
+
+  .CodeMirror .CodeMirror-scroll {
+      min-height: 200px;
+      height: 200px;
+  }
+
+  .snippet-container {
+    width: 90%;
+    margin: auto;
+    margin-top: 5px;
+    border: 1px solid grey;
+    border-radius: 6px;
+  }
+  .snippet-footer {
+    // background:#e8eaf6;
+    padding: 5px;
+  }
+
+  .snippet-header {
+    // background:#c5cae9;
+    padding: 5px;
+  }
+
+  .snippet-content {
+    // background:#c5cae9;
+    padding: 5px;
+  }
+
+  .save-button {
+    border: none; background: none;
+    color: grey;
+    font-size:20px;
+  }
+
+  .save-button:hover {
+    color: yellow;
+  }
+
+  .remove-button {
+    border: none; background: none;
+    color: grey;
+    font-size:20px;
+  }
+
+  .remove-button:hover {
+    color: red;
+  }
+
+  .flag-button {
+    border: none; background: none; padding: 0;
+    color: grey;
+    font-size:20px;
+  }
+
+  .flag-button:hover {
+    color: blue;
+  }
+
+  #session-header {
+    padding:5px;
+    font-size: 24px;
+    text-align: center;
+    background: grey;
+  }
+
+  #feed-header {
+    padding:5px;
+    font-size: 24px;
+    text-align: center;
+  }
+
+  #stash-header {
+    padding:5px;
+    font-size: 24px;
+    text-align: center;
   }
 
 }
