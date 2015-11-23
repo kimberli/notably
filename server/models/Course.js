@@ -20,7 +20,6 @@ courseSchema.statics.findCourse = function(number, callback) {
         if (err) callback(err);
         else if (result.length > 0) {
             var course = result[0];
-            var sessions = [];
             Session.find({ _id: { $in: course.sessions } }, function(err, result) {
                 if (err) callback(err);
                 else callback(null, {
@@ -46,6 +45,27 @@ courseSchema.statics.findCourse = function(number, callback) {
 /**
  * Get all courses
  *
+ * @param callback {function} - function to be called with err and result
+ */
+courseSchema.statics.getAllCourses = function(callback) {
+    this.find({}, function(err, courses) {
+        if (err) callback(err);
+        else callback(null, {courses:
+            courses.map(function(item) {
+                return {
+                    name: item.name,
+                    number: item.number
+                };
+            }) }
+        );
+    });
+}
+
+/**
+ * Add session to a course
+ *
+ * @param number {string} - course number
+ * @param title {string} - session title
  * @param callback {function} - function to be called with err and result
  */
 courseSchema.statics.getAllCourses = function(callback) {

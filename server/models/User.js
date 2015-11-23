@@ -162,25 +162,25 @@ userSchema.statics.getStashes = function(rawUsername, callback) {
  * Create a new stash
  *
  * @param rawUsername {string} - username creating stash
- * @param session {ObjectId} - ID of session that stash is being made for
+ * @param session {string} - ID of session that stash is being made for
  * @param callback {function} - function to be called with err and result
  */
 userSchema.statics.addStash = function(rawUsername, sessionId, callback) {
     var username = rawUsername.toLowerCase();
     findUser(username, function(err, result) {
-    if (err) callback(err);
-    else {
-        var newStash = new Stash({
-            creator: result.username,
-            session: ObjectId(sessionId),
-            snippets: []
-        });
-        result.stashes.push(newStash);
-        result.save(function(err) {
-            if (err) callback(err);
-            else callback(null, { username: username });
-        });
-    }
+        if (err) callback(err);
+        else {
+            var newStash = new Stash({
+                creator: result.username,
+                session: ObjectId(sessionId),
+                snippets: []
+            });
+            result.stashes.push(newStash);
+            result.save(function(err) {
+                if (err) callback(err);
+                else callback(null, { username: username });
+            });
+        }
     });
 }
 
