@@ -46,7 +46,6 @@ app.use(bodyParser.urlencoded({ extended: true })); // parse forms
 app.use(function(req, res, next) {
     if (req.session.username) {
         User.auth(req.session.username, function(err, user) {
-            console.log(user);
             if (user) {
                 req.currentUser = user.username;
             } else {
