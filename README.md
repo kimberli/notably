@@ -72,6 +72,7 @@ Generic result format:
 
 ```javascript
 {
+  "name": (string),
   "stats": {
       "numSubmitted": (int - number of snippets submitted),
       "numSaved": (int - number of snippets saved), 
