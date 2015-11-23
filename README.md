@@ -274,7 +274,7 @@ The snippet object looks like this:
 ```javascript
 { 
   "number": (string - course number),
-  "title: (string - session title)
+  "title": (string - session title)
 }
 ```
 
