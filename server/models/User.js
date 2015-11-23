@@ -35,12 +35,12 @@ userSchema.statics.findUser = function(rawUsername, callback) {
 userSchema.statics.verifyPassword = function(rawUsername, candidatepw, callback) {
     var username = rawUsername.toLowerCase();
     this.findUser(username, function(err, result) {
-        if (err) callback(err);
+        if (err) callback('Incorrect username/password combination');
         else {
             if (bcrypt.compareSync(candidatepw, result.password)) {
                 callback(null, {username: username});
             } else callback('Incorrect username/password combination');
-        } else callback('Incorrect username/password combination');
+        }
     });
 }
 
