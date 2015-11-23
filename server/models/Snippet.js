@@ -18,7 +18,7 @@ var snippetSchema = mongoose.Schema({
  * @param id {string} - snippet id
  * @param callback {function} - function to be called with err and result
  */
-userSchema.statics.findSnippet = function(id, callback) {
+snippetSchema.statics.findSnippet = function(id, callback) {
     this.find({ _id: id }, function(err, result) {
         if (err) callback(err);
         else if (result.length > 0) callback(null, result[0]);

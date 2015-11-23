@@ -141,13 +141,14 @@ userSchema.statics.getStashes = function(rawUsername, callback) {
         if (err) callback(err);
         else {
             var result = [];
-            Stash.find({'_id': { $in: result.stashes}}.each(function(err, doc) {
+            Stash.find({'_id': { $in: result.stashes}}).each(function(err, doc) {
                 result.push({
                     name: doc.name,
                     _id: doc._id,
-                })
+                });
             });
             callback(null, { stashes: result });
+        }
     });
 }
 
@@ -189,7 +190,7 @@ userSchema.statics.getCourses = function(rawUsername, callback) {
         if (err) callback(err);
         else {
             var result = [];
-            Course.find({'_id': { $in: result.courses}}.each(function(err, doc) {
+            Course.find({'_id': { $in: result.courses}}).each(function(err, doc) {
                 result.push({
                     name: doc.name,
                     number: doc.number,
