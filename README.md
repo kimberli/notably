@@ -56,26 +56,6 @@ Generic result format:
 }
 ```
 
-### `/api/auth` - POST
-* Authenticates a user
-
-**params**
-
-```javascript
-{
-  "username": (string)
-  "password": (string)
-}
-```
-
-**content**
-
-```javascript
-{
-  "username": (string - username of user just logged in)
-}
-```
-
 ### `/api/user` - GET
 * Get a user's profile information
 * Must be authenticated
@@ -107,6 +87,65 @@ Generic result format:
     "createdAt": (string - timestamp),
     "activeUsers": (number - number of active users)
   }] 
+}
+```
+
+### `/api/user/create` - POST
+* Creates a user
+
+**params**
+
+```javascript
+{
+  "username": (string),
+  "password": (string),
+  "email": (string), 
+  "name": (string)
+}
+```
+
+**content**
+
+```javascript
+{
+  "username": (string - username of user just created)
+}
+```
+
+### `/api/user/login` - POST
+* Authenticates a user
+
+**params**
+
+```javascript
+{
+  "username": (string),
+  "password": (string)
+}
+```
+
+**content**
+
+```javascript
+{
+  "username": (string - username of user just logged in)
+}
+```
+
+### `/api/user/logout` - POST
+* Logs out a user
+
+**params**
+
+```javascript
+{ }
+```
+
+**content**
+
+```javascript
+{
+  "username": (string - username of user just logged out)
 }
 ```
 
