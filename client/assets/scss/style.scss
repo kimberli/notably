@@ -300,8 +300,13 @@ $radio-fill-color: $primary-color-dark !default;
     margin-top: 5px
   }
 
-  #snippet-input-container, #session-header-container, .snippet-container {
+  #session-header-container, .snippet-container {
     width:90%;
+    margin:auto;
+  }
+
+  #snippet-input-container {
+    width:95%;
     margin:auto;
   }
 
