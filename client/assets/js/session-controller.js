@@ -92,4 +92,10 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
       // TODO add http call
     }
 
+    $scope.saveSnippet = function(id) {
+      alert("save " + id);
+      // TODO add http call
+    }
+
+
 });
