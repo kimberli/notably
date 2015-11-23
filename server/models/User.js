@@ -77,7 +77,7 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
                             if (err) callback(err);
                             else callback(null, {username: username});
                         });
-                    } else callback('User already exists');
+                    } else { callback('User already exists'); }
                 });
             } else { callback('Must have MIT email address'); }
         } else { callback('Invalid password'); }
@@ -87,17 +87,26 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
 /**
  * Get a particular stash belonging to a user.
  *
+ * @param rawUsername {string} - username of user
  * @param stashId {ObjectId} - ID of stash
  * @param callback {function} - function to be called with err and result
  */
-userSchema.statics.getStash = function(stashId, callback) {
-  Stash.findById(stashId, function(err, stash) {
-    if (err) {
-      callback('Stash does not exist.', false);
-    } else {
-      callback(stash);
-    }
-  });
+userSchema.statics.getStash = function(rawUsername, stashId, callback) {
+    var username = rawUsername.toLowerCase();
+    this.findUser(username, function(err, result) {
+        if (err) { callback(err); }
+        else {
+            if (user.stashes.indexOf(stashId) < 0) { callback('Stash not found'); }
+            else {
+                Stash.findById(stashId, function(err, result) {
+                    if (err) { callback(err); }
+                    else {
+                        callback(null, result);
+                    }
+                });
+            }
+        }
+    });
 }
 
 /**
