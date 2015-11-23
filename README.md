@@ -300,6 +300,8 @@ Generic result format:
   },
   "author": (string - snippet author),
   "text": (string - snippet text),
+  "saves": (number - number of saves),
+  "hidden": (boolean - true if hidden, false otherwise),
   "flaggedBy": [(string - usernames of flaggers)],
   "savedBy": [(string - usernames of savers)]
 }

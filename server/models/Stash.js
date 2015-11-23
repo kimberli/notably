@@ -74,7 +74,7 @@ stashSchema.statics.saveSnippet = function(snippetId, callback) {
  */
 stashSchema.statics.removeSnippet = function(snippetId, callback) {
     var index = this.snippets.indexOf(snippetId);
-    if (index >= 0) {
+    if (index > -1) {
         this.snippets.splice(index, 1);
     }
     this.save(callback);
