@@ -5,12 +5,12 @@
       Session {{sessionId}}
     </div>
 
-  <input name="display" type="radio" id="left_option" ng-model="showOption" value="left" />
-  <label for="left_option">Left</label>
-  <input name="display" type="radio" id="both_option"  ng-model="showOption" value="both" />
-  <label for="both_option">Both</label>
-  <input name="display" type="radio" id="right_option"  ng-model="showOption" value="right" />
-  <label for="right_option">Right</label>
+    <input name="display" type="radio" id="left_option" ng-model="showOption" value="left" />
+    <label for="left_option">Left</label>
+    <input name="display" type="radio" id="both_option"  ng-model="showOption" value="both" />
+    <label for="both_option">Both</label>
+    <input name="display" type="radio" id="right_option"  ng-model="showOption" value="right" />
+    <label for="right_option">Right</label>
 
   <br/>
 
@@ -20,8 +20,19 @@
              <textarea id = "MyID"> lkj </textarea>
          </div>
         <div ng-class="{true: 's6', false: 's12'}[showOption === 'both']" class="col" ng-hide="showOption === 'left'">
-             <div style="height: 100px; background: green;"></div>
+          <div ng-repeat="snip in snippets" style = "border-style: solid; border-width: 1px; width: 90%; margin: auto; margin-top: 5px;">
+              <div class="snippet-header">
+                <b> {{snip.creator}} </b> posted <i>1 minute ago</i> <br/>  <a class="center-align"><i class="material-icons" style="font-size:20px">cancel</i></a>
+              </div>
+                {{snip.content}} <br/>
+              <div class="snippet-footer right-align">
+                <a class="center-align"><i class="material-icons" style="font-size:20px">star</i></a>
+                {{snip.saves}}
+                <a class="center-align"><i class="material-icons" style="font-size:20px">flag</i></a>
+                {{snip.flags}}
+             </div>
         </div>
+      </div>
     </div>
 
 </div>

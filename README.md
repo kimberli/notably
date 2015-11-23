@@ -31,18 +31,19 @@ To install:
 
 To run:
 * `npm run db` in one terminal window (or `mongod`)
-* `npm run start` in another terminal window  (or `node run.js`)
+* `npm run start` in another terminal window  (or `node bin/www`)
 
 For dev:
 * `npm run db` in one terminal window (or `mongod`)
 * `npm run gulp` in another terminal window (or `gulp`)
-* `npm run dev` in another terminal window (or `nodemon run.js`)
+* `npm run dev` in another terminal window (or `nodemon bin/www`)
 
 To test:
 * `npm run test` (or `mocha`)
 
 To update table of contents:
 * `doctoc README.md`
+
 
 ## API
 Generic result format:
