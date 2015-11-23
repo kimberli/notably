@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
-var Stash = require('./Stash');
 var Course = require('./Course');
 
 var userSchema = mongoose.Schema({
@@ -20,7 +19,7 @@ var userSchema = mongoose.Schema({
  */
 userSchema.statics.findUser = function(rawUsername, callback) {
     var username = rawUsername.toLowerCase();
-    this.find({ username: username }, function(err, result) {
+    User.find({ username: username }, function(err, result) {
         if (err) callback(err);
         else if (result.length > 0) callback(null, result[0]);
         else callback('User not found');
@@ -35,12 +34,14 @@ userSchema.statics.findUser = function(rawUsername, callback) {
  */
 userSchema.statics.findProfile = function(rawUsername, callback) {
     var username = rawUsername.toLowerCase();
-    this.findUser(username, function(err, result) {
+    var User = this;
+    User.findUser(username, function(err, result) {
         if (err) callback(err);
         else {
-            this.getCourses(username, function(err, courses) {
+            User.getCourses(username, function(err, courses) {
                 if (err) callback(err);
                 else callback(null, {
+                    username: result.username,
                     name: result.name,
                     courses: courses.courses
                 })
@@ -140,14 +141,19 @@ userSchema.statics.getStashes = function(rawUsername, callback) {
     this.findUser(username, function(err, result) {
         if (err) callback(err);
         else {
-            var result = [];
-            Stash.find({'_id': { $in: result.stashes}}).each(function(err, doc) {
-                result.push({
-                    name: doc.name,
-                    _id: doc._id,
-                });
+            Stash.find({'_id': { $in: result.stashes}}, function(err, stashes) {
+                if (err) callback(err);
+                else {
+                    callback(null,
+                        stashes.map(function(item) {
+                            return {
+                                name: item.name,
+                                _id: item._id
+                            };
+                        })
+                    );
+                }
             });
-            callback(null, { stashes: result });
         }
     });
 }
@@ -190,13 +196,20 @@ userSchema.statics.getCourses = function(rawUsername, callback) {
         if (err) callback(err);
         else {
             var result = [];
-            Course.find({'_id': { $in: result.courses}}).each(function(err, doc) {
-                result.push({
-                    name: doc.name,
-                    number: doc.number,
-                })
+            console.log(Course.findCourse);
+            Course.find({'_id': { $in: result.courses}}, function(err, courses) {
+                if (err) callback(err);
+                else {
+                    callback(null,
+                        courses.map(function(item) {
+                            return {
+                                name: item.name,
+                                number: item.number
+                            };
+                        })
+                    );
+                }
             });
-            callback(null, { courses: result });
         }
     });
 }

@@ -3,7 +3,7 @@ var Session = require('./Session');
 
 var courseSchema = mongoose.Schema({
     name: String,
-    number: Number,
+    number: String,
     professor: String,
     description: String,
     sessions: [{type: mongoose.Schema.Types.ObjectId, ref:'Session'}]

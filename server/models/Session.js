@@ -1,6 +1,4 @@
 var mongoose = require('mongoose');
-var Course = require('./Course');
-var Stash = require('./Stash');
 var Snippet = require('./Snippet');
 
 var sessionSchema = mongoose.Schema({
