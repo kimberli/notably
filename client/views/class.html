@@ -1,1 +1,10 @@
-class: {{ classNumber }}
+<div id="class-container">
+  class: {{ classNumber }}
+  <div class="row">
+    <div class="dark-container">
+      <div class="collection" style="width:90%;margin:auto;margin-top:20px;margin-bottom:20px">
+        <a ng-repeat="s in sessions" href="#!" class="collection-item">{{ s.title }}<span class="badge">{{ s.date }}</span></a>
+      </div>
+    </div>
+  </div>
+</div>
