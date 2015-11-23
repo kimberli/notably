@@ -238,6 +238,28 @@ To update table of contents:
 }
 ```
 
+### `/api/course/newsession` - POST
+* Add new session to a course
+* Must be authenticated
+
+**params**
+
+```javascript
+{ 
+  "number": (string - course number),
+  "title: (string - session title)
+}
+```
+
+**content**
+
+```javascript
+{
+  "_id": (string - session id),
+  "title": (string - session title),
+}
+```
+
 ### `/api/session` - GET
 * Get session info and snippets
 * Must be authenticated
