@@ -25,6 +25,26 @@ var getSession = function(sessionId, callback) {
     });
 }
 
+/**
+ * Create a session
+ *
+ * @param number {string} - course number; must be valid
+ * @param title {string} - session title; must be valid
+ * @param rawUsername {string} - username of session creator; must be valid
+ * @param callback {function} - function to be called with err and result
+ */
+sessionSchema.statics.create = function(number, title, rawUsername, callback) {
+    var username = rawUsername.toLowerCase();
+    var newSession = new Session({
+        number: number,
+        title: title,
+        createdBy: username,
+        createdAt: Date.now(),
+        stashes: [],
+        feed: []
+    });
+    newSession.save(callback);
+}
 
 /**
  * Find a session if exists; return error otherwise
@@ -69,17 +89,16 @@ sessionSchema.statics.addStash = function(sessionId, username, callback) {
         else {
             Stash.findBySessionAndUsername(sessionId, username, function(err, result) {
                 if (err === 'Session not found') {
-                    var newStash = new Stash({
-                        creator: username,
-                        session: session._id,
-                        createdAt: Date.now(),
-                        snippets: []
-                    });
-                    session.stashes.push(newStash);
-                    session.save(function(err) {
+                    Stash.create(username, session._id, function(err, newStash) {
                         if (err) callback(err);
-                        else newStash.save(callback);
-                    })
+                        else {
+                            session.stashes.push(newStash);
+                            session.save(function(err) {
+                                if (err) callback(err);
+                                else newStash.save(callback);
+                            });
+                        }
+                    });
                 }
                 else if (err) callback(err);
                 else callback('Stash already exists');
@@ -103,32 +122,24 @@ sessionSchema.statics.addSnippet = function(sessionId, currentUser, text, callba
             Stash.findBySessionAndUsername(sessionId, currentUser, function(err, stash) {
                 if (err) callback(err);
                 else {
-                    var newSnippet = new Snippet({
-                        author: stash.creator,
-                        text: text,
-                        timestamp: Date.now(),
-                        saveCount: 0,
-                        hidden: false,
-                        flaggedBy: [],
-                        savedBy: [stash.creator],
-                        sessionId: session._id
-                    });
-                    var id = stash._id;
-                    session.feed.push(newSnippet);
-                    session.save(function(err) {
+                    Snippet.create(currentUser, text, sessionId, function(err, newSnippet) {
                         if (err) callback(err);
                         else {
-                            var stash = Stash.getStash(id, function(err, stash) {
-                                stash.snippets.push(newSnippet);
-                                stash.save(function(err) {
-                                    if (err) callback(err);
-                                    else newSnippet.save(callback);
-                                });
+                            session.feed.push(newSnippet);
+                            session.save(function(err) {
+                                if (err) callback(err);
+                                else {
+                                    stash.snippets.push(newSnippet);
+                                    stash.save(function(err) {
+                                        if (err) callback(err);
+                                        else newSnippet.save(callback);
+                                    });
+                                }
                             });
                         }
-                    })
+                    });
                 }
-            })
+            });
         }
     });
 }

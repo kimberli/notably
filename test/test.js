@@ -28,7 +28,8 @@ mongoose.connect('mongodb://localhost/model_test',function(){
 });
 
 var sessionId = null;
-var stashId = null;
+var stashId1 = null;
+var stashId2 = null;
 var snippetId1 = null;
 var snippetId2 = null;
 
@@ -317,7 +318,7 @@ describe('Session', function() {
                 assert.equal(err, null);
                 assert.equal(result.creator, 'kim');
                 assert.equal(result.snippets.length, 0);
-                stashId = result._id;
+                stashId1 = result._id.toString();
                 done();
             });
         });
@@ -353,7 +354,7 @@ describe('Session', function() {
                 assert.equal(err, null);
                 assert.equal(result.author, 'kim');
                 assert.equal(result.text, 'snippet test text');
-                snippetId1 = result._id;
+                snippetId1 = result._id.toString();
                 Session.findSession(sessionId, function(err, result) {
                     assert.equal(result.feed.length, 1);
                     assert.equal(result.feed[0].author, 'kim');
@@ -370,10 +371,148 @@ describe('Session', function() {
                 assert.equal(result.text, 'snippet 2');
                 assert.equal(result.savedBy.length, 1);
                 assert.equal(result.savedBy[0], 'kim');
-                snippetId2 = result._id;
+                snippetId2 = result._id.toString();
                 Session.findSession(sessionId, function(err, result) {
                     assert.equal(result.feed.length, 2);
                     assert.notEqual(result.feed[0]._id, result.feed[1]._id);
+                    done();
+                });
+            });
+        });
+    });
+});
+
+// test stash model
+describe('Stash', function() {
+
+    //test getStash
+    describe('#getStash', function () {
+        // test nonexistent stash
+        it('should return error when stash does not exist', function (done) {
+            Stash.getStash('blah', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test existing stash
+        it('should not return error when stash exists', function (done) {
+            Stash.getStash(stashId1, function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.creator, 'kim');
+                assert.equal(result.snippets.length, 2);
+                done();
+            });
+        });
+    });
+
+    //test create
+    describe('#create', function () {
+        // test valid new stash
+        it('should not return error when stash does not exist', function (done) {
+            Stash.create('123', sessionId, function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.creator, '123');
+                assert.equal(result.snippets.length, 0);
+                stashId2 = result._id.toString();
+                done();
+            });
+        });
+    });
+
+    //test findBySessionAndUsername
+    describe('#findBySessionAndUsername', function () {
+        // test invalid session
+        it('should return error when invalid session', function (done) {
+            Stash.findBySessionAndUsername('blah', 'kim', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test invalid user
+        it('should return error when invalid username', function (done) {
+            Stash.findBySessionAndUsername(sessionId, '456', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test valid stash
+        it('should not return error when valid username-session pair', function (done) {
+            Stash.findBySessionAndUsername(sessionId, '123', function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result._id, stashId2);
+                done();
+            });
+        });
+    });
+
+    //test saveSnippet
+    describe('#saveSnippet', function () {
+        // test invalid snippet id
+        it('should return error when invalid snippet id', function (done) {
+            Stash.saveSnippet('blah', stashId2, function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test invalid stash id
+        it('should return error when invalid stash id', function (done) {
+            Stash.saveSnippet(snippetId1, 'blah', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test duplicate save
+        it('should return error when snippet already in stash', function (done) {
+            Stash.saveSnippet(snippetId1, stashId1, function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test valid save
+        it('should not return error when valid save', function (done) {
+            Stash.saveSnippet(snippetId1, stashId2, function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result._id, stashId2);
+                Snippet.findSnippet(snippetId1, function(err, result) {
+                    assert.equal(result.savedBy.length,2);
+                    assert.notEqual(result.savedBy[0], result.savedBy[1]);
+                    done();
+                });
+            });
+        });
+    });
+
+    //test removeSnippet
+    describe('#removeSnippet', function () {
+        // test invalid snippet id
+        it('should return error when invalid snippet id', function (done) {
+            Stash.removeSnippet('blah', stashId2, function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test invalid stash id
+        it('should return error when invalid stash id', function (done) {
+            Stash.removeSnippet(snippetId1, 'blah', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test nonexistent snippet in stash
+        it('should return error when snippet not in stash', function (done) {
+            Stash.removeSnippet(snippetId2, stashId2, function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test valid remove
+        it('should not return error when valid removal', function (done) {
+            Stash.removeSnippet(snippetId1, stashId2, function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result._id, stashId2);
+                Snippet.findSnippet(snippetId1, function(err, result) {
+                    assert.equal(result.savedBy.length,1);
+                    assert.equal(result.savedBy[0], 'kim');
                     done();
                 });
             });

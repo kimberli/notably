@@ -22,6 +22,24 @@ stashSchema.statics.getStash = function(stashId, callback) {
     });
 }
 
+/**
+ * Create a stash
+ *
+ * @param rawUsername {string} - username of snippet author; must be valid
+ * @param sessionId {string} - session id; must be valid
+ * @param callback {function} - function to be called with err and result
+ */
+stashSchema.statics.create = function(rawUsername, sessionId, callback) {
+    var username = rawUsername.toLowerCase();
+    var newStash = new Stash({
+        creator: username,
+        createdAt: Date.now(),
+        snippets: [],
+        session: sessionId
+    });
+    newStash.save(callback);
+}
+
 
 /**
  * Find a stash by session and username
@@ -54,7 +72,7 @@ stashSchema.statics.findBySessionAndUsername = function(sessionId, rawUsername, 
     });
 }
 
-/** TODO
+/**
  * Save a snippet to current user's stash
  *
  * @param snippetId {string} - id of snippet to be saved
@@ -62,42 +80,61 @@ stashSchema.statics.findBySessionAndUsername = function(sessionId, rawUsername, 
  * @param callback {function} - function to be called with err and result
  */
 stashSchema.statics.saveSnippet = function(snippetId, stashId, callback) {
-    var username = rawUsername.toLowerCase();
-    Snippet.findSnippet(snippetId, function(err, snippet) {
-        if (err) {
-            callback('Snippet does not exist.', false);
-        } else {
-            snippet.saves += 1;
-            snippet.save(function(err) {
-            if (err) {
-                callback(err, false);
-            } else {
-                this.snippets.push(snippet);
-                this.save(function(err) {
-                if (err) {
-                    callback(err, false);
-                } else {
-                    callback(null, true);
+    Stash.getStash(stashId, function(err, stash) {
+        if (err) callback(err);
+        else {
+            var username = stash.creator;
+            Snippet.findSnippet(snippetId, function(err, snippet) {
+                if (err) callback(err);
+                else {
+                   if (snippet.savedBy.indexOf(username) == -1) {
+                        snippet.saveCount += 1;
+                        snippet.savedBy.push(username);
+                        snippet.save(function(err) {
+                            if (err) {
+                                callback(err, false);
+                            } else {
+                                stash.snippets.push(snippet);
+                                stash.save(callback);
+                            }
+                        });
+                    } else callback('Snippet already saved');
                 }
-              });
-            }
-          });
+            });
         }
     });
 }
 
-/** TODO
+
+/**
  * Remove a snippet from the current user's stash
  *
- * @param snippetId {ObjectId} - ID of snippet to be deleted
+ * @param snippetId {string} - ID of snippet to be removed
+ * @param stashId {string} - ID of stash that snippet is removed from
  * @param callback {function} - function to be called with err and result
  */
-stashSchema.statics.removeSnippet = function(snippetId, callback) {
-    var index = this.snippets.indexOf(snippetId);
-    if (index > -1) {
-        this.snippets.splice(index, 1);
-    }
-    this.save(callback);
+stashSchema.statics.removeSnippet = function(snippetId, stashId, callback) {
+    Stash.getStash(stashId, function(err, stash) {
+        if (err) callback(err);
+        else {
+            Snippet.findSnippet(snippetId, function(err, snippet) {
+                if (err) callback(err);
+                else {
+                    if (stash.snippets.indexOf(snippet._id) > -1) {
+                        snippet.savedBy.splice(snippet.savedBy.indexOf(stash.creator), 1);
+                        snippet.saveCount -= 1;
+                        snippet.save(function(err) {
+                            if (err) callback(err);
+                            else {
+                                stash.snippets.splice(stash.snippets.indexOf(snippet._id), 1);
+                                stash.save(callback);
+                            }
+                        })
+                    } else callback('Snippet not in stash');
+                }
+            });
+        }
+    });
 }
 
 var Stash = mongoose.model('Stash', stashSchema);
