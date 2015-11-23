@@ -13,26 +13,23 @@ var stashSchema = mongoose.Schema({
  * Create a new snippet
  *
  * @param currentUser {string} - username of current user
- * @param snippet {string} - content of the snippet
+ * @param text {string} - content of the snippet
  * @param callback {function} - function to be called with err and result
  */
-stashSchema.methods.addSnippet = function(currentUser, snippet, callback) {
+stashSchema.methods.addSnippet = function(currentUser, text, callback) {
     var newSnippet = new Snippet({
     	author: currentUser,
-        content: snippet,
+        text: snippet,
         timestamp: Date.now(),
-        saves: 0,
-        flagged: false,
+        saveCount: 0,
+        hidden: false,
         savedBy: [],
         flaggedBy: []
     });
     this.snippets.push(newSnippet);
     this.save(function(err) {
-    if (err) {
-        callback(err, false);
-    } else {
-        newSnippet.save(callback);
-    }
+    if (err) callback(err)
+    else newSnippet.save(callback)
   });
 }
 

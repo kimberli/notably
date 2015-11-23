@@ -4,7 +4,7 @@ var snippetSchema = mongoose.Schema({
     author: String,
     text: String,
     timestamp: Date,
-    saves: Number,
+    saveCount: Number,
     hidden: Boolean,
     savedBy: [String],
     flaggedBy: [String]

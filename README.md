@@ -276,11 +276,13 @@ To update table of contents:
 
 ```javascript
 {
+  "_id": (string - session id),
   "meta": {
     "number": (string - course number),
-    "name": (string - course name)
+    "title": (string - session title)
   }
   "snippets": [{
+    "_id": (string - snippet id),
     "author": (string - snippet author),
     "text": (string - snippet text),
     "flaggedBy": [(string - usernames of flaggers)],
