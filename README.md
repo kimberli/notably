@@ -18,7 +18,7 @@ URL: `mitnotably.herokuapp.com`
   - [`/api/user/login` - POST](#apiuserlogin---post)
   - [`/api/user/logout` - POST](#apiuserlogout---post)
   - [`/api/user/courses` - GET](#apiusercourses---get)
-  - [`/api/user/subscribe` - PUT](#apiusersubscribe---put)
+  - [`/api/user/subscribe` - POST](#apiusersubscribe---post)
   - [`/api/course/all` - GET](#apicourseall---get)
   - [`/api/course` - GET](#apicourse---get)
   - [`/api/course/newsession` - POST](#apicoursenewsession---post)
