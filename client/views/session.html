@@ -1,12 +1,27 @@
-session id: {{ sessionId }}
 
-<div class = "row">
-    <div class="col s6">
-         <textarea id = "MyID"> </textarea>
-     </div>
-    <div class="col s6"></div>
+<div id="session-container">
+
+    <div class="row" class="center-align">
+      Session {{sessionId}}
+    </div>
+
+  <input name="display" type="radio" id="left_option" ng-model="showOption" value="left" />
+  <label for="left_option">Left</label>
+  <input name="display" type="radio" id="both_option"  ng-model="showOption" value="both" />
+  <label for="both_option">Both</label>
+  <input name="display" type="radio" id="right_option"  ng-model="showOption" value="right" />
+  <label for="right_option">Right</label>
+
+  <br/>
+
+    <div class="row">
+        <div ng-class="{true: 's6', false: 's12'}[showOption === 'both']" class="col" ng-hide="showOption === 'right'">
+             <div style="height: 100px; background: blue"></div>
+             <textarea id = "MyID"> lkj </textarea>
+         </div>
+        <div ng-class="{true: 's6', false: 's12'}[showOption === 'both']" class="col" ng-hide="showOption === 'left'">
+             <div style="height: 100px; background: green;"></div>
+        </div>
+    </div>
+
 </div>
-
-<script>
-  var simplemde = new SimpleMDE({ element: document.getElementById("MyID"), spellChecker: true, hideIcons: ["side-by-side"]});
-</script>

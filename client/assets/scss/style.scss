@@ -37,3 +37,12 @@
   }
 
 }
+
+#session-container {
+
+  .CodeMirror .CodeMirror-scroll {
+      min-height: 200px;
+      height: 200px;
+  }
+
+}
