@@ -214,7 +214,8 @@ $radio-fill-color: $primary-color-dark !default;
   }
 
   #stash-view, #feed-view {
-    width:95%;margin:auto
+    width:95%; margin:auto;
+    height: 500px;
   }
 
   .dark-container {
@@ -308,6 +309,15 @@ $radio-fill-color: $primary-color-dark !default;
   #snippet-input-container, #session-header-container, .snippet-container {
     width:90%;
     margin:auto;
+  }
+
+    #snippet-input-container {
+
+    }
+
+  .card-panel {
+    background-color: $primary-color-dark;
+    overflow: scroll;
   }
 
 }
