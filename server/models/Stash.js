@@ -1,4 +1,4 @@
-wsvar mongoose = require('mongoose');
+var mongoose = require('mongoose');
 var User = require('./User');
 var Snippet = require('./Snippet');
 var Session = require('./Session');
@@ -17,7 +17,6 @@ var stashSchema = mongoose.Schema({
  * @param callback {function} - function to be called with err and result
  */
 stashSchema.statics.addSnippet = function(currentUser, snippet, callback) {
-    var Stash = this;
     var newSnippet = new Snippet({
         author: currentUser,
         content: snippet,
@@ -25,8 +24,8 @@ stashSchema.statics.addSnippet = function(currentUser, snippet, callback) {
         saves: 0,
         flagged: false
     });
-    Stash.snippets.push(newSnippet);
-    Stash.save(function(err) {
+    this.snippets.push(newSnippet);
+    this.save(function(err) {
         if (err) {
             callback('Error.', false);
         } else {
@@ -42,7 +41,6 @@ stashSchema.statics.addSnippet = function(currentUser, snippet, callback) {
  * @param callback {function} - function to be called with err and result
  */
 stashSchema.statics.saveSnippet = function(snippetId, callback) {
-    var Stash = this;
     Snippet.findById(snippetId, function(err, snippet) {
         if (err) {
             callback('Snippet does not exist.', false);
@@ -52,8 +50,8 @@ stashSchema.statics.saveSnippet = function(snippetId, callback) {
             if (err) {
                 callback('Error', false);
             } else {
-                Stash.snippets.push(snippet);
-                Stash.save(function(err) {
+                this.snippets.push(snippet);
+                this.save(function(err) {
                 if (err) {
                     callback('Error.', false);
                 } else {
@@ -73,12 +71,11 @@ stashSchema.statics.saveSnippet = function(snippetId, callback) {
  * @param callback {function} - function to be called with err and result
  */
 stashSchema.statics.removeSnippet = function(snippetId, callback) {
-    var Stash = this;
-    var index = Stash.snippets.indexOf(snippetId);
+    var index = this.snippets.indexOf(snippetId);
     if (index >= 0) {
-        Stash.snippets.splice(index, 1);
+        this.snippets.splice(index, 1);
     }
-    Stash.save(callback);
+    this.save(callback);
 }
 
 var Stash = mongoose.model('Stash', stashSchema);

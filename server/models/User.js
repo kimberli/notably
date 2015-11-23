@@ -11,43 +11,38 @@ var userSchema = mongoose.Schema({
 });
 
 /**
- * Check if a user already exists; usernames must be unique.
-
+ * Find a user if exists; return error otherwise
+ *
  * @param rawUsername {string} - username of a potential user
  * @param callback {function} - function to be called with err and result
  */
-userSchema.statics.userExists = function(rawUsername, callback) {
-    var User = this;
+userSchema.statics.findUser = function(rawUsername, callback) {
     var username = rawUsername.toLowerCase();
-    User.findOne({username: username}, function(err, result) {
-        if (err) {
-            console.log(err);
-            return callback(false);
-        } else {
-            return callback(result);
-        }
+    this.find({ username: username }, function(err, result) {
+        if (err) callback(err);
+        else if (result.length > 0) callback(null, result[0]);
+        else callback('User not found');
     });
 }
 
 /**
  * Authenticate a user
-
+ *
  * @param rawUsername {string} - username to check
  * @param candidatepw {string} - password to check
  * @param callback {function} - function to be called with err and result
  */
 userSchema.statics.verifyPassword = function(rawUsername, candidatepw, callback) {
-    var User = this;
     var username = rawUsername.toLowerCase();
-    User.userExists(username, function(user) {
+    this.findUser(username, function(err, user) {
         if (user) {
             if (bcrypt.compareSync(candidatepw, user.password)) {
                 callback(null, true);
             } else {
-                callback('Wrong password.', false);
+                callback('Incorrect username/password combination', false);
             }
         } else {
-            callback('User does not exist.', false);
+            callback('Incorrect username/password combination', false);
         }
     });
 }
@@ -62,28 +57,31 @@ userSchema.statics.verifyPassword = function(rawUsername, candidatepw, callback)
  * @param callback {function} - function to be called with err and result
  */
 userSchema.statics.createNewUser = function(rawUsername, password, name, email, callback) {
-    var User = this;
     var username = rawUsername.toLowerCase();
-    // Should we check that email has valid format?
-    if (username.match("^[a-z0-9_-]{3,16}") && typeof password === 'string') {
-        User.userExists(username, function(user) {
-            if (user) {
-                callback('Username already taken.', false);
-            } else {
-            	var salt = bcrypt.genSaltSync(10);
-            	var hash = bcrypt.hashSync(password, salt);
-                User.create({
-                    username: username,
-                    password: hash,
-                    name: name,
-                    email: email,
-                    stashes: []
-                }, callback);
-            }
-        });
-    } else {
-    	callback('Invalid username/password.', false);
-    }
+    if (username.match('^[a-z0-9_-]{3,16}$')) {
+        if(typeof password === 'string') {
+            if (email.match('^[a-z0-9_-]+@mit.edu$')) {
+                this.find({$or: [{username: username}, {email: email}]}, function(err, result) {
+                    if (err) callback(err);
+                    else if (result.length === 0) {
+                        var salt = bcrypt.genSaltSync(10);
+                        var hash = bcrypt.hashSync(password, salt);
+                        var user = new User({
+                            username: username,
+                            password: hash,
+                            name: name,
+                            email: email,
+                            stashes: []
+                        });
+                        user.save(function(err,result) {
+                            if (err) callback(err);
+                            else callback(null, {username: username});
+                        });
+                    } else callback('User already exists');
+                });
+            } else { callback('Must have MIT email address'); }
+        } else { callback('Invalid password'); }
+    } else { callback('Invalid username (must be between 3 and 16 characters and consist of letters, numbers, underscores, and hyphens)'); }
 }
 
 /**
@@ -103,13 +101,12 @@ userSchema.statics.getStash = function(stashId, callback) {
  * @param callback {function} - function to be called with err and result
  */
 userSchema.statics.getStashes = function(rawUsername, callback) {
-    var User = this;
     var username = rawUsername.toLowerCase();
-    User.userExists(username, function(user) {
+    this.findUser(username, function(user) {
         if (user) {
             Stash.find({'_id': { $in: user.stashes}}, callback);
         } else {
-            callback('User does not exist.', false);
+            callback('User does not exist', false);
         }
     });
 }
@@ -122,9 +119,8 @@ userSchema.statics.getStashes = function(rawUsername, callback) {
  * @param callback {function} - function to be called with err and result
  */
 userSchema.statics.addStash = function(rawUsername, session, callback) {
-    var User = this;
     var username = rawUsername.toLowerCase();
-    User.userExists(username, function(user) {
+    this.findUser(username, function(user) {
     if (user) {
         var newStash = new Stash({
             creator: user,
@@ -134,15 +130,22 @@ userSchema.statics.addStash = function(rawUsername, session, callback) {
         user.stashes.push(newStash);
         user.save(function(err) {
             if (err) {
-                callback('Error.', false);
+                callback(err, false);
             } else {
                 newStash.save(callback);
             }
         });
     } else {
-        callback('User does not exist.', false);
+        callback('User does not exist', false);
     }
     });
+}
+
+/**
+ * Clear all users
+ */
+userSchema.statics.clearUsers = function() {
+    this.remove({}, function() {});
 }
 
 var User = mongoose.model('User', userSchema);
