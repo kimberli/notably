@@ -1,3 +1,15 @@
+// Materialize variable overriding
+
+@import "../lib/materialize/sass/components/color";
+
+$primary-color: color("indigo", "base") !default;
+$primary-color-light: color("indigo", "lighten-2") !default;
+$primary-color-dark: color("indigo", "darken-2") !default;
+
+@import "../lib/materialize/sass/materialize";
+
+// Styling
+
 * {
   margin: 0;
   padding: 0;
@@ -6,10 +18,10 @@
 #splash-container {
 
   #splash-background {
-      cursor: default;
-      -webkit-user-select: none; /* Chrome/Safari */
-      -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* IE10+ */
+    cursor: default;
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
   }
 
   .col {
@@ -18,7 +30,8 @@
 
   #splash-background {
     background-image: url('/assets/img/stata.jpg');
-    height: 100vh; width: 100%;
+    height: 100vh;
+    width: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -28,12 +41,12 @@
   #main-title {
     font-family: 'Pacifico', cursive;
     color: white;
-    text-align: center
+    text-align: center;
+    text-shadow: 2px 2px 5px #333;
   }
 
   #splash-button {
     font-size: 30px;
-    text-transform: none
+    text-transform: none;
   }
-
 }
