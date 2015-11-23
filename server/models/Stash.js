@@ -1,12 +1,12 @@
-var mongoose = require('mongoose');
+wsvar mongoose = require('mongoose');
 var User = require('./User');
 var Snippet = require('./Snippet');
 var Session = require('./Session');
 
 var stashSchema = mongoose.Schema({
-  creator: {type: mongoose.Schema.Types.ObjectId, ref:'User'},
-  session: {type: mongoose.Schema.Types.ObjectId, ref:'Session'},
-  snippets: [{type: mongoose.Schema.Types.ObjectId, ref:'Snippet'}]
+    creator: {type: mongoose.Schema.Types.ObjectId, ref:'User'},
+    session: {type: mongoose.Schema.Types.ObjectId, ref:'Session'},
+    snippets: [{type: mongoose.Schema.Types.ObjectId, ref:'Snippet'}]
 });
 
 /**
@@ -44,28 +44,28 @@ stashSchema.statics.addSnippet = function(currentUser, snippet, callback) {
  * @param callback {function} - function to be called with err and result
  */
 stashSchema.statics.saveSnippet = function(snippetId, callback) {
-  var Stash = this;
-  Snippet.findById(snippetId, function(err, snippet) {
-  	if (err) {
-  	  callback('Snippet does not exist.', false);
-  	} else {
-  	  snippet.saves += 1;
-  	  snippet.save(function(err) {
-  	    if (err) {
-  	      callback('Error', false);
-  	    } else {
-  	      Stash.snippets.push(snippet);
-  	      Stash.save(function(err) {
-  	      	if (err) {
-  	          callback('Error.', false);
-  	        } else {
-  	          callback(null, true);
-  	        }
-  	      });
-  	    }
-  	  });
-  	}
-  });
+    var Stash = this;
+    Snippet.findById(snippetId, function(err, snippet) {
+        if (err) {
+            callback('Snippet does not exist.', false);
+        } else {
+            snippet.saves += 1;
+            snippet.save(function(err) {
+            if (err) {
+                callback('Error', false);
+            } else {
+                Stash.snippets.push(snippet);
+                Stash.save(function(err) {
+                if (err) {
+                    callback('Error.', false);
+                } else {
+                    callback(null, true);
+                }
+              });
+            }
+          });
+        }
+    });
 }
 
 /**
@@ -75,12 +75,12 @@ stashSchema.statics.saveSnippet = function(snippetId, callback) {
  * @param callback {function} - function to be called with err and result
  */
 stashSchema.statics.removeSnippet = function(snippetId, callback) {
-  var Stash = this;
-  var index = Stash.snippets.indexOf(snippetId);
-  if (index >= 0) {
-    Stash.snippets.splice(index, 1);
-  }
-  Stash.save(callback);
+    var Stash = this;
+    var index = Stash.snippets.indexOf(snippetId);
+    if (index >= 0) {
+        Stash.snippets.splice(index, 1);
+    }
+    Stash.save(callback);
 }
 
 var Stash = mongoose.model('Stash', stashSchema);

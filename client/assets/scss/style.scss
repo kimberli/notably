@@ -1,13 +1,39 @@
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 #splash-container {
-    #mainTitle {
-        cursor: default;
-        -webkit-user-select: none; /* Chrome/Safari */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* IE10+ */
-    }
+
+  #splash-background {
+      cursor: default;
+      -webkit-user-select: none; /* Chrome/Safari */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* IE10+ */
+  }
+
+  .col {
+    min-width: 10px;
+  }
+
+  #splash-background {
+    background-image: url('/assets/img/stata.jpg');
+    height: 100vh; width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  #main-title {
+    font-family: 'Pacifico', cursive;
+    color: white;
+    text-align: center
+  }
+
+  #splash-button {
+    font-size: 30px;
+    text-transform: none
+  }
+
 }

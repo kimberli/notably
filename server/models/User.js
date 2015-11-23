@@ -3,11 +3,11 @@ var Stash = require('./Stash');
 var bcrypt = require('bcrypt');
 
 var userSchema = mongoose.Schema({
-  username: String,
-  password: String,
-  name: String,
-  email: String,
-  stashes: [{type: mongoose.Schema.Types.ObjectId, ref:'Stash'}],
+    username: String,
+    password: String,
+    name: String,
+    email: String,
+    stashes: [{type: mongoose.Schema.Types.ObjectId, ref:'Stash'}],
 });
 
 /**
@@ -17,16 +17,16 @@ var userSchema = mongoose.Schema({
  * @param callback {function} - function to be called with err and result
  */
 userSchema.statics.userExists = function(rawUsername, callback) {
-  var User = this;
-  var username = rawUsername.toLowerCase();
-  User.findOne({username: username}, function(err, result) {
-    if (err) {
-      console.log(err);
-      return callback(false);
-    } else {
-      return callback(result);
-    }
-  });
+    var User = this;
+    var username = rawUsername.toLowerCase();
+    User.findOne({username: username}, function(err, result) {
+        if (err) {
+            console.log(err);
+            return callback(false);
+        } else {
+            return callback(result);
+        }
+    });
 }
 
 /**
@@ -37,19 +37,19 @@ userSchema.statics.userExists = function(rawUsername, callback) {
  * @param callback {function} - function to be called with err and result
  */
 userSchema.statics.verifyPassword = function(rawUsername, candidatepw, callback) {
-  var User = this;
-  var username = rawUsername.toLowerCase();
-  User.userExists(username, function(user) {
-    if (user) {
-      if (bcrypt.compareSync(candidatepw, user.password)) {
-        callback(null, true);
-      } else {
-        callback('Wrong password.', false);
-      }
-    } else {
-      callback('User does not exist.', false);
-    }
-  });
+    var User = this;
+    var username = rawUsername.toLowerCase();
+    User.userExists(username, function(user) {
+        if (user) {
+            if (bcrypt.compareSync(candidatepw, user.password)) {
+                callback(null, true);
+            } else {
+                callback('Wrong password.', false);
+            }
+        } else {
+            callback('User does not exist.', false);
+        }
+    });
 }
 
 /**
@@ -62,28 +62,28 @@ userSchema.statics.verifyPassword = function(rawUsername, candidatepw, callback)
  * @param callback {function} - function to be called with err and result
  */
 userSchema.statics.createNewUser = function(rawUsername, password, name, email, callback) {
-  var User = this;
-  var username = rawUsername.toLowerCase();
-  // Should we check that email has valid format?
-  if (username.match("^[a-z0-9_-]{3,16}") && typeof password === 'string') {
-    User.userExists(username, function(user) {
-      if (user) {
-        callback('Username already taken.', false);
-      } else {
-      	var salt = bcrypt.genSaltSync(10);
-      	var hash = bcrypt.hashSync(password, salt);
-        User.create({
-          username: username,
-          password: hash,
-          name: name,
-          email: email,
-          stashes: []
-        }, callback);
-      }
-    });
-  } else {
-  	callback('Invalid username/password.', false);
-  }
+    var User = this;
+    var username = rawUsername.toLowerCase();
+    // Should we check that email has valid format?
+    if (username.match("^[a-z0-9_-]{3,16}") && typeof password === 'string') {
+        User.userExists(username, function(user) {
+            if (user) {
+                callback('Username already taken.', false);
+            } else {
+            	var salt = bcrypt.genSaltSync(10);
+            	var hash = bcrypt.hashSync(password, salt);
+                User.create({
+                    username: username,
+                    password: hash,
+                    name: name,
+                    email: email,
+                    stashes: []
+                }, callback);
+            }
+        });
+    } else {
+    	callback('Invalid username/password.', false);
+    }
 }
 
 /**
@@ -109,15 +109,15 @@ userSchema.statics.getStash = function(stashId, callback) {
  * @param callback {function} - function to be called with err and result
  */
 userSchema.statics.getStashes = function(rawUsername, callback) {
-  var User = this;
-  var username = rawUsername.toLowerCase();
-  User.userExists(username, function(user) {
-    if (user) {
-      Stash.find({'_id': { $in: user.stashes}}, callback);
-    } else {
-      callback('User does not exist.', false);
-    }
-  });
+    var User = this;
+    var username = rawUsername.toLowerCase();
+    User.userExists(username, function(user) {
+        if (user) {
+            Stash.find({'_id': { $in: user.stashes}}, callback);
+        } else {
+            callback('User does not exist.', false);
+        }
+    });
 }
 
 /**
@@ -128,27 +128,27 @@ userSchema.statics.getStashes = function(rawUsername, callback) {
  * @param callback {function} - function to be called with err and result
  */
 userSchema.statics.addStash = function(rawUsername, session, callback) {
-  var User = this;
-  var username = rawUsername.toLowerCase();
-  User.userExists(username, function(user) {
+    var User = this;
+    var username = rawUsername.toLowerCase();
+    User.userExists(username, function(user) {
     if (user) {
-      var newStash = new Stash({
-        creator: user,
-        session: session,
-        snippets: []
-      });
-      user.stashes.push(newStash);
-      user.save(function(err) {
-        if (err) {
-          callback('Error.', false);
-        } else {
-          newStash.save(callback);
-        }
-      });
+        var newStash = new Stash({
+            creator: user,
+            session: session,
+            snippets: []
+        });
+        user.stashes.push(newStash);
+        user.save(function(err) {
+            if (err) {
+                callback('Error.', false);
+            } else {
+                newStash.save(callback);
+            }
+        });
     } else {
-      callback('User does not exist.', false);
+        callback('User does not exist.', false);
     }
-  });
+    });
 }
 
 var User = mongoose.model('User', userSchema);

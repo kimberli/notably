@@ -6,7 +6,7 @@ var classSchema = mongoose.Schema({
   classNumber: Number,
   professor: String,
   description: String,
-  sessions: [{type: mongoose.Schema.Types.ObjectId, ref:'Session'}],
+  sessions: [{type: mongoose.Schema.Types.ObjectId, ref:'Session'}]
 });
 
 var Class = mongoose.model('Class', classSchema);
