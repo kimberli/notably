@@ -22,7 +22,7 @@ var isValidUserReq = function(req, res) {
  * GET - /api/user
  */
 router.get('/', function(req, res) {
-    if (isValidUserReq(req, res)) {
+    if (req.currentUser) {
         User.findProfile(req.body.username, function(err,result) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
@@ -30,7 +30,7 @@ router.get('/', function(req, res) {
                 utils.sendSuccessResponse(res, result);
             }
         });
-    }
+    } else utils.sendErrResponse(res, 403, 'Must be logged in');
 });
 
 /**
@@ -88,7 +88,7 @@ router.post('/logout', function(req, res) {
  * GET - /api/user/courses
  */
 router.get('/courses', function(req, res) {
-    if (isValidUserReq(req, res)) {
+    if (req.currentUser) {
         User.getCourses(req.currentUser, req.body.course, function(err,result) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
@@ -96,14 +96,14 @@ router.get('/courses', function(req, res) {
                 utils.sendSuccessResponse(res, result);
             }
         });
-    }
+    } else utils.sendErrResponse(res, 403, 'Must be logged in');
 });
 
 /**
  * POST - /api/user/subscribe
  */
 router.put('/subscribe', function(req, res) {
-    if (isValidUserReq(req, res)) {
+    if (req.currentUser) {
         User.addCourse(req.currentUser, req.body.course, function(err,result) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
@@ -111,7 +111,7 @@ router.put('/subscribe', function(req, res) {
                 utils.sendSuccessResponse(res, result);
             }
         });
-    }
+    } else utils.sendErrResponse(res, 403, 'Must be logged in');
 });
 
 module.exports = router;
