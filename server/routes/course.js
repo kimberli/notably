@@ -11,7 +11,7 @@ module.exports = router;
  */
 router.get('/', function(req, res) {
     if (req.currentUser) {
-        Course.findCourse(req.body.number, function(err,result) {
+        Course.findCourse(req.query.number, function(err,result) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {

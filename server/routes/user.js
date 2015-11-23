@@ -5,7 +5,7 @@ utils = require('../utils');
 User = require('../models/User');
 
 /**
- * Helper function to check whether the user request is valid
+ * Helper function to check whether the user request is valid in POST requests
  */
 var isValidUserReq = function(req, res) {
     if (req.currentUser) {
@@ -23,7 +23,7 @@ var isValidUserReq = function(req, res) {
  */
 router.get('/', function(req, res) {
     if (req.currentUser) {
-        User.findProfile(req.body.username, function(err,result) {
+        User.findProfile(req.query.username, function(err,result) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {

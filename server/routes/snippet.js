@@ -9,7 +9,7 @@ Snippet = require('../models/Snippet');
  */
 router.get('/', function(req, res) {
     if (req.currentUser) {
-        Snippet.findSnippet(req.body.snippetId, function(err,result) {
+        Snippet.findSnippet(req.query.snippetId, function(err,result) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {
