@@ -44,7 +44,7 @@
                     <b>{{snip.creator}}</b> posted <em>1 minute ago</em>
                   </div>
                   <div style="float:right">
-                    <button class="center-align remove-button"><i class="material-icons">cancel</i></button>
+                    <button class="center-align remove-button" ng-click="removeSnippet(snip.id)"><i class="material-icons">cancel</i></button>
                   </div>
                 </div>
                  <br/>
@@ -52,9 +52,9 @@
 
               </div>
               <div class="card-action right-align" style="padding:5px">
-                <button class="center-align save-button"><i class="material-icons">star</i></button>
+                <button class="center-align save-button" ng-click="saveSnippet(snip.id)"><i class="material-icons">star</i></button>
                 {{snip.saves}}
-                <button class="center-align flag-button"><i class="material-icons">flag</i></button>
+                <button class="center-align flag-button" ng-click="flagSnippet(snip.id)"><i class="material-icons">flag</i></button>
                 {{snip.flags}}
               </div>
             </div>
@@ -78,7 +78,7 @@
                     <b>{{snip.creator}}</b> posted <em>1 minute ago</em>
                   </div>
                   <div style="float:right">
-                    <button class="center-align remove-button"><i class="material-icons">cancel</i></button>
+                    <button class="center-align remove-button" ng-click="removeSnippet(snip.id)"><i class="material-icons">cancel</i></button>
                   </div>
                 </div>
                  <br/>
@@ -86,9 +86,9 @@
 
               </div>
               <div class="card-action right-align" style="padding:5px">
-                <button class="center-align save-button"><i class="material-icons">star</i></button>
+                <button class="center-align save-button" ng-click="saveSnippet(snip.id)"><i class="material-icons">star</i></button>
                 {{snip.saves}}
-                <button class="center-align flag-button"><i class="material-icons">flag</i></button>
+                <button class="center-align flag-button" ng-click="flagSnippet(snip.id)"><i class="material-icons">flag</i></button>
                 {{snip.flags}}
               </div>
             </div>
@@ -103,8 +103,10 @@
         <div class="spacer"></div>
         <div class="white-text thin-header">Submit a snippet here: </div>
         <div style="margin:10px" class="center-align">
-          <textarea id = "snippet-input-area"> </textarea>
-          <button class="waves-effect waves-light btn center-align" id="submit-snippet">Submit Snippet</a>
+        <form ng-submit="addSnippet()">
+          <textarea id = "snippet-input-area" class="materialize-textarea" ng-model="snippetInput"  required> </textarea>
+          <button class="waves-effect waves-light btn center-align" id="submit-snippet" type="submit">Submit Snippet</button>
+        </form>
         </div>
       </div>
     </div>
