@@ -1,6 +1,5 @@
 angular.module('notablyApp').controller('courseController', function ($scope, $http, $routeParams) {
 
-
     $http.get('/api/course?number=' + $routeParams.courseNumber).then(function (response) {
         $scope.course = response.data;
 
