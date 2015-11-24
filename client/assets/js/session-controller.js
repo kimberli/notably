@@ -4,15 +4,19 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     //$scope.simplemde = new SimpleMDE({ element: document.getElementById("MyID"), spellChecker: true, hideIcons: ["side-by-side"]});
     //
 
+  resetSession = function() {
     $http.get('/api/session?sessionId=' + $scope.sessionId).then(function (response) {
         if (response.status === 200) {
             $scope.session = response.data;
-            console.log(response.data);
             openPage();
         } else {
             Materialize.toast("Error! " + response.data.error, 2000);
         }
     });
+  }
+    resetSession();
+
+    setInterval(function(){ resetSession(); }, 2000); // this is just for now, lets pretend we have web sockets!!
 
     $scope.showOption = 'both';
     // author: String,
@@ -32,17 +36,7 @@ openPage = function() {
         'sessionId': $scope.session._id,
         'text': $scope.snippetInput
     }).then(function (response) {
-
-      $http.get('/api/session?sessionId=' + $scope.sessionId).then(function (response) {
-          if (response.status === 200) {
-              $scope.session = response.data;
-              console.log(response.data);
-              openPage();
-          } else {
-              Materialize.toast("Error! " + response.data.error, 2000);
-          }
-      });
-
+        resetSession();
         Materialize.toast('Your snippet has been posted!', 2000);
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
@@ -59,17 +53,7 @@ openPage = function() {
         'stashId': $scope.session.stash._id,
         'snippetId': id
     }).then(function (response) {
-
-      $http.get('/api/session?sessionId=' + $scope.sessionId).then(function (response) {
-          if (response.status === 200) {
-              $scope.session = response.data;
-              console.log(response.data);
-              openPage();
-          } else {
-              Materialize.toast("Error! " + response.data.error, 2000);
-          }
-      });
-
+        resetSession();
          Materialize.toast('Your snippet has been removed!', 2000);
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
@@ -82,18 +66,7 @@ openPage = function() {
         'snippetId': id
     }).then(function (response) {
         // TODO increment number
-
-        $http.get('/api/session?sessionId=' + $scope.sessionId).then(function (response) {
-            if (response.status === 200) {
-                $scope.session = response.data;
-                console.log(response.data);
-                openPage();
-            } else {
-                Materialize.toast("Error! " + response.data.error, 2000);
-            }
-        });
-
-
+          resetSession();
          Materialize.toast('Your snippet has been saved!', 2000);
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
