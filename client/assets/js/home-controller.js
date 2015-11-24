@@ -1,9 +1,25 @@
-angular.module('notablyApp').controller('homeController', function ($scope) {
+angular.module('notablyApp').controller('homeController', function ($scope, $http, $rootScope) {
 
-    $scope.username = 'Kimberli';
-    $scope.courses = ['6.034', '6.006', '6.170', '14.01'];
-    $scope.numStashes = 10;
-    $scope.numSnippets = 123;
+    $http.get('/api/user?username=' + $rootScope.user).then(function (response) {
+        $scope.user = response.data;
+        $scope.user.courses = [{
+            'number': '6.034',
+            'name': 'Artificial Intelligence'
+        }, {
+            'number': '6.170',
+            'name': 'Software Studio'
+        }, {
+            'number': '6.005',
+            'name': 'Software Construction'
+        }, {
+            'number': '14.01',
+            'name': 'Microeconomics'
+        }];
+        $scope.user.numSubmitted = 10;
+        $scope.user.numSaved = 123;
+        $scope.user.numSubscribed = 4;
+    });
+
     $scope.schedule = [
         {time:'9', course:'', location:''},
         {time:'10', course:'6.034', location:'10-250'},

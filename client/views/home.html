@@ -9,11 +9,13 @@
         <div class="row">
           <div class="card">
             <div class="card-content">
-              <span class="card-title"><b>Welcome, {{ username }}!</b></span>
+              <span class="card-title"><b>Welcome, {{ user.name }}!</b></span>
               <div class="spacer"></div>
-              Snippets: {{ numSnippets }}
+              Snippets submitted: {{ user.numSubmitted }}
               <br>
-              Stashes: {{ numStashes }}
+              Snippets saved: {{ user.numSaved }}
+              <br>
+              Subscribed classes: {{ user.numSubscribed }}
             </div>
           </div>
         </div>
@@ -23,7 +25,7 @@
               <span class="card-title">Your courses</span>
               <div class="spacer"></div>
               <div class="collection">
-                <a ng-repeat="course in courses" href="#!" class="collection-item">{{ course }}</a>
+                <a ng-repeat="course in user.courses" href="/course/{{ course.number }}" class="collection-item">{{ course.number }} - {{ course.name }}</a>
               </div>
             </div>
           </div>
