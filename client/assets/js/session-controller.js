@@ -38,6 +38,7 @@ openPage = function() {
     }).then(function (response) {
         $scope.resetSession();
         Materialize.toast('Your snippet has been posted!', 2000);
+        $scope.snippetInput = "";
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
     });
