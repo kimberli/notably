@@ -45,7 +45,7 @@ openPage = function() {
 
   $scope.removeSnippet = function(id) {
     $http.post('/api/stash/remove', {
-        'sessionId': $scope.session._id,
+        'stashId': $scope.session.stash._id,
         'snippetId': id
     }).then(function (response) {
          Materialize.toast('Your snippet has been removed!', 2000);
@@ -56,10 +56,11 @@ openPage = function() {
 
   $scope.saveSnippet = function(id) {
     $http.post('/api/stash/save', {
-        'sessionId': $scope.sessionId,
+        'stashId': $scope.session.stash._id,
         'snippetId': id
     }).then(function (response) {
         // TODO increment number
+        $scope.stash.push(response.data);
          Materialize.toast('Your snippet has been saved!', 2000);
     }, function(response) {
         alert(response.data.error);

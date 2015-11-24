@@ -4,7 +4,8 @@
 
     <div class="row" id="session-header">
       <div id="session-header-container">
-      <div style="float:left"> Session {{sessionId}} </div>
+      <div style="float:left" ng-if="!stash"> Session {{sessionId}} </div>
+      <div style="float:left" ng-if="stash"> Session {{session.meta.title}} </div>
 
       <div style="float:right">
         <input name="display" type="radio" id="left_option" ng-model="showOption" value="left" />
@@ -35,9 +36,6 @@
                 <div class="snippet-header">
                   <div style="float:left" class="black-text">
                     <b>{{snip.author}}</b> posted <em>1 minute ago</em>
-                  </div>
-                  <div style="float:right">
-                    <button class="center-align remove-button" ng-click="removeSnippet(snip.id)"><i class="material-icons">cancel</i></button>
                   </div>
                 </div>
                  <br/>
