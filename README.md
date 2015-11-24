@@ -14,6 +14,7 @@ URL: `mitnotably.herokuapp.com`
 - [API](#api)
   - [Snippet](#snippet)
   - [`/api/user` - GET](#apiuser---get)
+  - [`/api/user/auth` - GET](#apiuserauth---get)
   - [`/api/user/create` - POST](#apiusercreate---post)
   - [`/api/user/login` - POST](#apiuserlogin---post)
   - [`/api/user/logout` - POST](#apiuserlogout---post)
@@ -25,6 +26,9 @@ URL: `mitnotably.herokuapp.com`
   - [`/api/session` - GET](#apisession---get)
   - [`/api/session/newstash` - POST](#apisessionnewstash---post)
   - [`/api/session/newsnippet` - POST](#apisessionnewsnippet---post)
+  - [`/api/stash` - GET](#apistash---get)
+  - [`/api/stash/save` - POST](#apistashsave---post)
+  - [`/api/stash/remove` - POST](#apistashremove---post)
   - [`/api/snippet` - GET](#apisnippet---get)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
