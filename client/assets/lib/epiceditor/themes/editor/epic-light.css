@@ -1,16 +1,8 @@
 html { padding:10px; }
 
-@font-face {
-  font-family: 'Roboto';
-  src: url('../../../materialize/font/roboto/Roboto-Regular.woff2') format('woff2'), /* Super Modern Browsers */
-       url('../../../materialize/font/roboto/Roboto-Regular.woff') format('woff'), /* Pretty Modern Browsers */
-       url('../../../materialize/font/roboto/Roboto-Regular.ttf')  format('truetype'), /* Safari, Android, iOS */
-}
-
 body {
   border:0;
   background:#fcfcfc;
-  font-family: 'Roboto';
   font-family: sans-serif;
   font-size:14px;
   padding:10px;
