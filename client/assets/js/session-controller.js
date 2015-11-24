@@ -5,7 +5,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     var opts = {
     container: 'epiceditor',
     basePath: '../assets/lib/epiceditor',
-    clientSideStorage: true,
+    clientSideStorage: false,
     localStorageName: 'epiceditor',
     useNativeFullscreen: true,
     parser: marked,
