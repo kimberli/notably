@@ -98,8 +98,8 @@
         <div class="white-text thin-header">Submit a snippet here: </div>
         <div style="margin:10px" class="center-align">
         <form ng-submit="addSnippet()">
-          <textarea id = "snippet-input-area" class="materialize-textarea" ng-model="snippetInput"  ng-disabled="!stash" required> </textarea>
-          <button class="waves-effect waves-light btn center-align" id="submit-snippet" ng-disabled="!stash" type="submit">Submit Snippet</button>
+          <textarea id = "snippet-input-area" class="materialize-textarea" ng-model="snippetInput"  ng-disabled="!session" required> </textarea>
+          <button class="waves-effect waves-light btn center-align" id="submit-snippet" ng-disabled="!session" type="submit">Submit Snippet</button>
         </form>
         </div>
       </div>
