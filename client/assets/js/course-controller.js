@@ -7,7 +7,7 @@ angular.module('notablyApp').controller('courseController', function ($scope, $h
         $scope.createSession = function () {
             $http.post('/api/course/newsession', {
                 'number': $scope.course.meta.number,
-                'title': $scope.sessionInput
+                'title': $scope.newTitle
             }).then(function (response) {
                 Materialize.toast('Your session has been created!', 2000);
             }, function(response) {
