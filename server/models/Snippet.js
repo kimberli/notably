@@ -52,22 +52,22 @@ snippetSchema.statics.create = function(rawUsername, text, sessionId, callback) 
  * Flag a snippet
  *
  * @param snippetId {ObjectId} - ID of snippet to be flagged
+ * @param currentUser {string} - username of current user; must be valid
  * @param callback {function} - function to be called with err and result
  */
-snippetSchema.statics.flagSnippet = function(snippetId, callback) {
-    var Snippet = this;
-    Snippet.findById(snippetId, function(err, snippet) {
-        if (err) {
-            callback('Snippet does not exist.', false);
-        } else {
-            snippet.flagged = true;
-            snippet.save(function(err) {
-            if (err) {
-                callback('Error.', false);
-          	} else {
-                callback(null, true);
-          	}
-          });
+snippetSchema.statics.flagSnippet = function(snippetId, currentUser, callback) {
+    Snippet.findSnippet(snippetId, function(err, snippet) {
+        if (err) callback(err);
+        else {
+            var author = snippet.author;
+            if (author != currentUser.toLowerCase()) {
+                if (snippet.flaggedBy.indexOf(currentUser) == -1) {
+                    snippet.flaggedBy.push(currentUser);
+                } else {
+                    snippet.flaggedBy.splice(snippet.flaggedBy.indexOf(currentUser), 1);
+                }
+                snippet.save(callback);
+            }
         }
     });
 }
