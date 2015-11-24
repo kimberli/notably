@@ -19,6 +19,7 @@ angular.module('notablyApp').controller('splashController', function ($scope, $h
     $scope.showLoginForm = function () {
         $scope.focusLogin = true;
         $scope.loginForm = true;
+        $scope.registerForm = false;
     }
 
     $scope.showRegisterForm = function () {
