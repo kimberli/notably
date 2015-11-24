@@ -1,10 +1,6 @@
 #course-container {
 
   background-color: $primary-color-white;
-  color: $primary-color-white;
-  height: 100vh;
-
-
 
   #course-body {
     padding-top: 10px;
@@ -15,6 +11,7 @@
 
     .card {
       margin: 20px;
+      color: $primary-color-white;
       background-color: $primary-color-dark;
     }
 
