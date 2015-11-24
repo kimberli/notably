@@ -10,8 +10,9 @@ angular.module('notablyApp').controller('courseController', function ($scope, $h
                 'title': $scope.newTitle
             }).then(function (response) {
                 Materialize.toast('Your session has been created!', 2000);
+                $scope.course.sessions.push(response.data);
             }, function(response) {
-                alert(response.data.error);
+                Materialize.toast(response.data.error, 2000);
             });
         }
     });

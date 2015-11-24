@@ -140,8 +140,10 @@ userSchema.statics.getStashes = function(rawUsername, callback) {
                     callback(null,
                         stashes.map(function(item) {
                             return {
-                                name: item.name,
-                                _id: item._id
+                                createdAt: item.createdAt,
+                                title: item.sessionTitle,
+                                number: item.courseNumber,
+                                _id: item.sessionId
                             };
                         })
                     );

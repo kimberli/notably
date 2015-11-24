@@ -4,7 +4,8 @@
 
     <div class="row" id="session-header">
       <div id="session-header-container">
-      <div style="float:left"> Session {{sessionId}} </div>
+      <div style="float:left" ng-if="!stash"> Session {{sessionId}} </div>
+      <div style="float:left" ng-if="stash"> Session {{session.meta.title}} </div>
 
       <div style="float:right">
         <input name="display" type="radio" id="left_option" ng-model="showOption" value="left" />
@@ -35,9 +36,6 @@
                 <div class="snippet-header">
                   <div style="float:left" class="black-text">
                     <b>{{snip.author}}</b> posted <em>1 minute ago</em>
-                  </div>
-                  <div style="float:right">
-                    <button class="center-align remove-button" ng-click="removeSnippet(snip.id)"><i class="material-icons">cancel</i></button>
                   </div>
                 </div>
                  <br/>
@@ -100,8 +98,8 @@
         <div class="white-text thin-header">Submit a snippet here: </div>
         <div style="margin:10px" class="center-align">
         <form ng-submit="addSnippet()">
-          <textarea id = "snippet-input-area" class="materialize-textarea" ng-model="snippetInput"  ng-disabled="!stash || stash.length === 0" required> </textarea>
-          <button class="waves-effect waves-light btn center-align" id="submit-snippet" ng-disabled="!stash || stash.length === 0" type="submit">Submit Snippet</button>
+          <textarea id = "snippet-input-area" class="materialize-textarea" ng-model="snippetInput"  ng-disabled="!stash" required> </textarea>
+          <button class="waves-effect waves-light btn center-align" id="submit-snippet" ng-disabled="!stash" type="submit">Submit Snippet</button>
         </form>
         </div>
       </div>

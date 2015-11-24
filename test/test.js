@@ -428,7 +428,7 @@ describe('Stash', function() {
     describe('#create', function () {
         // test valid new stash
         it('should not return error when stash does not exist', function (done) {
-            Stash.create('123', sessionId, function(err, result) {
+            Stash.create('123', sessionId, 'Lecture 1', '6.170', function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.creator, '123');
                 assert.equal(result.snippets.length, 0);
