@@ -123,7 +123,7 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
     } else callback('Invalid username (must be between 3 and 16 characters and consist of letters, numbers, underscores, and hyphens)');
 }
 
-/**
+/** TODO
  * Get all stashes belonging to a user.
  *
  * @param rawUsername {string} - username to get stashes for
