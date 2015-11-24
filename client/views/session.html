@@ -2,12 +2,18 @@
 
   <nav-bar></nav-bar>
 
+  <div class="col content-container">
     <div class="row" id="session-header">
       <div id="session-header-container">
-        <h4 class="left" ng-if="!stash"> Session {{sessionId}} </h4>
-        <h4 class="left" ng-if="stash"> {{session.meta.number}}: {{session.meta.title}} </h4>
-
-        <div class="right">
+        <div class="left">
+          <h4 ng-if="!stash"> Session {{sessionId}} </h4>
+          <h4 ng-if="stash">
+            <a class="btn-floating btn-large waves-effect waves-light teal" href="/course/{{session.meta.number}}">
+              <i class="material-icons">arrow_back</i>
+            </a>
+            &nbsp;{{session.meta.number}}: {{session.meta.title}} </h4>
+        </div>
+        <div class="right view-selector">
           <input name="display" type="radio" id="left_option" ng-model="showOption" value="left" />
           <label for="left_option">Feed</label>
           <input name="display" type="radio" id="both_option"  ng-model="showOption" value="both" />
@@ -15,38 +21,35 @@
           <input name="display" type="radio" id="right_option"  ng-model="showOption" value="right" />
           <label for="right_option">Stash</label>
         </div>
-
       </div>
     </div>
 
-    <div class="row">
-        <div ng-class="{true: 's6', false: 's12'}[showOption === 'both']" class="col" ng-hide="showOption === 'right'" >
-        <div id="feed-view" class="card-panel">
+    <div class="row feeds">
+        <div ng-class="{true: 's6', false: 's12'}[showOption === 'both']" class="col feeds-col" ng-hide="showOption === 'right'" >
+        <div id="feed-view" class="card-panel white-text">
 
         <div class="row" id="feed-header" class="thin-header">
-          <div class="thin-header"> Your Feed </div>
+          <div class="left thin-header">Feed</div>
         </div>
 
-        <div class="thin-header" ng-if="!feed || feed.length === 0"> Nothing posted here yet! </div>
+        <div class="thin-text" ng-if="!feed || feed.length === 0"><em>Add a snippet!</em></div>
 
           <div ng-repeat="snip in feed" >
-            <div class="card snippet-card snippet-container"  style="margin-top:5px;">
-              <div class="card-content white-text">
-
+            <div class="card snippet-card">
+              <div class="card-content">
                 <div class="snippet-header">
-                  <div style="float:left" class="black-text">
+                  <div class="left">
                     <b>{{snip.author}}</b> posted <em am-time-ago="snip.timestamp"></em>
+                  </div>
+                  <div class="right valign-wrapper">
+                    {{snip.saveCount}}
+                    <button class="save-button snippet-button" ng-click="saveSnippet(snip._id)"><i class="material-icons">star</i></button>
+                    {{snip.flags}}
+                    <button class="flag-button snippet-button" ng-click="flagSnippet(snip._id)"><i class="material-icons">flag</i></button>
                   </div>
                 </div>
                  <br/>
-                <p class="black-text" style="margin-top:5px">{{snip.text}}</p>
-
-              </div>
-              <div class="card-action right-align" style="padding:5px">
-                <button class="center-align save-button" ng-click="saveSnippet(snip._id)"><i class="material-icons">star</i></button>
-                {{snip.saveCount}}
-                <button class="center-align flag-button" ng-click="flagSnippet(snip._id)"><i class="material-icons">flag</i></button>
-                {{snip.flags}}
+                <p class="black-text">{{snip.text}}</p>
               </div>
             </div>
         </div>
@@ -54,36 +57,28 @@
         </div>
         </div>
         <div ng-class="{true: 's6', false: 's12'}[showOption === 'both']" class="col" ng-hide="showOption === 'left'">
-          <div id="stash-view" class="card-panel">
-          <br/>
+          <div id="stash-view" class="card-panel white-text">
           <div class="row" id="stash-header">
-            <div class="thin-header"> Your Stash </div>
+            <div class="thin-header">Your Stash</div>
           </div>
-
-
-          <div class="thin-header" ng-if="!stash || stash.length === 0"> Nothing posted here yet! </div>
-
           <div ng-repeat="snip in stash" >
-            <div class="card snippet-card snippet-container"  style="margin-top:5px;">
-              <div class="card-content white-text">
+            <div class="card snippet-card black-text">
+              <div class="card-content">
 
                 <div class="snippet-header">
-                  <div style="float:left" class="black-text">
+                  <div class="left">
                     <b>{{snip.author}}</b> posted <em am-time-ago="snip.timestamp"></em>
                   </div>
-                  <div style="float:right">
-                    <button class="center-align remove-button" ng-click="removeSnippet(snip._id)"><i class="material-icons">cancel</i></button>
+                  <div class="right valign-wrapper">
+                    {{snip.saveCount}}
+                    <button class="save-button snippet-button" ng-click="saveSnippet(snip._id)"><i class="material-icons">star</i></button>
+                    {{snip.flags}}
+                    <button class="flag-button snippet-button" ng-click="flagSnippet(snip._id)"><i class="material-icons">flag</i></button>
+                    <button class="remove-button snippet-button" ng-click="removeSnippet(snip._id)"><i class="material-icons">clear</i></button>
                   </div>
                 </div>
                  <br/>
-                <p class="black-text" style="margin-top:5px">{{snip.text}}</p>
-
-              </div>
-              <div class="card-action right-align" style="padding:5px">
-                <button class="center-align save-button" ng-click="saveSnippet(snip._id)"><i class="material-icons">star</i></button>
-                {{snip.saveCount}}
-                <button class="center-align flag-button" ng-click="flagSnippet(snip._id)"><i class="material-icons">flag</i></button>
-                {{snip.flags}}
+                <p class="black-text">{{snip.text}}</p>
               </div>
             </div>
         </div>
@@ -92,17 +87,14 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row submit">
       <div class="card-panel" id="snippet-input-container">
-        <div class="spacer"></div>
-        <div class="white-text thin-header">Submit a snippet here: </div>
-        <div style="margin:10px" class="center-align">
-        <form ng-submit="addSnippet()">
-          <textarea id = "snippet-input-area" class="materialize-textarea" ng-model="snippetInput"  ng-disabled="!session" required> </textarea>
-          <button class="waves-effect waves-light btn center-align" id="submit-snippet" ng-disabled="!session" type="submit">Submit Snippet</button>
+        <div class="white-text thin-header">Add a snippet:</div>
+        <form ng-submit="addSnippet()" class="center">
+          <textarea id="snippet-input-area" class="materialize-textarea" ng-model="snippetInput"  ng-disabled="!session" required> </textarea>
+          <button class="waves-effect waves-light btn center-align" ng-disabled="!session" type="submit">Submit Snippet</button>
         </form>
-        </div>
       </div>
     </div>
-
+  </div>
 </div>
