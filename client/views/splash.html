@@ -15,13 +15,13 @@
   <div id="auth-container">
 
     <div class="center-align">
-      <div class="waves-effect waves-light btn-large" ng-click="showLoginForm()" ng-hide="loginForm">
+      <div class="waves-effect waves-light btn btn-large" ng-click="showLoginForm()">
         Login
       </div>
 
       <div class="horizontal-spacer"></div>
 
-      <div class="waves-effect waves-light btn-large" ng-click="showRegisterForm()" ng-hide="loginForm">
+      <div class="waves-effect waves-light btn btn-large" ng-click="showRegisterForm()">
         Register
       </div>
     </div>
@@ -32,28 +32,37 @@
       <div class="col s10 m8 l6">
         <div class="card">
           <div class="card-content">
-            <div class="row" ng-show="loginForm">
+            <div class="row">
               <div class="input-field col s12">
-                <input id="username" type="text" class="validate">
+                <input id="username" type="text" class="validate" ng-model="username">
                 <label for="username">Username</label>
               </div>
             </div>
-            <div class="row" ng-show="loginForm">
+            <div class="row">
               <div class="input-field col s12">
-                <input id="password" type="password" class="validate">
+                <input id="password" type="password" class="validate" ng-model="password">
                 <label for="password">Password</label>
               </div>
             </div>
             <div class="row" ng-show="registerForm">
               <div class="input-field col s12">
-                <input id="email" type="email" class="validate">
+                <input id="email" type="email" class="validate" ng-model="email">
                 <label for="email">Email</label>
               </div>
             </div>
             <div class="row" ng-show="registerForm">
               <div class="input-field col s12">
-                <input id="name" type="text" class="validate">
+                <input id="name" type="text" class="validate" ng-model="name">
                 <label for="name">Name</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="waves-effect waves-light btn" ng-click="send()">
+                Send
+              </div>
+              <div class="waves-effect waves-light btn" ng-click="hideForms()">
+                Cancel
               </div>
             </div>
           </div>
