@@ -36,6 +36,25 @@ var snippetId2 = null;
 // test user model
 describe('User', function() {
 
+    //test auth
+    describe('#auth', function () {
+        // test nonexistent user
+        it('should return error when user does not exist', function (done) {
+            User.auth('hello', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test existent user
+        it('should not return error when user exists', function (done) {
+            User.auth('kim', function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.username, 'kim');
+                done();
+            });
+        });
+    });
+
     //test findProfile
     describe('#findProfile', function () {
         // test nonexistent user

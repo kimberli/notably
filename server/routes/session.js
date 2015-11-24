@@ -9,7 +9,7 @@ Session = require('../models/Session');
  */
 router.get('/', function(req, res) {
     if (req.currentUser) {
-        Session.findSession(req.body.sessionId, function(err,result) {
+        Session.findSession(req.query.sessionId, function(err,result) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {
