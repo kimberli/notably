@@ -570,6 +570,61 @@ describe('Snippet', function() {
             });
         });
     });
+
+    //test flagSnippet
+    describe('#flagSnippet', function() {
+        // test invalid snippet id
+        it('should return error when invalid snippet id', function(done) {
+            Snippet.flagSnippet('blah', 'kim', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test user attempt to flag own snippet
+        it('should return error when user tries to flag own snippet', function(done) {
+            Snippet.flagSnippet(snippetId1, 'kim', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test non-author user flag a snippet
+        it('should not return error when valid flag', function(done) {
+            Snippet.flagSnippet(snippetId1, '123', function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result._id, snippetId1);
+                Snippet.findSnippet(snippetId1, function(err, result) {
+                    assert.equal(result.flaggedBy.length, 1);
+                    assert.equal(result.flaggedBy[0], '123');
+                    done();
+                });
+            });
+        });
+        // test another valid flag
+        it('should not return error when valid flag', function(done) {
+            Snippet.flagSnippet(snippetId1, '456', function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result._id, snippetId1);
+                Snippet.findSnippet(snippetId1, function(err, result) {
+                    assert.equal(result.flaggedBy.length, 2);
+                    assert.equal(result.flaggedBy[1], '456');
+                    assert.notEqual(result.flaggedBy[0], result.flaggedBy[1]);
+                    done();
+                });
+            });
+        });
+        // test valid unflag
+        it('should not return error when valid unflag', function(done) {
+             Snippet.flagSnippet(snippetId1, '456', function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result._id, snippetId1);
+                Snippet.findSnippet(snippetId1, function(err, result) {
+                    assert.equal(result.flaggedBy.length, 1);
+                    assert.equal(result.flaggedBy[0], '123');
+                    done();
+                });
+            });
+        });
+    });
 });
 
 // visually inspect model

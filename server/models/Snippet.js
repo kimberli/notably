@@ -67,7 +67,7 @@ snippetSchema.statics.flagSnippet = function(snippetId, currentUser, callback) {
                     snippet.flaggedBy.splice(snippet.flaggedBy.indexOf(currentUser), 1);
                 }
                 snippet.save(callback);
-            }
+            } else callback('User cannot flag own snippet');
         }
     });
 }
