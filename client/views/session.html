@@ -4,25 +4,25 @@
 
     <div class="row" id="session-header">
       <div id="session-header-container">
-      <div style="float:left" ng-if="!stash"> Session {{sessionId}} </div>
-      <div style="float:left" ng-if="stash"> Session {{session.meta.title}} </div>
+        <h4 class="left" ng-if="!stash"> Session {{sessionId}} </h4>
+        <h4 class="left" ng-if="stash"> {{session.meta.number}}: {{session.meta.title}} </h4>
 
-      <div style="float:right">
-        <input name="display" type="radio" id="left_option" ng-model="showOption" value="left" />
-        <label for="left_option">Feed</label>
-        <input name="display" type="radio" id="both_option"  ng-model="showOption" value="both" />
-        <label for="both_option">Both</label>
-        <input name="display" type="radio" id="right_option"  ng-model="showOption" value="right" />
-        <label for="right_option">Stash</label>
+        <div class="right">
+          <input name="display" type="radio" id="left_option" ng-model="showOption" value="left" />
+          <label for="left_option">Feed</label>
+          <input name="display" type="radio" id="both_option"  ng-model="showOption" value="both" />
+          <label for="both_option">Both</label>
+          <input name="display" type="radio" id="right_option"  ng-model="showOption" value="right" />
+          <label for="right_option">Stash</label>
+        </div>
+
       </div>
-
-    </div>
     </div>
 
     <div class="row">
         <div ng-class="{true: 's6', false: 's12'}[showOption === 'both']" class="col" ng-hide="showOption === 'right'" >
         <div id="feed-view" class="card-panel">
-        <br/>
+
         <div class="row" id="feed-header" class="thin-header">
           <div class="thin-header"> Your Feed </div>
         </div>
