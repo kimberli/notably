@@ -56,11 +56,20 @@ userSchema.statics.findProfile = function(rawUsername, callback) {
         else {
             User.getCourses(username, function(err, courses) {
                 if (err) callback(err);
-                else callback(null, {
-                    username: result.username,
-                    name: result.name,
-                    courses: courses.courses
-                })
+                else {
+                    User.getSessions(username, function(err, sessions) {
+                        if (err) callback(err);
+                        else {
+                            console.log(sessions);
+                            callback(null, {
+                            username: result.username,
+                            name: result.name,
+                            courses: courses.courses,
+                            recentSessions: sessions.sessions
+                        });
+                        }
+                    });
+                }
             });
         }
     })
@@ -123,13 +132,13 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
     } else callback('Invalid username (must be between 3 and 16 characters and consist of letters, numbers, underscores, and hyphens)');
 }
 
-/** TODO
- * Get all stashes belonging to a user.
+/** TODO rethink
+ * Get all sessions a user has stashes in
  *
  * @param rawUsername {string} - username to get stashes for
  * @param callback {function} - function to be called with err and result
  */
-userSchema.statics.getStashes = function(rawUsername, callback) {
+userSchema.statics.getSessions = function(rawUsername, callback) {
     var username = rawUsername.toLowerCase();
     findUser(username, function(err, result) {
         if (err) callback(err);
@@ -137,8 +146,8 @@ userSchema.statics.getStashes = function(rawUsername, callback) {
             Stash.find({_id: { $in: result.stashes}}, function(err, stashes) {
                 if (err) callback(err);
                 else {
-                    callback(null,
-                        stashes.map(function(item) {
+                    callback(null, {
+                        sessions: stashes.map(function(item) {
                             return {
                                 createdAt: item.createdAt,
                                 title: item.sessionTitle,
@@ -146,7 +155,37 @@ userSchema.statics.getStashes = function(rawUsername, callback) {
                                 _id: item.sessionId
                             };
                         })
-                    );
+                    });
+                }
+            });
+        }
+    });
+}
+
+/** TODO rethink
+ * Add a stash
+ *
+ * @param rawUsername {string} - username to get stashes for
+ * @param callback {function} - function to be called with err and result
+ */
+userSchema.statics.addSession = function(rawUsername, callback) {
+    var username = rawUsername.toLowerCase();
+    findUser(username, function(err, result) {
+        if (err) callback(err);
+        else {
+            Stash.find({_id: { $in: result.stashes}}, function(err, stashes) {
+                if (err) callback(err);
+                else {
+                    callback(null, {
+                        sessions: stashes.map(function(item) {
+                            return {
+                                createdAt: item.createdAt,
+                                title: item.sessionTitle,
+                                number: item.courseNumber,
+                                _id: item.sessionId
+                            };
+                        })
+                    });
                 }
             });
         }
