@@ -57,15 +57,8 @@ stashSchema.statics.findBySessionAndUsername = function(sessionId, rawUsername, 
             Snippet.find({ _id: {$in: stash.snippets}}, function(err, result) {
                 if (err) callback(err);
                 else {
-                    stash.snippets = result.map(function(item) {
-                        return {
-                            _id: item._id,
-                            author: item.author,
-                            text: item.text,
-                            timestamp: item.timestamp
-                        }
-                    });
-                    callback(null, stash)
+                    stash.snippets = result;
+                    callback(null, stash);
                 }
             });
         } else callback('Session not found');

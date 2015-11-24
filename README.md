@@ -356,6 +356,77 @@ The snippet object looks like this:
 (Snippet)
 ```
 
+### `/api/stash` - GET
+* Get stash info
+* Must be authenticated
+
+**params**
+
+```javascript
+{ 
+  "sessionId": (string - session id)
+}
+```
+
+**content**
+
+```javascript
+{
+  "_id": (string - session id),
+  "createdAt": (string - timestamp),
+  "creator": (string - username),
+  "snippets": [(Snippet)] 
+}
+```
+
+### `/api/stash/save` - POST
+* Save a snippet to a stash
+* Must be authenticated
+
+**params**
+
+```javascript
+{ 
+  "snippetId": (string - snippet id),
+  "stashId": (string - stash id)
+}
+```
+
+**content**
+
+```javascript
+{
+  "_id": (string - session id),
+  "createdAt": (string - timestamp),
+  "creator": (string - username),
+  "snippets": [(Snippet)] 
+}
+```
+
+### `/api/stash/remove` - POST
+* Get snippet info
+* Must be authenticated
+
+**params**
+
+```javascript
+{ 
+  "snippetId": (string - snippet id),
+  "stashId": (string - stash id)
+}
+```
+
+**content**
+
+```javascript
+{
+  "_id": (string - session id),
+  "createdAt": (string - timestamp),
+  "creator": (string - username),
+  "snippets": [(Snippet)] 
+}
+```
+
 ### `/api/snippet` - GET
 * Get snippet info
 * Must be authenticated

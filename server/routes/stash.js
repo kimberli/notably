@@ -2,14 +2,14 @@
 router = require('express').Router();
 path = require('path');
 utils = require('../utils');
-Course = require('../models/Course');
+Stash = require('../models/Stash');
 
 /**
- * GET - /api/course
+ * GET - /api/stash
  */
 router.get('/', function(req, res) {
     if (req.currentUser) {
-        Course.findCourse(req.query.number, function(err,result) {
+        Stash.findBySessionAndUsername(req.query.sessionId, req.currentUser, function(err,result) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {
@@ -20,11 +20,11 @@ router.get('/', function(req, res) {
 });
 
 /**
- * GET - /api/course/all
+ * POST - /api/stash/save
  */
-router.get('/all', function(req, res) {
+router.post('/save', function(req, res) {
     if (req.currentUser) {
-        Course.getAllCourses(function(err,result) {
+        Stash.saveSnippet(req.body.snippetId, req.body.stashId, function(err,result) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {
@@ -35,11 +35,11 @@ router.get('/all', function(req, res) {
 });
 
 /**
- * POST - /api/course/newsession
+ * POST - /api/stash/remove
  */
-router.get('/newsession', function(req, res) {
+router.post('/remove', function(req, res) {
     if (req.currentUser) {
-        Course.addSession(req.body.number, req.body.title, req.currentUser, function(err,result) {
+        Stash.removeSnippet(req.body.snippetId, req.body.stashId, function(err,result) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {

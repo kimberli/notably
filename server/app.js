@@ -15,6 +15,7 @@ var index = require('./routes/index');
 var user = require('./routes/user');
 var course = require('./routes/course');
 var session = require('./routes/session');
+var stash = require('./routes/stash');
 var snippet = require('./routes/snippet');
 
 // APP //
@@ -61,6 +62,7 @@ app.use(function(req, res, next) {
 app.use('/api/user', user);
 app.use('/api/course', course);
 app.use('/api/session', session);
+app.use('/api/stash', stash);
 app.use('/api/snippet', snippet);
 app.use('/', index); // index routes
 
