@@ -56,20 +56,11 @@ userSchema.statics.findProfile = function(rawUsername, callback) {
         else {
             User.getCourses(username, function(err, courses) {
                 if (err) callback(err);
-                else {
-                    User.getSessions(username, function(err, sessions) {
-                        if (err) callback(err);
-                        else {
-                            console.log(sessions);
-                            callback(null, {
-                            username: result.username,
-                            name: result.name,
-                            courses: courses.courses,
-                            recentSessions: sessions.sessions
-                        });
-                        }
-                    });
-                }
+                else callback(null, {
+                    username: result.username,
+                    name: result.name,
+                    courses: courses.courses,
+                });
             });
         }
     })
