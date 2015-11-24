@@ -35,9 +35,23 @@ angular.module('notablyApp', ['ngRoute', 'ngFitText']).config(['$routeProvider',
 	}
 ])
 
-.directive("navBar", function() {
+.directive('navBar', function() {
 	return {
 		restrict: 'E',
-		templateUrl: '/views/navbar.html'
+		templateUrl: '/views/navbar.html',
+        controller: 'navController'
 	};
+})
+
+.run( function($rootScope, $location, $http) {
+    $rootScope.$on( '$routeChangeStart', function(event, next, current) {
+        $http.get('/api/user/auth', {})
+        .then(function (response) {
+            $rootScope.user = response.data.username;
+        }, function(response) {
+            if (next.templateUrl !== '/views/splash.html') {
+                $location.path('/');
+            }
+        });
+    });
 });

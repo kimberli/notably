@@ -31,6 +31,7 @@
 
       <div class="col s10 m8 l6">
         <div id="authform" class="card">
+          <i id="close-form" class="material-icons right" ng-click="hideForms()">close</i>
           <div class="card-content">
             <div class="row">
               <div class="input-field col s12">
@@ -58,13 +59,18 @@
             </div>
 
             <div class="row">
+              <label class="red-text">{{error}}</label>
+            </div>
+
+            <div class="row">
               <div class="waves-effect waves-light btn" ng-click="send()">
-                Send
+                Submit
               </div>
               <div class="waves-effect waves-light btn" ng-click="hideForms()">
                 Cancel
               </div>
             </div>
+
           </div>
         </div>
       </div>

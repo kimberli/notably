@@ -42,19 +42,25 @@
       display: inline-block;
       width: 2vw;
     }
-
     .btn {
       background-color: $primary-color-dark;
     }
-
     .btn-large {
       text-transform: none;
       font-size: 1.7em;
     }
-
     #authform {
       margin-top: 50px;
       width: 50vw;
+
+      #close-form {
+        padding: 2px;
+        cursor: pointer;
+        color: $primary-color;
+      }
+      #close-form:hover {
+        color: $primary-color-dark;
+      }
     }
 
     .input-field label {

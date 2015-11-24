@@ -1,4 +1,4 @@
-angular.module('notablyApp').controller('splashController', function ($scope, $http) {
+angular.module('notablyApp').controller('splashController', function ($scope, $http, $rootScope, $location) {
 
     $scope.focusLogin = true;
 
@@ -9,6 +9,12 @@ angular.module('notablyApp').controller('splashController', function ($scope, $h
     $scope.password = "";
     $scope.email = "";
     $scope.name = "";
+
+    $http.get('/api/user/auth', {})
+    .then(function (response) {
+        $rootScope.user = response.data.username;
+        $location.path('/home');
+    });
 
     $scope.showLoginForm = function () {
         $scope.focusLogin = true;
@@ -32,10 +38,11 @@ angular.module('notablyApp').controller('splashController', function ($scope, $h
                 'username': $scope.username,
                 'password': $scope.password
             }).then(function (response) {
-                if (response.status !== 200) {
-                    console.log(response);
-                }
-            })
+                $rootScope.user = response.data.username;
+                $location.path('/home');
+            }, function(response) {
+                $scope.error = response.data.error;
+            });
         } else {
             $http.post('/api/user/create', {
                 'username': $scope.username,
@@ -43,10 +50,11 @@ angular.module('notablyApp').controller('splashController', function ($scope, $h
                 'email': $scope.email,
                 'name': $scope.name
             }).then(function (response) {
-                if (response.status !== 200) {
-                    console.log(response);
-                }
-            })
+                $rootScope.user = response.data.username;
+                $location.path('/home');
+            }, function(response) {
+                $scope.error = response.data.error;
+            });
         }
 
     }

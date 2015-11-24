@@ -67,7 +67,6 @@ router.post('/login', function(req, res) {
     if (isValidUserReq(req, res)) {
         User.verifyPassword(req.body.username, req.body.password, function(err,result) {
             if (err) {
-                console.log(err);
                 utils.sendErrResponse(res, 403, err);
             } else {
                 req.session.username = req.body.username;
