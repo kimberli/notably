@@ -37,7 +37,7 @@ router.get('/all', function(req, res) {
 /**
  * POST - /api/course/newsession
  */
-router.get('/newsession', function(req, res) {
+router.post('/newsession', function(req, res) {
     if (req.currentUser) {
         Course.addSession(req.body.number, req.body.title, req.currentUser, function(err,result) {
             if (err) {
