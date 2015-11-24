@@ -5,7 +5,11 @@ $primary-color: color("indigo", "base") !default;
 $primary-color-light: color("indigo", "lighten-2") !default;
 $primary-color-white: color("indigo", "lighten-5") !default;
 $primary-color-dark: color("indigo", "darken-2") !default;
-$radio-fill-color: $primary-color-dark !default;
+$secondary-color: color("teal", "base") !default;
+$secondary-color-light: color("teal", "lighten-2") !default;
+$secondary-color-white: color("teal", "lighten-5") !default;
+$secondary-color-dark: color("teal", "darken-2") !default;
+$radio-fill-color: $secondary-color !default;
 
 @import "../lib/materialize/sass/materialize";
 
@@ -39,7 +43,7 @@ $radio-fill-color: $primary-color-dark !default;
 .card,
 .card-panel {
   color: white;
-  background-color: color("indigo", "base");
+  background-color: $primary-color;
 }
 
 a {
