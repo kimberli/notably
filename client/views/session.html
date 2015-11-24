@@ -35,7 +35,7 @@
 
                 <div class="snippet-header">
                   <div style="float:left" class="black-text">
-                    <b>{{snip.author}}</b> posted <em>1 minute ago</em>
+                    <b>{{snip.author}}</b> posted <em am-time-ago="snip.timestamp"></em>
                   </div>
                 </div>
                  <br/>
@@ -69,7 +69,7 @@
 
                 <div class="snippet-header">
                   <div style="float:left" class="black-text">
-                    <b>{{snip.author}}</b> posted <em>1 minute ago</em>
+                    <b>{{snip.author}}</b> posted <em am-time-ago="snip.timestamp"></em>
                   </div>
                   <div style="float:right">
                     <button class="center-align remove-button" ng-click="removeSnippet(snip._id)"><i class="material-icons">cancel</i></button>

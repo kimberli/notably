@@ -1,4 +1,4 @@
-angular.module('notablyApp', ['ngRoute', 'ngFitText']).config(['$routeProvider', '$locationProvider',
+angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment']).config(['$routeProvider', '$locationProvider',
 	function($routeProvider, $locationProvider) {
 
 		// routing definitions
