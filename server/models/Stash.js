@@ -61,7 +61,7 @@ stashSchema.statics.findBySessionAndUsername = function(sessionId, rawUsername, 
                     callback(null, stash);
                 }
             });
-        } else callback('Session not found');
+        } else callback('Stash not found');
     });
 }
 

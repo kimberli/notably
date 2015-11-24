@@ -21,7 +21,7 @@ snippetSchema.statics.findSnippet = function(snippetId, callback) {
     this.find({ _id: snippetId }, function(err, result) {
         if (err) callback(err);
         else if (result.length > 0) callback(null, result[0]);
-        else callback('Course not found');
+        else callback('Snippet not found');
     });
 }
 

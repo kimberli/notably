@@ -231,7 +231,7 @@ describe('User', function() {
             });
         });
 
-        // test adding course
+        // test user with subscribed courses
         it('should not return error when user has courses', function (done) {
             User.getCourses('kim', function(err, result) {
                 assert.equal(err, null);
@@ -324,14 +324,14 @@ describe('Session', function() {
 
     //test addStash
     describe('#addStash', function () {
-        // test adding user
+        // test adding stash with invalid session id
         it('should return error when invalid session id', function (done) {
             Session.addStash('blah', 'kim', function(err, result) {
                 assert.notEqual(err, null);
                 done();
             });
         });
-        // test adding user
+        // test adding stash with valid session id and user
         it('should not return error when valid user', function (done) {
             Session.addStash(sessionId, 'kim', function(err, result) {
                 assert.equal(err, null);
@@ -552,7 +552,7 @@ describe('Snippet', function() {
             });
         });
         // test snippet1
-        it('should not return error when snippet does not exist', function (done) {
+        it('should not return error when snippet does exist', function (done) {
             Snippet.findSnippet(snippetId1, function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.text, 'snippet test text');
