@@ -89,7 +89,7 @@ sessionSchema.statics.addStash = function(sessionId, username, callback) {
         else {
             Stash.findBySessionAndUsername(sessionId, username, function(err, result) {
                 if (err === 'Stash not found') {
-                    Stash.create(username, session._id, function(err, newStash) {
+                    Stash.create(username, session._id, session.title, session.number, function(err, newStash) {
                         if (err) callback(err);
                         else {
                             session.stashes.push(newStash);

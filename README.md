@@ -109,6 +109,7 @@ The snippet object looks like this:
     "_id": (string - session id),
     "title": (string - session title),
     "createdAt": (string - timestamp),
+    "number": (string - course number),
     "activeUsers": (number - number of active users)
   }] 
 }

@@ -4,6 +4,8 @@ var Snippet = require('./Snippet');
 var stashSchema = mongoose.Schema({
     creator: String,
     createdAt: String,
+    sessionTitle: String,
+    courseNumber: String,
     session: {type: mongoose.Schema.Types.ObjectId, ref:'Session'},
     snippets: [{type: mongoose.Schema.Types.ObjectId, ref:'Snippet'}]
 });
@@ -27,13 +29,17 @@ stashSchema.statics.getStash = function(stashId, callback) {
  *
  * @param rawUsername {string} - username of snippet author; must be valid
  * @param sessionId {string} - session id; must be valid
+ * @param sessionTitle {string} - session title; must be valid
+ * @param courseNumber {string} - course number; must be valid
  * @param callback {function} - function to be called with err and result
  */
-stashSchema.statics.create = function(rawUsername, sessionId, callback) {
+stashSchema.statics.create = function(rawUsername, sessionId, sessionTitle, courseNumber, callback) {
     var username = rawUsername.toLowerCase();
     var newStash = new Stash({
         creator: username,
         createdAt: Date.now(),
+        sessionTitle: sessionTitle,
+        courseNumber: courseNumber,
         snippets: [],
         session: sessionId
     });
