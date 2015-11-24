@@ -4,8 +4,14 @@
   color: $primary-color-white;
   height: 100vh;
 
+
+
   #course-body {
     padding-top: 10px;
+
+    .btn {
+      background-color: $primary-color-light;
+    }
 
     .card {
       margin: 20px;

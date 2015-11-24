@@ -26,6 +26,8 @@
           <div class="thin-header"> Your feed </div>
         </div>
 
+        <div class="thin-header" ng-if="!stash || stash.length === 0"> Nothing posted here yet! </div>
+
           <div ng-repeat="snip in feed" >
             <div class="card snippet-card snippet-container"  style="margin-top:5px;">
               <div class="card-content white-text">
@@ -59,6 +61,9 @@
           <div class="row" id="stash-header">
             <div class="thin-header"> Your Stash </div>
           </div>
+
+
+          <div class="thin-header" ng-if="!stash || stash.length === 0"> Nothing posted here yet! </div>
 
           <div ng-repeat="snip in stash" >
             <div class="card snippet-card snippet-container"  style="margin-top:5px;">
@@ -95,8 +100,8 @@
         <div class="white-text thin-header">Submit a snippet here: </div>
         <div style="margin:10px" class="center-align">
         <form ng-submit="addSnippet()">
-          <textarea id = "snippet-input-area" class="materialize-textarea" ng-model="snippetInput"  required> </textarea>
-          <button class="waves-effect waves-light btn center-align" id="submit-snippet" type="submit">Submit Snippet</button>
+          <textarea id = "snippet-input-area" class="materialize-textarea" ng-model="snippetInput"  ng-disabled="!stash || stash.length === 0" required> </textarea>
+          <button class="waves-effect waves-light btn center-align" id="submit-snippet" ng-disabled="!stash || stash.length === 0" type="submit">Submit Snippet</button>
         </form>
         </div>
       </div>

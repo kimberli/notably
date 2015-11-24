@@ -7,9 +7,15 @@
       <div class="col s12 m6 l6">
         <div class="card">
           <div class="card-content">
-            <span class="card-title"><b>{{ username }}</b></span>
+            <span class="card-title"><b>Welcome to {{ user.name }}'s profile!</b></span>
             <div class="spacer"></div>
-            username: {{ username }}
+            Username: {{ user.username }}
+            <br>
+            Snippets submitted: {{ user.numSubmitted }}
+            <br>
+            Snippets saved: {{ user.numSaved }}
+            <br>
+            Subscribed classes: {{ user.numSubscribed }}
           </div>
         </div>
       </div>
@@ -17,15 +23,16 @@
       <div class="col s12 m6 l6">
         <div class="card">
           <div class="card-content">
-            <span class="card-title">{{ username }}'s stashes</span>
+            <span class="card-title">{{ user.name }}'s courses</span>
             <div class="spacer"></div>
             <div class="collection">
-              <a ng-repeat="stash in stashes" href="#!" class="collection-item">{{ stash.title }}<span class="badge">{{ stash.count }}</span></a>
+              <a ng-repeat="course in user.courses" href="/course/{{ course.number }}" class="collection-item">{{ course.number }} - {{ course.name }}</a>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
   </div>
 
 </div>
