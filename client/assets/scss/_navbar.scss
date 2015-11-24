@@ -3,21 +3,28 @@ nav {
   .nav-wrapper {
     width: 100vw;
     background-color: $primary-color-dark;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
 
-    .brand-logo {
+    #nav-brand-logo {
       color: $primary-color-white;
       font-family: 'Pacifico', cursive;
-      text-align: center;
       text-shadow: 2px 2px 5px #333;
-      cursor: default;
-      -webkit-user-select: none; /* Chrome/Safari */
-      -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* IE10+ */
-      padding-right: 30px;
+      font-size: 200%;
+    }
+
+    #course-search {
+      width: 400px;
+      display: inline-block;
+      margin: 0 20px;
+    }
+
+    .angucomplete-dropdown {
+      overflow-y: auto;
+      max-height: 200px; // your preference
+      width: 100%;
+    }
+
+    .angucomplete-row {
+      line-height: 20px;
     }
   }
 }

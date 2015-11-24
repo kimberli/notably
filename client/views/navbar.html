@@ -1,9 +1,23 @@
-<nav>
+<nav ng-hide="splash">
   <div class="nav-wrapper">
-    <div class="brand-logo right">Notably</div>
-    <ul id="nav-mobile" class="left hide-on-small-and-down">
-      <li><a href="/home">Home</a></li>
+    <div angucomplete-alt id="course-search" class="right"
+      placeholder="Search courses"
+      pause="100"
+      selected-object="selectedCourse"
+      local-data="courses"
+      search-fields="number,name"
+      title-field="number,name"
+      minlength="1"
+      input-class="form-control form-control-small"
+      match-class="highlight"
+      clear-selected="true">
+    </div>
+    <!-- <div class="brand-logo">Notably</div> -->
+    <ul id="nav-mobile" class="hide-on-small-and-down">
+      <li><a href="/home" id="nav-brand-logo">Notably</a></li>
       <li><a href="" ng-click="logout()">Log out</a></li>
     </ul>
+  </ul>
   </div>
+
 </nav>

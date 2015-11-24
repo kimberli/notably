@@ -33,40 +33,42 @@
         <div id="authform" class="card">
           <i id="close-form" class="material-icons right" ng-click="hideForms()">close</i>
           <div class="card-content">
-            <div class="row">
-              <div class="input-field col s12">
-                <input id="username" type="text" class="validate" ng-model="username">
-                <label for="username">Username</label>
+            <form>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="username" type="text" class="validate" ng-model="username">
+                  <label for="username">Username</label>
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input id="password" type="password" class="validate" ng-model="password">
-                <label for="password">Password</label>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="password" type="password" class="validate" ng-model="password">
+                  <label for="password">Password</label>
+                </div>
               </div>
-            </div>
-            <div class="row" ng-show="registerForm">
-              <div class="input-field col s12">
-                <input id="email" type="email" class="validate" ng-model="email">
-                <label for="email">Email</label>
+              <div class="row" ng-show="registerForm">
+                <div class="input-field col s12">
+                  <input id="email" type="email" class="validate" ng-model="email">
+                  <label for="email">Email</label>
+                </div>
               </div>
-            </div>
-            <div class="row" ng-show="registerForm">
-              <div class="input-field col s12">
-                <input id="name" type="text" class="validate" ng-model="name">
-                <label for="name">Name</label>
+              <div class="row" ng-show="registerForm">
+                <div class="input-field col s12">
+                  <input id="name" type="text" class="validate" ng-model="name">
+                  <label for="name">Name</label>
+                </div>
               </div>
-            </div>
 
-            <div class="row">
-              <label class="red-text">{{error}}</label>
-            </div>
-
-            <div class="row">
-              <div class="waves-effect waves-light btn" ng-click="send()">
-                Submit
+              <div class="row">
+                <label class="red-text">{{error}}</label>
               </div>
-            </div>
+
+              <div class="row">
+                <button type="submit" class="waves-effect waves-light btn" ng-click="send()">
+                  Submit
+                </div>
+              </div>
+            </form>
 
           </div>
         </div>
