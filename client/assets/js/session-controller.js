@@ -7,11 +7,13 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     $http.get('/api/session?sessionId=' + $scope.sessionId).then(function (response) {
         if (response.status === 200) {
             $scope.session = response.data;
+            openPage();
         } else {
             alert(response.data);
         }
     });
 
+    $scope.showOption = 'both';
     // author: String,
     // text: String,
     // timestamp: Date,
@@ -20,9 +22,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     // savedBy: [String],
     // flaggedBy: [String],
     // sessionId: String
-
-  $scope.showOption = 'both';
-
+openPage = function() {
   $scope.feed = $scope.session.feed;
   $scope.stash = $scope.session.stash;
 
@@ -148,7 +148,6 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     //   timestamp : Date.now()
     // }];
 
-
-
+  }
 
 });

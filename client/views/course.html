@@ -7,14 +7,29 @@
       <div class="col s12 m6 l6">
         <div class="card">
           <div class="card-content">
-            <span class="card-title"><b>{{ courseNumber }}</b></span>
+            <span class="card-title"><b>{{ course.meta.number }} - {{ course.meta.name }}</b></span>
             <div class="spacer"></div>
-            courseNumber: {{ courseNumber }}
+            <br>
+            {{ course.meta.description }}
           </div>
         </div>
       </div>
 
       <div class="col s12 m6 l6">
+
+        <div class="card">
+          <div class="card-content">
+          <span class="card-title">Create a new session for {{ courseNumber }}</span>
+          <form ng-submit="createSession()">
+            <div class="input-field">
+              <input id="first_name" type="text" class="validate white-text" required>
+              <label for="first_name">First Name</label>
+              <button type="submit" class="waves-effect waves-light btn right-align" ng-model="sessionInput" id="create-session-button">Create Session</button>
+            </div>
+          </form>
+          </div>
+        </div>
+
         <div class="card">
           <div class="card-content">
             <span class="card-title">{{ courseNumber }}'s sessions</span>
