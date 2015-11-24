@@ -13,6 +13,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
         }
     });
 
+    $scope.showOption = 'both';
     // author: String,
     // text: String,
     // timestamp: Date,
@@ -22,8 +23,6 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     // flaggedBy: [String],
     // sessionId: String
 openPage = function() {
-  $scope.showOption = 'both';
-
   $scope.feed = $scope.session.feed;
   $scope.stash = $scope.session.stash;
 
