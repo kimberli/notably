@@ -18,9 +18,38 @@ $radio-fill-color: $primary-color-dark !default;
 
 .page-container {
   min-height: 100vh;
+  background-color: $primary-color-white;
+  color: $primary-color-white;
+}
+
+.content-container {
+  margin: 0 40px;
+  padding-top: 20px;
 }
 
 .row {
   margin-bottom: 0;
   padding-bottom: 20px;
+}
+
+.btn {
+  background-color: $secondary-color;
+}
+
+.card,
+.card-panel {
+  color: white;
+  background-color: color("indigo", "base");
+}
+
+a {
+  color: $primary-color-dark;
+}
+
+.collection-item {
+  color: $primary-color-dark !important;
+}
+
+.collection-item:hover {
+  background-color: $primary-color-white;
 }

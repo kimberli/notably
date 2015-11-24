@@ -1,7 +1,5 @@
 #session-container {
 
-  background-color: $primary-color-white;
-
   .thin-header {
     font-weight: 300;
     font-size: 150%;
@@ -9,11 +7,7 @@
   .thin-text {
     font-weight: 300;
   }
-  .content-container {
-    margin: 0 40px;
-  }
   .card-panel {
-    background-color: $primary-color-dark;
     overflow: scroll;
   }
 
@@ -22,6 +16,7 @@
     margin-top: 10px;
 
     h4 {
+      color: black;
       margin-top: 20px;
       margin-bottom: 0;
     }
