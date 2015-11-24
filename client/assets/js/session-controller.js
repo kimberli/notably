@@ -7,6 +7,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     $http.get('/api/session?sessionId=' + $scope.sessionId).then(function (response) {
         if (response.status === 200) {
             $scope.session = response.data;
+            console.log(response.data);
             openPage();
         } else {
             alert(response.data);
@@ -24,7 +25,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     // sessionId: String
 openPage = function() {
   $scope.feed = $scope.session.feed;
-  $scope.stash = $scope.session.stash;
+  $scope.stash = $scope.session.stash.snippets;
 
   $scope.addSnippet = function() {
     $http.post('/api/session/newsnippet', {
