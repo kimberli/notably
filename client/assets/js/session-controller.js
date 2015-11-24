@@ -1,8 +1,44 @@
 angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams, $location, $http) {
 
     $scope.sessionId = $routeParams.sessionId;
-    //$scope.simplemde = new SimpleMDE({ element: document.getElementById("MyID"), spellChecker: true, hideIcons: ["side-by-side"]});
-    //
+
+    var opts = {
+    container: 'epiceditor',
+    basePath: '../assets/lib/epiceditor',
+    clientSideStorage: true,
+    localStorageName: 'epiceditor',
+    useNativeFullscreen: true,
+    parser: marked,
+    file: {
+      name: 'epiceditor',
+      defaultContent: '',
+      autoSave: 100
+    },
+    theme: {
+      base: '/themes/base/epiceditor.css',
+      preview: '/themes/preview/github.css',
+      editor: '/themes/editor/epic-light.css'
+    },
+    button: {
+      preview: true,
+      fullscreen: false,
+      bar: "auto"
+    },
+    focusOnLoad: false,
+    shortcut: {
+      modifier: 17,
+      fullscreen: 70,
+      preview: 80
+    },
+    string: {
+      togglePreview: 'Toggle Preview Mode',
+      toggleEdit: 'Toggle Edit Mode',
+      toggleFullscreen: 'Enter Fullscreen'
+    },
+    autogrow: false
+  }
+
+  var editor = new EpicEditor(opts).load();
 
   $scope.resetSession = function() {
     $http.get('/api/session?sessionId=' + $scope.sessionId).then(function (response) {
@@ -34,7 +70,7 @@ openPage = function() {
   $scope.addSnippet = function() {
     $http.post('/api/session/newsnippet', {
         'sessionId': $scope.session._id,
-        'text': $scope.snippetInput
+        'text': editor.exportFile(null, "html")
     }).then(function (response) {
         $scope.resetSession();
         Materialize.toast('Your snippet has been posted!', 2000);
@@ -73,8 +109,6 @@ openPage = function() {
         Materialize.toast(response.data.error, 2000);
     });
   }
-
-
 
   }
 

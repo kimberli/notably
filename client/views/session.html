@@ -49,7 +49,7 @@
                   </div>
                 </div>
                  <br/>
-                <p class="black-text">{{snip.text}}</p>
+                <p class="black-text" ng-bind-html="snip.text"></p>
               </div>
             </div>
         </div>
@@ -78,7 +78,7 @@
                   </div>
                 </div>
                  <br/>
-                <p class="black-text">{{snip.text}}</p>
+                <p class="black-text" ng-bind-html="snip.text"></p>
               </div>
             </div>
         </div>
@@ -91,7 +91,8 @@
       <div class="card-panel" id="snippet-input-container">
         <div class="white-text thin-header">Add a snippet:</div>
         <form ng-submit="addSnippet()" class="center">
-          <textarea id="snippet-input-area" class="materialize-textarea" ng-model="snippetInput"  ng-disabled="!session" required> </textarea>
+          <div id="epiceditor" class="materialize-textarea" ng-model="snippetInput"  ng-disabled="!session" required> </div>
+          <br/>
           <button class="waves-effect waves-light btn center-align" ng-disabled="!session" type="submit">Submit Snippet</button>
         </form>
       </div>
