@@ -6,6 +6,7 @@ Session = require('../models/Session');
 
 /**
  * GET - /api/session
+ * creates stash for session if user doesn't have one already
  */
 router.get('/', function(req, res) {
     if (req.currentUser) {
@@ -15,7 +16,15 @@ router.get('/', function(req, res) {
             } else {
                 Stash.findBySessionAndUsername(session._id, req.currentUser, function(err, stash) {
                     if (err) {
-                        utils.sendErrResponse(res, 403, err);
+                        Session.addStash(session._id, req.currentUser, function(err, stash) {
+                            if (err) {
+                                utils.sendErrResponse(res, 403, err);
+                            }
+                            else {
+                                session.stash = stash;
+                                utils.sendSuccessResponse(res, session);
+                            }
+                        });
                     } else {
                         session.stash = stash;
                         utils.sendSuccessResponse(res, session);
