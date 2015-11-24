@@ -34,10 +34,14 @@ router.get('/', function(req, res) {
 });
 
 /**
- * GET - /api/user/courses
+ * GET - /api/user/auth
  */
-router.get('/test', function(req, res) {
-    utils.sendSuccessResponse(res, { hi: "kim"});
+router.get('/auth', function(req, res) {
+    if (req.currentUser) {
+        utils.sendSuccessResponse(res, { username: req.currentUser });
+    } else {
+        utils.sendErrResponse(res, 403, err);
+    }
 });
 
 /**
@@ -63,6 +67,7 @@ router.post('/login', function(req, res) {
     if (isValidUserReq(req, res)) {
         User.verifyPassword(req.body.username, req.body.password, function(err,result) {
             if (err) {
+                console.log(err);
                 utils.sendErrResponse(res, 403, err);
             } else {
                 req.session.username = req.body.username;
@@ -78,7 +83,7 @@ router.post('/login', function(req, res) {
 router.post('/logout', function(req, res) {
     if (req.currentUser) {
         var user = req.currentUser;
-        req.session.destroy();
+        req.session = null;
         utils.sendSuccessResponse(res, { username: user });
     } else {
         utils.sendErrResponse(res, 403, 'There is no user currently logged in.');

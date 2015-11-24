@@ -51,7 +51,7 @@ app.use(function(req, res, next) {
                 req.currentUser = user.username;
             } else {
                 req.currentUser = undefined;
-                req.session.destroy();
+                req.session = null;
             }
             next();
         });
