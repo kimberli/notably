@@ -10,7 +10,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
             console.log(response.data);
             openPage();
         } else {
-            alert(response.data);
+            Materialize.toast("Error! " + response.data.error, 2000);
         }
     });
 
@@ -34,7 +34,7 @@ openPage = function() {
     }).then(function (response) {
          Materialize.toast('Your snippet has been posted!', 2000);
     }, function(response) {
-        alert(response.data.error);
+        Materialize.toast(response.data.error, 2000);
     });
   }
 
@@ -50,7 +50,7 @@ openPage = function() {
     }).then(function (response) {
          Materialize.toast('Your snippet has been removed!', 2000);
     }, function(response) {
-        alert(response.data.error);
+        Materialize.toast(response.data.error, 2000);
     });
   }
 
@@ -63,7 +63,7 @@ openPage = function() {
         $scope.stash.push(response.data);
          Materialize.toast('Your snippet has been saved!', 2000);
     }, function(response) {
-        alert(response.data.error);
+        Materialize.toast(response.data.error, 2000);
     });
   }
 
