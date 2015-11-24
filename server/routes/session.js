@@ -13,7 +13,7 @@ router.get('/', function(req, res) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {
-                Stash.findBySessionAndUsername(result._id, req.currentUser, function(err, stash) {
+                Stash.findBySessionAndUsername(session._id, req.currentUser, function(err, stash) {
                     if (err) {
                         utils.sendErrResponse(res, 403, err);
                     } else {
