@@ -43,14 +43,16 @@
       width: 2vw;
     }
 
-    .btn-large {
+    .btn {
       background-color: $primary-color-dark;
+    }
+
+    .btn-large {
       text-transform: none;
       font-size: 1.7em;
     }
 
     .card {
-      padding: 50px;
       width: 50vw;
     }
 
