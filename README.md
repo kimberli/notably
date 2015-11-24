@@ -276,6 +276,8 @@ The snippet object looks like this:
     "number": (string - course number),
     "name": (string - course name),
     "description": (string - course description),
+    "lectureTime": (string - lecture time),
+    "location": (string - lecture location)
   }
   "sessions": [{
     "_id": (string - session id),
