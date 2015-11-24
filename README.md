@@ -364,7 +364,8 @@ The snippet object looks like this:
 
 ```javascript
 { 
-  "sessionId": (string - session id)
+  "sessionId": (string - session id),
+  "username": (string - username of stash owner)
 }
 ```
 
