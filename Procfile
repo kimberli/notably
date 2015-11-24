@@ -1,1 +1,1 @@
-web: node bin/www
+web: node data/script.js; node bin/www
