@@ -41,7 +41,10 @@ courseSchema.statics.findCourse = function(number, callback) {
                     _id: course._id,
                     meta: {
                         name: course.name,
-                        number: course.number
+                        number: course.number,
+                        description: course.description,
+                        lectureTime: course.lectureTime,
+                        location: course.location,
                     },
                     sessions: result.map(function(item) {
                         return {
