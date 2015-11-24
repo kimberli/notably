@@ -5,14 +5,12 @@
   .spacer {
     height: 10px;
   }
-
   .card {
     padding: 5px;
   }
   .card-title {
     font-size: 16px
   }
-
   .snippet-card {
     background-color: $primary-color-white;
     color: black;
@@ -25,7 +23,6 @@
     width:95%; margin:auto;
     height: 500px;
   }
-
 
   .CodeMirror .CodeMirror-scroll {
       min-height: 200px;
@@ -111,8 +108,8 @@
   }
 
   #session-header-container, .snippet-container {
-    width:90%;
-    margin:auto;
+    width: 90%;
+    margin: auto;
   }
 
   #snippet-input-container {
