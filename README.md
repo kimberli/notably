@@ -110,6 +110,23 @@ The snippet object looks like this:
 }
 ```
 
+### `/api/user/auth` - GET
+* Check whether a user is authenticated
+
+**params**
+
+```javascript
+{}
+```
+
+**content**
+
+```javascript
+{
+  "username": (string - username)
+}
+```
+
 ### `/api/user/create` - POST
 * Creates a user
 
