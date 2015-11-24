@@ -27,7 +27,7 @@
           <div class="thin-header"> Your Feed </div>
         </div>
 
-        <div class="thin-header" ng-if="!stash || stash.length === 0"> Nothing posted here yet! </div>
+        <div class="thin-header" ng-if="!feed || feed.length === 0"> Nothing posted here yet! </div>
 
           <div ng-repeat="snip in feed" >
             <div class="card snippet-card snippet-container"  style="margin-top:5px;">
