@@ -1,0 +1,38 @@
+#stash-container {
+
+  .spacer {
+    height: 40px;
+  }
+
+  .card {
+    background-color: white;
+    color: black;
+  }
+
+  .snippet-title {
+    font-size: 18px;
+    font-weight: 300;
+  }
+
+  #stash-header {
+    .stash-title {
+      font-size: 36px;
+      font-weight: 300;
+    }
+
+    .stash-time {
+      font-size: 18px;
+      font-weight: 300;
+    }
+
+    .print-button {
+      background: none;
+      border: none;
+    }
+
+    .print-button:hover {
+      color: grey;
+    }
+  }
+
+}

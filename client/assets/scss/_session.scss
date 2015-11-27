@@ -11,6 +11,23 @@
     overflow: scroll;
   }
 
+#stash-header {
+  .print-button {
+    border: none;
+    background: none;
+    color: white;
+    font-size: 10%;
+  }
+
+  .print-button:hover {
+    border: none;
+    background: none;
+    color: #bdc3c7;
+    font-size: 10%;
+  }
+
+}
+
   #session-header {
     font-weight: 300;
     margin-top: 10px;
@@ -49,6 +66,7 @@
       .snippet-header {
         font-weight: 300;
       }
+
       .snippet-button {
         border: none;
         background: none;

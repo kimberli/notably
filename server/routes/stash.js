@@ -9,7 +9,7 @@ Stash = require('../models/Stash');
  */
 router.get('/', function(req, res) {
     if (req.currentUser) {
-        Stash.findBySessionAndUsername(req.query.sessionId, req.query.username, function(err,result) {
+        Stash.findByStashId(req.query.stashId, function(err,result) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {

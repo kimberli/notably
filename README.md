@@ -98,7 +98,7 @@ The snippet object looks like this:
   "name": (string),
   "stats": {
       "numSubmitted": (int - number of snippets submitted),
-      "numSaved": (int - number of snippets saved), 
+      "numSaved": (int - number of snippets saved),
       "numSubscribed": (int - number of courses subscribed to)
   },
   "courses": [{
@@ -111,7 +111,7 @@ The snippet object looks like this:
     "createdAt": (string - timestamp),
     "number": (string - course number),
     "activeUsers": (number - number of active users)
-  }] 
+  }]
 }
 ```
 
@@ -141,7 +141,7 @@ The snippet object looks like this:
 {
   "username": (string),
   "password": (string),
-  "email": (string), 
+  "email": (string),
   "name": (string)
 }
 ```
@@ -221,7 +221,7 @@ The snippet object looks like this:
 ```javascript
 {
   "course": (string - course number)
-} 
+}
 ```
 
 **content**
@@ -263,7 +263,7 @@ The snippet object looks like this:
 **params**
 
 ```javascript
-{ 
+{
   "number": (string - course number)
 }
 ```
@@ -296,7 +296,7 @@ The snippet object looks like this:
 **params**
 
 ```javascript
-{ 
+{
   "number": (string - course number),
   "title": (string - session title)
 }
@@ -319,7 +319,7 @@ The snippet object looks like this:
 **params**
 
 ```javascript
-{ 
+{
     "sessionId": (string - session id)
 }
 ```
@@ -345,7 +345,7 @@ The snippet object looks like this:
 **params**
 
 ```javascript
-{ 
+{
     "sessionId": (string - session id)
 }
 ```
@@ -357,7 +357,7 @@ The snippet object looks like this:
   "_id": (string - session id),
   "createdAt": (string - timestamp),
   "creator": (string - username),
-  "snippets": [] 
+  "snippets": []
 }
 ```
 
@@ -368,7 +368,7 @@ The snippet object looks like this:
 **params**
 
 ```javascript
-{ 
+{
   "sessionId": (string - session id),
   "text": (string - snippet text)
 }
@@ -387,9 +387,8 @@ The snippet object looks like this:
 **params**
 
 ```javascript
-{ 
-  "sessionId": (string - session id),
-  "username": (string - username of stash owner)
+{
+  "stashId": (string - stash id),
 }
 ```
 
@@ -400,7 +399,7 @@ The snippet object looks like this:
   "_id": (string - session id),
   "createdAt": (string - timestamp),
   "creator": (string - username),
-  "snippets": [(Snippet)] 
+  "snippets": [(Snippet)]
 }
 ```
 
@@ -411,7 +410,7 @@ The snippet object looks like this:
 **params**
 
 ```javascript
-{ 
+{
   "snippetId": (string - snippet id),
   "stashId": (string - stash id)
 }
@@ -424,7 +423,7 @@ The snippet object looks like this:
   "_id": (string - session id),
   "createdAt": (string - timestamp),
   "creator": (string - username),
-  "snippets": [(Snippet)] 
+  "snippets": [(Snippet)]
 }
 ```
 
@@ -435,7 +434,7 @@ The snippet object looks like this:
 **params**
 
 ```javascript
-{ 
+{
   "snippetId": (string - snippet id),
   "stashId": (string - stash id)
 }
@@ -448,7 +447,7 @@ The snippet object looks like this:
   "_id": (string - session id),
   "createdAt": (string - timestamp),
   "creator": (string - username),
-  "snippets": [(Snippet)] 
+  "snippets": [(Snippet)]
 }
 ```
 
@@ -459,7 +458,7 @@ The snippet object looks like this:
 **params**
 
 ```javascript
-{ 
+{
   "snippetId": (string - snippet id)
 }
 ```

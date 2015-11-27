@@ -46,6 +46,30 @@ stashSchema.statics.create = function(rawUsername, sessionId, sessionTitle, cour
     newStash.save(callback);
 }
 
+/**
+ * Find a stash by stashId
+ *
+ * @param stashId {string} -  id of stash
+ * @param callback {function} - function to be called with err and result
+ *
+ */
+
+stashSchema.statics.findByStashId = function(stashId, callback) {
+    Stash.findById(stashId, function(err, result) {
+        if (err) callback(err);
+        else {
+            var stash = result;
+            Snippet.find({ _id: {$in: stash.snippets}}, function(err, result) {
+                if (err) callback(err);
+                else {
+                    stash.snippets = result;
+                    callback(null, stash);
+                }
+            });
+        }
+    });
+}
+
 
 /**
  * Find a stash by session and username

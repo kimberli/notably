@@ -1,0 +1,22 @@
+<div id="stash-container" class="container">
+<div class="spacer"></div>
+<div id="stash-header">
+  <div class="left stash-title">
+  <b>{{stash.courseNumber}}: </b>{{stash.sessionTitle}}
+  <button ng-click="printPage()" class="print-button"><i class="material-icons">print</i></button>
+  </div>
+  <div class="right stash-time">
+  <em> {{stash.createdAt | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss A'}} </em>
+  </div>
+</div>
+
+<br/>
+<br/>
+<br/>
+
+<div ng-repeat="snip in snippets">
+      <div class="snippet-title">{{snip.author}}</div>
+      <div ng-bind-html="snip.text"></div>
+  <div class="divider"></div>
+</div>
+</div>

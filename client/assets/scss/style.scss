@@ -18,7 +18,9 @@ $radio-fill-color: $secondary-color !default;
 @import "profile";
 @import "course";
 @import "session";
+@import "stash";
 @import "navbar";
+
 
 .page-container {
   min-height: 100vh;

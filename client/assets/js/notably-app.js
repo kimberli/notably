@@ -24,6 +24,10 @@ angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment','luegg.dire
 			templateUrl: '/views/session.html',
 			controller: 'sessionController'
 		})
+		.when('/stash/:stashId', {
+			templateUrl: '/views/stash.html',
+			controller: 'stashController'
+		})
 		.otherwise({
 	        redirectTo: '/'
 	    });

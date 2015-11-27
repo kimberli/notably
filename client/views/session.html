@@ -56,12 +56,16 @@
 
         </div>
         </div>
-        <div ng-class="{true: 's6', false: 's12'}[showOption === 'both']" class="col" ng-hide="showOption === 'left'">
+        <div ng-class="{true: 's6', false: 's12'}[showOption === 'both']" class="col" ng-hide="showOption === 'left'" id="printarea">
           <div id="stash-view" class="card-panel white-text">
           <div class="row" id="stash-header">
-            <div class="thin-header">Your Stash</div>
+            <div class="left thin-header">Your Stash</div>
+
+            <div class="right valign-wrapper">
+              <a class="print-button" ng-href="/stash/{{session.stash._id}}"><i class="material-icons">print</i></a>
+            </div>
           </div>
-          <div ng-repeat="snip in stash" >
+          <div ng-repeat="snip in stash">
             <div class="card snippet-card black-text">
               <div class="card-content">
 
