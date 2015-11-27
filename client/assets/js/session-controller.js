@@ -60,11 +60,12 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
 
 
 openPage = function() {
-    setTimeout(function() {
-    $('pre code').each(function(i, block) {
+
+    angular.element(document).ready(function () {
+      $('pre code').each(function(i, block) {
           hljs.highlightBlock(block);
         });
-    }, 500);
+    });
 
   $scope.addSnippet = function() {
     $http.post('/api/session/newsnippet', {
@@ -73,7 +74,7 @@ openPage = function() {
     }).then(function (response) {
         $scope.resetSession();
         Materialize.toast('Your snippet has been posted!', 2000);
-        $scope.snippetInput = "";
+        editor.importFile(null,"");
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
     });
