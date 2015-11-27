@@ -44,6 +44,8 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     $http.get('/api/session?sessionId=' + $scope.sessionId).then(function (response) {
         if (response.status === 200) {
             $scope.session = response.data;
+            $scope.feed = $scope.session.feed;
+            $scope.stash = $scope.session.stash.snippets;
             openPage();
         } else {
             Materialize.toast("Error! " + response.data.error, 2000);
@@ -52,7 +54,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
   }
     $scope.resetSession();
 
-    setInterval(function(){ $scope.resetSession(); }, 2000); // this is just for now, lets pretend we have web sockets!!
+  setInterval(function(){ $scope.resetSession(); }, 5000); // this is just for now, lets pretend we have web sockets!!
 
     $scope.showOption = 'both';
     // author: String,
@@ -64,8 +66,11 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     // flaggedBy: [String],
     // sessionId: String
 openPage = function() {
-  $scope.feed = $scope.session.feed;
-  $scope.stash = $scope.session.stash.snippets;
+    setTimeout(function() {
+    $('pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+    }, 500);
 
   $scope.addSnippet = function() {
     $http.post('/api/session/newsnippet', {
@@ -110,7 +115,7 @@ openPage = function() {
     });
   }
 
-   
+
 
   }
 
