@@ -54,17 +54,11 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
   }
     $scope.resetSession();
 
-  setInterval(function(){ $scope.resetSession(); }, 5000); // this is just for now, lets pretend we have web sockets!!
+//  setInterval(function(){ $scope.resetSession(); }, 5000); // this is just for now, lets pretend we have web sockets!!
 
     $scope.showOption = 'both';
-    // author: String,
-    // text: String,
-    // timestamp: Date,
-    // saveCount: Number,
-    // hidden: Boolean,
-    // savedBy: [String],
-    // flaggedBy: [String],
-    // sessionId: String
+
+
 openPage = function() {
     setTimeout(function() {
     $('pre code').each(function(i, block) {
