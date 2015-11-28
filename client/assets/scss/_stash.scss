@@ -1,5 +1,11 @@
 #stash-container {
 
+  @media print {
+    .print-button {
+      visibility: hidden;
+    }
+  }
+
   .spacer {
     height: 50px;
   }
