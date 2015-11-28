@@ -1,5 +1,4 @@
 angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams, $location, $http, sessionSocket) {
-
     $scope.sessionId = $routeParams.sessionId;
 
     var opts = {
@@ -22,6 +21,9 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
 
   // retrieve data, set scope variables
   $scope.loadPage = function() {
+    // initialize Materialize tooltips
+    $('.tooltipped').tooltip({delay: 50});
+
     $http.get('/api/session?sessionId=' + $scope.sessionId).then(function (response) {
         if (response.status === 200) {
             $scope.session = response.data;
