@@ -6,12 +6,18 @@
     <div class="row" id="session-header">
       <div id="session-header-container">
         <div class="left">
-          <h4 ng-if="!stash"> Session {{sessionId}} </h4>
-          <h4 ng-if="stash">
+          <h4 ng-if="!session">
+            <a class="btn-floating btn-large waves-effect waves-light" href="/">
+              <i class="material-icons">arrow_back</i>
+            </a>
+              &nbsp; Session {{sessionId}}
+          </h4>
+          <h4 ng-if="session">
             <a class="btn-floating btn-large waves-effect waves-light" href="/course/{{session.meta.number}}">
               <i class="material-icons">arrow_back</i>
             </a>
-            &nbsp;{{session.meta.number}}: {{session.meta.title}} </h4>
+            &nbsp;{{session.meta.number}}: {{session.meta.title}}
+          </h4>
         </div>
         <div class="right view-selector">
           <input name="display" type="radio" id="left_option" ng-model="showOption" value="left" />
@@ -65,6 +71,9 @@
               <a class="print-button" ng-href="/stash/{{session.stash._id}}"><i class="material-icons">print</i></a>
             </div>
           </div>
+
+          <div class="thin-text" ng-if="!stash || stash.length === 0"><em>Your stash is empty!</em></div>
+
           <div ng-repeat="snip in stash" id="stash-snippet-{{ snip._id }}">
             <div class="card snippet-card black-text">
               <div class="card-content">
