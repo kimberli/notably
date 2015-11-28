@@ -54,9 +54,10 @@
   .feeds {
     .feeds-col {
       padding: 0;
+      margin: auto;
     }
     #stash-view, #feed-view {
-      margin: auto;
+      margin: 10px;
       height: 500px;
     }
     .snippet-card {
@@ -92,6 +93,10 @@
       background: white;
       margin: 0 -5px;
       padding: 5px;
+    }
+
+    #snippet-input-container {
+      margin: 10px;
     }
   }
 

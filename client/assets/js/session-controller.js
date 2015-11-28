@@ -13,6 +13,10 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
       button: {
         fullscreen: false,
       },
+      string: {
+        togglePreview: 'Toggle Preview Mode (Alt-P)',
+        toggleEdit: 'Toggle Edit Mode (Alt-P)',
+      },
       autogrow: false
     }
 
