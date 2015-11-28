@@ -34,7 +34,7 @@
 
         <div class="thin-text" ng-if="!feed || feed.length === 0"><em>Add a snippet!</em></div>
 
-          <div ng-repeat="snip in feed" >
+          <div ng-repeat="snip in feed" id="feed-snippet-{{ snip._id }}">
             <div class="card snippet-card">
               <div class="card-content">
                 <div class="snippet-header">
@@ -43,7 +43,7 @@
                   </div>
                   <div class="right valign-wrapper">
                     {{snip.saveCount}}
-                    <button class="save-button snippet-button" ng-click="saveSnippet(snip._id)"><i class="material-icons">star</i></button>
+                    <button class="save-button snippet-button" ng-click="saveSnippet(snip._id)" id="feed-save-{{ snip._id }}"><i class="material-icons">star</i></button>
                     {{snip.flags}}
                     <button class="flag-button snippet-button" ng-click="flagSnippet(snip._id)"><i class="material-icons">flag</i></button>
                   </div>
@@ -65,7 +65,7 @@
               <a class="print-button" ng-href="/stash/{{session.stash._id}}"><i class="material-icons">print</i></a>
             </div>
           </div>
-          <div ng-repeat="snip in stash">
+          <div ng-repeat="snip in stash" id="stash-snippet-{{ snip._id }}">
             <div class="card snippet-card black-text">
               <div class="card-content">
 
@@ -75,7 +75,7 @@
                   </div>
                   <div class="right valign-wrapper">
                     {{snip.saveCount}}
-                    <button class="save-button snippet-button" ng-click="saveSnippet(snip._id)"><i class="material-icons">star</i></button>
+                    <button class="save-button snippet-button" ng-click="saveSnippet(snip._id)" id="stash-save-{{ snip._id }}" disabled><i class="material-icons">star</i></button>
                     {{snip.flags}}
                     <button class="flag-button snippet-button" ng-click="flagSnippet(snip._id)"><i class="material-icons">flag</i></button>
                     <button class="remove-button snippet-button" ng-click="removeSnippet(snip._id)"><i class="material-icons">clear</i></button>

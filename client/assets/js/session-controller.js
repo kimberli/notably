@@ -96,6 +96,7 @@ openPage = function() {
          for (i=0;i<$scope.feed.length;i++) {
            if ($scope.feed[i]._id === id) {
                $scope.stash.push(jQuery.extend(true, {}, $scope.feed[i])); // copy snippet onto stash
+               $scope.highlightCode();
                sessionSocket.emit("saved snippet", {"sessionId" : $scope.sessionId, "snippetId" : id});
                break;
            }
@@ -117,6 +118,10 @@ openPage = function() {
 
   // add one to a particular snippet's save count
   $scope.incrementSaveCount = function(snippetId) {
+
+    $("#feed-save-" + snippetId + ",#stash-save-" + snippetId).addClass('animated tada save-button-active').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+      $(this).removeClass('animated tada save-button-active');
+    });
 
     for (i=0;i<$scope.feed.length;i++) {
       if ($scope.feed[i]._id === snippetId) {
@@ -145,13 +150,15 @@ openPage = function() {
            $scope.stash[i].saveCount--;
       }
     }
+
+
   }
 
   // use highlight js to highlight code blocks
   $scope.highlightCode = function() {
     angular.element(document).ready(function () {
       $('pre code').each(function(i, block) {
-            hljs.highlightBlock(block);
+          hljs.highlightBlock(block);
       });
     });
   }
