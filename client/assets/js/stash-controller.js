@@ -2,7 +2,7 @@ angular.module('notablyApp').controller('stashController', function ($scope, $ht
     $scope.stashId = $routeParams.stashId;
 
     $http.get('/api/stash?stashId=' + $scope.stashId).then(function (response) {
-          console.log(response);
+          $('.tooltipped').tooltip({delay: 50});
           if (response.status === 200) {
               $scope.stash = response.data;
               $scope.snippets = $scope.stash.snippets;
@@ -18,7 +18,7 @@ angular.module('notablyApp').controller('stashController', function ($scope, $ht
               });
 
           } else {
-              Materialize.toast("Error! " + response.data.error, 2000);
+            $scope.error = true;
           }
-      });
+      }, function() {$scope.error = true;});
 });

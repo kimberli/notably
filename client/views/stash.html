@@ -1,23 +1,30 @@
 <div id="stash-container" class="container">
-<div class="spacer"></div>
-<div id="stash-header">
-  <div class="left stash-title">
-  <b>{{stash.courseNumber}}: </b>{{stash.sessionTitle}}
-  <button ng-click="printPage()" class="print-button"><i class="material-icons">print</i></button>
+<div ng-if="stash">
+  <div class="spacer"></div>
+  <div id="stash-header">
+    <div class="left stash-title">
+    <b>{{stash.courseNumber}}: </b>{{stash.sessionTitle}}
+    <button ng-click="printPage()" class="print-button tooltipped" data-position="left" data-delay="50" data-tooltip="Print this page"><i class="material-icons">print</i></button>
+    </div>
+    <div class="right stash-time">
+    <em> {{stash.createdAt | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss A'}} </em>
+    </div>
   </div>
-  <div class="right stash-time">
-  <em> {{stash.createdAt | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss A'}} </em>
-  </div>
+
+  <div class="spacer"></div>
+
+  <table class="bordered responsive-table" id="snippet-table">
+  <tr ng-repeat="snip in snippets">
+        <td class="author-column" style="width: 10%; padding: 0;">{{snip.author}}</div>
+        <td class="content-column" ng-bind-html="snip.text" style="padding: 0;"></div>
+  </tr>
+  </table>
 </div>
 
-<br/>
-<br/>
-<br/>
+<div ng-if="error" class="center-align">
+  <div class="spacer"></div>
+  <h2 class="center-align" id="error-message">There is no stash with this id!</h2>
+  <a class="btn-large waves-effect center-align" href="/">Home</a>
+</div>
 
-<table class="bordered responsive-table" id="snippet-table">
-<tr ng-repeat="snip in snippets">
-      <td class="author-column" style="width: 10%; padding: 0;">{{snip.author}}</div>
-      <td class="content-column" ng-bind-html="snip.text" style="padding: 0;"></div>
-</tr>
-</table>
 </div>
