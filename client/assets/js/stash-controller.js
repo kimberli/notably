@@ -11,6 +11,12 @@ angular.module('notablyApp').controller('stashController', function ($scope, $ht
                 window.print();
               }
 
+              angular.element(document).ready(function () {
+                $('pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                  });
+              });
+
           } else {
               Materialize.toast("Error! " + response.data.error, 2000);
           }
