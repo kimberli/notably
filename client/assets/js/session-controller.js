@@ -61,12 +61,6 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
 
 openPage = function() {
 
-    angular.element(document).ready(function () {
-      $('pre code').each(function(i, block) {
-          hljs.highlightBlock(block);
-        });
-    });
-
   $scope.addSnippet = function() {
     $http.post('/api/session/newsnippet', {
         'sessionId': $scope.session._id,
@@ -110,6 +104,19 @@ openPage = function() {
     });
   }
 
+
+  $scope.scrollDivs = function() {
+    var objDiv = document.getElementById("feed-view");
+    objDiv.scrollTop = objDiv.scrollHeight;
+    objDiv = document.getElementById("stash-view");
+    objDiv.scrollTop = objDiv.scrollHeight;
+  }
+
+  angular.element(document).ready(function () {
+    $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+  });
 
 
   }
