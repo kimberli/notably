@@ -1,13 +1,8 @@
-angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams, $location, $http, socketInstance) {
+angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams, $location, $http, sessionSocket) {
 
+    // var socket = io();
 
     $scope.sessionId = $routeParams.sessionId;
-
-    socketInstance.emit("joined session", {"sessionId" : $scope.sessionId});
-
-    $scope.$on('$locationChangeStart', function () {
-      socketInstance.emit("left session", {"sessionId" : $scope.sessionId});
-    });
 
     var opts = {
       container: 'epiceditor',
@@ -34,6 +29,13 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
             $scope.session = response.data;
             $scope.feed = $scope.session.feed;
             $scope.stash = $scope.session.stash.snippets;
+
+            sessionSocket.emit("joined session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
+
+            $scope.$on('$locationChangeStart', function () {
+              sessionSocket.emit("left session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
+            });
+
             openPage();
         } else {
             Materialize.toast("Error! " + response.data.error, 2000);
@@ -55,7 +57,7 @@ openPage = function() {
     }).then(function (response) {
         $scope.stash.push(response.data); // add snippet to your own stash
         Materialize.toast('Your snippet has been posted!', 2000);
-        socketInstance.emit("added snippet", {"snippet" : response.data, "sessionId" : $scope.sessionId});
+        sessionSocket.emit("added snippet", {"snippet" : response.data, "sessionId" : $scope.sessionId});
         editor.importFile(null,"");
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
@@ -76,7 +78,7 @@ openPage = function() {
           for (i=0;i<$scope.session.stash.snippets.length;i++) {
             if ($scope.session.stash.snippets[i]._id === id) {
                 $scope.session.stash.snippets.splice(i,1); // remove snippet from your own stash
-                socketInstance.emit("removed snippet", {"sessionId" : $scope.sessionId, "snippetId" : id});
+                sessionSocket.emit("removed snippet", {"sessionId" : $scope.sessionId, "snippetId" : id});
                 break;
             }
           }
@@ -96,7 +98,7 @@ openPage = function() {
          for (i=0;i<$scope.feed.length;i++) {
            if ($scope.feed[i]._id === id) {
                $scope.stash.push(jQuery.extend(true, {}, $scope.feed[i])); // copy snippet onto stash
-               socketInstance.emit("saved snippet", {"sessionId" : $scope.sessionId, "snippetId" : id});
+               sessionSocket.emit("saved snippet", {"sessionId" : $scope.sessionId, "snippetId" : id});
                break;
            }
          }

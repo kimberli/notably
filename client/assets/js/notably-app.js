@@ -40,14 +40,19 @@ angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment','luegg.dire
 	}
 ])
 
-.factory('socketInstance', function (socketFactory) {
-	var socketInstance = socketFactory();
- 	socketInstance.forward('saved snippet');
-	socketInstance.forward('removed snippet');
-	socketInstance.forward('added snippet');
-  return socketInstance;
-})
+.factory('sessionSocket', function (socketFactory) {
+	var sessionSocket = socketFactory({'ioSocket': io()});
 
+ 	sessionSocket.forward('saved snippet');
+	sessionSocket.forward('removed snippet');
+	sessionSocket.forward('added snippet');
+	sessionSocket.forward('joined session');
+	sessionSocket.forward('left session');
+	sessionSocket.forward('new session');
+	sessionSocket.forward('session data loaded');
+
+  return sessionSocket;
+})
 
 .directive('navBar', function() {
 	return {
