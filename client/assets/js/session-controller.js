@@ -5,6 +5,10 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
 
     socketInstance.emit("joined session", {"sessionId" : $scope.sessionId});
 
+    $scope.$on('$locationChangeStart', function () {
+      socketInstance.emit("left session", {"sessionId" : $scope.sessionId});
+    });
+
     var opts = {
       container: 'epiceditor',
       basePath: '../assets/lib/epiceditor',

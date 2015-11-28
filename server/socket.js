@@ -7,7 +7,13 @@ var io = require('socket.io')(server);
 io.sockets.on('connection', function(socket){
 
     socket.on("joined session", function(data) {
+      console.log("joined room");
       socket.join(data.sessionId); // join a room named after this session
+    });
+
+    socket.on("left session", function(data) {
+      console.log("left room");
+      socket.leave(data.sessionId); // join a room named after this session
     });
 
     // fired when a snippet is saved
