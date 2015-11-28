@@ -41,7 +41,7 @@ angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment','luegg.dire
 ])
 
 .factory('sessionSocket', function (socketFactory) {
-	var sessionSocket = socketFactory({'ioSocket': io()});
+	var sessionSocket = socketFactory();
 
  	sessionSocket.forward('saved snippet');
 	sessionSocket.forward('removed snippet');

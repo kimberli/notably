@@ -1,7 +1,5 @@
 angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams, $location, $http, sessionSocket) {
 
-    // var socket = io();
-
     $scope.sessionId = $routeParams.sessionId;
 
     var opts = {

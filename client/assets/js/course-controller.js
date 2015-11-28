@@ -33,7 +33,7 @@ angular.module('notablyApp').controller('courseController', function ($scope, $h
 
       // on removed snippet, decrement save count
       $scope.$on("socket:joined session", function(ev, data) {
-         if (data.sessionId in $scope.occupancy) {$scope.occupancy[data.sessionId]++;}
+        if (data.sessionId in $scope.occupancy) {$scope.occupancy[data.sessionId]++;}
       });
 
       // on added snippet, added snippet to feed

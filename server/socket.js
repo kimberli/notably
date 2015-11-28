@@ -14,15 +14,22 @@ var course = io.of('/course');
 io.sockets.on('connection', function(socket){
 
     socket.on("joined session", function(data) {
-      console.log("\n\n\n joined session \n\n\n");
       socket.join("session-" + data.sessionId); // join a room named after this session
-      io.to("course-" + data.courseNumber).emit('joined session', {"sessionId" : data.sessionId});
+      io.to("course-" + data.courseNumber).emit('joined session',
+        {
+        "sessionId" : data.sessionId
+        }
+      );
+      console.log("\njoined a session\n", Object.keys(socket.adapter.rooms));
     });
 
     socket.on("left session", function(data) {
-      console.log("\n\n\n left session \n\n\n");
       socket.leave("session-" + data.sessionId); // join a room named after this session
-      io.to("course-" + data.courseNumber).emit('left session', {"sessionId" : data.sessionId});
+      io.to("course-" + data.courseNumber).emit('left session',
+        {
+        "sessionId" : data.sessionId
+        }
+      );
     });
 
     // fired when a snippet is saved
@@ -64,8 +71,12 @@ io.sockets.on('connection', function(socket){
     });
 
     socket.on("disconnect", function() {
+        console.log("\n\nDISCONECTED SOCKET\n\n", Object.keys(socket.adapter.rooms));
         for (var room in socket.adapter.rooms) {
-          if (room.indexOf("session") === 0) {io.emit('left session', {"sessionId" : room.substring(8, room.length)});}
+          if (room.indexOf("session-") === 0) {
+              console.log("disconnect, left", room.substring(8, room.length));
+              io.emit('left session', {"sessionId" : room.substring(8, room.length)});
+            }
         }
     });
 
