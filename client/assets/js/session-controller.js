@@ -37,6 +37,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
             sessionSocket.emit("joined session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
 
             $scope.$on('$locationChangeStart', function () {
+              $('.tooltipped').tooltip('remove');
               sessionSocket.emit("left session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
             });
 
