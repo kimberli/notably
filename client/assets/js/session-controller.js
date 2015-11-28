@@ -1,46 +1,30 @@
-angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams, $location, $http) {
+angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams, $location, $http, socketInstance) {
+
 
     $scope.sessionId = $routeParams.sessionId;
 
-    var opts = {
-    container: 'epiceditor',
-    basePath: '../assets/lib/epiceditor',
-    clientSideStorage: false,
-    localStorageName: 'epiceditor',
-    useNativeFullscreen: true,
-    parser: marked,
-    file: {
-      name: 'epiceditor',
-      defaultContent: '',
-      autoSave: 100
-    },
-    theme: {
-      base: '/themes/base/epiceditor.css',
-      preview: '/themes/preview/github.css',
-      editor: '/themes/editor/epic-light.css'
-    },
-    button: {
-      preview: true,
-      fullscreen: false,
-      bar: "auto"
-    },
-    focusOnLoad: false,
-    shortcut: {
-      modifier: 17,
-      fullscreen: 70,
-      preview: 80
-    },
-    string: {
-      togglePreview: 'Toggle Preview Mode',
-      toggleEdit: 'Toggle Edit Mode',
-      toggleFullscreen: 'Enter Fullscreen'
-    },
-    autogrow: false
-  }
+    socketInstance.emit("joined session", {"sessionId" : $scope.sessionId});
 
+    var opts = {
+      container: 'epiceditor',
+      basePath: '../assets/lib/epiceditor',
+      clientSideStorage: false,
+      theme: {
+        base: '/themes/base/epiceditor.css',
+        preview: '/themes/preview/github.css',
+        editor: '/themes/editor/epic-light.css'
+      },
+      button: {
+        fullscreen: false,
+      },
+      autogrow: false
+    }
+
+  // initialize the epic editor instance
   var editor = new EpicEditor(opts).load();
 
-  $scope.resetSession = function() {
+  // retrieve data, set scope variables
+  $scope.loadPage = function() {
     $http.get('/api/session?sessionId=' + $scope.sessionId).then(function (response) {
         if (response.status === 200) {
             $scope.session = response.data;
@@ -52,9 +36,8 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
         }
     });
   }
-    $scope.resetSession();
 
-//  setInterval(function(){ $scope.resetSession(); }, 5000); // this is just for now, lets pretend we have web sockets!!
+    $scope.loadPage();
 
     $scope.showOption = 'both';
 
@@ -66,8 +49,9 @@ openPage = function() {
         'sessionId': $scope.session._id,
         'text': editor.exportFile(null, "html")
     }).then(function (response) {
-        $scope.resetSession();
+        $scope.stash.push(response.data); // add snippet to your own stash
         Materialize.toast('Your snippet has been posted!', 2000);
+        socketInstance.emit("added snippet", {"snippet" : response.data, "sessionId" : $scope.sessionId});
         editor.importFile(null,"");
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
@@ -84,7 +68,15 @@ openPage = function() {
         'stashId': $scope.session.stash._id,
         'snippetId': id
     }).then(function (response) {
-        $scope.resetSession();
+
+          for (i=0;i<$scope.session.stash.snippets.length;i++) {
+            if ($scope.session.stash.snippets[i]._id === id) {
+                $scope.session.stash.snippets.splice(i,1); // remove snippet from your own stash
+                socketInstance.emit("removed snippet", {"sessionId" : $scope.sessionId, "snippetId" : id});
+                break;
+            }
+          }
+
          Materialize.toast('Your snippet has been removed!', 2000);
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
@@ -96,15 +88,22 @@ openPage = function() {
         'stashId': $scope.session.stash._id,
         'snippetId': id
     }).then(function (response) {
-        // TODO increment number
-          $scope.resetSession();
+
+         for (i=0;i<$scope.feed.length;i++) {
+           if ($scope.feed[i]._id === id) {
+               $scope.stash.push(jQuery.extend(true, {}, $scope.feed[i])); // copy snippet onto stash
+               socketInstance.emit("saved snippet", {"sessionId" : $scope.sessionId, "snippetId" : id});
+               break;
+           }
+         }
+
          Materialize.toast('Your snippet has been saved!', 2000);
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
     });
   }
 
-
+  // scroll stash and feed to bottom of page
   $scope.scrollDivs = function() {
     var objDiv = document.getElementById("feed-view");
     objDiv.scrollTop = objDiv.scrollHeight;
@@ -112,12 +111,64 @@ openPage = function() {
     objDiv.scrollTop = objDiv.scrollHeight;
   }
 
-  angular.element(document).ready(function () {
-    $('pre code').each(function(i, block) {
-        hljs.highlightBlock(block);
+  // add one to a particular snippet's save count
+  $scope.incrementSaveCount = function(snippetId) {
+
+    for (i=0;i<$scope.feed.length;i++) {
+      if ($scope.feed[i]._id === snippetId) {
+           $scope.feed[i].saveCount++;
+      }
+    }
+
+    for (i=0;i<$scope.stash.length;i++) {
+      if ($scope.stash[i]._id === snippetId) {
+           $scope.stash[i].saveCount++;
+      }
+    }
+
+  }
+
+  // decrease one from a particular snippet's save count
+  $scope.decrementSaveCount = function(snippetId) {
+    for (i=0;i<$scope.feed.length;i++) {
+      if ($scope.feed[i]._id === snippetId) {
+           $scope.feed[i].saveCount--;
+      }
+    }
+
+    for (i=0;i<$scope.stash.length;i++) {
+      if ($scope.stash[i]._id === snippetId) {
+           $scope.stash[i].saveCount--;
+      }
+    }
+  }
+
+  // use highlight js to highlight code blocks
+  $scope.highlightCode = function() {
+    angular.element(document).ready(function () {
+      $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
       });
+    });
+  }
+
+  $scope.highlightCode();
+
+  // on saved snippet, increment save count
+  $scope.$on("socket:saved snippet", function(ev, data) {
+      $scope.incrementSaveCount(data.snippetId);
   });
 
+  // on removed snippet, decrement save count
+  $scope.$on("socket:removed snippet", function(ev, data) {
+      $scope.decrementSaveCount(data.snippetId);
+  });
+
+  // on added snippet, added snippet to feed
+  $scope.$on("socket:added snippet", function(ev, data) {
+      $scope.feed.push(data.snippet);
+      $scope.highlightCode();
+  });
 
   }
 

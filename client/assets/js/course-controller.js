@@ -1,4 +1,4 @@
-angular.module('notablyApp').controller('courseController', function ($scope, $http, $routeParams) {
+angular.module('notablyApp').controller('courseController', function ($scope, $http, $routeParams, socketInstance) {
 
     $http.get('/api/course?number=' + $routeParams.courseNumber).then(function (response) {
         $scope.course = response.data;

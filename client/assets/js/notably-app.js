@@ -1,4 +1,4 @@
-angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment','luegg.directives', 'angucomplete-alt', 'ngSanitize'])
+angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment','luegg.directives', 'angucomplete-alt', 'ngSanitize','btford.socket-io'])
 .config(['$routeProvider', '$locationProvider',
 	function($routeProvider, $locationProvider) {
 
@@ -39,6 +39,15 @@ angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment','luegg.dire
 
 	}
 ])
+
+.factory('socketInstance', function (socketFactory) {
+	var socketInstance = socketFactory();
+ 	socketInstance.forward('saved snippet');
+	socketInstance.forward('removed snippet');
+	socketInstance.forward('added snippet');
+  return socketInstance;
+})
+
 
 .directive('navBar', function() {
 	return {
