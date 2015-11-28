@@ -15,10 +15,14 @@ angular.module('notablyApp').controller('courseController', function ($scope, $h
       });
 
       $scope.createSession = function () {
-        $scope.latestSession = $scope.course.sessions[$scope.course.sessions.length - 1];
-        $scope.latestSessionTime = new Date($scope.latestSession.createdAt);
-        if (Date.now() - $scope.latestSessionTime.getTime() < 15*60*1000) {
-          $('#new-session-modal').openModal();
+        if ($scope.course.sessions.length > 0)  {
+          $scope.latestSession = $scope.course.sessions[$scope.course.sessions.length - 1];
+          $scope.latestSessionTime = new Date($scope.latestSession.createdAt);
+          if (Date.now() - $scope.latestSessionTime.getTime() < 15*60*1000) {
+            $('#new-session-modal').openModal();
+          } else {
+            $scope.createNewSession();
+          }
         } else {
           $scope.createNewSession();
         }
