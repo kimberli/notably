@@ -45,6 +45,9 @@ angular.module('notablyApp').controller('courseController', function ($scope, $h
       // on removed snippet, decrement save count
       $scope.$on("socket:joined session", function(ev, data) {
         if (data.sessionId in $scope.occupancy) {$scope.occupancy[data.sessionId]++;}
+        $("#badge-" + data.sessionId).addClass('animated tada save-button-active').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+          $(this).removeClass('animated tada save-button-active');
+        });
       });
 
       // on added snippet, added snippet to feed
