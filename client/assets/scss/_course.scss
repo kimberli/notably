@@ -1,2 +1,15 @@
 #course-container {
+  #new-session-modal {
+    color: black;
+
+    #new-session-header {
+      color: $primary-color-dark;
+      font-weight: 300;
+      font-size: 32px;
+    }
+
+    #latest-session {
+      color: $primary-color-dark;
+    }
+  }
 }

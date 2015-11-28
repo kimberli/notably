@@ -101,7 +101,8 @@ courseSchema.statics.addSession = function(number, title, username, callback) {
                             else callback(null, {
                                 _id: result._id,
                                 number: result.number,
-                                title: result.title
+                                title: result.title,
+                                createdAt: result.createdAt
                             });
                         });
                     });

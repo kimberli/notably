@@ -44,4 +44,20 @@
       </div>
     </div>
   </div>
+
+  <!-- a modal if a recent session was created  -->
+
+  <div id="new-session-modal" class="modal">
+     <div class="modal-content">
+       <h4 id="new-session-header">Wait up!</h4>
+       The session <b id="latest-session">{{latestSession.title}}</b> was created <b am-time-ago="latestSessionTime"></b>. Would you rather join this one, or make a new session?
+     </div>
+     <div class="modal-footer">
+       <a href="#!" class="modal-action modal-close waves-effect btn-flat red-text">Cancel</a>
+       <a ng-href="/session/{{ latestSession._id }}" class="modal-action modal-close waves-effect btn-flat blue-text">Join This Session</a>
+       <button ng-click="createNewSession()" class="modal-action modal-close waves-effect btn-flat orange-text">Create Anyways</button>
+     </div>
+   </div>
+
+
 </div>

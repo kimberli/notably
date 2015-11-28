@@ -3,7 +3,7 @@ angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment','luegg.dire
 	function($routeProvider, $locationProvider) {
 
 		// routing definitions
-	    $routeProvider
+	$routeProvider
 		.when('/', {
 			templateUrl: '/views/splash.html',
 			controller: 'splashController'

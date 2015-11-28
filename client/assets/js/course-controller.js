@@ -15,16 +15,27 @@ angular.module('notablyApp').controller('courseController', function ($scope, $h
       });
 
       $scope.createSession = function () {
-          $http.post('/api/course/newsession', {
-              'number': $scope.course.meta.number,
-              'title': $scope.newTitle
-          }).then(function (response) {
-              Materialize.toast('Your session has been created!', 2000);
-              sessionSocket.emit("new session", {"session" : response.data, "courseNumber" : $routeParams.courseNumber});
-          }, function(response) {
-              Materialize.toast(response.data.error, 2000);
-          });
+        $scope.latestSession = $scope.course.sessions[$scope.course.sessions.length - 1];
+        $scope.latestSessionTime = new Date($scope.latestSession.createdAt);
+        if (Date.now() - $scope.latestSessionTime.getTime() < 15*60*1000) {
+          $('#new-session-modal').openModal();
+        } else {
+          $scope.createNewSession();
+        }
       }
+
+    $scope.createNewSession = function() {
+        $http.post('/api/course/newsession', {
+            'number': $scope.course.meta.number,
+            'title': $scope.newTitle
+        }).then(function (response) {
+            Materialize.toast('Your session has been created!', 2000);
+            sessionSocket.emit("new session", {"session" : response.data, "courseNumber" : $routeParams.courseNumber});
+            $scope.newTitle = "";
+        }, function(response) {
+            Materialize.toast(response.data.error, 2000);
+        });
+     }
 
       $scope.$on("socket:new session", function(ev, data) {
         $scope.course.sessions.push(data.session);
