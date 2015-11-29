@@ -1,4 +1,4 @@
-<div id="session-container" class="page-container">
+<div id="session-container" class="page-container page-wrap">
 
   <nav-bar></nav-bar>
 
@@ -6,13 +6,13 @@
     <div class="row" id="session-header">
       <div id="session-header-container">
         <div class="left">
-          <h4 ng-if="!session">
+          <h4 ng-if="!session" class="thin-text" >
             <a class="btn-floating btn-large waves-effect waves-light" href="/">
               <i class="material-icons">arrow_back</i>
             </a>
               &nbsp; Session {{sessionId}}
           </h4>
-          <h4 ng-if="session">
+          <h4 ng-if="session" class="thin-text" >
             <a class="btn-floating btn-large waves-effect waves-light" href="/course/{{session.meta.number}}">
               <i class="material-icons">arrow_back</i>
             </a>
@@ -32,14 +32,14 @@
 
     <div class="row feeds">
         <div ng-class="{true: 's12 m6', false: 's12'}[showOption === 'both']" class="col feeds-col" ng-hide="showOption === 'right'" >
-        <div id="feed-view" class="card-panel white-text">
+        <div id="feed-container" class="card-panel white-text">
 
         <div class="row" id="feed-header" class="thin-header">
           <div class="left thin-header">Feed</div>
         </div>
 
         <div class="thin-text" ng-if="!feed || feed.length === 0"><em>Add a snippet!</em></div>
-
+        <div id="feed-view">
           <div ng-repeat="snip in feed" id="feed-snippet-{{ snip._id }}">
             <div class="card snippet-card">
               <div class="card-content">
@@ -58,12 +58,13 @@
                 <p class="black-text markdown-parsed" ng-bind-html="snip.text"></p>
               </div>
             </div>
+          </div>
         </div>
 
         </div>
         </div>
         <div ng-class="{true: 's12 m6', false: 's12'}[showOption === 'both']" class="col feeds-col"  ng-hide="showOption === 'left'" id="printarea">
-          <div id="stash-view" class="card-panel white-text">
+          <div id="stash-container" class="card-panel white-text">
           <div class="row" id="stash-header">
             <div class="left thin-header">Your Stash</div>
 
@@ -74,44 +75,52 @@
 
           <div class="thin-text" ng-if="!stash || stash.length === 0"><em>Your stash is empty!</em></div>
 
-          <div ng-repeat="snip in stash" id="stash-snippet-{{ snip._id }}">
-            <div class="card snippet-card black-text">
-              <div class="card-content">
+          <div id="stash-view">
+            <div ng-repeat="snip in stash" id="stash-snippet-{{ snip._id }}">
+              <div class="card snippet-card black-text">
+                <div class="card-content">
 
-                <div class="snippet-header">
-                  <div class="left">
-                    <b><a ng-href="/profile/{{snip.author}}">{{snip.author}}</a></b> posted <em am-time-ago="snip.timestamp"></em>
+                  <div class="snippet-header">
+                    <div class="left">
+                      <b><a ng-href="/profile/{{snip.author}}">{{snip.author}}</a></b> posted <em am-time-ago="snip.timestamp"></em>
+                    </div>
+                    <div class="right valign-wrapper">
+                      {{snip.saveCount}}
+                      <button class="save-button snippet-button" ng-click="saveSnippet(snip._id)" id="stash-save-{{ snip._id }}" disabled><i class="material-icons">star</i></button>
+                      {{snip.flags}}
+                      <button class="flag-button snippet-button" ng-click="flagSnippet(snip._id)"><i class="material-icons">flag</i></button>
+                      <button class="remove-button snippet-button" ng-click="removeSnippet(snip._id)"><i class="material-icons">clear</i></button>
+                    </div>
                   </div>
-                  <div class="right valign-wrapper">
-                    {{snip.saveCount}}
-                    <button class="save-button snippet-button" ng-click="saveSnippet(snip._id)" id="stash-save-{{ snip._id }}" disabled><i class="material-icons">star</i></button>
-                    {{snip.flags}}
-                    <button class="flag-button snippet-button" ng-click="flagSnippet(snip._id)"><i class="material-icons">flag</i></button>
-                    <button class="remove-button snippet-button" ng-click="removeSnippet(snip._id)"><i class="material-icons">clear</i></button>
-                  </div>
+                   <br/>
+                  <p class="black-text markdown-parsed" ng-bind-html="snip.text"></p>
                 </div>
-                 <br/>
-                <p class="black-text markdown-parsed" ng-bind-html="snip.text"></p>
               </div>
             </div>
-        </div>
+          </div>
 
       </div>
       </div>
     </div>
 
-    <div class="row submit">
+    <div style="height: 210px"></div>
+
+    <div class="submit" style="width: 100%; left: 0; right: 0; position: fixed; bottom : 0; z-index: 150">
       <div class="card-panel" id="snippet-input-container">
-        <div class="white-text thin-header">Add a snippet: </div>
           <div class="card submit-area left-align">
             <textarea placeholder="Enter notes here..." id="snippet-input-area" ng-model="snippetInput" ng-show="!preview" required> </textarea>
             <div ng-bind-html="previewText" id="snippet-preview" class="markdown-parsed" ng-if="preview"> </div>
-            <button ng-click="togglePreview()" id="toggle-preview-button">
+            <div id="submit-sidebar">
+            <button ng-click="togglePreview()" class="btn-floating blue" id="toggle-preview-button">
                 <i class="material-icons small" ng-if="preview">mode_edit</i>
                 <i class="material-icons small" ng-if="!preview">remove_red_eye</i>
             </button>
+            <br/>
+            <button ng-click="addSnippet()" ng-disabled="!session" class="btn-floating green">
+                <i class="material-icons small">send</i>
+            </button>
+            </div>
           </div>
-          <button class="waves-effect waves-light btn" ng-click="addSnippet()" ng-disabled="!session || preview" type="submit">Submit Snippet</button>
       </div>
     </div>
   </div>

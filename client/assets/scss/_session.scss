@@ -26,7 +26,11 @@
     color: #bdc3c7;
     font-size: 10%;
   }
+  padding: 0;
+}
 
+#feed-header {
+  padding: 0;
 }
 
   #session-header {
@@ -56,9 +60,14 @@
       padding: 0;
       margin: auto;
     }
+
+    #stash-container, #feed-container {
+      margin:10px;
+    }
+
     #stash-view, #feed-view {
-      margin: 10px;
-      height: 500px;
+      height: 90vh;
+      overflow: scroll;
     }
     .snippet-card {
       background-color: white;
@@ -90,12 +99,13 @@
   .submit {
 
     #toggle-preview-button {
-      right:0;
-      bottom:0;
+      margin-bottom: 5px;
+    }
+
+    #submit-sidebar {
+      right:5px;
+      bottom:5px;
       position: absolute;
-      background: none;
-      border: none;
-      color: #7f8c8d;
     }
 
     #toggle-preview-button:hover {
@@ -110,9 +120,6 @@
       color: black;
     }
 
-    #snippet-input-container {
-      margin: 10px;
-    }
 
     #snippet-input-area {
       width: 100%;
@@ -139,6 +146,11 @@
       box-shadow: 0 0 10px $primary-color-dark;
     }
 
+    #snippet-input-container {
+      margin: 0;
+    }
+
   }
+
 
 }
