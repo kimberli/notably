@@ -40,8 +40,8 @@
 
         <div class="thin-text" ng-if="!feed || feed.length === 0"><em>Add a snippet!</em></div>
         <div id="feed-view">
-          <div ng-repeat="snip in feed" id="feed-snippet-{{ snip._id }}">
-            <div class="card snippet-card">
+          <div ng-repeat="snip in feed">
+            <div class="card snippet-card" id="feed-snippet-{{ snip._id }}">
               <div class="card-content">
                 <div class="snippet-header">
                   <div class="left">
@@ -76,15 +76,20 @@
           <div class="thin-text" ng-if="!stash || stash.length === 0"><em>Your stash is empty!</em></div>
 
           <div id="stash-view">
-            <div ng-repeat="snip in stash" id="stash-snippet-{{ snip._id }}">
-              <div class="card snippet-card black-text">
+            <div ng-repeat="snip in stash">
+              <div  class="card snippet-card black-text collapsed-snippet" id="stash-snippet-{{ snip._id }}">
                 <div class="card-content">
-
                   <div class="snippet-header">
                     <div class="left">
                       <b><a ng-href="/profile/{{snip.author}}">{{snip.author}}</a></b> posted <em am-time-ago="snip.timestamp"></em>
                     </div>
                     <div class="right valign-wrapper">
+                      <button class="snippet-button" ng-show="isOverflowingStash(snip._id)" ng-click="toggleSnippetStash(snip._id)">
+                        <i class="material-icons">expand_more</i>
+                      </button>
+                      <button class="snippet-button" ng-show="hasOverflownStash(snip._id)" ng-click="toggleSnippetStash(snip._id)">
+                        <i class="material-icons">expand_less</i>
+                      </button>
                       {{snip.saveCount}}
                       <button class="save-button snippet-button" ng-click="saveSnippet(snip._id)" id="stash-save-{{ snip._id }}" disabled><i class="material-icons">star</i></button>
                       {{snip.flags}}

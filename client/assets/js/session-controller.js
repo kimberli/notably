@@ -218,6 +218,31 @@ openPage = function() {
   }
 
 
+  $scope.isOverflowingStash = function(id) {
+    return $("#stash-snippet-" + id).prop('scrollHeight') > $("#stash-snippet-" + id).height();
+  }
+
+  $scope.isOverflowingFeed = function(id) {
+    return $("#feed-snippet-" + id).prop('scrollHeight') > $("#feed-snippet-" + id).height();
+  }
+
+  $scope.hasOverflownStash = function(id) {
+    return $("#stash-snippet-" + id).hasClass('expanded-snippet');
+  }
+
+  $scope.hasOverflownFeed = function(id) {
+    return $("#feed-snippet-" + id).hasClass('expanded-snippet');
+  }
+
+  $scope.toggleSnippetStash = function(id) {
+     $("#stash-snippet-" + id).toggleClass("collapsed-snippet expanded-snippet");
+  }
+
+  $scope.toggleSnippetFeed = function(id) {
+     $("#feed-snippet-" + id).toggleClass("collapsed-snippet expanded-snippet");
+  }
+
+
   hotkeys.add({
      combo: 'ctrl+p',
      callback: function() {
@@ -225,6 +250,7 @@ openPage = function() {
      },
      allowIn : ['textarea']
    })
+
 
   } // end
 

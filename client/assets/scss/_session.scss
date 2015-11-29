@@ -72,6 +72,7 @@
       overflow: scroll;
     }
     .snippet-card {
+
       background-color: white;
       color: black;
       margin: 15px auto;
@@ -167,5 +168,14 @@
     height: 210px;
   }
 
+  .collapsed-snippet {
+    max-height: 150px;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+  }
+
+  .expand-button {
+
+  }
 
 }
