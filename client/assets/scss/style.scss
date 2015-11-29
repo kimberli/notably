@@ -59,3 +59,32 @@ a {
 .collection-item:hover {
   background-color: $primary-color-white;
 }
+
+
+
+  .markdown-parsed {
+    h1 {
+      font-weight: 300;
+      font-size: 36px;
+    }
+
+    h2 {
+      font-weight: 300;
+      font-size: 30px;
+    }
+
+    h3 {
+      font-weight: 300;
+      font-size: 24px;
+    }
+
+    h4 {
+      font-weight: 300;
+      font-size: 18px;
+    }
+
+    h5 {
+      font-weight: 300;
+      font-size: 14px;
+    }
+  }

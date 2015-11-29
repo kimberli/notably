@@ -15,8 +15,8 @@
 
   <table class="bordered responsive-table" id="snippet-table">
   <tr ng-repeat="snip in snippets">
-        <td class="author-column" style="width: 10%; padding: 0;">{{snip.author}}</div>
-        <td class="content-column" ng-bind-html="snip.text" style="padding: 0;"></div>
+        <td class="author-column">{{snip.author}}</div>
+        <td class="content-column markdown-parsed" ng-bind-html="snip.text"></div>
   </tr>
   </table>
 </div>

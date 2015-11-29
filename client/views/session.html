@@ -102,7 +102,7 @@
 
     <div class="row submit">
       <div class="card-panel" id="snippet-input-container">
-        <div class="white-text thin-header">Add a snippet:</div>
+        <div class="white-text thin-header">Add a snippet: </div>
           <div class="card submit-area left-align">
             <textarea placeholder="Enter notes here..." id="snippet-input-area" ng-model="snippetInput" ng-show="!preview" required> </textarea>
             <div ng-bind-html="previewText" id="snippet-preview" class="markdown-parsed" ng-if="preview"> </div>
@@ -111,7 +111,7 @@
                 <i class="material-icons small" ng-if="!preview">remove_red_eye</i>
             </button>
           </div>
-          <button class="waves-effect waves-light btn center-align" ng-click="addSnippet()" ng-disabled="!session || preview" type="submit">Submit Snippet</button>
+          <button class="waves-effect waves-light btn" ng-click="addSnippet()" ng-disabled="!session || preview" type="submit">Submit Snippet</button>
       </div>
     </div>
   </div>
