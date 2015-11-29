@@ -43,23 +43,10 @@ angular.module('notablyApp').controller('courseController', function ($scope, $h
 
       $scope.$on("socket:new session", function(ev, data) {
         $scope.course.sessions.push(data.session);
-        $scope.occupancy[data.session._id] = 0;
-      });
-
-      // on removed snippet, decrement save count
-      $scope.$on("socket:joined session", function(ev, data) {
-        if (data.sessionId in $scope.occupancy) {$scope.occupancy[data.sessionId]++;}
-        $("#badge-" + data.sessionId).addClass('animated tada save-button-active').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-          $(this).removeClass('animated tada save-button-active');
-        });
-      });
-
-      // on added snippet, added snippet to feed
-      $scope.$on("socket:left session", function(ev, data) {
-        if (data.sessionId in $scope.occupancy) {$scope.occupancy[data.sessionId]--;}
       });
 
       $scope.$on("socket:session data loaded", function(ev, data) {
+        console.log(data.occupancy);
         $scope.occupancy = data.occupancy;
       });
   }
