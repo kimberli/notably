@@ -103,15 +103,15 @@
     <div class="row submit">
       <div class="card-panel" id="snippet-input-container">
         <div class="white-text thin-header">Add a snippet:</div>
-        <button ng-click="togglePreview()">lol</button>
-        <form ng-submit="addSnippet()" class="center">
           <div class="card submit-area left-align">
-            <textarea id="snippet-input-area" ng-model="snippetInput" ng-show="!preview" required> </textarea>
+            <textarea placeholder="Enter notes here..." id="snippet-input-area" ng-model="snippetInput" ng-show="!preview" required> </textarea>
             <div ng-bind-html="previewText" id="snippet-preview" class="markdown-parsed" ng-if="preview"> </div>
+            <button ng-click="togglePreview()" id="toggle-preview-button">
+                <i class="material-icons small" ng-if="preview">mode_edit</i>
+                <i class="material-icons small" ng-if="!preview">remove_red_eye</i>
+            </button>
           </div>
-          <div style="height: 10px"></div>
-          <button class="waves-effect waves-light btn center-align" ng-disabled="!session || preview" type="submit">Submit Snippet</button>
-        </form>
+          <button class="waves-effect waves-light btn center-align" ng-click="addSnippet()" ng-disabled="!session || preview" type="submit">Submit Snippet</button>
       </div>
     </div>
   </div>

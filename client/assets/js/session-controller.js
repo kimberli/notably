@@ -20,6 +20,8 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
 
 openPage = function() {
 
+  $scope.snippetInput = "";
+
   sessionSocket.emit("joined session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
 
   $scope.$on('$locationChangeStart', function () {
@@ -31,6 +33,7 @@ openPage = function() {
   var converter = new showdown.Converter();
 
   $scope.addSnippet = function() {
+    if ($scope.snippetInput.length === 0) {Materialize.toast('You cannot submit an empty snippet!', 2000); return;}
     $http.post('/api/session/newsnippet', {
         'sessionId': $scope.session._id,
         'text': converter.makeHtml($scope.snippetInput)
