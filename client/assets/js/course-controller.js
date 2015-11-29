@@ -1,6 +1,5 @@
 angular.module('notablyApp').controller('courseController', function ($scope, $http, $routeParams, sessionSocket, $location) {
 
-
     $http.get('/api/course?number=' + $routeParams.courseNumber).then(function (response) {
         $scope.course = response.data;
         $scope.loadPage();
@@ -46,7 +45,6 @@ angular.module('notablyApp').controller('courseController', function ($scope, $h
       });
 
       $scope.$on("socket:session data loaded", function(ev, data) {
-        console.log(data.occupancy);
         $scope.occupancy = data.occupancy;
       });
   }

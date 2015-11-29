@@ -1,69 +1,51 @@
-angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams, $location, $http, sessionSocket) {
+angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams, $location, $http, sessionSocket, hotkeys) {
+
     $scope.sessionId = $routeParams.sessionId;
-
-    var opts = {
-      container: 'epiceditor',
-      basePath: '../assets/lib/epiceditor',
-      clientSideStorage: false,
-      theme: {
-        base: '/themes/base/epiceditor.css',
-        preview: '/themes/preview/github.css',
-        editor: '/themes/editor/epic-light.css'
-      },
-      button: {
-        fullscreen: false,
-      },
-      string: {
-        togglePreview: 'Toggle Preview Mode (Alt-P)',
-        toggleEdit: 'Toggle Edit Mode (Alt-P)',
-      },
-      autogrow: false
-    }
-
-  // initialize the epic editor instance
-  var editor = new EpicEditor(opts).load();
-
-  // retrieve data, set scope variables
-  $scope.loadPage = function() {
+    $scope.showOption = 'both';
     // initialize Materialize tooltips
     $('.tooltipped').tooltip({delay: 50});
 
+    // retrieve data, set scope variables
     $http.get('/api/session?sessionId=' + $scope.sessionId).then(function (response) {
         if (response.status === 200) {
             $scope.session = response.data;
             $scope.feed = $scope.session.feed;
             $scope.stash = $scope.session.stash.snippets;
-
-            sessionSocket.emit("joined session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
-
-            $scope.$on('$locationChangeStart', function () {
-              $('.tooltipped').tooltip('remove');
-              sessionSocket.emit("left session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
-            });
-
             openPage();
         } else {
             Materialize.toast("Error! " + response.data.error, 2000);
         }
     });
-  }
-
-    $scope.loadPage();
-
-    $scope.showOption = 'both';
 
 
 openPage = function() {
 
+  sessionSocket.emit("joined session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
+
+  $scope.$on('$locationChangeStart', function () {
+    $('.tooltipped').tooltip('remove');
+    sessionSocket.emit("left session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
+  });
+
+  $scope.preview = false;
+  var converter = new showdown.Converter();
+
   $scope.addSnippet = function() {
     $http.post('/api/session/newsnippet', {
         'sessionId': $scope.session._id,
-        'text': editor.exportFile(null, "html")
+        'text': converter.makeHtml($scope.snippetInput)
     }).then(function (response) {
         $scope.stash.push(response.data); // add snippet to your own stash
+
+        angular.element(document).ready(function () {
+          $('#stash-snippet-' + response.data._id + ' pre code').each(function(i, block) {
+              hljs.highlightBlock(block);
+          });
+        });
+
         Materialize.toast('Your snippet has been posted!', 2000);
         sessionSocket.emit("added snippet", {"snippet" : response.data, "sessionId" : $scope.sessionId});
-        editor.importFile(null,"");
+        $scope.snippetInput = "";
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
     });
@@ -103,7 +85,13 @@ openPage = function() {
          for (i=0;i<$scope.feed.length;i++) {
            if ($scope.feed[i]._id === id) {
                $scope.stash.push(jQuery.extend(true, {}, $scope.feed[i])); // copy snippet onto stash
-               $scope.highlightCode();
+
+                angular.element(document).ready(function () {
+                   $('#stash-snippet-' + id + ' pre code').each(function(i, block) {
+                       hljs.highlightBlock(block);
+                   });
+                });
+
                sessionSocket.emit("saved snippet", {"sessionId" : $scope.sessionId, "snippetId" : id});
                break;
            }
@@ -162,15 +150,11 @@ openPage = function() {
   }
 
   // use highlight js to highlight code blocks
-  $scope.highlightCode = function() {
     angular.element(document).ready(function () {
       $('pre code').each(function(i, block) {
           hljs.highlightBlock(block);
       });
     });
-  }
-
-  $scope.highlightCode();
 
   // on saved snippet, increment save count
   $scope.$on("socket:saved snippet", function(ev, data) {
@@ -185,9 +169,33 @@ openPage = function() {
   // on added snippet, added snippet to feed
   $scope.$on("socket:added snippet", function(ev, data) {
       $scope.feed.push(data.snippet);
-      $scope.highlightCode();
+      angular.element(document).ready(function () {
+        $('#feed-snippet-' + data.snippet._id + ' pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+      });
   });
 
+  $scope.togglePreview = function() {
+    if($scope.preview) {$scope.preview = false;}
+    else {
+        $scope.preview = true;
+        $scope.previewText = converter.makeHtml($scope.snippetInput);
+        angular.element(document).ready(function () {
+          $('#snippet-preview pre code').each(function(i, block) {
+              hljs.highlightBlock(block);
+          });
+        });
+    }
   }
+
+  hotkeys.add({
+     combo: 'ctrl+p',
+     callback: function() {
+       $scope.togglePreview();
+     }
+   });
+
+  } // end
 
 });

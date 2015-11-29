@@ -1,4 +1,4 @@
-angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment','luegg.directives', 'angucomplete-alt', 'ngSanitize','btford.socket-io'])
+angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment','luegg.directives', 'angucomplete-alt', 'ngSanitize','btford.socket-io', 'cfp.hotkeys'])
 .config(['$routeProvider', '$locationProvider',
 	function($routeProvider, $locationProvider) {
 

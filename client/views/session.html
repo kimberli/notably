@@ -55,7 +55,7 @@
                   </div>
                 </div>
                  <br/>
-                <p class="black-text" ng-bind-html="snip.text"></p>
+                <p class="black-text markdown-parsed" ng-bind-html="snip.text"></p>
               </div>
             </div>
         </div>
@@ -91,7 +91,7 @@
                   </div>
                 </div>
                  <br/>
-                <p class="black-text" ng-bind-html="snip.text"></p>
+                <p class="black-text markdown-parsed" ng-bind-html="snip.text"></p>
               </div>
             </div>
         </div>
@@ -103,10 +103,14 @@
     <div class="row submit">
       <div class="card-panel" id="snippet-input-container">
         <div class="white-text thin-header">Add a snippet:</div>
+        <button ng-click="togglePreview()">lol</button>
         <form ng-submit="addSnippet()" class="center">
-          <div id="epiceditor" class="materialize-textarea" ng-model="snippetInput"  ng-disabled="!session" required> </div>
-          <br/>
-          <button class="waves-effect waves-light btn center-align" ng-disabled="!session" type="submit">Submit Snippet</button>
+          <div class="card submit-area left-align">
+            <textarea id="snippet-input-area" ng-model="snippetInput" ng-show="!preview" required> </textarea>
+            <div ng-bind-html="previewText" id="snippet-preview" class="markdown-parsed" ng-if="preview"> </div>
+          </div>
+          <div style="height: 10px"></div>
+          <button class="waves-effect waves-light btn center-align" ng-disabled="!session || preview" type="submit">Submit Snippet</button>
         </form>
       </div>
     </div>

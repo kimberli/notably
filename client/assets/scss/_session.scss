@@ -88,16 +88,64 @@
   }
 
   .submit {
-    #snippet-input-area {
+
+    .submit-area {
+      height: 150px;
+      max-height: 150px;
+      min-height: 150px;
+      background-color: white;
       color: black;
-      background: white;
-      margin: 0 -5px;
-      padding: 5px;
+      padding: 10px;
+      overflow: scroll;
     }
 
     #snippet-input-container {
       margin: 10px;
     }
+
+    #snippet-input-area {
+      border: none;
+      resize: none;
+      height: 90%;
+      margin: auto;
+      border: none;
+      overflow: auto;
+      outline: none;
+      border-radius: 5px;
+      padding: 10px;
+    }
+
+    #snippet-input-area:focus {
+      box-shadow: 0 0 10px $primary-color-dark;
+    }
+
   }
 
+
+  .markdown-parsed {
+    h1 {
+      font-weight: 300;
+      font-size: 36px;
+    }
+
+    h2 {
+      font-weight: 300;
+      font-size: 30px;
+    }
+
+    h3 {
+      font-weight: 300;
+      font-size: 24px;
+    }
+
+    h4 {
+      font-weight: 300;
+      font-size: 18px;
+    }
+
+    h5 {
+      font-weight: 300;
+      font-size: 14px;
+    }
+  }
 }
