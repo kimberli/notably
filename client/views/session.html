@@ -7,13 +7,13 @@
       <div id="session-header-container">
         <div class="left">
           <h4 ng-if="!session" class="thin-text" >
-            <a class="btn-floating btn-large waves-effect waves-light" href="/">
+            <a class="btn-floating waves-effect waves-light" href="/">
               <i class="material-icons">arrow_back</i>
             </a>
               &nbsp; Session {{sessionId}}
           </h4>
           <h4 ng-if="session" class="thin-text" >
-            <a class="btn-floating btn-large waves-effect waves-light" href="/course/{{session.meta.number}}">
+            <a class="btn-floating waves-effect waves-light" href="/course/{{session.meta.number}}">
               <i class="material-icons">arrow_back</i>
             </a>
             &nbsp;{{session.meta.number}}: {{session.meta.title}}
@@ -84,11 +84,11 @@
                       <b><a ng-href="/profile/{{snip.author}}">{{snip.author}}</a></b> posted <em am-time-ago="snip.timestamp"></em>
                     </div>
                     <div class="right valign-wrapper">
-                      <button class="snippet-button" ng-show="isOverflowingStash(snip._id)" ng-click="toggleSnippetStash(snip._id)">
-                        <i class="material-icons">expand_more</i>
+                      <button class="snippet-button valign-wrapper expand-button" ng-show="isOverflowingStash(snip._id)" ng-click="toggleSnippetStash(snip._id)">
+                        <div class="valign expand-button-text"> Show more </div> <i class="material-icons">expand_more</i>
                       </button>
-                      <button class="snippet-button" ng-show="hasOverflownStash(snip._id)" ng-click="toggleSnippetStash(snip._id)">
-                        <i class="material-icons">expand_less</i>
+                      <button class="snippet-button valign-wrapper expand-button" ng-show="hasOverflownStash(snip._id)" ng-click="toggleSnippetStash(snip._id)">
+                      <div class="valign expand-button-text"> Show less </div> <i class="material-icons">expand_less</i>
                       </button>
                       {{snip.saveCount}}
                       <button class="save-button snippet-button" ng-click="saveSnippet(snip._id)" id="stash-save-{{ snip._id }}" disabled><i class="material-icons">star</i></button>
