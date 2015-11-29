@@ -32,7 +32,7 @@
 
     <div class="row feeds">
         <div ng-class="{true: 's12 m6', false: 's12'}[showOption === 'both']" class="col feeds-col" ng-hide="showOption === 'right'" >
-        <div id="feed-container" class="card-panel white-text">
+        <div id="feed-container" class="card-panel card-primary">
 
         <div class="row" id="feed-header" class="thin-header">
           <div class="left thin-header">Feed</div>
@@ -64,8 +64,8 @@
         </div>
         </div>
         <div ng-class="{true: 's12 m6', false: 's12'}[showOption === 'both']" class="col feeds-col"  ng-hide="showOption === 'left'" id="printarea">
-          <div id="stash-container" class="card-panel white-text">
-          <div class="row" id="stash-header">
+          <div id="stash-container" class="card-panel card-primary">
+          <div class="row card-title" id="stash-header">
             <div class="left thin-header">Your Stash</div>
 
             <div class="right valign-wrapper">
@@ -103,20 +103,20 @@
       </div>
     </div>
 
-    <div style="height: 210px"></div>
+    <div id="sticky-submit-spacer"></div>
 
-    <div class="submit" style="width: 100%; left: 0; right: 0; position: fixed; bottom : 0; z-index: 150">
+    <div class="submit" id="sticky-submit">
       <div class="card-panel" id="snippet-input-container">
           <div class="card submit-area left-align">
             <textarea placeholder="Enter notes here..." id="snippet-input-area" ng-model="snippetInput" ng-show="!preview" required> </textarea>
             <div ng-bind-html="previewText" id="snippet-preview" class="markdown-parsed" ng-if="preview"> </div>
             <div id="submit-sidebar">
-            <button ng-click="togglePreview()" class="btn-floating blue" id="toggle-preview-button">
+            <button ng-click="togglePreview()" class="btn-floating light-blue accent-2" id="toggle-preview-button">
                 <i class="material-icons small" ng-if="preview">mode_edit</i>
                 <i class="material-icons small" ng-if="!preview">remove_red_eye</i>
             </button>
             <br/>
-            <button ng-click="addSnippet()" ng-disabled="!session" class="btn-floating green">
+            <button ng-click="addSnippet()" ng-disabled="!session" class="btn-floating  green lighten-2">
                 <i class="material-icons small">send</i>
             </button>
             </div>

@@ -27,10 +27,12 @@
     font-size: 10%;
   }
   padding: 0;
+  padding-bottom: 5px;
 }
 
 #feed-header {
   padding: 0;
+  padding-bottom: 5px;
 }
 
   #session-header {
@@ -62,6 +64,7 @@
     }
 
     #stash-container, #feed-container {
+      background-color: $primary-color-light;
       margin:10px;
     }
 
@@ -97,6 +100,14 @@
   }
 
   .submit {
+
+     width: 100%;
+     left: 0;
+     right: 0;
+     position: fixed;
+     bottom : 0;
+     z-index: 150;
+
 
     #toggle-preview-button {
       margin-bottom: 5px;
@@ -143,13 +154,18 @@
     }
 
     #snippet-input-area:focus {
-      box-shadow: 0 0 10px $primary-color-dark;
+      box-shadow: 0 0 10px $secondary-color-dark;
     }
 
     #snippet-input-container {
+      background-color: $secondary-color-light;
       margin: 0;
     }
 
+  }
+
+  #sticky-submit-spacer {
+    height: 210px;
   }
 
 

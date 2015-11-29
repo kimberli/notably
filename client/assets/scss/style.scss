@@ -1,14 +1,16 @@
 @import "../lib/materialize/sass/components/color";
 
 // Materialize variable overriding
-$primary-color: color("indigo", "base") !default;
-$primary-color-light: color("indigo", "lighten-2") !default;
-$primary-color-white: color("indigo", "lighten-5") !default;
-$primary-color-dark: color("indigo", "darken-2") !default;
-$secondary-color: color("teal", "base") !default;
-$secondary-color-light: color("teal", "lighten-2") !default;
-$secondary-color-white: color("teal", "lighten-5") !default;
-$secondary-color-dark: color("teal", "darken-2") !default;
+$primary-color: color("red", "accent-2") !default;
+$primary-color-light: color("red", "accent-1") !default;
+$primary-color-white: color("red", "lighten-5") !default;
+$primary-color-dark: color("red", "darken-2") !default;
+$secondary-color: color("orange", "accent-2") !default;
+$secondary-color-light: color("orange", "accent-1") !default;
+$secondary-color-white: color("orange", "lighten-5") !default;
+$secondary-color-dark: color("orange", "darken-2") !default;
+$background-color: color("grey", "lighten-4") !default;
+
 $radio-fill-color: $secondary-color !default;
 
 @import "../lib/materialize/sass/materialize";
@@ -21,10 +23,9 @@ $radio-fill-color: $secondary-color !default;
 @import "stash";
 @import "navbar";
 
-
 .page-container {
   min-height: 100vh;
-  background-color: $primary-color-white;
+  background-color: $background-color;
   color: $primary-color-white;
 }
 
@@ -44,8 +45,21 @@ $radio-fill-color: $secondary-color !default;
 
 .card,
 .card-panel {
+  color: black;
+  background-color: white;
+}
+
+.card .card-title, .card-panel .card-title {
+  color: $primary-color-dark;
+}
+
+.card-primary {
+  background-color: $primary-color-light;
   color: white;
-  background-color: $primary-color;
+}
+
+.card-primary .card-title {
+  color: white;
 }
 
 a {
