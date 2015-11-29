@@ -4,7 +4,7 @@
 $primary-color: color("red", "accent-2") !default;
 $primary-color-light: color("red", "accent-1") !default;
 $primary-color-white: color("red", "lighten-5") !default;
-$primary-color-dark: color("red", "darken-2") !default;
+$primary-color-dark: color("red", "darken-4") !default;
 $secondary-color: color("orange", "accent-2") !default;
 $secondary-color-light: color("orange", "accent-1") !default;
 $secondary-color-white: color("orange", "lighten-5") !default;
@@ -14,14 +14,6 @@ $background-color: color("grey", "lighten-4") !default;
 $radio-fill-color: $secondary-color !default;
 
 @import "../lib/materialize/sass/materialize";
-
-@import "splash";
-@import "home";
-@import "profile";
-@import "course";
-@import "session";
-@import "stash";
-@import "navbar";
 
 .page-container {
   min-height: 100vh;
@@ -67,7 +59,7 @@ a {
 }
 
 .collection-item {
-  color: $primary-color-dark !important;
+  color: $primary-color-dark;
 }
 
 .collection-item:hover {
@@ -100,3 +92,12 @@ a {
       font-size: 14px;
     }
   }
+
+
+  @import "splash";
+  @import "home";
+  @import "profile";
+  @import "course";
+  @import "session";
+  @import "stash";
+  @import "navbar";
