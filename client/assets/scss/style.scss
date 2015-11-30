@@ -2,8 +2,8 @@
 
 // Materialize variable overriding
 $primary-color: color("blue", "accent-2") !default;
-$primary-color-accent: color("blue", "darken-2") !default;
-$primary-color-light: color("blue", "lighten-2") !default;
+$primary-color-accent: color("blue", "accent-2") !default;
+$primary-color-light: color("blue", "accent-1") !default;
 $primary-color-white: color("blue", "lighten-5") !default;
 $primary-color-dark: color("blue", "darken-4") !default;
 $secondary-color: color("orange", "accent-2") !default;

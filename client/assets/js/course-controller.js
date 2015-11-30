@@ -5,6 +5,7 @@ angular.module('notablyApp').controller('courseController', function ($scope, $h
         $scope.loadPage();
     });
 
+
     $scope.loadPage = function() {
 
       sessionSocket.emit("joined course page", {"courseNumber" : $routeParams.courseNumber, "sessions" : $scope.course.sessions});
@@ -18,6 +19,7 @@ angular.module('notablyApp').controller('courseController', function ($scope, $h
           $scope.latestSession = $scope.course.sessions[$scope.course.sessions.length - 1];
           $scope.latestSessionTime = new Date($scope.latestSession.createdAt);
           if (Date.now() - $scope.latestSessionTime.getTime() < 15*60*1000) {
+            $('#newTitle').blur();
             $('#new-session-modal').openModal();
           } else {
             $scope.createNewSession();

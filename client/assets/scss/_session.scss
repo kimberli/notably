@@ -65,11 +65,9 @@
     .collapsed-snippet {
       max-height: 150px;
       overflow: hidden;
-      -moz-transition: 1s;
-      -ms-transition: 1s;
-      -o-transition: 1s;
-      -webkit-transition: 1s;
-      transition: 1s;
+    }
+
+    .expanded-snippet {
     }
 
     .expand-button-text {
@@ -101,13 +99,16 @@
         font-weight: 300;
       }
 
+      .expanded-snippet {
+        max-height: none;
+        transition: max-height 500ms ease-in-out;
+      }
       .snippet-button {
         border: none;
         background: none;
         color: grey;
         font-size: 10%;
       }
-
 
       .save-button:hover, .save-button-active {
         color: #f1c40f;
@@ -118,7 +119,7 @@
       .flag-button:hover {
         color: #e67e22;
       }
- 
+
     }
   }
 
@@ -159,6 +160,7 @@
       bottom:10px;
       position: absolute;
     }
+
 
 
 

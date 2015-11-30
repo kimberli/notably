@@ -1,23 +1,5 @@
 angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams, $location, $http, sessionSocket, hotkeys) {
 
-
-    new function($) {
-      $.fn.setCursorPosition = function(pos) {
-        if (this.setSelectionRange) {
-          this.setSelectionRange(pos, pos);
-        } else if (this.createTextRange) {
-          var range = this.createTextRange();
-          range.collapse(true);
-          if(pos < 0) {
-            pos = $(this).val().length + pos;
-          }
-          range.moveEnd('character', pos);
-          range.moveStart('character', pos);
-          range.select();
-        }
-      }
-    }(jQuery);
-
     $scope.sessionId = $routeParams.sessionId;
     $scope.showOption = 'both';
     $scope.snippetInput = "";

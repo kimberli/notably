@@ -6,7 +6,7 @@
     <div id="course-body">
       <div class="row">
         <div class="col s12 m6 l6">
-          <div class="card">
+          <div class="card" id="course-info"> 
             <div class="card-content">
               <span class="card-title">{{ course.meta.number }} - {{ course.meta.name }}</span> <br>
               <em>{{ course.meta.location }}, {{ course.meta.lectureTime }}</em><br>
@@ -36,7 +36,8 @@
             <div class="card-content">
               <span class="card-title">{{ course.meta.number }}'s sessions</span>
               <div class="spacer"></div>
-              <div class="collection">
+              <em ng-if="course.sessions.length === 0 || !course.sessions"> This course has no sessions yet! </em>
+              <div class="collection" ng-if="course.sessions.length > 0">
                 <a ng-repeat="session in course.sessions" href="/session/{{ session._id }}" class="collection-item">{{ session.title }}<span class="badge" id="badge-{{session._id}}">{{ occupancy[session._id] || 0 }}</span></a>
               </div>
             </div>
