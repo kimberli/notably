@@ -125,6 +125,9 @@
      bottom : 0;
      z-index: 150;
 
+    .card-panel {
+      padding: 5px 10px;
+    }
     #toggle-preview-button {
       margin-bottom: 5px;
     }
@@ -135,6 +138,7 @@
         background: none;
         color: white;
         font-size: 10%;
+        margin: auto;
       }
 
       .expand-button-submit-text {
@@ -142,7 +146,6 @@
         display: inline;
       }
 
-      margin: auto;
     }
 
     #submit-sidebar {
@@ -150,6 +153,8 @@
       bottom:10px;
       position: absolute;
     }
+
+
 
     #toggle-preview-button:hover {
       color: #bdc3c7;
@@ -196,11 +201,11 @@
   }
 
   #sticky-submit-spacer {
-    height: 240px;
+    height: 210px;
   }
 
   #sticky-submit-spacer-small {
-    height: 50px;
+    height: 30px;
   }
 
 }
