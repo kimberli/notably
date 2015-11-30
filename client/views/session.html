@@ -41,13 +41,19 @@
         <div class="thin-text" ng-if="!feed || feed.length === 0"><em>Add a snippet!</em></div>
         <div id="feed-view">
           <div ng-repeat="snip in feed">
-            <div class="card snippet-card" id="feed-snippet-{{ snip._id }}">
+            <div class="card snippet-card black-text collapsed-snippet" id="feed-snippet-{{ snip._id }}">
               <div class="card-content">
                 <div class="snippet-header">
                   <div class="left">
                     <b><a ng-href="/profile/{{snip.author}}">{{snip.author}}</a></b> posted <em am-time-ago="snip.timestamp"></em>
                   </div>
                   <div class="right valign-wrapper">
+                    <button class="snippet-button valign-wrapper expand-button" ng-show="isOverflowingFeed(snip._id)" ng-click="toggleSnippetFeed(snip._id)">
+                      <div class="valign expand-button-text"> Show more </div> <i class="material-icons">expand_more</i>
+                    </button>
+                    <button class="snippet-button valign-wrapper expand-button" ng-show="hasOverflownFeed(snip._id)" ng-click="toggleSnippetFeed(snip._id)">
+                    <div class="valign expand-button-text"> Show less </div> <i class="material-icons">expand_less</i>
+                    </button>
                     {{snip.saveCount}}
                     <button class="save-button snippet-button" ng-click="saveSnippet(snip._id)" id="feed-save-{{ snip._id }}"><i class="material-icons">star</i></button>
                     {{snip.flags}}
