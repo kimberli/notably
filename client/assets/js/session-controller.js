@@ -259,8 +259,15 @@ openPage = function() {
       },
       allowIn : ['textarea']
     })
-
-
+    hotkeys.add({
+       combo: 'ctrl+s',
+       callback: function() {
+          if ($('#snippet-input-area').is(':focus')) {
+            $scope.addSnippet();
+          }
+       },
+       allowIn : ['textarea']
+     })
   } // end
 
 });

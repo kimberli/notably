@@ -65,6 +65,11 @@
     .collapsed-snippet {
       max-height: 150px;
       overflow: hidden;
+      -moz-transition: 1s;
+      -ms-transition: 1s;
+      -o-transition: 1s;
+      -webkit-transition: 1s;
+      transition: 1s;
     }
 
     .expand-button-text {
@@ -113,6 +118,7 @@
       .flag-button:hover {
         color: #e67e22;
       }
+ 
     }
   }
 
