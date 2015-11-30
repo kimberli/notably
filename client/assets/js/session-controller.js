@@ -21,6 +21,8 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     $scope.sessionId = $routeParams.sessionId;
     $scope.showOption = 'both';
     $scope.snippetInput = "";
+    $scope.showNotes = true;
+
 
     // initialize Materialize tooltips
     $('.tooltipped').tooltip({delay: 50});

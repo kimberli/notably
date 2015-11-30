@@ -129,6 +129,24 @@
       margin-bottom: 5px;
     }
 
+
+    #submit-header {
+      .expand-button-submit {
+        border: none;
+        background: none;
+        color: white;
+        font-size: 10%;
+      }
+
+      .expand-button-submit-text {
+        font-size: 16px;
+        display: inline;
+      }
+      margin: auto;
+      padding: 0;
+      margin: 0;
+    }
+
     #submit-sidebar {
       right:5px;
       bottom:10px;
@@ -181,7 +199,11 @@
   }
 
   #sticky-submit-spacer {
-    height: 210px;
+    height: 240px;
+  }
+
+  #sticky-submit-spacer-small {
+    height: 50px;
   }
 
 }

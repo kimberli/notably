@@ -114,11 +114,18 @@
       </div>
     </div>
 
-    <div id="sticky-submit-spacer"></div>
+    <div id="sticky-submit-spacer" ng-if="showNotes"></div>
+    <div id="sticky-submit-spacer-small" ng-if="!showNotes"></div>
 
     <div class="submit" id="sticky-submit">
       <div class="card-panel" id="snippet-input-container">
-          <div class="card submit-area left-align">
+        <div class="center-align" id="submit-header">
+        <button class="snippet-button valign-wrapper expand-button-submit" ng-click="showNotes = !showNotes">
+          <div class="valign expand-button-submit-text"  ng-show="showNotes"> Hide editor </div> <i class="material-icons" ng-show="showNotes">expand_more</i>
+          <div class="valign expand-button-submit-text"  ng-show="!showNotes"> Show editor </div> <i class="material-icons"  ng-show="!showNotes">expand_less</i>
+        </button>
+        </div>
+          <div class="card submit-area left-align" ng-show="showNotes">
             <textarea placeholder="Enter notes here..." id="snippet-input-area" ng-model="snippetInput" ng-show="!preview" required> </textarea>
             <div ng-bind-html="previewText" id="snippet-preview" class="markdown-parsed" ng-if="preview"> </div>
             <div id="submit-sidebar">
