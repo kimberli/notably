@@ -38,8 +38,9 @@
           <div class="left thin-header">Feed</div>
         </div>
 
-        <div class="thin-text" ng-if="!feed || feed.length === 0"><em>Add a snippet!</em></div>
         <div id="feed-view">
+          <div class="thin-text" ng-if="!feed || feed.length === 0"><em>Add a snippet!</em></div>
+
           <div ng-repeat="snip in feed">
             <div class="card snippet-card black-text collapsed-snippet" id="feed-snippet-{{ snip._id }}">
               <div class="card-content">
@@ -75,7 +76,7 @@
             <div class="left thin-header">Your Stash</div>
 
             <div class="right valign-wrapper">
-              <a class="print-button tooltipped" data-position="left" data-delay="50" data-tooltip="Print view" ng-href="/stash/{{session.stash._id}}"><i class="material-icons">print</i></a>
+              <a class="print-button tooltipped" data-position="left" data-delay="50" data-tooltip="Print view" ng-href="/stash/{{session.stash._id}}" ng-disable="!stash || stash.length === 0"><i class="material-icons">print</i></a>
             </div>
           </div>
 
