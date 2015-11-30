@@ -252,6 +252,13 @@ openPage = function() {
      },
      allowIn : ['textarea']
    })
+   hotkeys.add({
+      combo: 'ctrl+e',
+      callback: function() {
+        $scope.showNotes = !$scope.showNotes;
+      },
+      allowIn : ['textarea']
+    })
 
 
   } // end
