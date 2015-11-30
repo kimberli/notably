@@ -79,9 +79,10 @@
             </div>
           </div>
 
-          <div class="thin-text" ng-if="!stash || stash.length === 0"><em>Your stash is empty!</em></div>
 
           <div id="stash-view">
+            <div class="thin-text" ng-if="!stash || stash.length === 0"><em>Your stash is empty!</em></div>
+
             <div ng-repeat="snip in stash">
               <div  class="card snippet-card black-text collapsed-snippet" id="stash-snippet-{{ snip._id }}">
                 <div class="card-content">
