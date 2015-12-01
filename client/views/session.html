@@ -75,7 +75,7 @@
                     <button
                         class="flag-button snippet-button"
                         ng-class="{false: 'flag-button snippet-button', true: 'flag-button snippet-button flag-button-active'}[alreadyFlagged[snip._id]]"
-                        ng-disabled="alreadySaved[snip._id] || currentUser === snip.author"
+                        ng-disabled="alreadyFlagged[snip._id] || currentUser === snip.author"
                         ng-click="flagSnippet(snip._id)"
                         id="feed-flag-{{ snip._id }}">
                         <i class="material-icons">flag</i>
