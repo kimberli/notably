@@ -1,4 +1,4 @@
-angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams, $location, $http, sessionSocket, hotkeys, $rootScope) {
+angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams, $location, $http, sessionSocket, hotkeys, $rootScope, $timeout) {
 
     // init important view variables
     $scope.sessionId = $routeParams.sessionId;
@@ -86,10 +86,8 @@ openPage = function() {
         'snippetId': id
     }).then(function (response) {
          sessionSocket.emit("flagged snippet", {"sessionId" : $scope.sessionId, "snippetId" : id, "username" : $scope.currentUser});
-          angular.element(document).ready(function () {
               $("#feed-flag-" + id).addClass('flag-button-active').prop("disabled", true);
               Materialize.toast('Snippet has been flagged!', 1000);
-          });
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
     });
@@ -110,10 +108,8 @@ openPage = function() {
             }
           }
 
-          angular.element(document).ready(function () {
-            $("#feed-save-" + id).removeClass('save-button-active').prop("disabled", false);
-            Materialize.toast('Snippet has been removed!', 1000);
-          });
+          $("#feed-save-" + id).removeClass('save-button-active').prop("disabled", false);
+          Materialize.toast('Snippet has been removed!', 1000);
 
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
@@ -129,6 +125,7 @@ openPage = function() {
 
          for (i=0;i<$scope.feed.length;i++) {
            if ($scope.feed[i]._id === id) {
+               $scope.alreadySaved[id] = true;
                $scope.stash.push(jQuery.extend(true, {}, $scope.feed[i])); // copy snippet onto stash
                 angular.element(document).ready(function () {
                    $("#feed-save-" + id).addClass('save-button-active').prop("disabled", true);

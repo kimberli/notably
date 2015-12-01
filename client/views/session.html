@@ -66,7 +66,7 @@
                     <button
                         class="save-button snippet-button"
                         ng-class="{false: 'save-button snippet-button', true: 'save-button snippet-button save-button-active'}[alreadySaved[snip._id]]"
-                        ng-disabled="snip.savedBy.indexOf(currentUser) > -1"
+                        ng-disabled="alreadySaved[snip._id]"
                         ng-click="saveSnippet(snip._id)"
                         id="feed-save-{{ snip._id }}">
                         <i class="material-icons">star</i>
@@ -75,7 +75,7 @@
                     <button
                         class="flag-button snippet-button"
                         ng-class="{false: 'flag-button snippet-button', true: 'flag-button snippet-button flag-button-active'}[alreadyFlagged[snip._id]]"
-                        ng-disabled="snip.flaggedBy.indexOf(currentUser) > -1 || currentUser === snip.author"
+                        ng-disabled="alreadySaved[snip._id] || currentUser === snip.author"
                         ng-click="flagSnippet(snip._id)"
                         id="feed-flag-{{ snip._id }}">
                         <i class="material-icons">flag</i>
