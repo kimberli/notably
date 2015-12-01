@@ -471,8 +471,8 @@ The snippet object looks like this:
 (Snippet)
 ```
 
-### `/api/snippet` - POST
-* Get snippet info
+### `/api/snippet/flag` - POST
+* Flag a snippet  
 * Must be authenticated
 
 **params**
