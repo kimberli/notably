@@ -85,9 +85,9 @@ openPage = function() {
         'snippetId': id
     }).then(function (response) {
          sessionSocket.emit("flagged snippet", {"sessionId" : $scope.sessionId, "snippetId" : id, "username" : $scope.currentUser});
-         Materialize.toast('Snippet has been flagged!', 1000);
           angular.element(document).ready(function () {
               $("#feed-flag-" + id).addClass('flag-button-active').prop("disabled", true);
+              Materialize.toast('Snippet has been flagged!', 1000);
           });
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
@@ -126,7 +126,6 @@ openPage = function() {
         'snippetId': id
     }).then(function (response) {
 
-        Materialize.toast('Snippet has been saved!', 2000);
          for (i=0;i<$scope.feed.length;i++) {
            if ($scope.feed[i]._id === id) {
                $scope.stash.push(jQuery.extend(true, {}, $scope.feed[i])); // copy snippet onto stash
@@ -135,6 +134,7 @@ openPage = function() {
                    $('#stash-snippet-' + id + ' pre code').each(function(i, block) {
                        hljs.highlightBlock(block);
                    });
+                   Materialize.toast('Snippet has been saved!', 2000);
                 });
 
                sessionSocket.emit("saved snippet", {"sessionId" : $scope.sessionId, "snippetId" : id, "username" : $scope.currentUser});
