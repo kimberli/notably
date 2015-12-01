@@ -93,6 +93,8 @@
     }
 
     #stash-view, #feed-view {
+      margin: 0 -13px;
+      padding: 0 13px;
       height: 80vh;
       overflow: scroll;
     }
