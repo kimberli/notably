@@ -69,7 +69,7 @@ openPage = function() {
           });
         });
 
-        Materialize.toast('Your snippet has been posted!', 2000);
+        Materialize.toast('Your snippet has been posted!', 1000);
         sessionSocket.emit("added snippet", {"snippet" : response.data, "sessionId" : $scope.sessionId});
         $scope.snippetInput = "";
         $scope.preview = false;
@@ -85,8 +85,10 @@ openPage = function() {
         'snippetId': id
     }).then(function (response) {
          sessionSocket.emit("flagged snippet", {"sessionId" : $scope.sessionId, "snippetId" : id, "username" : $scope.currentUser});
-         Materialize.toast('Snippet has been flagged!', 2000);
-         $("#feed-flag-" + id).addClass('flag-button-active').prop("disabled", true);
+         Materialize.toast('Snippet has been flagged!', 1000);
+          angular.element(document).ready(function () {
+              $("#feed-flag-" + id).addClass('flag-button-active').prop("disabled", true);
+          });
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
     });
@@ -109,9 +111,9 @@ openPage = function() {
 
           angular.element(document).ready(function () {
             $("#feed-save-" + id).removeClass('save-button-active').prop("disabled", false);
+            Materialize.toast('Snippet has been removed!', 1000);
           });
 
-         Materialize.toast('Snippet has been removed!', 2000);
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
     });
@@ -124,11 +126,11 @@ openPage = function() {
         'snippetId': id
     }).then(function (response) {
 
+        Materialize.toast('Snippet has been saved!', 2000);
          for (i=0;i<$scope.feed.length;i++) {
            if ($scope.feed[i]._id === id) {
                $scope.stash.push(jQuery.extend(true, {}, $scope.feed[i])); // copy snippet onto stash
                 angular.element(document).ready(function () {
-                   console.log(id, "changing");
                    $("#feed-save-" + id).addClass('save-button-active').prop("disabled", true);
                    $('#stash-snippet-' + id + ' pre code').each(function(i, block) {
                        hljs.highlightBlock(block);
@@ -139,8 +141,6 @@ openPage = function() {
                break;
            }
          }
-
-         Materialize.toast('Snippet has been saved!', 2000);
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
     });
