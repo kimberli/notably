@@ -52,7 +52,7 @@
                 <div class="snippet-header">
                   <div class="left">
                     <b ng-if="snip.author !== currentUser"><a ng-href="/profile/{{snip.author}}">{{snip.author}}</a></b>
-                    <b ng-if="snip.author === currentUser"><a ng-href="/profile/{{snip.author}}">you</a></b>
+                    <b ng-if="snip.author === currentUser"><a ng-href="/profile/{{snip.author}}" class="you-posted">you</a></b>
                     posted <em am-time-ago="snip.timestamp"></em>
                   </div>
                   <div class="right valign-wrapper">
@@ -111,7 +111,7 @@
                   <div class="snippet-header">
                     <div class="left">
                        <b ng-if="snip.author !== currentUser"><a ng-href="/profile/{{snip.author}}">{{snip.author}}</a></b>
-                       <b ng-if="snip.author === currentUser"><a ng-href="/profile/{{snip.author}}">you</a></b>
+                       <b ng-if="snip.author === currentUser"><a ng-href="/profile/{{snip.author}}" class="you-posted">you</a></b>
                        posted <em am-time-ago="snip.timestamp"></em>
                     </div>
                     <div class="right valign-wrapper">

@@ -106,6 +106,10 @@
       color: black;
       margin: 15px auto;
 
+      .you-posted {
+        color: $secondary-color-dark;
+      }
+
       .snippet-header {
         font-weight: 300;
       }
