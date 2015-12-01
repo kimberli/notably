@@ -30,6 +30,8 @@ URL: `mitnotably.herokuapp.com`
   - [`/api/stash/save` - POST](#apistashsave---post)
   - [`/api/stash/remove` - POST](#apistashremove---post)
   - [`/api/snippet` - GET](#apisnippet---get)
+  - [`/api/snippet/flag` - POST](#apisnippetflag---post)
+
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -452,6 +454,24 @@ The snippet object looks like this:
 ```
 
 ### `/api/snippet` - GET
+* Get snippet info
+* Must be authenticated
+
+**params**
+
+```javascript
+{
+  "snippetId": (string - snippet id)
+}
+```
+
+**content**
+
+```javascript
+(Snippet)
+```
+
+### `/api/snippet` - POST
 * Get snippet info
 * Must be authenticated
 
