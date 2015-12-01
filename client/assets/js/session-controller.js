@@ -1,10 +1,11 @@
-angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams, $location, $http, sessionSocket, hotkeys) {
+angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams, $location, $http, sessionSocket, hotkeys, $rootScope) {
 
     $scope.sessionId = $routeParams.sessionId;
     $scope.showOption = 'both';
     $scope.snippetInput = "";
     $scope.showNotes = true;
-
+    $scope.showFlags = true;
+    $scope.currentUser = $rootScope.user;
 
     // initialize Materialize tooltips
     $('.tooltipped').tooltip({delay: 50});
@@ -58,8 +59,14 @@ openPage = function() {
   }
 
   $scope.flagSnippet = function(id) {
-    alert("flag " + id);
-    // TODO add http call
+    $http.post('/api/snippet/flag', {
+        'snippetId': id
+    }).then(function (response) {
+         sessionSocket.emit("flagged snippet", {"sessionId" : $scope.sessionId, "snippetId" : id, "username" : $scope.currentUser});
+         Materialize.toast('Action complete!', 2000);
+    }, function(response) {
+        Materialize.toast(response.data.error, 2000);
+    });
   }
 
   $scope.removeSnippet = function(id) {
@@ -71,7 +78,7 @@ openPage = function() {
           for (i=0;i<$scope.session.stash.snippets.length;i++) {
             if ($scope.session.stash.snippets[i]._id === id) {
                 $scope.session.stash.snippets.splice(i,1); // remove snippet from your own stash
-                sessionSocket.emit("removed snippet", {"sessionId" : $scope.sessionId, "snippetId" : id});
+                sessionSocket.emit("removed snippet", {"sessionId" : $scope.sessionId, "snippetId" : id, "username" : $scope.currentUser});
                 break;
             }
           }
@@ -98,7 +105,7 @@ openPage = function() {
                    });
                 });
 
-               sessionSocket.emit("saved snippet", {"sessionId" : $scope.sessionId, "snippetId" : id});
+               sessionSocket.emit("saved snippet", {"sessionId" : $scope.sessionId, "snippetId" : id, "username" : $scope.currentUser});
                break;
            }
          }
@@ -118,40 +125,70 @@ openPage = function() {
   }
 
   // add one to a particular snippet's save count
-  $scope.incrementSaveCount = function(snippetId) {
+  $scope.incrementSaveCount = function(snippetId, username) {
 
+    var active = $("#feed-save-" + snippetId).hasClass("save-button-active");
+    console.log(active, "whether it should keep the color or not");
     $("#feed-save-" + snippetId + ",#stash-save-" + snippetId).addClass('animated tada save-button-active').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-      $(this).removeClass('animated tada save-button-active');
+      $(this).removeClass('animated tada');
+      if (!active) {$(this).removeClass('save-button-active');}
     });
 
     for (i=0;i<$scope.feed.length;i++) {
       if ($scope.feed[i]._id === snippetId) {
            $scope.feed[i].saveCount++;
+           $scope.feed[i].savedBy.push(username);
       }
     }
 
     for (i=0;i<$scope.stash.length;i++) {
       if ($scope.stash[i]._id === snippetId) {
            $scope.stash[i].saveCount++;
+           $scope.feed[i].savedBy.push(username);
       }
     }
 
   }
 
   // decrease one from a particular snippet's save count
-  $scope.decrementSaveCount = function(snippetId) {
+  $scope.decrementSaveCount = function(snippetId, username) {
     for (i=0;i<$scope.feed.length;i++) {
       if ($scope.feed[i]._id === snippetId) {
            $scope.feed[i].saveCount--;
+           $scope.feed[i].savedBy.splice($scope.feed[i].savedBy.indexOf(username), 1);
       }
     }
 
     for (i=0;i<$scope.stash.length;i++) {
       if ($scope.stash[i]._id === snippetId) {
            $scope.stash[i].saveCount--;
+           $scope.feed[i].savedBy.splice($scope.feed[i].savedBy.indexOf(username), 1);
       }
     }
 
+  }
+
+  // add one to a particular snippet's flag count
+  $scope.incrementFlagCount = function(snippetId, username) {
+    var active = $("#feed-flag-" + snippetId).hasClass("flag-button-active");
+    $("#feed-flag-" + snippetId + ",#stash-flag-" + snippetId).addClass('animated tada flag-button-active').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+      $(this).removeClass('animated tada');
+      if (!active) {$(this).removeClass('flag-button-active');}
+    });
+
+    for (i=0;i<$scope.feed.length;i++) {
+      if ($scope.feed[i]._id === snippetId) {
+           $scope.feed[i].flagCount++;
+           $scope.feed[i].flaggedBy.push(username);
+      }
+    }
+
+    for (i=0;i<$scope.stash.length;i++) {
+      if ($scope.stash[i]._id === snippetId) {
+           $scope.stash[i].flagCount++;
+           $scope.feed[i].flaggedBy.push(username);
+      }
+    }
 
   }
 
@@ -164,12 +201,16 @@ openPage = function() {
 
   // on saved snippet, increment save count
   $scope.$on("socket:saved snippet", function(ev, data) {
-      $scope.incrementSaveCount(data.snippetId);
+      $scope.incrementSaveCount(data.snippetId, data.username);
+  });
+
+  $scope.$on("socket:flagged snippet", function(ev, data) {
+      $scope.incrementFlagCount(data.snippetId, data.username);
   });
 
   // on removed snippet, decrement save count
   $scope.$on("socket:removed snippet", function(ev, data) {
-      $scope.decrementSaveCount(data.snippetId);
+      $scope.decrementSaveCount(data.snippetId, data.username);
   });
 
   // on added snippet, added snippet to feed

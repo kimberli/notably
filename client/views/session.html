@@ -36,12 +36,17 @@
 
         <div class="row" id="feed-header" class="thin-header">
           <div class="left thin-header">Feed</div>
+
+          <div class="right valign-wrapper">
+            <button class="toggle-flag-button tooltipped toggle-flag-button-active" data-position="left" data-delay="50" ng-show="showFlags" data-tooltip="Hide flagged snippets" ng-click="showFlags = !showFlags"><i class="material-icons">flag</i></button>
+            <button class="toggle-flag-button tooltipped" data-position="left" data-delay="50" ng-hide="showFlags" data-tooltip="View flagged snippets" ng-click="showFlags = !showFlags"><i class="material-icons">flag</i></button>
+        </div>
         </div>
 
         <div id="feed-view">
           <div class="thin-text" ng-if="!feed || feed.length === 0"><em>Add a snippet!</em></div>
 
-          <div ng-repeat="snip in feed">
+          <div ng-repeat="snip in feed" ng-if="!(!showFlags && snip.flagCount > 0)">
             <div class="card snippet-card black-text collapsed-snippet" id="feed-snippet-{{ snip._id }}">
               <div class="card-content">
                 <div class="snippet-header">
@@ -56,9 +61,19 @@
                     <div class="valign expand-button-text"> Show less </div> <i class="material-icons">expand_less</i>
                     </button>
                     {{snip.saveCount}}
-                    <button class="save-button snippet-button" ng-click="saveSnippet(snip._id)" id="feed-save-{{ snip._id }}"><i class="material-icons">star</i></button>
-                    {{snip.flags}}
-                    <button class="flag-button snippet-button" ng-click="flagSnippet(snip._id)"><i class="material-icons">flag</i></button>
+                    <button
+                        class="save-button snippet-button"
+                        ng-click="saveSnippet(snip._id)"
+                        id="feed-save-{{ snip._id }}">
+                        <i class="material-icons">star</i>
+                    </button>
+                    {{snip.flagCount}}
+                    <button
+                        class="flag-button snippet-button"
+                        ng-click="flagSnippet(snip._id)"
+                        id="feed-flag-{{ snip._id }}">
+                        <i class="material-icons">flag</i>
+                    </button>
                   </div>
                 </div>
                  <br/>
@@ -99,9 +114,19 @@
                       <div class="valign expand-button-text"> Show less </div> <i class="material-icons">expand_less</i>
                       </button>
                       {{snip.saveCount}}
-                      <button class="save-button snippet-button" ng-click="saveSnippet(snip._id)" id="stash-save-{{ snip._id }}" disabled><i class="material-icons">star</i></button>
-                      {{snip.flags}}
-                      <button class="flag-button snippet-button" ng-click="flagSnippet(snip._id)"><i class="material-icons">flag</i></button>
+                      <button
+                        class="save-button snippet-button"
+                        ng-click="saveSnippet(snip._id)"
+                        id="stash-save-{{ snip._id }}" disabled>
+                        <i class="material-icons">star</i>
+                      </button>
+                      {{snip.flagCount}}
+                      <button
+                        class="flag-button snippet-button"
+                        ng-click="flagSnippet(snip._id)"
+                        id="stash-flag-{{ snip._id }}" disabled>
+                        <i class="material-icons">flag</i>
+                      </button>
                       <button class="remove-button snippet-button" ng-click="removeSnippet(snip._id)"><i class="material-icons">clear</i></button>
                     </div>
                   </div>

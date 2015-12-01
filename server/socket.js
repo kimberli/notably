@@ -29,7 +29,12 @@ io.sockets.on('connection', function(socket){
 
     // fired when a snippet is saved
     socket.on("saved snippet", function(data) {
-      io.to("session-" + data.sessionId).emit('saved snippet', {"snippetId" : data.snippetId});
+      io.to("session-" + data.sessionId).emit('saved snippet', {"snippetId" : data.snippetId, "username" : data.username});
+    });
+
+    // fired when a snippet is flagged
+    socket.on("flagged snippet", function(data) {
+      io.to("session-" + data.sessionId).emit('flagged snippet', {"snippetId" : data.snippetId, "username" : data.username});
     });
 
     // fired when a snippet is added
@@ -39,7 +44,7 @@ io.sockets.on('connection', function(socket){
 
     // fired when a snippet is removed
     socket.on("removed snippet", function(data) {
-      io.to("session-" + data.sessionId).emit('removed snippet', {"snippetId" : data.snippetId});
+      io.to("session-" + data.sessionId).emit('removed snippet', {"snippetId" : data.snippetId, "username" : data.username});
     });
 
     socket.on("joined course page", function(data) {

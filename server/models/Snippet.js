@@ -5,8 +5,8 @@ var snippetSchema = mongoose.Schema({
     text: String,
     timestamp: Date,
     saveCount: Number,
-    hidden: Boolean,
     savedBy: [String],
+    flagCount: Number,
     flaggedBy: [String],
     sessionId: String
 });
@@ -40,7 +40,7 @@ snippetSchema.statics.create = function(rawUsername, text, sessionId, callback) 
         text: text,
         timestamp: Date.now(),
         saveCount: 1,
-        hidden: false,
+        flagCount: 0,
         flaggedBy: [],
         savedBy: [username],
         sessionId: sessionId
@@ -48,7 +48,7 @@ snippetSchema.statics.create = function(rawUsername, text, sessionId, callback) 
     newSnippet.save(callback);
 }
 
-/** TODO
+/**
  * Flag a snippet
  *
  * @param snippetId {ObjectId} - ID of snippet to be flagged
@@ -60,13 +60,14 @@ snippetSchema.statics.flagSnippet = function(snippetId, currentUser, callback) {
         if (err) callback(err);
         else {
             var author = snippet.author;
-            if (author != currentUser.toLowerCase()) {
+            if (author !== currentUser.toLowerCase()) {
                 if (snippet.flaggedBy.indexOf(currentUser) == -1) {
+                    snippet.flagCount += 1;
                     snippet.flaggedBy.push(currentUser);
+                    snippet.save(callback);
                 } else {
-                    snippet.flaggedBy.splice(snippet.flaggedBy.indexOf(currentUser), 1);
+                  callback('Snippet already flagged');
                 }
-                snippet.save(callback);
             } else callback('User cannot flag own snippet');
         }
     });

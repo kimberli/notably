@@ -128,7 +128,6 @@ stashSchema.statics.saveSnippet = function(snippetId, stashId, callback) {
     });
 }
 
-
 /**
  * Remove a snippet from the current user's stash
  *

@@ -46,6 +46,7 @@ angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment','luegg.dire
  	sessionSocket.forward('saved snippet');
 	sessionSocket.forward('removed snippet');
 	sessionSocket.forward('added snippet');
+	sessionSocket.forward('flagged snippet');
 	sessionSocket.forward('joined session');
 	sessionSocket.forward('left session');
 	sessionSocket.forward('new session');
