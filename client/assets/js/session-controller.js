@@ -17,6 +17,21 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
             $scope.session = response.data;
             $scope.feed = $scope.session.feed;
             $scope.stash = $scope.session.stash.snippets;
+            $scope.alreadySaved = {};
+            $scope.alreadyFlagged = {};
+            for (i=0; i<$scope.feed.length;i++) {
+              if ($scope.feed[i].savedBy.indexOf($scope.currentUser) > -1) {
+                $scope.alreadySaved[$scope.feed[i]._id] = true;
+              } else {
+                $scope.alreadySaved[$scope.feed[i]._id] = false;
+              }
+              if ($scope.feed[i].flaggedBy.indexOf($scope.currentUser) > -1) {
+                $scope.alreadyFlagged[$scope.feed[i]._id] = true;
+              } else {
+                $scope.alreadyFlagged[$scope.feed[i]._id] = false;
+              }
+            }
+            console.log($scope.alreadyFlagged, $scope.alreadySaved);
             openPage();
         } else {
             Materialize.toast("Error! " + response.data.error, 2000);
