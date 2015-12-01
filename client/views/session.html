@@ -51,7 +51,9 @@
               <div class="card-content">
                 <div class="snippet-header">
                   <div class="left">
-                    <b><a ng-href="/profile/{{snip.author}}">{{snip.author}}</a></b> posted <em am-time-ago="snip.timestamp"></em>
+                    <b ng-if="snip.author !== currentUser"><a ng-href="/profile/{{snip.author}}">{{snip.author}}</a></b>
+                    <b ng-if="snip.author === currentUser"><a ng-href="/profile/{{snip.author}}">you</a></b>
+                    posted <em am-time-ago="snip.timestamp"></em>
                   </div>
                   <div class="right valign-wrapper">
                     <button class="snippet-button valign-wrapper expand-button" ng-show="isOverflowingFeed(snip._id)" ng-click="toggleSnippetFeed(snip._id)">
@@ -73,7 +75,7 @@
                     <button
                         class="flag-button snippet-button"
                         ng-class="{true: 'flag-button snippet-button', false: 'flag-button snippet-button flag-button-active'}[snip.flaggedBy.indexOf(currentUser) === -1]"
-                        ng-disabled="snip.flaggedBy.indexOf(currentUser) > -1"
+                        ng-disabled="snip.flaggedBy.indexOf(currentUser) > -1 || currentUser === snip.author"
                         ng-click="flagSnippet(snip._id)"
                         id="feed-flag-{{ snip._id }}">
                         <i class="material-icons">flag</i>
@@ -108,7 +110,9 @@
                 <div class="card-content">
                   <div class="snippet-header">
                     <div class="left">
-                       <b><a ng-href="/profile/{{snip.author}}">{{snip.author}}</a></b> posted <em am-time-ago="snip.timestamp"></em>
+                       <b ng-if="snip.author !== currentUser"><a ng-href="/profile/{{snip.author}}">{{snip.author}}</a></b>
+                       <b ng-if="snip.author === currentUser"><a ng-href="/profile/{{snip.author}}">you</a></b>
+                       posted <em am-time-ago="snip.timestamp"></em>
                     </div>
                     <div class="right valign-wrapper">
                       <button class="snippet-button valign-wrapper expand-button" ng-show="isOverflowingStash(snip._id)" ng-click="toggleSnippetStash(snip._id)">
