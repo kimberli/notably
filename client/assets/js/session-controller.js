@@ -1,5 +1,6 @@
 angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams, $location, $http, sessionSocket, hotkeys, $rootScope) {
 
+    // init important view variables
     $scope.sessionId = $routeParams.sessionId;
     $scope.showOption = 'both';
     $scope.snippetInput = "";
@@ -27,13 +28,18 @@ openPage = function() {
   sessionSocket.emit("joined session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
 
   $scope.$on('$locationChangeStart', function () {
+    // remove tooltips (weird for print view)
     $('.tooltipped').tooltip('remove');
     sessionSocket.emit("left session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
   });
 
+  // start out in editor mode, not preview mode
   $scope.preview = false;
+
+  // showown.js markdown parser
   var converter = new showdown.Converter();
 
+  // add a snippet to stash and feed, highlight code
   $scope.addSnippet = function() {
     if (!$scope.snippetInput || $scope.snippetInput.length === 0) {Materialize.toast('You cannot submit an empty snippet!', 2000); return;}
     $http.post('/api/session/newsnippet', {
@@ -58,6 +64,7 @@ openPage = function() {
     });
   }
 
+  // flag a snippet
   $scope.flagSnippet = function(id) {
     $http.post('/api/snippet/flag', {
         'snippetId': id
@@ -70,6 +77,7 @@ openPage = function() {
     });
   }
 
+  // remove a snippet, uncolor the button, removefrom stash
   $scope.removeSnippet = function(id) {
     $http.post('/api/stash/remove', {
         'stashId': $scope.session.stash._id,
@@ -84,13 +92,14 @@ openPage = function() {
             }
           }
          $("#feed-save-" + id).removeClass('save-button-active')
-         $("#feed-save-" + id).prop("disabled", false); 
+         $("#feed-save-" + id).prop("disabled", false);
          Materialize.toast('Your snippet has been removed!', 2000);
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
     });
   }
 
+  // save a snippet, color the button, add to stash, highlight new code
   $scope.saveSnippet = function(id) {
     $http.post('/api/stash/save', {
         'stashId': $scope.session.stash._id,
@@ -224,6 +233,8 @@ openPage = function() {
       });
   });
 
+
+  // changes the editor to preview mode, making sure to highlight code and parse markdown
   $scope.togglePreview = function() {
     if($scope.preview) {
       $scope.preview = false;
@@ -244,31 +255,38 @@ openPage = function() {
   }
 
 
+  // check if a stash snippet has overflow
   $scope.isOverflowingStash = function(id) {
     return $("#stash-snippet-" + id).prop('scrollHeight') > $("#stash-snippet-" + id).height();
   }
 
+  // check if a feed snippet has overflow
   $scope.isOverflowingFeed = function(id) {
     return $("#feed-snippet-" + id).prop('scrollHeight') > $("#feed-snippet-" + id).height();
   }
 
+  // check if a stash snippet has been expanded
   $scope.hasOverflownStash = function(id) {
     return $("#stash-snippet-" + id).hasClass('expanded-snippet');
   }
 
+  // check if a feed snippet has been expanded
   $scope.hasOverflownFeed = function(id) {
     return $("#feed-snippet-" + id).hasClass('expanded-snippet');
   }
 
+  // removes the max-height on a stash snippet
   $scope.toggleSnippetStash = function(id) {
      $("#stash-snippet-" + id).toggleClass("collapsed-snippet expanded-snippet");
   }
 
+  // removes the max-height on a feed snippet
   $scope.toggleSnippetFeed = function(id) {
      $("#feed-snippet-" + id).toggleClass("collapsed-snippet expanded-snippet");
   }
 
 
+  // using angular hotkeys to add functionality
   hotkeys.add({
      combo: 'ctrl+p',
      callback: function() {
