@@ -64,6 +64,7 @@ openPage = function() {
     }).then(function (response) {
          sessionSocket.emit("flagged snippet", {"sessionId" : $scope.sessionId, "snippetId" : id, "username" : $scope.currentUser});
          Materialize.toast('Action complete!', 2000);
+         $("#feed-flag-" + id).addClass('flag-button-active')
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
     });
@@ -82,7 +83,8 @@ openPage = function() {
                 break;
             }
           }
-
+         $("#feed-save-" + id).removeClass('save-button-active')
+         $("#feed-save-" + id).prop("disabled", false); 
          Materialize.toast('Your snippet has been removed!', 2000);
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
@@ -98,7 +100,7 @@ openPage = function() {
          for (i=0;i<$scope.feed.length;i++) {
            if ($scope.feed[i]._id === id) {
                $scope.stash.push(jQuery.extend(true, {}, $scope.feed[i])); // copy snippet onto stash
-
+               $("#feed-save-" + id).addClass('save-button-active')
                 angular.element(document).ready(function () {
                    $('#stash-snippet-' + id + ' pre code').each(function(i, block) {
                        hljs.highlightBlock(block);
@@ -128,8 +130,7 @@ openPage = function() {
   $scope.incrementSaveCount = function(snippetId, username) {
 
     var active = $("#feed-save-" + snippetId).hasClass("save-button-active");
-    console.log(active, "whether it should keep the color or not");
-    $("#feed-save-" + snippetId + ",#stash-save-" + snippetId).addClass('animated tada save-button-active').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+     $("#feed-save-" + snippetId + ",#stash-save-" + snippetId).addClass('animated tada save-button-active').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
       $(this).removeClass('animated tada');
       if (!active) {$(this).removeClass('save-button-active');}
     });

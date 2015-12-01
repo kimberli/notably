@@ -46,7 +46,7 @@
         <div id="feed-view">
           <div class="thin-text" ng-if="!feed || feed.length === 0"><em>Add a snippet!</em></div>
 
-          <div ng-repeat="snip in feed" ng-if="!(!showFlags && snip.flagCount - snip.saveCount > 2)">
+          <div ng-repeat="snip in feed" ng-if="!(!showFlags && snip.flagCount - snip.saveCount > 0)">
             <div class="card snippet-card black-text collapsed-snippet" id="feed-snippet-{{ snip._id }}">
               <div class="card-content">
                 <div class="snippet-header">
@@ -63,6 +63,8 @@
                     {{snip.saveCount}}
                     <button
                         class="save-button snippet-button"
+                        ng-class="{true: 'save-button snippet-button', false: 'save-button snippet-button save-button-active'}[snip.savedBy.indexOf(currentUser) === -1]"
+                        ng-disabled="snip.savedBy.indexOf(currentUser) > -1"
                         ng-click="saveSnippet(snip._id)"
                         id="feed-save-{{ snip._id }}">
                         <i class="material-icons">star</i>
@@ -70,6 +72,8 @@
                     {{snip.flagCount}}
                     <button
                         class="flag-button snippet-button"
+                        ng-class="{true: 'flag-button snippet-button', false: 'flag-button snippet-button flag-button-active'}[snip.flaggedBy.indexOf(currentUser) === -1]"
+                        ng-disabled="snip.flaggedBy.indexOf(currentUser) > -1"
                         ng-click="flagSnippet(snip._id)"
                         id="feed-flag-{{ snip._id }}">
                         <i class="material-icons">flag</i>
@@ -115,15 +119,15 @@
                       </button>
                       {{snip.saveCount}}
                       <button
-                        class="save-button snippet-button"
+                        class="save-button snippet-button save-button-active"
                         ng-click="saveSnippet(snip._id)"
                         id="stash-save-{{ snip._id }}" disabled>
                         <i class="material-icons">star</i>
                       </button>
                       {{snip.flagCount}}
                       <button
-                        class="flag-button snippet-button"
                         ng-click="flagSnippet(snip._id)"
+                        ng-class="{true: 'flag-button snippet-button', false: 'flag-button snippet-button flag-button-active'}[snip.flaggedBy.indexOf(currentUser) === -1]"
                         id="stash-flag-{{ snip._id }}" disabled>
                         <i class="material-icons">flag</i>
                       </button>
