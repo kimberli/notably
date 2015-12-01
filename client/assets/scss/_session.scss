@@ -104,11 +104,13 @@
       background-color: white;
       color: black;
       margin: 15px auto;
+      max-height: 100000px;
 
       &.collapsed-snippet  {
         max-height: 150px;
         overflow: hidden;
       }
+
 
       .you-posted {
         color: $secondary-color-dark;

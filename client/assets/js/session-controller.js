@@ -71,7 +71,7 @@ openPage = function() {
     }).then(function (response) {
          sessionSocket.emit("flagged snippet", {"sessionId" : $scope.sessionId, "snippetId" : id, "username" : $scope.currentUser});
          Materialize.toast('Action complete!', 2000);
-         $("#feed-flag-" + id).addClass('flag-button-active')
+         $("#feed-flag-" + id).addClass('flag-button-active').prop("disabled", true);
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
     });
@@ -93,8 +93,7 @@ openPage = function() {
           }
 
           angular.element(document).ready(function () {
-            $("#feed-save-" + id).removeClass('save-button-active')
-            $("#feed-save-" + id).prop("disabled", false);
+            $("#feed-save-" + id).removeClass('save-button-active').prop("disabled", false);
           });
 
          Materialize.toast('Your snippet has been removed!', 2000);
@@ -114,7 +113,8 @@ openPage = function() {
            if ($scope.feed[i]._id === id) {
                $scope.stash.push(jQuery.extend(true, {}, $scope.feed[i])); // copy snippet onto stash
                 angular.element(document).ready(function () {
-                   $("#feed-save-" + id).addClass('save-button-active')
+                   console.log(id, "changing");
+                   $("#feed-save-" + id).addClass('save-button-active').prop("disabled", true);
                    $('#stash-snippet-' + id + ' pre code').each(function(i, block) {
                        hljs.highlightBlock(block);
                    });
@@ -151,14 +151,14 @@ openPage = function() {
     for (i=0;i<$scope.feed.length;i++) {
       if ($scope.feed[i]._id === snippetId) {
            $scope.feed[i].saveCount++;
-           $scope.feed[i].savedBy.push(username);
+           if ($scope.feed[i].savedBy.indexOf(username) === -1) $scope.feed[i].savedBy.push(username);
       }
     }
 
     for (i=0;i<$scope.stash.length;i++) {
       if ($scope.stash[i]._id === snippetId) {
            $scope.stash[i].saveCount++;
-           $scope.feed[i].savedBy.push(username);
+           if ($scope.stash[i].savedBy.indexOf(username) === -1) $scope.stash[i].savedBy.push(username);
       }
     }
 
@@ -170,13 +170,13 @@ openPage = function() {
       if ($scope.feed[i]._id === snippetId) {
            $scope.feed[i].saveCount--;
            $scope.feed[i].savedBy.splice($scope.feed[i].savedBy.indexOf(username), 1);
-      }
+       }
     }
 
     for (i=0;i<$scope.stash.length;i++) {
       if ($scope.stash[i]._id === snippetId) {
            $scope.stash[i].saveCount--;
-           $scope.feed[i].savedBy.splice($scope.feed[i].savedBy.indexOf(username), 1);
+           $scope.stash[i].savedBy.splice($scope.stash[i].savedBy.indexOf(username), 1);
       }
     }
 
@@ -193,14 +193,14 @@ openPage = function() {
     for (i=0;i<$scope.feed.length;i++) {
       if ($scope.feed[i]._id === snippetId) {
            $scope.feed[i].flagCount++;
-           $scope.feed[i].flaggedBy.push(username);
+           if ($scope.feed[i].flaggedBy.indexOf(username) === -1) $scope.feed[i].flaggedBy.push(username);
       }
     }
 
     for (i=0;i<$scope.stash.length;i++) {
       if ($scope.stash[i]._id === snippetId) {
            $scope.stash[i].flagCount++;
-           $scope.feed[i].flaggedBy.push(username);
+           if ($scope.stash[i].flaggedBy.indexOf(username) === -1) $scope.stash[i].flaggedBy.push(username);
       }
     }
 
