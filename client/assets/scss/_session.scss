@@ -73,10 +73,6 @@
       margin: auto;
     }
 
-    .collapsed-snippet {
-      max-height: 150px;
-      overflow: hidden;
-    }
 
     .expanded-snippet {
     }
@@ -100,11 +96,19 @@
       height: 90vh;
       overflow: scroll;
     }
+
+
+
     .snippet-card {
 
       background-color: white;
       color: black;
       margin: 15px auto;
+
+      &.collapsed-snippet  {
+        max-height: 150px;
+        overflow: hidden;
+      }
 
       .you-posted {
         color: $secondary-color-dark;
@@ -137,6 +141,8 @@
 
     }
   }
+
+
 
   .submit {
 
