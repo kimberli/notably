@@ -76,7 +76,7 @@
             <div class="left thin-header">Your Stash</div>
 
             <div class="right valign-wrapper">
-              <a class="print-button tooltipped" data-position="left" data-delay="50" data-tooltip="Print view" ng-href="/stash/{{session.stash._id}}" ng-disable="!stash || stash.length === 0"><i class="material-icons">print</i></a>
+              <a class="print-button tooltipped" data-position="left" data-delay="50" data-tooltip="Print view" ng-href="/stash/{{session.stash._id}}"><i class="material-icons">print</i></a>
             </div>
           </div>
 
@@ -84,12 +84,12 @@
           <div id="stash-view">
             <div class="thin-text" ng-if="!stash || stash.length === 0"><em>Your stash is empty!</em></div>
 
-            <div ng-repeat="snip in stash">
+            <div ng-repeat="snip in stash | orderBy:'timestamp'">
               <div  class="card snippet-card black-text collapsed-snippet" id="stash-snippet-{{ snip._id }}">
                 <div class="card-content">
                   <div class="snippet-header">
                     <div class="left">
-                      <b><a ng-href="/profile/{{snip.author}}">{{snip.author}}</a></b> posted <em am-time-ago="snip.timestamp"></em>
+                       <b><a ng-href="/profile/{{snip.author}}">{{snip.author}}</a></b> posted <em am-time-ago="snip.timestamp"></em>
                     </div>
                     <div class="right valign-wrapper">
                       <button class="snippet-button valign-wrapper expand-button" ng-show="isOverflowingStash(snip._id)" ng-click="toggleSnippetStash(snip._id)">
