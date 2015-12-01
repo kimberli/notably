@@ -70,7 +70,7 @@ openPage = function() {
         'snippetId': id
     }).then(function (response) {
          sessionSocket.emit("flagged snippet", {"sessionId" : $scope.sessionId, "snippetId" : id, "username" : $scope.currentUser});
-         Materialize.toast('Action complete!', 2000);
+         Materialize.toast('Snippet has been flagged!', 2000);
          $("#feed-flag-" + id).addClass('flag-button-active').prop("disabled", true);
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
@@ -96,7 +96,7 @@ openPage = function() {
             $("#feed-save-" + id).removeClass('save-button-active').prop("disabled", false);
           });
 
-         Materialize.toast('Your snippet has been removed!', 2000);
+         Materialize.toast('Snippet has been removed!', 2000);
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
     });
@@ -125,7 +125,7 @@ openPage = function() {
            }
          }
 
-         Materialize.toast('Your snippet has been saved!', 2000);
+         Materialize.toast('Snippet has been saved!', 2000);
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
     });
