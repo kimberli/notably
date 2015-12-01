@@ -91,8 +91,12 @@ openPage = function() {
                 break;
             }
           }
-         $("#feed-save-" + id).removeClass('save-button-active')
-         $("#feed-save-" + id).prop("disabled", false);
+
+          angular.element(document).ready(function () {
+            $("#feed-save-" + id).removeClass('save-button-active')
+            $("#feed-save-" + id).prop("disabled", false);
+          });
+
          Materialize.toast('Your snippet has been removed!', 2000);
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
@@ -109,8 +113,8 @@ openPage = function() {
          for (i=0;i<$scope.feed.length;i++) {
            if ($scope.feed[i]._id === id) {
                $scope.stash.push(jQuery.extend(true, {}, $scope.feed[i])); // copy snippet onto stash
-               $("#feed-save-" + id).addClass('save-button-active')
                 angular.element(document).ready(function () {
+                   $("#feed-save-" + id).addClass('save-button-active')
                    $('#stash-snippet-' + id + ' pre code').each(function(i, block) {
                        hljs.highlightBlock(block);
                    });
