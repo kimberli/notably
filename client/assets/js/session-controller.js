@@ -64,6 +64,7 @@ openPage = function() {
         $scope.stash.push(response.data); // add snippet to your own stash
 
         angular.element(document).ready(function () {
+          $scope.alreadySaved[response.data._id] = true;
           $('#stash-snippet-' + response.data._id + ' pre code').each(function(i, block) {
               hljs.highlightBlock(block);
           });
