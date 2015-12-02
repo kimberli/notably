@@ -6,12 +6,13 @@
     <div id="course-body">
       <div class="row">
         <div class="col s12 m6 l6">
-          <div class="card" id="course-info"> 
+          <div class="card" id="course-info">
             <div class="card-content">
               <span class="card-title">{{ course.meta.number }} - {{ course.meta.name }}</span> <br>
               <em>{{ course.meta.location }}, {{ course.meta.lectureTime }}</em><br>
               <p>{{ course.meta.description }}</p><br>
-              <button class="waves-effect waves-light btn" id="subscribe-button">Subscribe</button>
+              <button ng-if="currentUser.courses.indexOf(course._id) === -1" class="waves-effect waves-light btn" id="subscribe-button" ng-click="subscribe(course.meta.number)">Subscribe</button>
+              <button ng-if="currentUser.courses.indexOf(course._id) > -1" class="waves-effect waves-light btn" id="unsubscribe-button" ng-click="unsubscribe(course.meta.number">Unsubscribe</button>
             </div>
           </div>
 
