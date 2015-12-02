@@ -1,7 +1,7 @@
 angular.module('notablyApp').controller('stashController', function ($scope, $http, $rootScope, $location, $routeParams) {
     $scope.stashId = $routeParams.stashId;
     $('.tooltipped').tooltip({delay: 50});
-
+    // use highlight js to highlight code blocks, render mathjax
     $http.get('/api/stash?stashId=' + $scope.stashId).then(function (response) {
           if (response.status === 200) {
               $scope.stash = response.data;
@@ -12,6 +12,7 @@ angular.module('notablyApp').controller('stashController', function ($scope, $ht
               }
 
               angular.element(document).ready(function () {
+                MathJax.Hub.Queue(["Typeset",MathJax.Hub,document.getElementById('snippet-table')]);
                 $('pre code').each(function(i, block) {
                     hljs.highlightBlock(block);
                   });

@@ -17,7 +17,9 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
             $scope.session = response.data;
             $scope.feed = $scope.session.feed;
             $scope.stash = $scope.session.stash.snippets;
+            // true for a snippet id if the current user has saved the snippet
             $scope.alreadySaved = {};
+            // true for a snippet id if the current user has flagged the snippet
             $scope.alreadyFlagged = {};
             for (i=0; i<$scope.feed.length;i++) {
               if ($scope.feed[i].savedBy.indexOf($scope.currentUser) > -1) {
@@ -31,7 +33,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
                 $scope.alreadyFlagged[$scope.feed[i]._id] = false;
               }
             }
-            console.log($scope.alreadyFlagged, $scope.alreadySaved);
+            // snippets have loaded, can load page now
             openPage();
         } else {
             Materialize.toast("Error! " + response.data.error, 2000);
@@ -40,11 +42,14 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
 
 
 openPage = function() {
+
+  // let the server know you've joined to update view counts, join the room
   sessionSocket.emit("joined session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
 
   $scope.$on('$locationChangeStart', function () {
     // remove tooltips (weird for print view)
     $('.tooltipped').tooltip('remove');
+    // leave session room on location start (socket disconnect on leave page is handled separately)
     sessionSocket.emit("left session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
   });
 
@@ -56,15 +61,19 @@ openPage = function() {
 
   // add a snippet to stash and feed, highlight code
   $scope.addSnippet = function() {
+    // check if input is blank
     if (!$scope.snippetInput || $scope.snippetInput.length === 0) {Materialize.toast('You cannot submit an empty snippet!', 2000); return;}
     $http.post('/api/session/newsnippet', {
         'sessionId': $scope.session._id,
         'text': converter.makeHtml($scope.snippetInput)
     }).then(function (response) {
         $scope.stash.push(response.data); // add snippet to your own stash
+        // save it automatically
+        $scope.alreadySaved[response.data._id] = true;
 
         angular.element(document).ready(function () {
-          $scope.alreadySaved[response.data._id] = true;
+          // mathjax and code highlighting for new snippet
+          MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById('stash-snippet-' + response.data._id)]);
           $('#stash-snippet-' + response.data._id + ' pre code').each(function(i, block) {
               hljs.highlightBlock(block);
           });
@@ -72,6 +81,7 @@ openPage = function() {
 
         Materialize.toast('Your snippet has been posted!', 1000);
         sessionSocket.emit("added snippet", {"snippet" : response.data, "sessionId" : $scope.sessionId});
+        // reset editor
         $scope.snippetInput = "";
         $scope.preview = false;
         $scope.previewText = "";
@@ -85,15 +95,16 @@ openPage = function() {
     $http.post('/api/snippet/flag', {
         'snippetId': id
     }).then(function (response) {
-         sessionSocket.emit("flagged snippet", {"sessionId" : $scope.sessionId, "snippetId" : id, "username" : $scope.currentUser});
-              $("#feed-flag-" + id).addClass('flag-button-active').prop("disabled", true);
+              // set it flagged, let server know about this
+              sessionSocket.emit("flagged snippet", {"sessionId" : $scope.sessionId, "snippetId" : id, "username" : $scope.currentUser});
+              $scope.alreadyFlagged[id] = true;
               Materialize.toast('Snippet has been flagged!', 1000);
     }, function(response) {
         Materialize.toast(response.data.error, 2000);
     });
   }
 
-  // remove a snippet, uncolor the button, removefrom stash
+  // remove a snippet
   $scope.removeSnippet = function(id) {
     $http.post('/api/stash/remove', {
         'stashId': $scope.session.stash._id,
@@ -101,14 +112,15 @@ openPage = function() {
     }).then(function (response) {
 
           for (i=0;i<$scope.session.stash.snippets.length;i++) {
-            if ($scope.session.stash.snippets[i]._id === id) {
+            if ($scope.session.stash.snippets[i]._id === id) { // found it!
+                // isnt saved anymore, set to false
+                $scope.alreadySaved[id] = false;
                 $scope.session.stash.snippets.splice(i,1); // remove snippet from your own stash
                 sessionSocket.emit("removed snippet", {"sessionId" : $scope.sessionId, "snippetId" : id, "username" : $scope.currentUser});
                 break;
             }
           }
 
-          $("#feed-save-" + id).removeClass('save-button-active').prop("disabled", false);
           Materialize.toast('Snippet has been removed!', 1000);
 
     }, function(response) {
@@ -125,10 +137,11 @@ openPage = function() {
 
          for (i=0;i<$scope.feed.length;i++) {
            if ($scope.feed[i]._id === id) {
-               $scope.alreadySaved[id] = true;
+               $scope.alreadySaved[id] = true; // its saved by you!
                $scope.stash.push(jQuery.extend(true, {}, $scope.feed[i])); // copy snippet onto stash
                 angular.element(document).ready(function () {
-                   $("#feed-save-" + id).addClass('save-button-active').prop("disabled", true);
+                   // highlight code, typeset mathjax
+                   MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById('stash-snippet-' + id)]);
                    $('#stash-snippet-' + id + ' pre code').each(function(i, block) {
                        hljs.highlightBlock(block);
                    });
@@ -144,7 +157,7 @@ openPage = function() {
     });
   }
 
-  // scroll stash and feed to bottom of page
+  // scroll stash and feed to bottom of page (not used yet)
   $scope.scrollDivs = function() {
     var objDiv = document.getElementById("feed-view");
     objDiv.scrollTop = objDiv.scrollHeight;
@@ -155,11 +168,15 @@ openPage = function() {
   // add one to a particular snippet's save count
   $scope.incrementSaveCount = function(snippetId, username) {
 
+    // but first lets add a cute animation!
     var active = $("#feed-save-" + snippetId).hasClass("save-button-active");
      $("#feed-save-" + snippetId + ",#stash-save-" + snippetId).addClass('animated tada save-button-active').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
       $(this).removeClass('animated tada');
       if (!active) {$(this).removeClass('save-button-active');}
     });
+
+    // increment savecount, add to savedBy if it isn't already there (just in case)
+    // do this for stash and feed
 
     for (i=0;i<$scope.feed.length;i++) {
       if ($scope.feed[i]._id === snippetId) {
@@ -179,6 +196,10 @@ openPage = function() {
 
   // decrease one from a particular snippet's save count
   $scope.decrementSaveCount = function(snippetId, username) {
+
+    // decrement savecount, delete from savedBy
+    // do this for stash and feed
+
     for (i=0;i<$scope.feed.length;i++) {
       if ($scope.feed[i]._id === snippetId) {
            $scope.feed[i].saveCount--;
@@ -197,6 +218,11 @@ openPage = function() {
 
   // add one to a particular snippet's flag count
   $scope.incrementFlagCount = function(snippetId, username) {
+
+    // increment flagcount, add to flaggedBy if it isn't already there (just in case)
+    // do this for stash and feed
+
+    // but first lets add a cute animation!
     var active = $("#feed-flag-" + snippetId).hasClass("flag-button-active");
     $("#feed-flag-" + snippetId + ",#stash-flag-" + snippetId).addClass('animated tada flag-button-active').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
       $(this).removeClass('animated tada');
@@ -219,8 +245,9 @@ openPage = function() {
 
   }
 
-  // use highlight js to highlight code blocks
+  // use highlight js to highlight code blocks, render mathjax
     angular.element(document).ready(function () {
+      MathJax.Hub.Queue(["Typeset",MathJax.Hub,document.getElementById('stash-feed-rows')]);
       $('pre code').each(function(i, block) {
           hljs.highlightBlock(block);
       });
@@ -231,6 +258,7 @@ openPage = function() {
       $scope.incrementSaveCount(data.snippetId, data.username);
   });
 
+  // on flagged snippet, increment flag count
   $scope.$on("socket:flagged snippet", function(ev, data) {
       $scope.incrementFlagCount(data.snippetId, data.username);
   });
@@ -244,6 +272,7 @@ openPage = function() {
   $scope.$on("socket:added snippet", function(ev, data) {
       $scope.feed.push(data.snippet);
       angular.element(document).ready(function () {
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById('feed-snippet-' + data.snippet._id)]);
         $('#feed-snippet-' + data.snippet._id + ' pre code').each(function(i, block) {
             hljs.highlightBlock(block);
         });
@@ -261,13 +290,19 @@ openPage = function() {
       });
 
     }  else {
-        $scope.preview = true;
+        // use showdown to convert
         $scope.previewText = converter.makeHtml($scope.snippetInput);
+
         angular.element(document).ready(function () {
+          // highlight code/typeset mathjax in the preview window
+          MathJax.Hub.Queue(["Typeset",MathJax.Hub,  document.getElementById('snippet-preview')]);
           $('#snippet-preview pre code').each(function(i, block) {
               hljs.highlightBlock(block);
           });
         });
+
+        $scope.preview = true;
+
     }
   }
 
@@ -325,6 +360,7 @@ openPage = function() {
        },
        allowIn : ['textarea']
      })
+
   } // end
 
 });
