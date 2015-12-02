@@ -107,10 +107,11 @@
       background-color: white;
       color: black;
       margin: 15px auto;
+      overflow-x: hidden;
 
       &.collapsed-snippet  {
         max-height: 250px;
-        overflow: hidden;
+        overflow-y: hidden;
       }
 
 
