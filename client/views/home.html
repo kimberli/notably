@@ -22,6 +22,7 @@
               <span class="card-title">Your courses</span>
               <div class="spacer"></div>
               <div class="collection">
+                <em ng-if="user.courses.length === 0">You have not subscribed to any courses!</em>
                 <a ng-repeat="course in user.courses" href="/course/{{ course.number }}" class="collection-item">{{ course.number }} - {{ course.name }}</a>
               </div>
             </div>
