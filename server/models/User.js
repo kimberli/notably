@@ -8,6 +8,9 @@ var userSchema = mongoose.Schema({
     password: String,
     name: String,
     email: String,
+    numSubmitted: Number,
+    numSaved: Number,
+    numSubscribed: Number,
     stashes: [{type: mongoose.Schema.Types.ObjectId, ref:'Stash'}],
     courses: [{type: mongoose.Schema.Types.ObjectId, ref:'Course'}]
 });
@@ -109,6 +112,9 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
                             password: hash,
                             name: name,
                             email: email,
+                            numSubmitted: 0,
+                            numSaved: 0,
+                            numSubscribed: 0,
                             stashes: [],
                             courses: []
                         });
@@ -229,6 +235,7 @@ userSchema.statics.addCourse = function(rawUsername, courseNumber, callback) {
                     if (user.courses.indexOf(result._id) > -1) { callback('Already subscribed') }
                     else {
                         user.courses.push(result._id);
+                        user.numSubscribed += 1;
                         user.save(function(err) {
                             if (err) callback(err);
                             else {
@@ -260,6 +267,7 @@ userSchema.statics.removeCourse = function(rawUsername, courseNumber, callback) 
                     if (user.courses.indexOf(result._id) == -1) { callback('Already unsubscribed') }
                     else {
                         user.courses.splice(user.courses.indexOf(result._id), 1);
+                        user.numSubscribed -= 1;
                         user.save(function(err) {
                             if (err) callback(err);
                             else {
