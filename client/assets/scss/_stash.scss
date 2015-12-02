@@ -27,7 +27,9 @@
   }
 
   #snippet-table {
-    width: 60%;
+    margin: auto;
+    overflow: scroll;
+
     .author-column  {
       min-width: 10%;
       padding: 0;
