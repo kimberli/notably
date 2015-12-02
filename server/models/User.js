@@ -259,7 +259,7 @@ userSchema.statics.removeCourse = function(rawUsername, courseNumber, callback) 
                 else {
                     if (user.courses.indexOf(result._id) == -1) { callback('Already unsubscribed') }
                     else {
-                        user.courses.splice(users.courses.indexOf(result._id), 1);
+                        user.courses.splice(user.courses.indexOf(result._id), 1);
                         user.save(function(err) {
                             if (err) callback(err);
                             else {

@@ -3,20 +3,6 @@ angular.module('notablyApp').controller('homeController', function ($scope, $htt
     $http.get('/api/user?username=' + $rootScope.user).then(function (response) {
         $scope.user = response.data;
 
-        $scope.user.courses = [{
-            'number': '6.034',
-            'name': 'Artificial Intelligence'
-        }, {
-            'number': '6.170',
-            'name': 'Software Studio'
-        }, {
-            'number': '6.005',
-            'name': 'Software Construction'
-        }, {
-            'number': '14.01',
-            'name': 'Microeconomics'
-        }];
-
         $scope.user.numSubmitted = 10;
         $scope.user.numSaved = 123;
         $scope.user.numSubscribed = 4;
