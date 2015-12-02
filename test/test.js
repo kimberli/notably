@@ -220,6 +220,41 @@ describe('User', function() {
 
     });
 
+    //test removeCourse
+    describe('#removeCourse', function () {
+        // test adding nonexistent course
+        it('should return error when course not found', function (done) {
+            User.removeCourse('kim', '6171', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+
+        // test removing course
+        it('should not return error when course exists', function (done) {
+            User.addCourse('kim', '6.171', function(err, result) {
+                User.removeCourse('kim', '6.171', function(err, result) {
+                    assert.equal(err, null);
+                    assert.deepEqual(result, { courses: [{name: 'Software Studio', number: '6.171'}] });
+                    done();
+                });
+            });
+        });
+
+        // test removing nonexistent course
+        it('should return error when course already unsubscribed from', function (done) {
+            User.addCourse('kim', '6.171', function(err, result) {
+                User.removeCourse('kim', '6.171', function(err, result) {
+                    User.removeCourse('kim', '6.171', function(err, result) {
+                        assert.notEqual(err, null);
+                        done();
+                    });
+                });
+            });
+        });
+
+    });
+
     //test getCourses
     describe('#getCourses', function () {
         // test user without subscribed courses
