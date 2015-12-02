@@ -20,6 +20,7 @@ URL: `mitnotably.herokuapp.com`
   - [`/api/user/logout` - POST](#apiuserlogout---post)
   - [`/api/user/courses` - GET](#apiusercourses---get)
   - [`/api/user/subscribe` - POST](#apiusersubscribe---post)
+  - [`/api/user/unsubscribe` - POST](#apiuserunsubscribe---post)
   - [`/api/course/all` - GET](#apicourseall---get)
   - [`/api/course` - GET](#apicourse---get)
   - [`/api/course/newsession` - POST](#apicoursenewsession---post)
@@ -216,6 +217,29 @@ The snippet object looks like this:
 
 ### `/api/user/subscribe` - POST
 * Subscribes a user to a course
+* Must be authenticated
+
+**params**
+
+```javascript
+{
+  "course": (string - course number)
+}
+```
+
+**content**
+
+```javascript
+{
+  "courses": [{
+      "number": (string - course number),
+      "name": (string - course name)
+  }]
+}
+```
+
+### `/api/user/unsubscribe` - POST
+* Unsubscribes a user from a course
 * Must be authenticated
 
 **params**
