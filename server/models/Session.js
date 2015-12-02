@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Snippet = require('./Snippet');
 var Stash = require('./Stash');
+var User = require('./User');
 
 var sessionSchema = mongoose.Schema({
     number: String,
@@ -132,7 +133,20 @@ sessionSchema.statics.addSnippet = function(sessionId, currentUser, text, callba
                                     stash.snippets.push(newSnippet);
                                     stash.save(function(err) {
                                         if (err) callback(err);
-                                        else newSnippet.save(callback);
+                                        else {
+                                            newSnippet.save(function(err) {
+                                                if (err) callback(err);
+                                                else {
+                                                    findUser(currentUser, function(err, user) {
+                                                        if (err) callback(err);
+                                                        else {
+                                                            user.numSubmitted += 1;
+                                                            user.save(callback);
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
                                     });
                                 }
                             });
