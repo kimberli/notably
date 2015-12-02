@@ -119,4 +119,19 @@ router.post('/subscribe', function(req, res) {
     } else utils.sendErrResponse(res, 403, 'Must be logged in');
 });
 
+/**
+ * POST - /api/user/unsubscribe
+ */
+router.post('/unsubscribe', function(req, res) {
+    if (req.currentUser) {
+        User.removeCourse(req.currentUser, req.body.course, function(err,result) {
+            if (err) {
+                utils.sendErrResponse(res, 403, err);
+            } else {
+                utils.sendSuccessResponse(res, result);
+            }
+        });
+    } else utils.sendErrResponse(res, 403, 'Must be logged in');
+});
+
 module.exports = router;

@@ -242,6 +242,37 @@ userSchema.statics.addCourse = function(rawUsername, courseNumber, callback) {
     });
 }
 
+/**
+ * Unsubscribe to a course
+ *
+ * @param rawUsername {string} - username
+ * @param courseNumber {string} - course number that user is unsubscribing from
+ * @param callback {function} - function to be called with err and result
+ */
+userSchema.statics.removeCourse = function(rawUsername, courseNumber, callback) {
+    var username = rawUsername.toLowerCase();
+    Course.findCourse(courseNumber, function(err, result) {
+        if (err) callback(err);
+        else {
+            findUser(username, function(err, user) {
+                if (err) callback(err);
+                else {
+                    if (user.courses.indexOf(result._id) == -1) { callback('Already unsubscribed') }
+                    else {
+                        user.courses.splice(users.courses.indexOf(result._id), 1);
+                        user.save(function(err) {
+                            if (err) callback(err);
+                            else {
+                                User.getCourses(username, callback);
+                            }
+                        })
+                    }
+                }
+            });
+        }
+    });
+}
+
 var User = mongoose.model('User', userSchema);
 
 module.exports = User;
