@@ -4,8 +4,8 @@ angular.module('notablyApp').controller('homeController', function ($scope, $htt
         $scope.user = response.data;
         console.log($scope.user);
 
-        $scope.user.numSubmitted = 45;
-        $scope.user.numSaved = 123;
+        $scope.user.stats.numSubmitted = 45;
+        $scope.user.stats.numSaved = 123;
     });
 
 });

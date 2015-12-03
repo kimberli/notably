@@ -10,19 +10,19 @@
             <div class="card-content">
               <span class="card-title"><b>Welcome, {{ user.name }}!</b></span>
               <div class="spacer"></div>
-              Snippets submitted: {{ user.numSubmitted }}
+              Snippets submitted: {{ user.stats.numSubmitted }}
               <br>
-              Snippets saved: {{ user.numSaved }}
+              Snippets saved: {{ user.stats.numSaved }}
               <br>
-              Subscribed classes: {{ user.numSubscribed }}
+              Subscribed classes: {{ user.stats.numSubscribed }}
             </div>
           </div>
           <div class="card">
             <div class="card-content">
               <span class="card-title">Your courses</span>
               <div class="spacer"></div>
-              <div class="collection">
-                <em ng-if="user.courses.length === 0">You have not subscribed to any courses!</em>
+              <em ng-if="user.courses.length === 0">You have not subscribed to any courses!</em>
+              <div ng-if="user.courses.length !== 0" class="collection">
                 <a ng-repeat="course in user.courses" href="/course/{{ course.number }}" class="collection-item">{{ course.number }} - {{ course.name }}</a>
               </div>
             </div>

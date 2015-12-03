@@ -1,17 +1,17 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
-var Course = require('./Course');
-var Session = require('./Session');
+// var Course = require('./Course');
+// var Session = require('./Session');
 
 var userSchema = mongoose.Schema({
     username: String,
     password: String,
     name: String,
     email: String,
-    // numSubmitted: Number,
-    // numSaved: Number,
+    numSubmitted: Number,
+    numSaved: Number,
     numSubscribed: Number,
-    stashes: [{type: mongoose.Schema.Types.ObjectId, ref:'Stash'}],
+    // stashes: [{type: mongoose.Schema.Types.ObjectId, ref:'Stash'}],
     courses: [{type: mongoose.Schema.Types.ObjectId, ref:'Course'}]
 });
 
@@ -57,30 +57,15 @@ userSchema.statics.findProfile = function(rawUsername, callback) {
     findUser(username, function(err, result) {
         if (err) callback(err);
         else {
-            User.getCourses(username, function(err, courses) {
-                if (err) callback(err);
-                else {
-                    User.getSessions(username, function(err, sessions) {
-                        if (err) callback(err);
-                        else {
-                            callback(null, {
-                                username: result.username,
-                                name: result.name,
-                                numSubscribed: result.numSubscribed,
-                                courses: courses.courses,
-                                recentSessions: sessions.sessions,
-                            });
-                        }
-                    });
-                }
-                // else callback(null, {
-                //     username: result.username,
-                //     name: result.name,
-                //     // numSubmitted: result.numSubmitted,
-                //     // numSaved: result.numSaved,
-                //     numSubscribed: result.numSubscribed,
-                //     courses: courses.courses,
-                // });
+            callback(null, {
+                username: result.username,
+                name: result.name,
+                stats: {
+                    numSubscribed: result.numSubscribed,
+                    numSaved: result.numSaved,
+                    numSubmitted: result.numSubmitted
+                },
+                courses: result.courses,
             });
         }
     });
@@ -129,8 +114,8 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
                             password: hash,
                             name: name,
                             email: email,
-                            // numSubmitted: 0,
-                            // numSaved: 0,
+                            numSubmitted: 0,
+                            numSaved: 0,
                             numSubscribed: 0,
                             stashes: [],
                             courses: []
@@ -152,60 +137,54 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
  * @param rawUsername {string} - username to get stashes for
  * @param callback {function} - function to be called with err and result
  */
-userSchema.statics.getSessions = function(rawUsername, callback) {
-    var username = rawUsername.toLowerCase();
-    findUser(username, function(err, result) {
-        if (err) callback(err);
-        else {
-            Stash.find({_id: { $in: result.stashes}}, function(err, stashes) {
-                if (err) callback(err);
-                else {
-                    callback(null, {
-                        sessions: stashes.map(function(item) {
-                            return {
-                                createdAt: item.createdAt,
-                                title: item.sessionTitle,
-                                number: item.courseNumber,
-                                _id: item.session,
-                                activeUsers: 0,
-                            };
-                        })
-                    });
-                }
-            });
-        }
-    });
-}
+// userSchema.statics.getSessions = function(rawUsername, callback) {
+//     var username = rawUsername.toLowerCase();
+//     findUser(username, function(err, result) {
+//         if (err) callback(err);
+//         else {
+//             Stash.find({_id: { $in: result.stashes}}, function(err, stashes) {
+//                 if (err) callback(err);
+//                 else {
+//                     callback(null, {
+//                         sessions: stashes.map(function(item) {
+//                             return {
+//                                 createdAt: item.createdAt,
+//                                 title: item.sessionTitle,
+//                                 number: item.courseNumber,
+//                                 _id: item.session,
+//                                 activeUsers: 0,
+//                             };
+//                         })
+//                     });
+//                 }
+//             });
+//         }
+//     });
+// }
 
-/** TODO rethink
- * Add a stash
+/**
+ * Add a session
  *
  * @param rawUsername {string} - username to get stashes for
+ * @param courseNumber {string} - course number to add to
  * @param callback {function} - function to be called with err and result
  */
-userSchema.statics.addSession = function(rawUsername, callback) {
-    var username = rawUsername.toLowerCase();
-    findUser(username, function(err, result) {
-        if (err) callback(err);
-        else {
-            Stash.find({_id: { $in: result.stashes}}, function(err, stashes) {
-                if (err) callback(err);
-                else {
-                    callback(null, {
-                        sessions: stashes.map(function(item) {
-                            return {
-                                createdAt: item.createdAt,
-                                title: item.sessionTitle,
-                                number: item.courseNumber,
-                                _id: item.sessionId
-                            };
-                        })
-                    });
-                }
-            });
-        }
-    });
-}
+// userSchema.statics.addSession = function(rawUsername, number, callback) {
+//     var username = rawUsername.toLowerCase();
+//     findUser(username, function(err, result) {
+//         if (err) callback(err);
+//         else {
+//             Course.find({ number: number }, function(err, result) {
+//                 if (err) callback(err);
+//                 else if (result.length > 0) {
+//                     var course = result[0];
+
+//                 }
+//                 else callback('Course not found');
+//             });
+//         }
+//     });
+// }
 
 /**
  * Get all courses a user is subscribed to
@@ -213,56 +192,49 @@ userSchema.statics.addSession = function(rawUsername, callback) {
  * @param rawUsername {string} - username to get stashes for
  * @param callback {function} - function to be called with err and result
  */
-userSchema.statics.getCourses = function(rawUsername, callback) {
-    var username = rawUsername.toLowerCase();
-    findUser(username, function(err, result) {
-        if (err) callback(err);
-        else {
-            Course.find({_id: { $in: result.courses}}, function(err, courses) {
-                if (err) callback(err);
-                else {
-                    callback(null, {courses:
-                        courses.map(function(item) {
-                            return {
-                                name: item.name,
-                                number: item.number
-                            };
-                        }) }
-                    );
-                }
-            });
-        }
-    });
-}
+// userSchema.statics.getCourses = function(rawUsername, callback) {
+//     var username = rawUsername.toLowerCase();
+//     findUser(username, function(err, result) {
+//         if (err) callback(err);
+//         else {
+//             Course.find({_id: { $in: result.courses}}, function(err, courses) {
+//                 if (err) callback(err);
+//                 else {
+//                     callback(null, {courses:
+//                         courses.map(function(item) {
+//                             return {
+//                                 name: item.name,
+//                                 number: item.number
+//                             };
+//                         }) }
+//                     );
+//                 }
+//             });
+//         }
+//     });
+// }
 
 /**
  * Subscribe to a new course
  *
  * @param rawUsername {string} - username
- * @param courseNumber {string} - course number that user is subscribing to
+ * @param courseId {string} - course id that user is subscribing to; must be valid course
  * @param callback {function} - function to be called with err and result
  */
-userSchema.statics.addCourse = function(rawUsername, courseNumber, callback) {
+userSchema.statics.addCourse = function(rawUsername, courseId, callback) {
     var username = rawUsername.toLowerCase();
-    Course.findCourse(courseNumber, function(err, result) {
+    findUser(username, function(err, user) {
         if (err) callback(err);
         else {
-            findUser(username, function(err, user) {
-                if (err) callback(err);
-                else {
-                    if (user.courses.indexOf(result._id) > -1) { callback('Already subscribed') }
-                    else {
-                        user.courses.push(result._id);
-                        user.numSubscribed += 1;
-                        user.save(function(err) {
-                            if (err) callback(err);
-                            else {
-                                User.getCourses(username, callback);
-                            }
-                        });
-                    }
-                }
-            });
+            if (user.courses.indexOf(courseId) > -1) { callback('Already subscribed') }
+            else {
+                user.courses.push(courseId);
+                user.numSubscribed += 1;
+                user.save(function(err, result) {
+                    if (err) callback(err);
+                    else User.findProfile(rawUsername, callback);
+                });
+            }
         }
     });
 }
@@ -271,30 +243,109 @@ userSchema.statics.addCourse = function(rawUsername, courseNumber, callback) {
  * Unsubscribe to a course
  *
  * @param rawUsername {string} - username
- * @param courseNumber {string} - course number that user is unsubscribing from
+ * @param courseId {string} - course id that user is unsubscribing from; must be valid course
  * @param callback {function} - function to be called with err and result
  */
-userSchema.statics.removeCourse = function(rawUsername, courseNumber, callback) {
+userSchema.statics.removeCourse = function(rawUsername, courseId, callback) {
     var username = rawUsername.toLowerCase();
-    Course.findCourse(courseNumber, function(err, result) {
+    findUser(username, function(err, user) {
         if (err) callback(err);
         else {
-            findUser(username, function(err, user) {
+            if (user.courses.indexOf(courseId) == -1) { callback('Already unsubscribed') }
+            else {
+                user.courses.splice(user.courses.indexOf(courseId), 1);
+                user.numSubscribed -= 1;
+                user.save(function(err, result) {
+                    if (err) callback(err);
+                    else User.findProfile(rawUsername, callback);
+                });
+            }
+        }
+    });
+}
+
+/**
+ * Increment user's number of snippets submitted
+ *
+ * @param rawUsername {string} - username
+ * @param callback {function} - function to be called with err and result
+ */
+userSchema.statics.incrementSubmitted = function(rawUsername, callback) {
+    var username = rawUsername.toLowerCase();
+    findUser(username, function(err, user) {
+        if (err) callback(err);
+        else {
+            user.numSubmitted += 1;
+            user.save(function(err, result) {
                 if (err) callback(err);
-                else {
-                    if (user.courses.indexOf(result._id) == -1) { callback('Already unsubscribed') }
-                    else {
-                        user.courses.splice(user.courses.indexOf(result._id), 1);
-                        user.numSubscribed -= 1;
-                        user.save(function(err) {
-                            if (err) callback(err);
-                            else {
-                                User.getCourses(username, callback);
-                            }
-                        })
-                    }
-                }
+                else callback(null, {numSubmitted: user.numSubmitted})
             });
+        }
+    });
+}
+
+/**
+ * Decrement user's number of snippets submitted
+ *
+ * @param rawUsername {string} - username
+ * @param callback {function} - function to be called with err and result
+ */
+userSchema.statics.decrementSubmitted = function(rawUsername, callback) {
+    var username = rawUsername.toLowerCase();
+    findUser(username, function(err, user) {
+        if (err) callback(err);
+        else {
+            if (user.numSubmitted <= 0) callback('Illegal operation');
+            else {
+                user.numSubmitted -= 1;
+                user.save(function(err, result) {
+                    if (err) callback(err);
+                    else callback(null, {numSubmitted: user.numSubmitted});
+                });
+            }
+        }
+    });
+}
+
+/**
+ * Increment user's number of snippets saved
+ *
+ * @param rawUsername {string} - username
+ * @param callback {function} - function to be called with err and result
+ */
+userSchema.statics.incrementSaved = function(rawUsername, callback) {
+    var username = rawUsername.toLowerCase();
+    findUser(username, function(err, user) {
+        if (err) callback(err);
+        else {
+            user.numSaved += 1;
+            user.save(function(err, result) {
+                if (err) callback(err);
+                else callback(null, {numSaved: user.numSaved});
+            });
+        }
+    });
+}
+
+/**
+ * Decrement user's number of snippets saved
+ *
+ * @param rawUsername {string} - username
+ * @param callback {function} - function to be called with err and result
+ */
+userSchema.statics.decrementSaved = function(rawUsername, callback) {
+    var username = rawUsername.toLowerCase();
+    findUser(username, function(err, user) {
+        if (err) callback(err);
+        else {
+            if (user.numSaved <= 0) callback('Illegal operation');
+            else {
+                user.numSaved -= 1;
+                user.save(function(err, result) {
+                    if (err) callback(err);
+                    else callback(null, {numSaved: user.numSaved});
+                });
+            }
         }
     });
 }
