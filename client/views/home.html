@@ -34,7 +34,8 @@
             <div class="card-content">
               <span class="card-title">Your sessions</span>
               <div class="spacer"></div>
-              <div class="collection">
+              <em ng-if="user.recentSessions.length === 0">You have not visited any sessions!</em>
+              <div ng-if="user.recentSessions.length !== 0" class="collection">
                 <a ng-repeat="session in user.recentSessions | orderBy: '-createdAt'" href="/session/{{ session._id }}" class="collection-item">{{ session.title }}<span class="badge">{{ session.activeUsers }}</span></a>
               </div>
             </div>
