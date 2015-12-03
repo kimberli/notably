@@ -3,6 +3,9 @@ angular.module('notablyApp').controller('homeController', function ($scope, $htt
     $http.get('/api/user?username=' + $rootScope.user).then(function (response) {
         $scope.user = response.data;
 
+        $scope.user.numSubmitted = 45;
+        $scope.user.numSaved = 123;
+
         $scope.user.recentSessions = [{
             "_id": "5653a2c3643c44825db45ed6",
             "title": "6.170 Lecture 7",

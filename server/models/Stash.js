@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
 var Snippet = require('./Snippet');
-var User = require('./User');
+// var User = require('./User');
 
 var stashSchema = mongoose.Schema({
     creator: String,
-    createdAt: String,
+    createdAt: Date,
     sessionTitle: String,
     courseNumber: String,
     session: {type: mongoose.Schema.Types.ObjectId, ref:'Session'},
@@ -119,20 +119,21 @@ stashSchema.statics.saveSnippet = function(snippetId, stashId, callback) {
                                 callback(err, false);
                             } else {
                                 stash.snippets.push(snippet);
-                                stash.save(function(err) {
-                                    if (err) callback(err);
-                                    else {
-                                        User.find({ username: username }, function(err, result) {
-                                            if (err) callback(err);
-                                            else if (result.length > 0) {
-                                                var user = result[0];
-                                                user.numSaved += 1;
-                                                user.save(callback);
-                                            }
-                                            else callback('User not found');
-                                        });
-                                    }
-                                });
+                                stash.save(callback);
+                                // stash.save(function(err) {
+                                //     if (err) callback(err);
+                                //     else {
+                                //         User.find({ username: username }, function(err, result) {
+                                //             if (err) callback(err);
+                                //             else if (result.length > 0) {
+                                //                 var user = result[0];
+                                //                 user.numSaved += 1;
+                                //                 user.save(callback);
+                                //             }
+                                //             else callback('User not found');
+                                //         });
+                                //     }
+                                // });
                             }
                         });
                     } else callback('Snippet already saved');
@@ -164,22 +165,23 @@ stashSchema.statics.removeSnippet = function(snippetId, stashId, callback) {
                             if (err) callback(err);
                             else {
                                 stash.snippets.splice(stash.snippets.indexOf(snippet._id), 1);
-                                stash.save(function(err) {
-                                    if (err) callback(err);
-                                    else {
-                                        User.find({ username: username }, function(err, result) {
-                                            if (err) callback(err);
-                                            else if (result.length > 0) {
-                                                var user = result[0];
-                                                user.numSaved -= 1;
-                                                user.save(callback);
-                                            }
-                                            else callback('User not found');
-                                        });
-                                    }
-                                });
+                                stash.save(callback);
+                                // stash.save(function(err) {
+                                //     if (err) callback(err);
+                                //     else {
+                                //         User.find({ username: username }, function(err, result) {
+                                //             if (err) callback(err);
+                                //             else if (result.length > 0) {
+                                //                 var user = result[0];
+                                //                 user.numSaved -= 1;
+                                //                 user.save(callback);
+                                //             }
+                                //             else callback('User not found');
+                                //         });
+                                //     }
+                                // });
                             }
-                        })
+                        });
                     } else callback('Snippet not in stash');
                 }
             });

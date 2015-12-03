@@ -8,8 +8,8 @@ var userSchema = mongoose.Schema({
     password: String,
     name: String,
     email: String,
-    numSubmitted: Number,
-    numSaved: Number,
+    // numSubmitted: Number,
+    // numSaved: Number,
     numSubscribed: Number,
     stashes: [{type: mongoose.Schema.Types.ObjectId, ref:'Stash'}],
     courses: [{type: mongoose.Schema.Types.ObjectId, ref:'Course'}]
@@ -62,8 +62,8 @@ userSchema.statics.findProfile = function(rawUsername, callback) {
                 else callback(null, {
                     username: result.username,
                     name: result.name,
-                    numSubmitted: result.numSubmitted,
-                    numSaved: result.numSaved,
+                    // numSubmitted: result.numSubmitted,
+                    // numSaved: result.numSaved,
                     numSubscribed: result.numSubscribed,
                     courses: courses.courses,
                 });
@@ -115,8 +115,8 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
                             password: hash,
                             name: name,
                             email: email,
-                            numSubmitted: 0,
-                            numSaved: 0,
+                            // numSubmitted: 0,
+                            // numSaved: 0,
                             numSubscribed: 0,
                             stashes: [],
                             courses: []

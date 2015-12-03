@@ -133,22 +133,23 @@ sessionSchema.statics.addSnippet = function(sessionId, currentUser, text, callba
                                     stash.snippets.push(newSnippet);
                                     stash.save(function(err) {
                                         if (err) callback(err);
-                                        else {
-                                            newSnippet.save(function(err) {
-                                                if (err) callback(err);
-                                                else {
-                                                    User.find({ username: currentUser }, function(err, result) {
-                                                        if (err) callback(err);
-                                                        else if (result.length > 0) {
-                                                            var user = result[0];
-                                                            user.numSubmitted += 1;
-                                                            user.save(callback);
-                                                        }
-                                                        else callback('User not found');
-                                                    });
-                                                }
-                                            });
-                                        }
+                                        else newSnippet.save(callback);
+                                        // else {
+                                        //     newSnippet.save(function(err) {
+                                        //         if (err) callback(err);
+                                        //         else {
+                                        //             User.find({ username: currentUser }, function(err, result) {
+                                        //                 if (err) callback(err);
+                                        //                 else if (result.length > 0) {
+                                        //                     var user = result[0];
+                                        //                     user.numSubmitted += 1;
+                                        //                     user.save(callback);
+                                        //                 }
+                                        //                 else callback('User not found');
+                                        //             });
+                                        //         }
+                                        //     });
+                                        // }
                                     });
                                 }
                             });
