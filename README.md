@@ -25,14 +25,12 @@ URL: `mitnotably.herokuapp.com`
   - [`/api/course` - GET](#apicourse---get)
   - [`/api/course/newsession` - POST](#apicoursenewsession---post)
   - [`/api/session` - GET](#apisession---get)
-  - [`/api/session/newstash` - POST](#apisessionnewstash---post)
-  - [`/api/session/newsnippet` - POST](#apisessionnewsnippet---post)
+  - [`/api/snippet` - POST](#apisnippet---post)
   - [`/api/stash` - GET](#apistash---get)
   - [`/api/stash/save` - POST](#apistashsave---post)
   - [`/api/stash/remove` - POST](#apistashremove---post)
   - [`/api/snippet` - GET](#apisnippet---get)
   - [`/api/snippet/flag` - POST](#apisnippetflag---post)
-
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -64,6 +62,9 @@ Run mongo shell:
 * `use notably`
 * `db.courses.find()`
 
+To test API routes:
+* Use [Postman](https://www.getpostman.com/)
+
 
 ## API
 
@@ -75,7 +76,7 @@ The snippet object looks like this:
   "text": (string - snippet text),
   "timestamp": (string - timestamp),
   "saveCount": (number - number of saves),
-  "hidden": (bool - true if should be hidden, false otherwise),
+  "flagCount": (number - number of flags),
   "savedBy": [(string - usernames)],
   "flaggedBy": [(string - usernames)],
   "sessionId": (string - session id it belongs to)
@@ -98,6 +99,7 @@ The snippet object looks like this:
 
 ```javascript
 {
+  "username": (string),
   "name": (string),
   "stats": {
       "numSubmitted": (int - number of snippets submitted),
@@ -110,16 +112,17 @@ The snippet object looks like this:
   }],
   "recentSessions": [{
     "_id": (string - session id),
-    "title": (string - session title),
-    "createdAt": (string - timestamp),
-    "number": (string - course number),
-    "activeUsers": (number - number of active users)
+    "index": (number - position of session in recentSessions array; 0 is most recent),
+    "meta": {
+        "title": (string - session title),
+        "number": (string - course number),
+    }
   }]
 }
 ```
 
 ### `/api/user/auth` - GET
-* Check whether a user is authenticated
+* Check whether a user is authenticated; checks request's session username and verifies that it's valid
 
 **params**
 
@@ -179,19 +182,12 @@ The snippet object looks like this:
 
 ### `/api/user/logout` - POST
 * Logs out a user
+* Forces a browser redirect to `/`
 
 **params**
 
 ```javascript
 { }
-```
-
-**content**
-
-```javascript
-{
-  "username": (string - username of user just logged out)
-}
 ```
 
 ### `/api/user/courses` - GET
@@ -218,6 +214,7 @@ The snippet object looks like this:
 ### `/api/user/subscribe` - POST
 * Subscribes a user to a course
 * Must be authenticated
+* Returns all of user's courses
 
 **params**
 
@@ -241,6 +238,7 @@ The snippet object looks like this:
 ### `/api/user/unsubscribe` - POST
 * Unsubscribes a user from a course
 * Must be authenticated
+* Returns all of user's courses
 
 **params**
 
@@ -305,12 +303,11 @@ The snippet object looks like this:
     "description": (string - course description),
     "lectureTime": (string - lecture time),
     "location": (string - lecture location)
-  }
+  },
   "sessions": [{
     "_id": (string - session id),
     "title": (string - session title),
-    "createdAt": (string - timestamp),
-    "activeUsers": (number - number of active users)
+    "createdAt": (string - timestamp)
   }]
 }
 ```
@@ -335,6 +332,7 @@ The snippet object looks like this:
   "_id": (string - session id),
   "number": (string - course number),
   "title": (string - session title),
+  "createdAt": (string - timestamp of creation time)
 }
 ```
 
@@ -364,30 +362,7 @@ The snippet object looks like this:
 }
 ```
 
-### `/api/session/newstash` - POST
-* Add a new user's stash; will return error if user already has a stash
-* Must be authenticated
-
-**params**
-
-```javascript
-{
-    "sessionId": (string - session id)
-}
-```
-
-**content**
-
-```javascript
-{
-  "_id": (string - session id),
-  "createdAt": (string - timestamp),
-  "creator": (string - username),
-  "snippets": []
-}
-```
-
-### `/api/session/newsnippet` - POST
+### `/api/snippet` - POST
 * Add a new user's stash; will return error if user already has a stash
 * Must be authenticated
 
@@ -425,12 +400,16 @@ The snippet object looks like this:
   "_id": (string - session id),
   "createdAt": (string - timestamp),
   "creator": (string - username),
+  "sessionTitle": (string - title session stash belongs to),
+  "courseNumber": (string - course number associated with stash),
+  "session": (string - id of associated session),
   "snippets": [(Snippet)]
 }
 ```
 
 ### `/api/stash/save` - POST
 * Save a snippet to a stash
+* Snippet and stash should have same session ID and should be valid
 * Must be authenticated
 
 **params**
@@ -449,12 +428,16 @@ The snippet object looks like this:
   "_id": (string - session id),
   "createdAt": (string - timestamp),
   "creator": (string - username),
+  "sessionTitle": (string - title session stash belongs to),
+  "courseNumber": (string - course number associated with stash),
+  "session": (string - id of associated session),
   "snippets": [(Snippet)]
 }
 ```
 
 ### `/api/stash/remove` - POST
 * Get snippet info
+* Will send error if snippet not in stash
 * Must be authenticated
 
 **params**
@@ -473,6 +456,9 @@ The snippet object looks like this:
   "_id": (string - session id),
   "createdAt": (string - timestamp),
   "creator": (string - username),
+  "sessionTitle": (string - title session stash belongs to),
+  "courseNumber": (string - course number associated with stash),
+  "session": (string - id of associated session),
   "snippets": [(Snippet)]
 }
 ```
@@ -497,6 +483,7 @@ The snippet object looks like this:
 
 ### `/api/snippet/flag` - POST
 * Flag a snippet  
+* Will send error if user tries to flag own snippet or if snippet is already flagged
 * Must be authenticated
 
 **params**
