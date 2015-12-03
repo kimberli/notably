@@ -2,7 +2,7 @@ angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment','luegg.dire
 .config(['$routeProvider', '$locationProvider',
 	function($routeProvider, $locationProvider) {
 
-		MathJax.Hub.Config({
+	MathJax.Hub.Config({
        extensions: ["tex2jax.js"],
        jax: ["input/TeX", "output/HTML-CSS"],
        tex2jax: {
@@ -10,7 +10,7 @@ angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment','luegg.dire
          displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
          processEscapes: true
        },
-       "HTML-CSS": { availableFonts: ["TeX"] }
+       "HTML-CSS": { availableFonts: ["TeX"], linebreaks: { automatic: true } }
      });
 
 		// routing definitions
@@ -62,6 +62,7 @@ angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment','luegg.dire
 	sessionSocket.forward('left session');
 	sessionSocket.forward('new session');
 	sessionSocket.forward('session data loaded');
+	sessionSocket.forward('error');
 
   return sessionSocket;
 })

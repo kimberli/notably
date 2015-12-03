@@ -17,7 +17,7 @@ io.sockets.on('connection', function(socket){
     return sessionData;
   }
 
-  // fired when a user joins a session, update occupancy for everyone (it doesnt hurt!)
+    // fired when a user joins a session, update occupancy for everyone (it doesnt hurt!)
     socket.on("joined session", function(data) {
       socket.join("session-" + data.sessionId); // join a room named after this session
       io.emit('session data loaded', {"occupancy" : loadSessionOccupancy()});
@@ -31,22 +31,46 @@ io.sockets.on('connection', function(socket){
 
     // fired when a snippet is saved
     socket.on("saved snippet", function(data) {
-      io.to("session-" + data.sessionId).emit('saved snippet', {"snippetId" : data.snippetId, "username" : data.username});
+        Stash.saveSnippet(data.snippetId, data.stashId, function(err,result) {
+            if (err) {
+                io.to(socket.id).emit('error', {"message" : err});
+            } else {
+                io.to("session-" + data.sessionId).emit('saved snippet', {"snippetId" : data.snippetId, "username" : data.username});
+            }
+        });
     });
 
     // fired when a snippet is flagged
     socket.on("flagged snippet", function(data) {
-      io.to("session-" + data.sessionId).emit('flagged snippet', {"snippetId" : data.snippetId, "username" : data.username});
+        Snippet.flagSnippet(data.snippetId, data.username, function(err,result) {
+            if (err) {
+                io.to(socket.id).emit('error', {"message" : err});
+            } else {
+                io.to("session-" + data.sessionId).emit('flagged snippet', {"snippetId" : data.snippetId, "username" : data.username});
+            }
+        });
     });
 
     // fired when a snippet is added
     socket.on("added snippet", function(data) {
-      io.to("session-" + data.sessionId).emit('added snippet', {"snippet" : data.snippet});
+      Session.addSnippet(data.sessionId, data.username, data.content, function(err,result) {
+         if (err) {
+             io.to(socket.id).emit('error', {"message" : err});
+          } else {
+              io.to("session-" + data.sessionId).emit('added snippet', {"snippet" : result});
+          }
+      });
     });
 
     // fired when a snippet is removed
     socket.on("removed snippet", function(data) {
-      io.to("session-" + data.sessionId).emit('removed snippet', {"snippetId" : data.snippetId, "username" : data.username});
+        Stash.removeSnippet(data.snippetId, data.stashId, function(err,result) {
+            if (err) {
+                io.to(socket.id).emit('error', {"message" : err});
+            } else {
+                io.to("session-" + data.sessionId).emit('removed snippet', {"snippetId" : data.snippetId, "username" : data.username});
+            }
+        });
     });
 
     // fired when a user joins the course page, update occupancy

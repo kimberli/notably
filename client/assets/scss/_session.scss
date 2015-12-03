@@ -108,6 +108,7 @@
       color: black;
       margin: 15px auto;
       overflow-x: hidden;
+      word-break: break-all;
 
       &.collapsed-snippet  {
         max-height: 250px;
