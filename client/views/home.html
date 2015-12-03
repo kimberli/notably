@@ -6,7 +6,7 @@
     <div id="home-body">
       <div class="row">
         <div class="col s12 m6 l6">
-          <div class="card">
+          <div class="card card-primary">
             <div class="card-content">
               <span class="card-title"><b>Welcome, {{ user.name }}!</b></span>
               <div class="spacer"></div>
@@ -17,7 +17,7 @@
               Subscribed classes: {{ user.stats.numSubscribed }}
             </div>
           </div>
-          <div class="card">
+          <div class="card card-primary">
             <div class="card-content">
               <span class="card-title">Your courses</span>
               <div class="spacer"></div>
@@ -30,7 +30,7 @@
         </div>
 
         <div class="col s12 m6 l6">
-          <div class="card">
+          <div class="card card-primary">
             <div class="card-content">
               <span class="card-title">Your sessions</span>
               <em ng-if="user.recentSessions.length === 0">You do not have any sessions!</em>
