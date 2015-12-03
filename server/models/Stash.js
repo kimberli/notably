@@ -110,7 +110,8 @@ stashSchema.statics.saveSnippet = function(snippetId, stashId, callback) {
             Snippet.findSnippet(snippetId, function(err, snippet) {
                 if (err) callback(err);
                 else {
-                    if (snippet.savedBy.indexOf(username) > -1) callback('Snippet already saved');
+                    if (snippet.sessionId.toString() !== stash.session.toString()) callback('Snippet does not belong to this session');
+                    else if (snippet.savedBy.indexOf(username) > -1) callback('Snippet already saved');
                     else {
                         snippet.saveCount += 1;
                         snippet.savedBy.push(username);

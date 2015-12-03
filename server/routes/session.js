@@ -4,6 +4,7 @@ path = require('path');
 utils = require('../utils');
 Session = require('../models/Session');
 User = require('../models/User');
+Course = require('../models/Course');
 
 /**
  * GET - /api/session
@@ -43,13 +44,12 @@ router.get('/', function(req, res) {
     } else utils.sendErrResponse(res, 403, 'Must be logged in');
 });
 
-
 /**
- * POST - /api/session/newstash
+ * POST - /api/session/
  */
-router.post('/newstash', function(req, res) {
+router.post('/', function(req, res) {
     if (req.currentUser) {
-        Session.addStash(req.body.sessionId, req.currentUser, function(err,result) {
+        Course.addSession(req.body.number, req.body.title, req.currentUser, function(err,result) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {
@@ -58,21 +58,5 @@ router.post('/newstash', function(req, res) {
         });
     } else utils.sendErrResponse(res, 403, 'Must be logged in');
 });
-
-/**
- * POST - /api/session/newsnippet
- */
-router.post('/newsnippet', function(req, res) {
-    if (req.currentUser) {
-        Session.addSnippet(req.body.sessionId, req.currentUser, req.body.text, function(err,result) {
-            if (err) {
-                utils.sendErrResponse(res, 403, err);
-            } else {
-                utils.sendSuccessResponse(res, result);
-            }
-        });
-    } else utils.sendErrResponse(res, 403, 'Must be logged in');
-});
-
 
 module.exports = router;
