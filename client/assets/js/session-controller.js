@@ -112,10 +112,8 @@ openPage = function() {
   $scope.incrementSaveCount = function(snippetId, username) {
 
     // but first lets add a cute animation!
-    var active = $("#feed-save-" + snippetId).hasClass("save-button-active");
-     $("#feed-save-" + snippetId + ",#stash-save-" + snippetId).addClass('animated tada save-button-active').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-      $(this).removeClass('animated tada');
-      if (!active) {$(this).removeClass('save-button-active');}
+     $("#feed-save-" + snippetId + ",#stash-save-" + snippetId).addClass('animated tada save-button-animate').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+      $(this).removeClass('animated tada save-button-animate');
     });
 
     // increment savecount, add to savedBy if it isn't already there (just in case)
@@ -166,10 +164,8 @@ openPage = function() {
     // do this for stash and feed
 
     // but first lets add a cute animation!
-    var active = $("#feed-flag-" + snippetId).hasClass("flag-button-active");
-    $("#feed-flag-" + snippetId + ",#stash-flag-" + snippetId).addClass('animated tada flag-button-active').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-      $(this).removeClass('animated tada');
-      if (!active) {$(this).removeClass('flag-button-active');}
+    $("#feed-flag-" + snippetId + ",#stash-flag-" + snippetId).addClass('animated tada flag-button-animate').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+      $(this).removeClass('animated tada flag-button-animate');
     });
 
     for (i=0;i<$scope.feed.length;i++) {
@@ -319,7 +315,7 @@ openPage = function() {
 
   $scope.getClassSave = function(id) {
     console.log("trying to compute class!!");
-    return $scope.alreadySaved[id] ? 'save-button-active save-button snippet-button' : 'save-button snippet-button';
+    return $scope.alreadySaved[id] ? ['save-button-active','save-button','snippet-button'] : ['save-button','snippet-button'];
   }
 
   $scope.getClassFlag = function(id) {
