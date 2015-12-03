@@ -20,7 +20,13 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
             // true for a snippet id if the current user has flagged the snippet
             $scope.alreadyFlagged = {};
             angular.element(document).ready(function () {
-                if ($scope.session.feed.length === 0) openPage();
+                if ($scope.session.feed.length === 0) {
+                    $scope.feed = $scope.session.feed;
+                    $scope.stash = $scope.session.stash.snippets;
+                    angular.element(document).ready(function(){
+                          openPage();
+                    });
+                  }
                 else {
                     $scope.session.feed.forEach(function(snippet, index) {
                       if (snippet.savedBy.indexOf($rootScope.user) > -1) {
@@ -34,8 +40,13 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
                         $scope.alreadyFlagged[snippet._id] = false;
                       }
 
-                      if (index === $scope.session.feed.length - 1) openPage();
-
+                      if (index === $scope.session.feed.length - 1) {
+                          $scope.feed = $scope.session.feed;
+                          $scope.stash = $scope.session.stash.snippets;
+                          angular.element(document).ready(function(){
+                                openPage();
+                          });
+                        }
                     });
                 }
             });
@@ -52,8 +63,7 @@ openPage = function() {
 
   console.log("open", $scope.alreadySaved);
 
-  $scope.feed = $scope.session.feed;
-  $scope.stash = $scope.session.stash.snippets;
+
 
   // let the server know you've joined to update view counts, join the room
   sessionSocket.emit("joined session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
@@ -336,7 +346,7 @@ openPage = function() {
   }
 
   $scope.getClassFlag = function(id) {
-    return $scope.alreadyFlagged[id] ? 'flag-button-active flag-button snippet-button' : 'flag-button snippet-button';
+     return $scope.alreadyFlagged[id] ? 'flag-button-active flag-button snippet-button' : 'flag-button snippet-button';
   }
 
   // using angular hotkeys to add functionality
