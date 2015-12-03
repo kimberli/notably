@@ -24,7 +24,7 @@ URL: `mitnotably.herokuapp.com`
   - [`/api/course/all` - GET](#apicourseall---get)
   - [`/api/course` - GET](#apicourse---get)
   - [`/api/session` - GET](#apisession---get)
-  - [`/api/session/` - POST](#apisession---post)
+  - [`/api/session` - POST](#apisession---post)
   - [`/api/stash` - GET](#apistash---get)
   - [`/api/stash/save` - POST](#apistashsave---post)
   - [`/api/stash/remove` - POST](#apistashremove---post)
@@ -338,7 +338,7 @@ The snippet object looks like this:
 }
 ```
 
-### `/api/session/` - POST
+### `/api/session` - POST
 * Add new session to a course
 * Must be authenticated
 
