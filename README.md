@@ -23,8 +23,8 @@ URL: `mitnotably.herokuapp.com`
   - [`/api/user/unsubscribe` - POST](#apiuserunsubscribe---post)
   - [`/api/course/all` - GET](#apicourseall---get)
   - [`/api/course` - GET](#apicourse---get)
-  - [`/api/course/newsession` - POST](#apicoursenewsession---post)
   - [`/api/session` - GET](#apisession---get)
+  - [`/api/session/` - POST](#apisession---post)
   - [`/api/stash` - GET](#apistash---get)
   - [`/api/stash/save` - POST](#apistashsave---post)
   - [`/api/stash/remove` - POST](#apistashremove---post)
@@ -312,30 +312,6 @@ The snippet object looks like this:
 }
 ```
 
-### `/api/course/newsession` - POST
-* Add new session to a course
-* Must be authenticated
-
-**params**
-
-```javascript
-{
-  "number": (string - course number),
-  "title": (string - session title)
-}
-```
-
-**content**
-
-```javascript
-{
-  "_id": (string - session id),
-  "number": (string - course number),
-  "title": (string - session title),
-  "createdAt": (string - timestamp of creation time)
-}
-```
-
 ### `/api/session` - GET
 * Get session info and snippets
 * Must be authenticated
@@ -359,6 +335,30 @@ The snippet object looks like this:
   },
   "feed": [(Snippet)],
   "stash": [(Snippet)]
+}
+```
+
+### `/api/session/` - POST
+* Add new session to a course
+* Must be authenticated
+
+**params**
+
+```javascript
+{
+  "number": (string - course number),
+  "title": (string - session title)
+}
+```
+
+**content**
+
+```javascript
+{
+  "_id": (string - session id),
+  "number": (string - course number),
+  "title": (string - session title),
+  "createdAt": (string - timestamp of creation time)
 }
 ```
 

@@ -4,6 +4,7 @@ path = require('path');
 utils = require('../utils');
 Session = require('../models/Session');
 User = require('../models/User');
+Course = require('../models/Course');
 
 /**
  * GET - /api/session
@@ -38,6 +39,21 @@ router.get('/', function(req, res) {
                         });
                     }
                 });
+            }
+        });
+    } else utils.sendErrResponse(res, 403, 'Must be logged in');
+});
+
+/**
+ * POST - /api/session/
+ */
+router.post('/', function(req, res) {
+    if (req.currentUser) {
+        Course.addSession(req.body.number, req.body.title, req.currentUser, function(err,result) {
+            if (err) {
+                utils.sendErrResponse(res, 403, err);
+            } else {
+                utils.sendSuccessResponse(res, result);
             }
         });
     } else utils.sendErrResponse(res, 403, 'Must be logged in');
