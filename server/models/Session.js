@@ -112,44 +112,35 @@ sessionSchema.statics.addStash = function(sessionId, username, callback) {
  * Create a new snippet
  *
  * @param sessionId {string} - id of session
- * @param currentUser {string} - username of current user; must be valid
+ * @param currentUser {string} - username of current user
  * @param text {string} - content of the snippet
  * @param callback {function} - function to be called with err and result
  */
 sessionSchema.statics.addSnippet = function(sessionId, currentUser, text, callback) {
-    getSession(sessionId, function(err, session) {
+    User.auth(currentUser, function(err, user) {
         if (err) callback(err);
         else {
-            Stash.findBySessionAndUsername(sessionId, currentUser, function(err, stash) {
+            getSession(sessionId, function(err, session) {
                 if (err) callback(err);
                 else {
-                    Snippet.create(currentUser, text, sessionId, function(err, newSnippet) {
+                    Stash.findBySessionAndUsername(sessionId, currentUser, function(err, stash) {
                         if (err) callback(err);
                         else {
-                            session.feed.push(newSnippet);
-                            session.save(function(err) {
+                            Snippet.create(currentUser, text, sessionId, function(err, newSnippet) {
                                 if (err) callback(err);
                                 else {
-                                    stash.snippets.push(newSnippet);
-                                    stash.save(function(err) {
+                                    session.feed.push(newSnippet);
+                                    session.save(function(err) {
                                         if (err) callback(err);
-                                        else newSnippet.save(callback);
-                                        // else {
-                                        //     newSnippet.save(function(err) {
-                                        //         if (err) callback(err);
-                                        //         else {
-                                        //             User.find({ username: currentUser }, function(err, result) {
-                                        //                 if (err) callback(err);
-                                        //                 else if (result.length > 0) {
-                                        //                     var user = result[0];
-                                        //                     user.numSubmitted += 1;
-                                        //                     user.save(callback);
-                                        //                 }
-                                        //                 else callback('User not found');
-                                        //             });
-                                        //         }
-                                        //     });
-                                        // }
+                                        else {
+                                            User.incrementSubmitted(user.username, function(err, result) {
+                                                stash.snippets.push(newSnippet);
+                                                stash.save(function(err) {
+                                                    if (err) callback(err);
+                                                    else newSnippet.save(callback);
+                                                });
+                                            });
+                                        }
                                     });
                                 }
                             });

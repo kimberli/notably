@@ -31,7 +31,7 @@ var findUser = function(rawUsername, callback) {
 }
 
 /**
- * Authenticate user; return error otherwise
+ * Assert username is valid; return error otherwise
  *
  * @param rawUsername {string} - username of a potential user
  * @param callback {function} - function to be called with err and result

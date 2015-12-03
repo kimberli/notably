@@ -470,6 +470,13 @@ describe('Course', function() {
 // test session model
 describe('Session', function() {
 
+    //test create
+    describe('#create', function () {
+        it('should be tested by Course.addSession', function (done) {
+            done();
+        });
+    });
+
     //test findSession
     describe('#findSession', function () {
         // test nonexistent session
@@ -547,7 +554,10 @@ describe('Session', function() {
                     assert.equal(result.feed.length, 1);
                     assert.equal(result.feed[0].author, 'kim');
                     assert.equal(result.feed[0].sessionId, sessionId);
-                    done();
+                    User.findProfile('kim', function(err, result) {
+                        assert.equal(result.stats.numSubmitted, 1);
+                        done();
+                    });
                 });
             });
         });
@@ -563,7 +573,10 @@ describe('Session', function() {
                 Session.findSession(sessionId, function(err, result) {
                     assert.equal(result.feed.length, 2);
                     assert.notEqual(result.feed[0]._id, result.feed[1]._id);
-                    done();
+                    User.findProfile('kim', function(err, result) {
+                        assert.equal(result.stats.numSubmitted, 2);
+                        done();
+                    });
                 });
             });
         });
