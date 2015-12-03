@@ -68,32 +68,47 @@ a {
 }
 
 .markdown-parsed {
-    h1 {
-      font-weight: 300;
-      font-size: 36px;
-    }
-
-    h2 {
-      font-weight: 300;
-      font-size: 30px;
-    }
-
-    h3 {
-      font-weight: 300;
-      font-size: 24px;
-    }
-
-    h4 {
-      font-weight: 300;
-      font-size: 18px;
-    }
-
-    h5 {
-      font-weight: 300;
-      font-size: 14px;
-    }
+  h1 {
+    font-weight: 300;
+    font-size: 36px;
   }
- 
+
+  h2 {
+    font-weight: 300;
+    font-size: 30px;
+  }
+
+  h3 {
+    font-weight: 300;
+    font-size: 24px;
+  }
+
+  h4 {
+    font-weight: 300;
+    font-size: 18px;
+  }
+
+  h5 {
+    font-weight: 300;
+    font-size: 14px;
+  }
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color: white;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: white;
+  opacity: 1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: white;
+  opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: white;
+}
+
   @import "splash";
   @import "home";
   @import "profile";
