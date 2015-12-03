@@ -21,18 +21,18 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
             $scope.alreadySaved = {};
             // true for a snippet id if the current user has flagged the snippet
             $scope.alreadyFlagged = {};
-            for (i=0; i<$scope.feed.length;i++) {
-              if ($scope.feed[i].savedBy.indexOf($scope.currentUser) > -1) {
-                $scope.alreadySaved[$scope.feed[i]._id] = true;
+            $scope.feed.forEach(function(snippet) {
+              if (snippet.savedBy.indexOf($scope.currentUser) > -1) {
+                $scope.alreadySaved[snippet._id] = true;
               } else {
-                $scope.alreadySaved[$scope.feed[i]._id] = false;
+                $scope.alreadySaved[snippet._id] = false;
               }
-              if ($scope.feed[i].flaggedBy.indexOf($scope.currentUser) > -1) {
-                $scope.alreadyFlagged[$scope.feed[i]._id] = true;
+              if (snippet.flaggedBy.indexOf($scope.currentUser) > -1) {
+                $scope.alreadyFlagged[snippet._id] = true;
               } else {
-                $scope.alreadyFlagged[$scope.feed[i]._id] = false;
+                $scope.alreadyFlagged[snippet._id] = false;
               }
-            }
+            });
             // snippets have loaded, can load page now
             openPage();
         } else {
@@ -119,19 +119,19 @@ openPage = function() {
     // increment savecount, add to savedBy if it isn't already there (just in case)
     // do this for stash and feed
 
-    for (i=0;i<$scope.feed.length;i++) {
-      if ($scope.feed[i]._id === snippetId) {
-           $scope.feed[i].saveCount++;
-           if ($scope.feed[i].savedBy.indexOf(username) === -1) $scope.feed[i].savedBy.push(username);
+    $scope.feed.forEach(function(snippet) {
+      if (snippet._id === snippetId) {
+           snippet.saveCount++;
+           if (snippet.savedBy.indexOf(username) === -1) snippet.savedBy.push(username);
       }
-    }
+    });
 
-    for (i=0;i<$scope.stash.length;i++) {
-      if ($scope.stash[i]._id === snippetId) {
-           $scope.stash[i].saveCount++;
-           if ($scope.stash[i].savedBy.indexOf(username) === -1) $scope.stash[i].savedBy.push(username);
+    $scope.stash.forEach(function(snippet) {
+      if (snippet._id === snippetId) {
+           snippet.saveCount++;
+           if (snippet.savedBy.indexOf(username) === -1) snippet.savedBy.push(username);
       }
-    }
+    });
 
   }
 
@@ -141,19 +141,19 @@ openPage = function() {
     // decrement savecount, delete from savedBy
     // do this for stash and feed
 
-    for (i=0;i<$scope.feed.length;i++) {
-      if ($scope.feed[i]._id === snippetId) {
-           $scope.feed[i].saveCount--;
-           $scope.feed[i].savedBy.splice($scope.feed[i].savedBy.indexOf(username), 1);
+    $scope.feed.forEach(function(snippet) {
+      if (snippet._id === snippetId) {
+           snippet.saveCount--;
+           snippet.savedBy.splice(snippet.savedBy.indexOf(username), 1);
        }
-    }
+    });
 
-    for (i=0;i<$scope.stash.length;i++) {
-      if ($scope.stash[i]._id === snippetId) {
-           $scope.stash[i].saveCount--;
-           $scope.stash[i].savedBy.splice($scope.stash[i].savedBy.indexOf(username), 1);
+    $scope.stash.forEach(function(snippet) {
+      if (snippet._id === snippetId) {
+           snippet.saveCount--;
+           snippet.savedBy.splice(snippet.savedBy.indexOf(username), 1);
       }
-    }
+    });
 
   }
 
@@ -168,19 +168,19 @@ openPage = function() {
       $(this).removeClass('animated tada flag-button-animate');
     });
 
-    for (i=0;i<$scope.feed.length;i++) {
-      if ($scope.feed[i]._id === snippetId) {
-           $scope.feed[i].flagCount++;
-           if ($scope.feed[i].flaggedBy.indexOf(username) === -1) $scope.feed[i].flaggedBy.push(username);
+    $scope.feed.forEach(function(snippet) {
+      if (snippet._id === snippetId) {
+           snippet.flagCount++;
+           if (snippet.flaggedBy.indexOf(username) === -1) snippet.flaggedBy.push(username);
       }
-    }
+    });
 
-    for (i=0;i<$scope.stash.length;i++) {
-      if ($scope.stash[i]._id === snippetId) {
-           $scope.stash[i].flagCount++;
-           if ($scope.stash[i].flaggedBy.indexOf(username) === -1) $scope.stash[i].flaggedBy.push(username);
+    $scope.stash.forEach(function(snippet) {
+      if (snippet._id === snippetId) {
+           snippet.flagCount++;
+           if (snippet.flaggedBy.indexOf(username) === -1) snippet.flaggedBy.push(username);
       }
-    }
+    });
 
   }
 
@@ -202,16 +202,14 @@ openPage = function() {
   $scope.$on("socket:saved snippet", function(ev, data) {
       $scope.incrementSaveCount(data.snippetId, data.username);
      if (data.username === $scope.currentUser) {
-           for (i=0;i<$scope.feed.length;i++) {
-             if ($scope.feed[i]._id === data.snippetId) {
+         $scope.feed.forEach(function(snippet) {
+             if (snippet._id === data.snippetId) {
                  $scope.alreadySaved[data.snippetId] = true; // its saved by you!
-                 console.log($scope.alreadySaved[data.snippetId], data.snippetId, "save");
-                 $scope.stash.push(jQuery.extend(true, {}, $scope.feed[i])); // copy snippet onto stash
+                 $scope.stash.push(jQuery.extend(true, {}, snippet)); // copy snippet onto stash
                  $scope.typesetElement('stash-snippet-' + data.snippetId)
                  Materialize.toast('Snippet has been saved!', 2000);
-                 break;
              }
-           }
+           });
       }
   });
 
@@ -229,13 +227,12 @@ openPage = function() {
       $scope.decrementSaveCount(data.snippetId, data.username);
       if (data.username === $scope.currentUser) {
             $scope.alreadySaved[data.snippetId] = false;
-            for (i=0;i<$scope.session.stash.snippets.length;i++) {
-              if ($scope.session.stash.snippets[i]._id === data.snippetId) { // found it!
+            $scope.stash.forEach(function(snippet, index) {
+              if (snippet._id === data.snippetId) { // found it!
                   // isnt saved anymore, set to false
-                  $scope.session.stash.snippets.splice(i,1); // remove snippet from your own stash
-                  break;
+                  $scope.stash.splice(index,1); // remove snippet from your own stash
               }
-            }
+            });
             Materialize.toast('Snippet has been removed!', 1000);
       }
   });
@@ -314,12 +311,11 @@ openPage = function() {
   }
 
   $scope.getClassSave = function(id) {
-    console.log("trying to compute class!!");
-    return $scope.alreadySaved[id] ? ['save-button-active','save-button','snippet-button'] : ['save-button','snippet-button'];
+      return $scope.alreadySaved[id] ? 'save-button-active save-button snippet-button' : 'save-button snippet-button';
   }
 
   $scope.getClassFlag = function(id) {
-    return $scope.alreadySaved[id] ? 'flag-button-active flag-button snippet-button' : 'flag-button snippet-button';
+    return $scope.alreadyFlagged[id] ? 'flag-button-active flag-button snippet-button' : 'flag-button snippet-button';
   }
 
   // using angular hotkeys to add functionality
