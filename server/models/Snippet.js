@@ -59,8 +59,7 @@ snippetSchema.statics.flagSnippet = function(snippetId, currentUser, callback) {
     Snippet.findSnippet(snippetId, function(err, snippet) {
         if (err) callback(err);
         else {
-            var author = snippet.author;
-            if (author !== currentUser.toLowerCase()) {
+            if (snippet.author !== currentUser.toLowerCase()) {
                 if (snippet.flaggedBy.indexOf(currentUser) == -1) {
                     snippet.flagCount += 1;
                     snippet.flaggedBy.push(currentUser);

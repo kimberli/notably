@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Session = require('./Session');
+var User = require('./User');
 
 var courseSchema = mongoose.Schema({
     name: String,
@@ -77,6 +78,76 @@ courseSchema.statics.getAllCourses = function(callback) {
         );
     });
 }
+
+/**
+ * Get courses belonging to a user
+ *
+ * @param rawUsername {string} - username of user
+ * @param callback {function} - function to be called with err and result
+ */
+courseSchema.statics.getCoursesByUser = function(rawUsername, callback) {
+    User.findProfile(rawUsername, function(err, user) {
+        if (err) callback (err);
+        else {
+            Course.find({_id: { $in: user.courses}}, function(err, courses) {
+                if (err) callback(err);
+                else {
+                    callback(null, {courses:
+                        courses.map(function(item) {
+                            return {
+                                name: item.name,
+                                number: item.number
+                            };
+                        }) }
+                    );
+                }
+            });
+        }
+    })
+}
+
+/**
+ * Add a subscriber to a course
+ *
+ * @param rawUsername {string} - username of user
+ * @param courseNumber {string} - number of course to subscribe to
+ * @param callback {function} - function to be called with err and result
+ */
+courseSchema.statics.subscribeUser = function(rawUsername, courseNumber, callback) {
+    Course.findCourse(courseNumber, function(err, result) {
+        if (err) callback(err);
+        else {
+            User.addCourse(rawUsername, result._id, function(err, result) {
+                if (err) callback(err);
+                else {
+                    Course.getCoursesByUser(rawUsername, callback);
+                }
+            });
+        }
+    });
+}
+
+/**
+ * Remove a subscriber from a course
+ *
+ * @param rawUsername {string} - username of user
+ * @param courseNumber {string} - number of course to subscribe to
+ * @param callback {function} - function to be called with err and result
+ */
+courseSchema.statics.unsubscribeUser = function(rawUsername, courseNumber, callback) {
+    Course.findCourse(courseNumber, function(err, result) {
+        if (err) callback(err);
+        else {
+            User.removeCourse(rawUsername, result._id, function(err, result) {
+                if (err) callback(err);
+                else {
+                    Course.getCoursesByUser(rawUsername, callback);
+                }
+            });
+        }
+    });
+}
+
 
 /**
  * Add session to a course
