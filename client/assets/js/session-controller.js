@@ -79,6 +79,8 @@ openPage = function() {
             "sessionId" : $scope.sessionId,
             "username" :  $scope.currentUser
         });
+
+        $("#feed-view").animate({ scrollTop: $('#feed-view').prop("scrollHeight")}, 1000);
     }
 
   // flag a snippet
@@ -108,14 +110,6 @@ openPage = function() {
                 "stashId" : $scope.session.stash._id,
             });
         }
-    }
-
-  // scroll stash and feed to bottom of page (not used yet)
-    $scope.scrollDivs = function() {
-        var objDiv = document.getElementById("feed-view");
-        objDiv.scrollTop = objDiv.scrollHeight;
-        objDiv = document.getElementById("stash-view");
-        objDiv.scrollTop = objDiv.scrollHeight;
     }
 
   // add one to a particular snippet's save count
