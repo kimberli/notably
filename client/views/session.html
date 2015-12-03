@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="row feeds" id="stash-feed-rows">
+    <div class="row feeds">
         <div ng-class="{true: 's12 m6', false: 's12'}[showOption === 'both']" class="col feeds-col" ng-hide="showOption === 'right'" >
         <div id="feed-container" class="card-panel card-primary">
 
@@ -127,7 +127,7 @@
                       </button>
                       {{snip.flagCount}}
                       <button
-                        ng-class="{'flag-button-active' : alreadyFlagged[snip._id], 'flag-button snippet-button' : true}"
+                        ng-class="getClassFlag(snip._id)"
                         ng-click="flagSnippet(snip._id)"
                         id="stash-flag-{{ snip._id }}" disabled>
                         <i class="material-icons">flag</i>
