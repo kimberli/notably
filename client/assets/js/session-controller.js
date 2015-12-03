@@ -54,8 +54,6 @@ openPage = function() {
 
     console.log("open", $scope.alreadySaved);
 
-
-
   // let the server know you've joined to update view counts, join the room
     sessionSocket.emit("joined session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
 
@@ -200,8 +198,8 @@ openPage = function() {
         });
     }
 
-  // typeset the entire page on load
-  $scope.typesetElement('stash-feed-rows');
+    // typeset the entire page on load
+    $scope.typesetElement("session-container");
 
   // on saved snippet, increment save count
     $scope.$on("socket:saved snippet", function(ev, data) {
