@@ -3,6 +3,7 @@ router = require('express').Router();
 path = require('path');
 utils = require('../utils');
 User = require('../models/User');
+Course = require('../models/Course');
 
 /**
  * Helper function to check whether the user request is valid in POST requests
@@ -94,7 +95,7 @@ router.post('/logout', function(req, res) {
  */
 router.get('/courses', function(req, res) {
     if (req.currentUser) {
-        User.getCourses(req.currentUser, function(err,result) {
+        Course.getCoursesByUser(req.currentUser, function(err,result) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {
@@ -109,7 +110,7 @@ router.get('/courses', function(req, res) {
  */
 router.post('/subscribe', function(req, res) {
     if (req.currentUser) {
-        User.addCourse(req.currentUser, req.body.course, function(err,result) {
+        Course.subscribeUser(req.currentUser, req.body.course, function(err,result) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {
@@ -124,7 +125,7 @@ router.post('/subscribe', function(req, res) {
  */
 router.post('/unsubscribe', function(req, res) {
     if (req.currentUser) {
-        User.removeCourse(req.currentUser, req.body.course, function(err,result) {
+        Course.unsubscribeUser(req.currentUser, req.body.course, function(err,result) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {
