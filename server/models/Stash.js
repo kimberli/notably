@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Snippet = require('./Snippet');
+var User = require('./User');
 
 var stashSchema = mongoose.Schema({
     creator: String,
@@ -118,7 +119,18 @@ stashSchema.statics.saveSnippet = function(snippetId, stashId, callback) {
                                 callback(err, false);
                             } else {
                                 stash.snippets.push(snippet);
-                                stash.save(callback);
+                                stash.save(function(err) {
+                                    if (err) callback(err);
+                                    else {
+                                        findUser(username, function(err, user) {
+                                            if (err) callback(err);
+                                            else {
+                                                user.numSaved += 1;
+                                                user.save(callback);
+                                            }
+                                        });
+                                    }
+                                });
                             }
                         });
                     } else callback('Snippet already saved');
@@ -139,17 +151,29 @@ stashSchema.statics.removeSnippet = function(snippetId, stashId, callback) {
     Stash.getStash(stashId, function(err, stash) {
         if (err) callback(err);
         else {
+            var username = stash.creator;
             Snippet.findSnippet(snippetId, function(err, snippet) {
                 if (err) callback(err);
                 else {
                     if (stash.snippets.indexOf(snippet._id) > -1) {
-                        snippet.savedBy.splice(snippet.savedBy.indexOf(stash.creator), 1);
+                        snippet.savedBy.splice(snippet.savedBy.indexOf(username), 1);
                         snippet.saveCount -= 1;
                         snippet.save(function(err) {
                             if (err) callback(err);
                             else {
                                 stash.snippets.splice(stash.snippets.indexOf(snippet._id), 1);
-                                stash.save(callback);
+                                stash.save(function(err) {
+                                    if (err) callback(err);
+                                    else {
+                                        findUser(username, function(err, user) {
+                                            if (err) callback(err);
+                                            else {
+                                                user.numSaved -= 1;
+                                                user.save(callback);
+                                            }
+                                        });
+                                    }
+                                });
                             }
                         })
                     } else callback('Snippet not in stash');
