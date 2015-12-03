@@ -64,6 +64,7 @@ sessionSchema.statics.findSession = function(sessionId, callback) {
                         if (err) callback(err);
                         else callback(null, {
                             _id: session._id,
+                            createdAt: session.createdAt,
                             meta: {
                                 title: session.title,
                                 number: session.number

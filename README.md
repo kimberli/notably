@@ -112,6 +112,7 @@ The snippet object looks like this:
   }],
   "recentSessions": [{
     "_id": (string - session id),
+    "createdAt": (string - creation timestamp)
     "index": (number - position of session in recentSessions array; 0 is most recent),
     "meta": {
         "title": (string - session title),
@@ -336,6 +337,7 @@ The snippet object looks like this:
 ```javascript
 {
   "_id": (string - session id),
+  "createdAt": (string - creation timestamp),
   "meta": {
     "number": (string - course number),
     "title": (string - session title)
