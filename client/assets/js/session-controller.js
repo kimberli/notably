@@ -21,25 +21,30 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
             $scope.alreadySaved = {};
             // true for a snippet id if the current user has flagged the snippet
             $scope.alreadyFlagged = {};
-            $scope.feed.forEach(function(snippet, index) {
-              if (snippet.savedBy.indexOf($scope.currentUser) > -1) {
-                $scope.alreadySaved[snippet._id] = true;
-              } else {
-                $scope.alreadySaved[snippet._id] = false;
-              }
-              if (snippet.flaggedBy.indexOf($scope.currentUser) > -1) {
-                $scope.alreadyFlagged[snippet._id] = true;
-              } else {
-                $scope.alreadyFlagged[snippet._id] = false;
-              }
+            if ($scope.feed.length === 0) openPage();
+            else {
+                $scope.feed.forEach(function(snippet, index) {
+                  if (snippet.savedBy.indexOf($scope.currentUser) > -1) {
+                    $scope.alreadySaved[snippet._id] = true;
+                  } else {
+                    $scope.alreadySaved[snippet._id] = false;
+                  }
+                  if (snippet.flaggedBy.indexOf($scope.currentUser) > -1) {
+                    $scope.alreadyFlagged[snippet._id] = true;
+                  } else {
+                    $scope.alreadyFlagged[snippet._id] = false;
+                  }
 
-              if (index === $scope.feed.length - 1) openPage();
+                  if (index === $scope.feed.length - 1) openPage();
 
-            });
+                });
+            }
             // snippets have loaded, can load page now
         } else {
             Materialize.toast("Error! " + response.data.error, 2000);
         }
+    }, function(response) {
+        Materialize.toast("Error! " + response.data.error, 2000);
     });
 
 
@@ -263,9 +268,12 @@ openPage = function() {
       Materialize.toast(data.message, 1000);
   });
 
+    console.log("hi");
 
   // changes the editor to preview mode, making sure to highlight code and parse markdown
   $scope.togglePreview = function() {
+
+      console.log("hi");
     if($scope.preview) {
       $scope.preview = false;
 
