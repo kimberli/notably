@@ -20,12 +20,14 @@ angular.module('notablyApp').controller('splashController', function ($scope, $h
         $scope.focusLogin = true;
         $scope.loginForm = true;
         $scope.registerForm = false;
+        $("body").animate({ scrollTop: $('body').prop("scrollHeight")}, 1000);
     }
 
     $scope.showRegisterForm = function () {
         $scope.focusLogin = false;
         $scope.loginForm = true;
         $scope.registerForm = true;
+        $("body").animate({ scrollTop: $('body').prop("scrollHeight")}, 1000);
     }
 
     $scope.hideForms = function () {
