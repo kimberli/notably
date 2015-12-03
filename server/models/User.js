@@ -66,6 +66,7 @@ userSchema.statics.findProfile = function(rawUsername, callback) {
                     numSubmitted: result.numSubmitted
                 },
                 courses: result.courses,
+                recentSessions: result.recentSessions
             });
         }
     });

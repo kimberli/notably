@@ -8,7 +8,8 @@ var User = require('../server/models/User');
 
 var courseId1 = null; //6.170
 var courseId2 = null; //6.005
-var sessionId = null; //for 6.170
+var sessionId1 = null; //for 6.170
+var sessionId2 = null; //for 6.005
 var stashId1 = null; //for user kim
 var stashId2 = null; //for user 123
 var snippetId1 = null; //author kim
@@ -512,7 +513,7 @@ describe('Course', function() {
                 assert.equal(err, null);
                 assert.equal(result.title, 'Lecture 1');
                 assert.equal(result.number, '6.170');
-                sessionId = result._id;
+                sessionId1 = result._id;
                 Course.findCourse('6.170', function(err, result) {
                     assert.equal(result.sessions.length, 1);
                     done();
@@ -527,8 +528,13 @@ describe('Session', function() {
 
     //test create
     describe('#create', function () {
-        it('should be tested by Course.addSession', function (done) {
-            done();
+        it('should not return error when creating', function (done) {
+            Session.create('6.005', 'Lecture 3', 'kim', function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.title, 'Lecture 3');
+                sessionId2 = result._id;
+                done();
+            });
         });
     });
 
@@ -544,7 +550,7 @@ describe('Session', function() {
 
         // test existing session; depends on addSession of Course tests
         it('should not return error when session exists', function (done) {
-            Session.findSession(sessionId, function(err, result) {
+            Session.findSession(sessionId1, function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.meta.title, 'Lecture 1');
                 assert.deepEqual(result.feed, []);
@@ -552,6 +558,36 @@ describe('Session', function() {
             });
         });
     });
+
+    //test getSessionsByUser
+    describe('#getSessionsByUser', function () {
+        //test invalid username
+        it('should return error when invalid username', function (done) {
+            Session.getSessionsByUser('fakeuser', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        //test valid user
+        it('should return error when invalid username', function (done) {
+            User.addRecentSession('kim', sessionId1, function(err, result) {
+                User.addRecentSession('kim', sessionId2, function(err, result) {
+                    Session.getSessionsByUser('kim', function(err, result) {
+                        console.log(result);
+                        assert.equal(err, null);
+                        assert.equal(result.recentSessions.length, 2);
+                        assert.equal(result.recentSessions.filter(function(item) {
+                            return item.meta.number === '6.005' && item.index === 0
+                        }).length, 1);
+                        assert.equal(result.recentSessions.filter(function(item) {
+                            return item.meta.number === '6.170' && item.index === 1
+                        }).length, 1);
+                        done();
+                    });
+                });
+            });
+        });
+     });
 
     //test addStash
     describe('#addStash', function () {
@@ -564,7 +600,7 @@ describe('Session', function() {
         });
         // test adding stash with valid session id and user
         it('should not return error when valid user', function (done) {
-            Session.addStash(sessionId, 'kim', function(err, result) {
+            Session.addStash(sessionId1, 'kim', function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.creator, 'kim');
                 assert.equal(result.snippets.length, 0);
@@ -575,7 +611,7 @@ describe('Session', function() {
 
         // test existing stash
         it('should return error when user stash exists', function (done) {
-            Session.addStash(sessionId, 'kim', function(err, result) {
+            Session.addStash(sessionId1, 'kim', function(err, result) {
                 assert.notEqual(err, null);
                 done();
             });
@@ -593,22 +629,22 @@ describe('Session', function() {
         });
         // test adding when user has no stash
         it('should return error when user has no stash', function (done) {
-            Session.addSnippet(sessionId, '123', 'hihihsnippet 123', function(err, result) {
+            Session.addSnippet(sessionId1, '123', 'hihihsnippet 123', function(err, result) {
                 assert.notEqual(err, null);
                 done();
             });
         });
         // test adding valid snippet 1
         it('should not return error when valid session', function (done) {
-            Session.addSnippet(sessionId, 'kim', 'snippet test text', function(err, result) {
+            Session.addSnippet(sessionId1, 'kim', 'snippet test text', function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.author, 'kim');
                 assert.equal(result.text, 'snippet test text');
                 snippetId1 = result._id;
-                Session.findSession(sessionId, function(err, result) {
+                Session.findSession(sessionId1, function(err, result) {
                     assert.equal(result.feed.length, 1);
                     assert.equal(result.feed[0].author, 'kim');
-                    assert.equal(result.feed[0].sessionId, sessionId);
+                    assert.equal(result.feed[0].sessionId, sessionId1);
                     User.findProfile('kim', function(err, result) {
                         assert.equal(result.stats.numSubmitted, 1);
                         done();
@@ -618,14 +654,14 @@ describe('Session', function() {
         });
         // test adding valid snippet 2 and saving snippet to stash
         it('should not return error and should save snippet to user stash', function (done) {
-            Session.addSnippet(sessionId, 'kim', 'snippet 2', function(err, result) {
+            Session.addSnippet(sessionId1, 'kim', 'snippet 2', function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.author, 'kim');
                 assert.equal(result.text, 'snippet 2');
                 assert.equal(result.savedBy.length, 1);
                 assert.equal(result.savedBy[0], 'kim');
                 snippetId2 = result._id;
-                Session.findSession(sessionId, function(err, result) {
+                Session.findSession(sessionId1, function(err, result) {
                     assert.equal(result.feed.length, 2);
                     assert.notEqual(result.feed[0]._id, result.feed[1]._id);
                     User.findProfile('kim', function(err, result) {
@@ -665,7 +701,7 @@ describe('Stash', function() {
     describe('#create', function () {
         // test valid new stash
         it('should not return error when stash does not exist', function (done) {
-            Stash.create('123', sessionId, 'Lecture 1', '6.170', function(err, result) {
+            Stash.create('123', sessionId1, 'Lecture 1', '6.170', function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.creator, '123');
                 assert.equal(result.snippets.length, 0);
@@ -705,14 +741,14 @@ describe('Stash', function() {
         });
         // test invalid user
         it('should return error when invalid username', function (done) {
-            Stash.findBySessionAndUsername(sessionId, '456', function(err, result) {
+            Stash.findBySessionAndUsername(sessionId1, '456', function(err, result) {
                 assert.notEqual(err, null);
                 done();
             });
         });
         // test valid stash
         it('should not return error when valid username-session pair', function (done) {
-            Stash.findBySessionAndUsername(sessionId, '123', function(err, result) {
+            Stash.findBySessionAndUsername(sessionId1, '123', function(err, result) {
                 assert.equal(err, null);
                 assert.deepEqual(result._id, stashId2);
                 done();
@@ -818,7 +854,7 @@ describe('Snippet', function() {
             Snippet.findSnippet(snippetId1, function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.text, 'snippet test text');
-                assert.equal(result.sessionId, sessionId)
+                assert.equal(result.sessionId, sessionId1)
                 done();
             });
         });
@@ -827,7 +863,7 @@ describe('Snippet', function() {
             Snippet.findSnippet(snippetId2, function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.text, 'snippet 2');
-                assert.equal(result.sessionId, sessionId)
+                assert.equal(result.sessionId, sessionId1)
                 done();
             });
         });

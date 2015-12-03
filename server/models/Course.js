@@ -103,7 +103,7 @@ courseSchema.statics.getCoursesByUser = function(rawUsername, callback) {
                 }
             });
         }
-    })
+    });
 }
 
 /**

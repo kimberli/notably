@@ -78,6 +78,37 @@ sessionSchema.statics.findSession = function(sessionId, callback) {
 }
 
 /**
+ * Find a user's recentSession objects
+ *
+ * @param rawUsername {string} - username
+ * @param callback {function} - function to be called with err and result
+ */
+sessionSchema.statics.getSessionsByUser = function(rawUsername, callback) {
+    User.findProfile(rawUsername, function(err, user) {
+        if (err) callback (err);
+        else {
+            Session.find({_id: { $in: user.recentSessions}}, function(err, sessions) {
+                if (err) callback(err);
+                else {
+                    callback(null, {recentSessions:
+                        sessions.map(function(session) {
+                            return {
+                                _id: session._id,
+                                index: user.recentSessions.indexOf(session._id),
+                                meta: {
+                                    title: session.title,
+                                    number: session.number
+                                }
+                            };
+                        }) }
+                    );
+                }
+            });
+        }
+    });
+}
+
+/**
  * Add stash to a session
  *
  * @param sessionId {string} - session id
