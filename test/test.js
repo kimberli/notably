@@ -6,13 +6,13 @@ var Snippet = require('../server/models/Snippet');
 var Stash = require('../server/models/Stash');
 var User = require('../server/models/User');
 
-var courseId1 = null;
-var courseId2 = null;
-var sessionId = null;
-var stashId1 = null;
-var stashId2 = null;
-var snippetId1 = null;
-var snippetId2 = null;
+var courseId1 = null; //6.170
+var courseId2 = null; //6.005
+var sessionId = null; //for 6.170
+var stashId1 = null; //for user kim
+var stashId2 = null; //for user 123
+var snippetId1 = null; //author kim
+var snippetId2 = null; //author kim
 
 mongoose.connect('mongodb://localhost/model_test',function(){
     mongoose.connection.db.dropDatabase();
@@ -247,36 +247,13 @@ describe('User', function() {
     describe('#incrementSubmitted', function () {
         // test incrementing from 0 to 1
         it('should not return error when called', function (done) {
-            User.incrementSubmitted('kim', function(err, result) {
+            User.incrementSubmitted('456', function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.numSubmitted, 1);
-                User.findProfile('kim', function(err, result) {
+                User.findProfile('456', function(err, result) {
                     assert.equal(result.stats.numSubmitted, 1);
                     done();
                 });
-            });
-        });
-    });
-
-    //test decrementSubmitted
-    describe('#decrementSubmitted', function () {
-        // test decrementing from 1 to 0
-        it('should not return error when called on valid numSubmitted', function (done) {
-            User.decrementSubmitted('kim', function(err, result) {
-                assert.equal(err, null);
-                assert.equal(result.numSubmitted, 0);
-                User.findProfile('kim', function(err, result) {
-                    assert.equal(result.stats.numSubmitted, 0);
-                    done();
-                });
-            });
-        });
-
-        // test decrementing from 0
-        it('should return error when called on invalid numSubmitted', function (done) {
-            User.decrementSubmitted('kim', function(err, result) {
-                assert.notEqual(err, null);
-                done();
             });
         });
     });
@@ -677,7 +654,10 @@ describe('Stash', function() {
                 Snippet.findSnippet(snippetId1, function(err, result) {
                     assert.equal(result.savedBy.length,2);
                     assert.notEqual(result.savedBy[0], result.savedBy[1]);
-                    done();
+                    User.findProfile('123', function(err, result) {
+                        assert.equal(result.stats.numSaved, 1);
+                        done();
+                    });
                 });
             });
         });
@@ -714,7 +694,10 @@ describe('Stash', function() {
                 Snippet.findSnippet(snippetId1, function(err, result) {
                     assert.equal(result.savedBy.length,1);
                     assert.equal(result.savedBy[0], 'kim');
-                    done();
+                    User.findProfile('123', function(err, result) {
+                        assert.equal(result.stats.numSaved, 0);
+                        done();
+                    });
                 });
             });
         });

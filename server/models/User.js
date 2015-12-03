@@ -131,89 +131,6 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
     } else callback('Invalid username (must be between 3 and 16 characters and consist of letters, numbers, underscores, and hyphens)');
 }
 
-/** TODO rethink
- * Get all sessions a user has stashes in
- *
- * @param rawUsername {string} - username to get stashes for
- * @param callback {function} - function to be called with err and result
- */
-// userSchema.statics.getSessions = function(rawUsername, callback) {
-//     var username = rawUsername.toLowerCase();
-//     findUser(username, function(err, result) {
-//         if (err) callback(err);
-//         else {
-//             Stash.find({_id: { $in: result.stashes}}, function(err, stashes) {
-//                 if (err) callback(err);
-//                 else {
-//                     callback(null, {
-//                         sessions: stashes.map(function(item) {
-//                             return {
-//                                 createdAt: item.createdAt,
-//                                 title: item.sessionTitle,
-//                                 number: item.courseNumber,
-//                                 _id: item.session,
-//                                 activeUsers: 0,
-//                             };
-//                         })
-//                     });
-//                 }
-//             });
-//         }
-//     });
-// }
-
-/**
- * Add a session
- *
- * @param rawUsername {string} - username to get stashes for
- * @param courseNumber {string} - course number to add to
- * @param callback {function} - function to be called with err and result
- */
-// userSchema.statics.addSession = function(rawUsername, number, callback) {
-//     var username = rawUsername.toLowerCase();
-//     findUser(username, function(err, result) {
-//         if (err) callback(err);
-//         else {
-//             Course.find({ number: number }, function(err, result) {
-//                 if (err) callback(err);
-//                 else if (result.length > 0) {
-//                     var course = result[0];
-
-//                 }
-//                 else callback('Course not found');
-//             });
-//         }
-//     });
-// }
-
-/**
- * Get all courses a user is subscribed to
- *
- * @param rawUsername {string} - username to get stashes for
- * @param callback {function} - function to be called with err and result
- */
-// userSchema.statics.getCourses = function(rawUsername, callback) {
-//     var username = rawUsername.toLowerCase();
-//     findUser(username, function(err, result) {
-//         if (err) callback(err);
-//         else {
-//             Course.find({_id: { $in: result.courses}}, function(err, courses) {
-//                 if (err) callback(err);
-//                 else {
-//                     callback(null, {courses:
-//                         courses.map(function(item) {
-//                             return {
-//                                 name: item.name,
-//                                 number: item.number
-//                             };
-//                         }) }
-//                     );
-//                 }
-//             });
-//         }
-//     });
-// }
-
 /**
  * Subscribe to a new course
  *
@@ -280,29 +197,6 @@ userSchema.statics.incrementSubmitted = function(rawUsername, callback) {
                 if (err) callback(err);
                 else callback(null, {numSubmitted: user.numSubmitted})
             });
-        }
-    });
-}
-
-/**
- * Decrement user's number of snippets submitted
- *
- * @param rawUsername {string} - username
- * @param callback {function} - function to be called with err and result
- */
-userSchema.statics.decrementSubmitted = function(rawUsername, callback) {
-    var username = rawUsername.toLowerCase();
-    findUser(username, function(err, user) {
-        if (err) callback(err);
-        else {
-            if (user.numSubmitted <= 0) callback('Illegal operation');
-            else {
-                user.numSubmitted -= 1;
-                user.save(function(err, result) {
-                    if (err) callback(err);
-                    else callback(null, {numSubmitted: user.numSubmitted});
-                });
-            }
         }
     });
 }
