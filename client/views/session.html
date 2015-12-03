@@ -161,7 +161,7 @@
           <div class="card submit-area left-align" ng-class="{false: 'hide-submit'}[showNotes]">
             <textarea id="snippet-input-area" ng-model="snippetInput" ng-show="!preview" required> </textarea>
             <div ng-bind-html="previewText" id="snippet-preview" class="markdown-parsed" ng-if="preview"> </div>
-            <div id="submit-sidebar" ng-class="{false: 'hide-sidebar'}[showNotes]">
+            <div id="submit-sidebar" ng-class="{true: 'show-sidebar', false: 'hide-sidebar'}[showNotes]">
               <button ng-click="togglePreview()" class="btn-floating light-blue accent-2" id="toggle-preview-button">
                   <i class="material-icons small" ng-if="preview">mode_edit</i>
                   <i class="material-icons small" ng-if="!preview">remove_red_eye</i>

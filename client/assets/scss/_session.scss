@@ -186,18 +186,42 @@
       right: 5px;
       bottom: 10px;
       position: absolute;
-      -webkit-transition: all 1.0s;
-      transition: all 1.0s;
 
       #toggle-preview-button:hover {
         color: #bdc3c7;
       }
     }
 
+    .show-sidebar {
+      opacity: 1;
+      -webkit-animation: pop-in 0.5s;
+      animation: pop-in 0.5s;
+    }
+
     .hide-sidebar {
-      bottom: -100px !important;
+      opacity: 0;
+      -webkit-animation: pop-out 0.5s;
+      animation: pop-out 0.5s;
     }
 
   }
 
+}
+
+@-webkit-keyframes pop-in {
+  0% { opacity: 0; -webkit-transform: scale(0.5); }
+  100% { opacity: 1; -webkit-transform: scale(1); }
+}
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(0.5); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@-webkit-keyframes pop-out {
+  0% { opacity: 1; -webkit-transform: scale(1); }
+  100% { opacity: 0; -webkit-transform: scale(0.5); }
+}
+@keyframes pop-out {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.5); }
 }
