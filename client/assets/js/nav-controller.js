@@ -1,10 +1,10 @@
-angular.module('notablyApp').controller('navController', function ($scope, $http, $rootScope, $location) {
+angular.module('notablyApp').controller('navController', function ($scope, $http, $rootScope, $location, $window) {
 
     $scope.logout = function () {
         $http.post('/api/user/logout', {})
         .then(function (response) {
             $rootScope.user = null;
-            $location.path('/');
+            $window.location.href = '/';
         }, function(response) {
             console.log(response.data.error);
         });
