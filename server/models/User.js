@@ -59,17 +59,31 @@ userSchema.statics.findProfile = function(rawUsername, callback) {
         else {
             User.getCourses(username, function(err, courses) {
                 if (err) callback(err);
-                else callback(null, {
-                    username: result.username,
-                    name: result.name,
-                    // numSubmitted: result.numSubmitted,
-                    // numSaved: result.numSaved,
-                    numSubscribed: result.numSubscribed,
-                    courses: courses.courses,
-                });
+                else {
+                    User.getSessions(username, function(err, sessions) {
+                        if (err) callback(err);
+                        else {
+                            callback(null, {
+                                username: result.username,
+                                name: result.name,
+                                numSubscribed: result.numSubscribed,
+                                courses: courses.courses,
+                                recentSessions: sessions.sessions,
+                            });
+                        }
+                    });
+                }
+                // else callback(null, {
+                //     username: result.username,
+                //     name: result.name,
+                //     // numSubmitted: result.numSubmitted,
+                //     // numSaved: result.numSaved,
+                //     numSubscribed: result.numSubscribed,
+                //     courses: courses.courses,
+                // });
             });
         }
-    })
+    });
 }
 
 /**
@@ -152,7 +166,8 @@ userSchema.statics.getSessions = function(rawUsername, callback) {
                                 createdAt: item.createdAt,
                                 title: item.sessionTitle,
                                 number: item.courseNumber,
-                                _id: item.sessionId
+                                _id: item.session,
+                                activeUsers: 0,
                             };
                         })
                     });
