@@ -15,30 +15,30 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     $http.get('/api/session?sessionId=' + $scope.sessionId).then(function (response) {
         if (response.status === 200) {
             $scope.session = response.data;
-            $scope.feed = $scope.session.feed;
-            $scope.stash = $scope.session.stash.snippets;
             // true for a snippet id if the current user has saved the snippet
             $scope.alreadySaved = {};
             // true for a snippet id if the current user has flagged the snippet
             $scope.alreadyFlagged = {};
-            if ($scope.feed.length === 0) openPage();
-            else {
-                $scope.feed.forEach(function(snippet, index) {
-                  if (snippet.savedBy.indexOf($scope.currentUser) > -1) {
-                    $scope.alreadySaved[snippet._id] = true;
-                  } else {
-                    $scope.alreadySaved[snippet._id] = false;
-                  }
-                  if (snippet.flaggedBy.indexOf($scope.currentUser) > -1) {
-                    $scope.alreadyFlagged[snippet._id] = true;
-                  } else {
-                    $scope.alreadyFlagged[snippet._id] = false;
-                  }
+            angular.element(document).ready(function () {
+                if ($scope.session.feed.length === 0) openPage();
+                else {
+                    $scope.session.feed.forEach(function(snippet, index) {
+                      if (snippet.savedBy.indexOf($scope.currentUser) > -1) {
+                        $scope.alreadySaved[snippet._id] = true;
+                      } else {
+                        $scope.alreadySaved[snippet._id] = false;
+                      }
+                      if (snippet.flaggedBy.indexOf($scope.currentUser) > -1) {
+                        $scope.alreadyFlagged[snippet._id] = true;
+                      } else {
+                        $scope.alreadyFlagged[snippet._id] = false;
+                      }
 
-                  if (index === $scope.feed.length - 1) openPage();
+                      if (index === $scope.session.feed.length - 1) openPage();
 
-                });
-            }
+                    });
+                }
+            });
             // snippets have loaded, can load page now
         } else {
             Materialize.toast("Error! " + response.data.error, 2000);
@@ -49,6 +49,9 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
 
 
 openPage = function() {
+
+  $scope.feed = $scope.session.feed;
+  $scope.stash = $scope.session.stash.snippets;
 
   // let the server know you've joined to update view counts, join the room
   sessionSocket.emit("joined session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
@@ -88,23 +91,32 @@ openPage = function() {
   }
 
   // remove a snippet
-  $scope.removeSnippet = function(id) {
-      sessionSocket.emit("removed snippet", {
-          "snippetId" : id,
-          "username" :  $scope.currentUser,
-          "sessionId" : $scope.sessionId,
-          'stashId': $scope.session.stash._id,
-        });
-  }
+  // $scope.removeSnippet = function(id) {
+  //     sessionSocket.emit("removed snippet", {
+  //         "snippetId" : id,
+  //         "username" :  $scope.currentUser,
+  //         "sessionId" : $scope.sessionId,
+  //         'stashId': $scope.session.stash._id,
+  //       });
+  // }
 
   // save a snippet, color the button, add to stash, highlight new code
-  $scope.saveSnippet = function(id) {
+  $scope.saveOrRemoveSnippet = function(id) {
+    if ($scope.alreadySaved[id]) {
+        sessionSocket.emit("removed snippet", {
+            "snippetId" : id,
+            "username" :  $scope.currentUser,
+            "sessionId" : $scope.sessionId,
+            'stashId': $scope.session.stash._id,
+          });
+    } else {
       sessionSocket.emit("saved snippet", {
           "snippetId" : id,
           "username" :  $scope.currentUser,
           "sessionId" : $scope.sessionId,
           'stashId': $scope.session.stash._id,
         });
+    }
   }
 
   // scroll stash and feed to bottom of page (not used yet)

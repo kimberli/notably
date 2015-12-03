@@ -65,8 +65,7 @@
                     {{snip.saveCount}}
                     <button
                         ng-class="getClassSave(snip._id)"
-                        ng-disabled="alreadySaved[snip._id]"
-                        ng-click="saveSnippet(snip._id)"
+                        ng-click="saveOrRemoveSnippet(snip._id)"
                         id="feed-save-{{ snip._id }}">
                         <i class="material-icons">star</i>
                     </button>
@@ -122,8 +121,8 @@
                       {{snip.saveCount}}
                       <button
                         class="save-button snippet-button save-button-active"
-                        ng-click="saveSnippet(snip._id)"
-                        id="stash-save-{{ snip._id }}" disabled>
+                        ng-click="saveOrRemoveSnippet(snip._id)"
+                        id="stash-save-{{ snip._id }}">
                         <i class="material-icons">star</i>
                       </button>
                       {{snip.flagCount}}
@@ -133,7 +132,6 @@
                         id="stash-flag-{{ snip._id }}" disabled>
                         <i class="material-icons">flag</i>
                       </button>
-                      <button class="remove-button snippet-button" ng-click="removeSnippet(snip._id)"><i class="material-icons">clear</i></button>
                     </div>
                   </div>
                    <br/>
