@@ -23,12 +23,12 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
                 if ($scope.session.feed.length === 0) openPage();
                 else {
                     $scope.session.feed.forEach(function(snippet, index) {
-                      if (snippet.savedBy.indexOf($scope.currentUser) > -1) {
+                      if (snippet.savedBy.indexOf($rootScope.user) > -1) {
                         $scope.alreadySaved[snippet._id] = true;
                       } else {
                         $scope.alreadySaved[snippet._id] = false;
                       }
-                      if (snippet.flaggedBy.indexOf($scope.currentUser) > -1) {
+                      if (snippet.flaggedBy.indexOf($rootScope.user) > -1) {
                         $scope.alreadyFlagged[snippet._id] = true;
                       } else {
                         $scope.alreadyFlagged[snippet._id] = false;
@@ -49,6 +49,8 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
 
 
 openPage = function() {
+
+  console.log("open", $scope.alreadySaved);
 
   $scope.feed = $scope.session.feed;
   $scope.stash = $scope.session.stash.snippets;
@@ -90,15 +92,6 @@ openPage = function() {
       });
   }
 
-  // remove a snippet
-  // $scope.removeSnippet = function(id) {
-  //     sessionSocket.emit("removed snippet", {
-  //         "snippetId" : id,
-  //         "username" :  $scope.currentUser,
-  //         "sessionId" : $scope.sessionId,
-  //         'stashId': $scope.session.stash._id,
-  //       });
-  // }
 
   // save a snippet, color the button, add to stash, highlight new code
   $scope.saveOrRemoveSnippet = function(id) {
@@ -230,6 +223,7 @@ openPage = function() {
              }
            });
       }
+      console.log("save", $scope.alreadySaved);
   });
 
   // on flagged snippet, increment flag count
@@ -239,6 +233,7 @@ openPage = function() {
             $scope.alreadyFlagged[data.snippetId] = true;
             Materialize.toast('Snippet has been flagged!', 1000);
         }
+
   });
 
   // on removed snippet, decrement save count
@@ -254,6 +249,9 @@ openPage = function() {
             });
             Materialize.toast('Snippet has been removed!', 1000);
       }
+
+      console.log("remove", $scope.alreadySaved);
+
   });
 
   // on added snippet, added snippet to feed
@@ -274,19 +272,20 @@ openPage = function() {
           $scope.preview = false;
           $scope.previewText = "";
       }
+
+      console.log("add", $scope.alreadySaved);
+
   });
 
   $scope.$on("socket:error", function(ev, data) {
       Materialize.toast(data.message, 1000);
   });
 
-    console.log("hi");
 
   // changes the editor to preview mode, making sure to highlight code and parse markdown
   $scope.togglePreview = function() {
 
-      console.log("hi");
-    if($scope.preview) {
+     if($scope.preview) {
       $scope.preview = false;
 
       angular.element(document).ready(function () {
