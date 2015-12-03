@@ -20,6 +20,8 @@ $radio-fill-color: $secondary-color !default;
   min-height: 100vh;
   background-color: $background-color;
   color: $primary-color-white;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .content-container {

@@ -9,10 +9,6 @@
     font-weight: 300;
   }
 
-  .card-panel {
-    overflow: scroll;
-  }
-
 #stash-header {
   .print-button {
     border: none;
@@ -96,7 +92,7 @@
       margin: 0 -13px;
       padding: 0 13px;
       height: 80vh;
-      overflow: scroll;
+      overflow: auto;
     }
 
 
@@ -218,7 +214,7 @@
       padding: 10px;
       width: 100%;
       height: 100%;
-      overflow: scroll;
+      overflow: auto;
     }
 
     #snippet-input-area:focus {
