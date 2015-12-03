@@ -165,11 +165,19 @@ sessionSchema.statics.addSnippet = function(sessionId, currentUser, text, callba
                                         if (err) callback(err);
                                         else {
                                             User.incrementSubmitted(user.username, function(err, result) {
-                                                stash.snippets.push(newSnippet);
-                                                stash.save(function(err) {
-                                                    if (err) callback(err);
-                                                    else newSnippet.save(callback);
-                                                });
+                                                if (err) callback(err);
+                                                else {
+                                                    User.incrementSaved(user.username, function(err, result) {
+                                                        if (err) callback(err);
+                                                        else {
+                                                            stash.snippets.push(newSnippet);
+                                                            stash.save(function(err) {
+                                                                if (err) callback(err);
+                                                                else newSnippet.save(callback);
+                                                            });
+                                                        }
+                                                    });
+                                                }
                                             });
                                         }
                                     });

@@ -3,6 +3,7 @@ router = require('express').Router();
 path = require('path');
 utils = require('../utils');
 Session = require('../models/Session');
+User = require('../models/User');
 
 /**
  * GET - /api/session
@@ -14,20 +15,27 @@ router.get('/', function(req, res) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {
-                Stash.findBySessionAndUsername(session._id, req.currentUser, function(err, stash) {
+                User.addRecentSession(req.currentUser, session._id, function(err, result) {
                     if (err) {
-                        Session.addStash(session._id, req.currentUser, function(err, stash) {
+                        utils.sendErrResponse(res, 403, err);
+                    }
+                    else {
+                        Stash.findBySessionAndUsername(session._id, req.currentUser, function(err, stash) {
                             if (err) {
-                                utils.sendErrResponse(res, 403, err);
-                            }
-                            else {
+                                Session.addStash(session._id, req.currentUser, function(err, stash) {
+                                    if (err) {
+                                        utils.sendErrResponse(res, 403, err);
+                                    }
+                                    else {
+                                        session.stash = stash;
+                                        utils.sendSuccessResponse(res, session);
+                                    }
+                                });
+                            } else {
                                 session.stash = stash;
                                 utils.sendSuccessResponse(res, session);
                             }
                         });
-                    } else {
-                        session.stash = stash;
-                        utils.sendSuccessResponse(res, session);
                     }
                 });
             }

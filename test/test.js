@@ -647,6 +647,7 @@ describe('Session', function() {
                     assert.equal(result.feed[0].sessionId, sessionId1);
                     User.findProfile('kim', function(err, result) {
                         assert.equal(result.stats.numSubmitted, 1);
+                        assert.equal(result.stats.numSaved, 1);
                         done();
                     });
                 });
