@@ -182,12 +182,19 @@ The snippet object looks like this:
 
 ### `/api/user/logout` - POST
 * Logs out a user
-* Forces a browser redirect to `/`
 
 **params**
 
 ```javascript
-{ }
+{}
+```
+
+**content**
+
+```javascript
+{
+  "username": (string - username of user just logged in)
+}
 ```
 
 ### `/api/user/courses` - GET
