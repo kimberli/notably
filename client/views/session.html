@@ -72,11 +72,11 @@
                       </button>
                       {{snip.flagCount}}
                       <button
-                          ng-class="getClassFlag(snip._id)"
-                          ng-disabled="alreadyFlagged[snip._id] || currentUser === snip.author"
-                          ng-click="flagSnippet(snip._id)"
-                          id="feed-flag-{{ snip._id }}">
-                          <i class="material-icons">flag</i>
+                        ng-class="getClassFlag(snip._id)"
+                        ng-disabled="alreadyFlagged[snip._id] || currentUser === snip.author"
+                        ng-click="flagSnippet(snip._id)"
+                        id="feed-flag-{{ snip._id }}">
+                        <i class="material-icons">flag</i>
                       </button>
                     </div>
                   </div>
