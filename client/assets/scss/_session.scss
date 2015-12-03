@@ -100,7 +100,13 @@
     }
   }
 
+  #sticky-submit-spacer {
+    height: 210px;
+  }
 
+  #sticky-submit-spacer-small {
+    height: 30px;
+  }
 
   #sticky-submit {
      width: 100%;
@@ -172,14 +178,6 @@
     #snippet-input-container {
       background-color: $secondary-color-light;
       margin: 0;
-    }
-
-    #sticky-submit-spacer {
-      height: 210px;
-    }
-
-    #sticky-submit-spacer-small {
-      height: 30px;
     }
 
     #submit-sidebar {
