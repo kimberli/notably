@@ -137,12 +137,14 @@ sessionSchema.statics.addSnippet = function(sessionId, currentUser, text, callba
                                             newSnippet.save(function(err) {
                                                 if (err) callback(err);
                                                 else {
-                                                    findUser(currentUser, function(err, user) {
+                                                    User.find({ username: currentUser }, function(err, result) {
                                                         if (err) callback(err);
-                                                        else {
+                                                        else if (result.length > 0) {
+                                                            var user = result[0];
                                                             user.numSubmitted += 1;
                                                             user.save(callback);
                                                         }
+                                                        else callback('User not found');
                                                     });
                                                 }
                                             });

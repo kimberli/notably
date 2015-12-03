@@ -122,12 +122,14 @@ stashSchema.statics.saveSnippet = function(snippetId, stashId, callback) {
                                 stash.save(function(err) {
                                     if (err) callback(err);
                                     else {
-                                        findUser(username, function(err, user) {
+                                        User.find({ username: username }, function(err, result) {
                                             if (err) callback(err);
-                                            else {
+                                            else if (result.length > 0) {
+                                                var user = result[0];
                                                 user.numSaved += 1;
                                                 user.save(callback);
                                             }
+                                            else callback('User not found');
                                         });
                                     }
                                 });
@@ -165,12 +167,14 @@ stashSchema.statics.removeSnippet = function(snippetId, stashId, callback) {
                                 stash.save(function(err) {
                                     if (err) callback(err);
                                     else {
-                                        findUser(username, function(err, user) {
+                                        User.find({ username: username }, function(err, result) {
                                             if (err) callback(err);
-                                            else {
+                                            else if (result.length > 0) {
+                                                var user = result[0];
                                                 user.numSaved -= 1;
                                                 user.save(callback);
                                             }
+                                            else callback('User not found');
                                         });
                                     }
                                 });

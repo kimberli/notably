@@ -62,6 +62,9 @@ userSchema.statics.findProfile = function(rawUsername, callback) {
                 else callback(null, {
                     username: result.username,
                     name: result.name,
+                    numSubmitted: result.numSubmitted,
+                    numSaved: result.numSaved,
+                    numSubscribed: result.numSubscribed,
                     courses: courses.courses,
                 });
             });
