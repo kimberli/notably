@@ -32,7 +32,7 @@ router.get('/', function(req, res) {
                     if (err) {
                         utils.sendErrResponse(res, 403, err);
                     } else {
-                        result.courses = courses;
+                        result.courses = courses.courses;
                         utils.sendSuccessResponse(res, result);
                     }
                 });
@@ -49,7 +49,7 @@ router.get('/auth', function(req, res) {
         utils.sendSuccessResponse(res, { username: req.currentUser });
     } else {
         utils.sendErrResponse(res, 403, err);
-
+    }
 });
 
 /**
