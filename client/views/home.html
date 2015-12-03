@@ -35,7 +35,7 @@
               <span class="card-title">Your sessions</span>
               <div class="spacer"></div>
               <div class="collection">
-                <a ng-repeat="session in user.recentSessions" href="/session/{{ session._id }}" class="collection-item">{{ session.title }}<span class="badge">{{ session.activeUsers }}</span></a>
+                <a ng-repeat="session in user.recentSessions | orderBy: '-createdAt'" href="/session/{{ session._id }}" class="collection-item">{{ session.title }}<span class="badge">{{ session.activeUsers }}</span></a>
               </div>
             </div>
           </div>
