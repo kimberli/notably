@@ -11,9 +11,9 @@
             <div class="card-content">
               <span class="card-title"><b>Welcome to {{ user.name }}'s profile!</b></span>
               <p><b>Username:</b> {{ user.username }}</p>
-              <p><b>Snippets submitted:</b> {{ user.numSubmitted }}</p>
-              <p><b>Snippets saved:</b> {{ user.numSaved }}</p>
-              <p><b>Subscribed classes:</b> {{ user.numSubscribed }}</p>
+              <p><b>Snippets submitted:</b> {{ user.stats.numSubmitted }}</p>
+              <p><b>Snippets saved:</b> {{ user.stats.numSaved }}</p>
+              <p><b>Subscribed classes:</b> {{ user.stats.numSubscribed }}</p>
             </div>
           </div>
         </div>

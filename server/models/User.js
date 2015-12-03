@@ -66,7 +66,9 @@ userSchema.statics.findProfile = function(rawUsername, callback) {
                             callback(null, {
                                 username: result.username,
                                 name: result.name,
-                                numSubscribed: result.numSubscribed,
+                                stats: {
+                                    numSubscribed: result.numSubscribed,
+                                },
                                 courses: courses.courses,
                                 recentSessions: sessions.sessions,
                             });

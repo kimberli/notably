@@ -3,8 +3,8 @@ angular.module('notablyApp').controller('profileController', function ($scope, $
     $http.get('/api/user?username=' + $routeParams.username).then(function (response) {
         $scope.user = response.data;
 
-        $scope.user.numSubmitted = 10;
-        $scope.user.numSaved = 123;
+        $scope.user.stats.numSubmitted = 10;
+        $scope.user.stats.numSaved = 123;
     });
 
 });
