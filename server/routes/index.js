@@ -12,7 +12,7 @@ router.get('/*', function(req, res, next) {
     if (req.currentUser) {
         res.sendFile(path.join(__dirname, '../../client/views/index.html'));
     } else {
-        res.redirect("/");
+        res.redirect('/');
     }
 });
 
