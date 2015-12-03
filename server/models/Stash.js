@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Snippet = require('./Snippet');
-// var User = require('./User');
+var User = require('./User');
 
 var stashSchema = mongoose.Schema({
     creator: String,

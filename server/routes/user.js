@@ -28,7 +28,14 @@ router.get('/', function(req, res) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {
-                utils.sendSuccessResponse(res, result);
+                Course.getCoursesByUser(result.username, function(err, courses) {
+                    if (err) {
+                        utils.sendErrResponse(res, 403, err);
+                    } else {
+                        result.courses = courses;
+                        utils.sendSuccessResponse(res, result);
+                    }
+                });
             }
         });
     } else utils.sendErrResponse(res, 403, 'Must be logged in');
@@ -42,7 +49,7 @@ router.get('/auth', function(req, res) {
         utils.sendSuccessResponse(res, { username: req.currentUser });
     } else {
         utils.sendErrResponse(res, 403, err);
-    }
+
 });
 
 /**
