@@ -247,36 +247,13 @@ describe('User', function() {
     describe('#incrementSubmitted', function () {
         // test incrementing from 0 to 1
         it('should not return error when called', function (done) {
-            User.incrementSubmitted('kim', function(err, result) {
+            User.incrementSubmitted('456', function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.numSubmitted, 1);
-                User.findProfile('kim', function(err, result) {
+                User.findProfile('456', function(err, result) {
                     assert.equal(result.stats.numSubmitted, 1);
                     done();
                 });
-            });
-        });
-    });
-
-    //test decrementSubmitted
-    describe('#decrementSubmitted', function () {
-        // test decrementing from 1 to 0
-        it('should not return error when called on valid numSubmitted', function (done) {
-            User.decrementSubmitted('kim', function(err, result) {
-                assert.equal(err, null);
-                assert.equal(result.numSubmitted, 0);
-                User.findProfile('kim', function(err, result) {
-                    assert.equal(result.stats.numSubmitted, 0);
-                    done();
-                });
-            });
-        });
-
-        // test decrementing from 0
-        it('should return error when called on invalid numSubmitted', function (done) {
-            User.decrementSubmitted('kim', function(err, result) {
-                assert.notEqual(err, null);
-                done();
             });
         });
     });
