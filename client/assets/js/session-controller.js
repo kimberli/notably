@@ -79,8 +79,6 @@ openPage = function() {
             "sessionId" : $scope.sessionId,
             "username" :  $scope.currentUser
         });
-
-        $("#feed-view").animate({ scrollTop: $('#feed-view').prop("scrollHeight")}, 1000);
     }
 
   // flag a snippet
@@ -253,6 +251,7 @@ openPage = function() {
             $scope.snippetInput = "";
             $scope.preview = false;
             $scope.previewText = "";
+            $("#feed-view").animate({ scrollTop: $('#feed-view').prop("scrollHeight")}, 1000);
         }
         console.log("add", $scope.alreadySaved);
     });
