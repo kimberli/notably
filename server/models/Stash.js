@@ -54,7 +54,6 @@ stashSchema.statics.create = function(rawUsername, sessionId, sessionTitle, cour
  * @param callback {function} - function to be called with err and result
  *
  */
-
 stashSchema.statics.findByStashId = function(stashId, callback) {
     Stash.findById(stashId, function(err, result) {
         if (err) callback(err);
@@ -111,32 +110,23 @@ stashSchema.statics.saveSnippet = function(snippetId, stashId, callback) {
             Snippet.findSnippet(snippetId, function(err, snippet) {
                 if (err) callback(err);
                 else {
-                   if (snippet.savedBy.indexOf(username) == -1) {
+                    if (snippet.savedBy.indexOf(username) > -1) callback('Snippet already saved');
+                    else {
                         snippet.saveCount += 1;
                         snippet.savedBy.push(username);
                         snippet.save(function(err) {
-                            if (err) {
-                                callback(err, false);
-                            } else {
-                                stash.snippets.push(snippet);
-                                stash.save(callback);
-                                // stash.save(function(err) {
-                                //     if (err) callback(err);
-                                //     else {
-                                //         User.find({ username: username }, function(err, result) {
-                                //             if (err) callback(err);
-                                //             else if (result.length > 0) {
-                                //                 var user = result[0];
-                                //                 user.numSaved += 1;
-                                //                 user.save(callback);
-                                //             }
-                                //             else callback('User not found');
-                                //         });
-                                //     }
-                                // });
+                            if (err) callback(err);
+                            else {
+                                User.incrementSaved(username, function(err, result) {
+                                    if (err) callback(err);
+                                    else {
+                                        stash.snippets.push(snippet);
+                                        stash.save(callback);
+                                    }
+                                });
                             }
                         });
-                    } else callback('Snippet already saved');
+                    }
                 }
             });
         }
@@ -158,31 +148,26 @@ stashSchema.statics.removeSnippet = function(snippetId, stashId, callback) {
             Snippet.findSnippet(snippetId, function(err, snippet) {
                 if (err) callback(err);
                 else {
-                    if (stash.snippets.indexOf(snippet._id) > -1) {
-                        snippet.savedBy.splice(snippet.savedBy.indexOf(username), 1);
-                        snippet.saveCount -= 1;
-                        snippet.save(function(err) {
-                            if (err) callback(err);
-                            else {
-                                stash.snippets.splice(stash.snippets.indexOf(snippet._id), 1);
-                                stash.save(callback);
-                                // stash.save(function(err) {
-                                //     if (err) callback(err);
-                                //     else {
-                                //         User.find({ username: username }, function(err, result) {
-                                //             if (err) callback(err);
-                                //             else if (result.length > 0) {
-                                //                 var user = result[0];
-                                //                 user.numSaved -= 1;
-                                //                 user.save(callback);
-                                //             }
-                                //             else callback('User not found');
-                                //         });
-                                //     }
-                                // });
-                            }
-                        });
-                    } else callback('Snippet not in stash');
+                    if (stash.snippets.indexOf(snippet._id) == -1) callback('Snippet not in stash');
+                    else {
+                        if (snippet.saveCount <= 0) callback('Invalid save count');
+                        else {
+                            snippet.savedBy.splice(snippet.savedBy.indexOf(username), 1);
+                            snippet.saveCount -= 1;
+                            snippet.save(function(err) {
+                                if (err) callback(err);
+                                else {
+                                    User.decrementSaved(username, function(err, result) {
+                                        if (err) callback(err);
+                                        else {
+                                            stash.snippets.splice(stash.snippets.indexOf(snippet._id), 1);
+                                            stash.save(callback);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
                 }
             });
         }
