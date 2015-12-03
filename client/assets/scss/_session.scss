@@ -1,53 +1,13 @@
-
 #session-container {
 
-  .thin-header {
-    font-weight: 300;
-    font-size: 150%;
-  }
   .thin-text {
     font-weight: 300;
   }
-
-#stash-header {
-  .print-button {
-    border: none;
-    background: none;
-    color: white;
-    font-size: 10%;
-  }
-
-  .print-button:hover {
-    color: #bdc3c7;
-  }
-
-  padding: 0;
-  padding-bottom: 5px;
-}
-
-#feed-header {
-  padding: 0;
-  padding-bottom: 5px;
-
-
-  .toggle-flag-button {
-    background: 0;
-    color: white;
-    border: none;
-  }
-
-  .toggle-flag-button-active {
-    color: #e67e22;
-  }
-
-}
 
   #session-header {
     font-weight: 300;
 
     h4 {
-      color: black;
-      margin-top: 0;
       margin-bottom: 0;
     }
 
@@ -60,100 +20,96 @@
     .view-selector {
       padding-top: 10px;
     }
-
-
   }
 
   .feeds {
-    .feeds-col {
+    .col {
       padding: 0;
       margin: auto;
     }
 
-    .expanded-snippet {
-    }
+    .card-panel {
 
-    .expand-button-text {
-      font-size: 12px;
-      display: inline;
-    }
-
-    .expand-button:hover {
-      background-color: red;
-    }
-
-
-    #stash-container, #feed-container {
       background-color: $primary-color-light;
       margin:10px;
+
+      .card-panel-header {
+        .card-panel-header-button {
+          border: none;
+          background: none;
+          color: white;
+          font-size: 10%;
+          cursor: pointer;
+        }
+
+        .print-button:hover {
+          color: #bdc3c7;
+        }
+
+        .toggle-flag-button-active {
+          color: #e67e22;
+        }
+
+      }
     }
 
     #stash-view, #feed-view {
-      margin: 0 -13px;
-      padding: 0 13px;
+      margin: 0 -12px;
+      padding: 0 12px;
       height: 80vh;
       overflow: auto;
-    }
 
-
-
-    .snippet-card {
-
-      background-color: white;
-      color: black;
-      margin: 15px auto;
-      overflow-x: hidden;
-
-      &.collapsed-snippet  {
-        max-height: 250px;
+      .snippet-card {
+        margin: 15px auto;
         overflow-y: hidden;
-      }
 
+        .you-posted {
+          color: $secondary-color-dark;
+        }
 
-      .you-posted {
-        color: $secondary-color-dark;
-      }
+        &.expanded-snippet {
+          //max-height: 1000px
+          max-height: none;
+          // -webkit-transition: linear 1.0s;
+          // transition: linear 1.0s;
+        }
 
-      .snippet-header {
-        font-weight: 300;
-      }
+        &.collapsed-snippet {
+          max-height: 250px;
+          // -webkit-transition: linear 1.0s;
+          // transition: linear 1.0s;
+        }
 
-      .expanded-snippet {
-        max-height: none;
-        transition: max-height 500ms ease-in-out;
-      }
-      .snippet-button {
-        border: none;
-        background: none;
-        color: grey;
-        font-size: 10%;
-      }
+        .snippet-button {
+          border: none;
+          background: none;
+          color: grey;
+          font-size: 75%;
+        }
 
-      .save-button:enabled:hover, .save-button-active, .save-button-animate  {
-        color: #f1c40f;
+        .save-button:enabled:hover, .save-button-active, .save-button-animate  {
+          color: #f1c40f;
+        }
+        .remove-button:hover {
+          color: #e74c3c;
+        }
+        .flag-button:enabled:hover, .flag-button-active, .flag-button-animate {
+          color: #e67e22;
+        }
       }
-      .remove-button:hover {
-        color: #e74c3c;
-      }
-      .flag-button:enabled:hover, .flag-button-active, .flag-button-animate {
-        color: #e67e22;
-      }
-
     }
   }
 
 
 
-  .submit {
-
+  #sticky-submit {
      width: 100%;
-     left: 0;
-     right: 0;
      position: fixed;
+     left: 0;
      bottom : 0;
      z-index: 150;
 
-    .card-panel {
+    #snippet-input-container {
       padding: 5px 10px;
     }
 
@@ -176,23 +132,11 @@
       }
 
     }
-
-    #submit-sidebar {
-      right:5px;
-      bottom:10px;
-      position: absolute;
-    }
-
-    #toggle-preview-button:hover {
-      color: #bdc3c7;
-    }
-
     .submit-area {
       height: 150px;
-      max-height: 150px;
-      min-height: 150px;
       background-color: white;
-      color: black;
+      -webkit-transition: all 1.0s;
+      transition: all 1.0s;
     }
 
     #snippet-input-area {
@@ -207,6 +151,11 @@
       border-radius: 2px;
       padding: 10px;
       z-index: 1;
+    }
+
+    .hide-submit {
+      height: 0;
+      margin: 0;
     }
 
     #snippet-preview {
@@ -225,14 +174,30 @@
       margin: 0;
     }
 
-  }
+    #sticky-submit-spacer {
+      height: 210px;
+    }
 
-  #sticky-submit-spacer {
-    height: 210px;
-  }
+    #sticky-submit-spacer-small {
+      height: 30px;
+    }
 
-  #sticky-submit-spacer-small {
-    height: 30px;
+    #submit-sidebar {
+      right: 5px;
+      bottom: 10px;
+      position: absolute;
+      -webkit-transition: all 1.0s;
+      transition: all 1.0s;
+
+      #toggle-preview-button:hover {
+        color: #bdc3c7;
+      }
+    }
+
+    .hide-sidebar {
+      bottom: -100px !important;
+    }
+
   }
 
 }

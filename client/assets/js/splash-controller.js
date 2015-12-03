@@ -57,7 +57,5 @@ angular.module('notablyApp').controller('splashController', function ($scope, $h
                 $scope.error = response.data.error;
             });
         }
-
     }
-
 });

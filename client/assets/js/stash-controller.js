@@ -3,23 +3,22 @@ angular.module('notablyApp').controller('stashController', function ($scope, $ht
     $('.tooltipped').tooltip({delay: 50});
     // use highlight js to highlight code blocks, render mathjax
     $http.get('/api/stash?stashId=' + $scope.stashId).then(function (response) {
-          if (response.status === 200) {
-              $scope.stash = response.data;
-              $scope.snippets = $scope.stash.snippets;
+        if (response.status === 200) {
+            $scope.stash = response.data;
+            $scope.snippets = $scope.stash.snippets;
 
-              $scope.printPage = function() {
+            $scope.printPage = function() {
                 window.print();
-              }
+            }
 
-              angular.element(document).ready(function () {
+            angular.element(document).ready(function () {
                 MathJax.Hub.Queue(["Typeset",MathJax.Hub,document.getElementById('snippet-table')]);
                 $('pre code').each(function(i, block) {
                     hljs.highlightBlock(block);
-                  });
-              });
-
-          } else {
+                });
+            });
+        } else {
             $scope.error = true;
-          }
-      }, function() {$scope.error = true;});
+        }
+    }, function() {$scope.error = true;});
 });

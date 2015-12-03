@@ -19,14 +19,22 @@ $radio-fill-color: $secondary-color !default;
 .page-container {
   min-height: 100vh;
   background-color: $background-color;
-  color: $primary-color-white;
+  color: black;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.collection a.collection-item {
+  color: black;
 }
 
 .content-container {
   margin: 0 40px;
   padding-top: 20px;
+}
+
+.modal {
+  color: black;
 }
 
 .row {
@@ -44,8 +52,15 @@ $radio-fill-color: $secondary-color !default;
   background-color: white;
 }
 
-.card .card-title, .card-panel .card-title {
+.card .card-title,
+.card-panel .card-title {
   color: $primary-color-dark;
+}
+
+.card-panel .card-title {
+  line-height: 48px;
+  font-size: 24px;
+  font-weight: 300;
 }
 
 .card-primary {
