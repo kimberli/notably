@@ -25,11 +25,11 @@ URL: `mitnotably.herokuapp.com`
   - [`/api/course` - GET](#apicourse---get)
   - [`/api/course/newsession` - POST](#apicoursenewsession---post)
   - [`/api/session` - GET](#apisession---get)
-  - [`/api/snippet` - POST](#apisnippet---post)
   - [`/api/stash` - GET](#apistash---get)
   - [`/api/stash/save` - POST](#apistashsave---post)
   - [`/api/stash/remove` - POST](#apistashremove---post)
   - [`/api/snippet` - GET](#apisnippet---get)
+  - [`/api/snippet` - POST](#apisnippet---post)
   - [`/api/snippet/flag` - POST](#apisnippetflag---post)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -362,25 +362,6 @@ The snippet object looks like this:
 }
 ```
 
-### `/api/snippet` - POST
-* Add a new user's stash; will return error if user already has a stash
-* Must be authenticated
-
-**params**
-
-```javascript
-{
-  "sessionId": (string - session id),
-  "text": (string - snippet text)
-}
-```
-
-**content**
-
-```javascript
-(Snippet)
-```
-
 ### `/api/stash` - GET
 * Get stash info
 * Must be authenticated
@@ -480,6 +461,26 @@ The snippet object looks like this:
 ```javascript
 (Snippet)
 ```
+
+### `/api/snippet` - POST
+* Add a new user's stash; will return error if user already has a stash
+* Must be authenticated
+
+**params**
+
+```javascript
+{
+  "sessionId": (string - session id),
+  "text": (string - snippet text)
+}
+```
+
+**content**
+
+```javascript
+(Snippet)
+```
+
 
 ### `/api/snippet/flag` - POST
 * Flag a snippet  
