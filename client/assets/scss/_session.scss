@@ -10,7 +10,7 @@
   }
 
   .card-panel {
-    overflow: scroll;
+    overflow: auto;
   }
 
 #stash-header {
@@ -96,7 +96,7 @@
       margin: 0 -13px;
       padding: 0 13px;
       height: 80vh;
-      overflow: scroll;
+      overflow: auto;
     }
 
 
@@ -218,7 +218,7 @@
       padding: 10px;
       width: 100%;
       height: 100%;
-      overflow: scroll;
+      overflow: auto;
     }
 
     #snippet-input-area:focus {

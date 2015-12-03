@@ -67,7 +67,7 @@ angular.module('notablyApp').controller('courseController', function ($scope, $h
         }
 
         $scope.createNewSession = function() {
-            $http.post('/api/course/newsession', {
+            $http.post('/api/session/', {
                 'number': $scope.course.meta.number,
                 'title': $scope.newTitle
             }).then(function (response) {

@@ -21,7 +21,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
             $scope.alreadySaved = {};
             // true for a snippet id if the current user has flagged the snippet
             $scope.alreadyFlagged = {};
-            $scope.feed.forEach(function(snippet) {
+            $scope.feed.forEach(function(snippet, index) {
               if (snippet.savedBy.indexOf($scope.currentUser) > -1) {
                 $scope.alreadySaved[snippet._id] = true;
               } else {
@@ -32,9 +32,11 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
               } else {
                 $scope.alreadyFlagged[snippet._id] = false;
               }
+
+              if (index === $scope.feed.length - 1) openPage();
+
             });
             // snippets have loaded, can load page now
-            openPage();
         } else {
             Materialize.toast("Error! " + response.data.error, 2000);
         }

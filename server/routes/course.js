@@ -34,19 +34,4 @@ router.get('/all', function(req, res) {
     } else utils.sendErrResponse(res, 403, 'Must be logged in');
 });
 
-/**
- * POST - /api/course/newsession
- */
-router.post('/newsession', function(req, res) {
-    if (req.currentUser) {
-        Course.addSession(req.body.number, req.body.title, req.currentUser, function(err,result) {
-            if (err) {
-                utils.sendErrResponse(res, 403, err);
-            } else {
-                utils.sendSuccessResponse(res, result);
-            }
-        });
-    } else utils.sendErrResponse(res, 403, 'Must be logged in');
-});
-
 module.exports = router;
