@@ -19,6 +19,8 @@ mongoose.connect('mongodb://localhost/model_test',function(){
     User.createNewUser('kim', 'pass123', 'Kim Zhong', 'kimberli@mit.edu', function() {});
     User.createNewUser('123', 'pass', 'Ben Bitdiddle', 'bendit@mit.edu', function(){});
     User.createNewUser('456', 'pa1242412ss2', 'Alyssa Hacker', 'alyssa@mit.edu', function(){});
+    //user 456 may have some fields breaking rep invariants since this user is used to test submethods
+    // e.g. invalid numSubmitted where the field doesn't correspond to real snippets
     (new Course({
         name: 'Software Studio',
         number: '6.170',
@@ -296,6 +298,82 @@ describe('User', function() {
         });
     });
 
+    //test addRecentSession
+    describe('#addRecentSession', function () {
+        var sessionIds = [];
+
+        // test creating 11 sessions to use for tests
+        it('should create fake sessions to use for this method test', function (done) {
+            for (var i = 1; i <= 6; i++) {
+                Session.create('fakecoursenum', 'session'+i.toString(), '456', function(err, result) {
+                    sessionIds.push(result._id);
+                });
+            }
+            Session.find({}, function(err, result) {
+                assert.equal(result.length, 6);
+                done();
+            });
+        });
+        // test adding first recent session
+        it('should not return error when adding first session', function (done) {
+            User.addRecentSession('456', sessionIds[0], function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.recentSessions.length, 1);
+                assert.deepEqual(result.recentSessions[0], sessionIds[0]);
+                done();
+            });
+        });
+        // test adding second recent session
+        it('should not return error when adding second session', function (done) {
+            User.addRecentSession('456', sessionIds[1], function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.recentSessions.length, 2);
+                assert.deepEqual(result.recentSessions[0], sessionIds[1]);
+                assert.deepEqual(result.recentSessions[1], sessionIds[0]);
+                done();
+            });
+        });
+        // test adding duplicate recent session
+        it('should not return error when adding duplicate session', function (done) {
+            User.addRecentSession('456', sessionIds[0], function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.recentSessions.length, 2);
+                assert.deepEqual(result.recentSessions[0], sessionIds[0]);
+                assert.deepEqual(result.recentSessions[1], sessionIds[1]);
+                done();
+            });
+        });
+        // test adding more than max recent sessions
+        it('should not return error when adding more than max num of sessions', function (done) {
+            User.addRecentSession('456', sessionIds[0], function(err, result) {
+                User.addRecentSession('456', sessionIds[1], function(err, result) {
+                    User.addRecentSession('456', sessionIds[2], function(err, result) {
+                        User.addRecentSession('456', sessionIds[3], function(err, result) {
+                            User.addRecentSession('456', sessionIds[4], function(err, result) {
+                                assert.equal(result.recentSessions.length, 5);
+                                assert.deepEqual(result.recentSessions[0], sessionIds[4]);
+                                User.addRecentSession('456', sessionIds[5], function(err, result) {
+                                    assert.equal(result.recentSessions.length, 5);
+                                    assert.deepEqual(result.recentSessions[0], sessionIds[5]);
+                                    assert.deepEqual(result.recentSessions[4], sessionIds[1]);
+                                    assert.equal(result.recentSessions.indexOf(sessionIds[0]), -1);
+                                    done();
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+
+        // test deleting fake sessions
+        it('should delete fake sessions used', function (done) {
+            Session.remove({number: 'fakecoursenum'}, function(err, result) {
+                assert.equal(err, null);
+                done();
+            });
+        });
+    });
 });
 
 
@@ -597,6 +675,25 @@ describe('Stash', function() {
         });
     });
 
+    //test findByStashId
+    describe('#findByStashId', function () {
+        // test invalid session
+        it('should return error when invalid id', function (done) {
+            Stash.findByStashId('fakeid', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test valid stash id
+        it('should not return error when valid stash id', function (done) {
+            Stash.findByStashId(stashId2, function(err, result) {
+                assert.equal(err, null);
+                assert.deepEqual(result._id, stashId2);
+                done();
+            });
+        });
+    });
+
     //test findBySessionAndUsername
     describe('#findBySessionAndUsername', function () {
         // test invalid session
@@ -736,7 +833,15 @@ describe('Snippet', function() {
         });
     });
 
-    //test `
+    //test create
+    describe('#create', function () {
+        // test nonexistent snippet
+        it('should be tested in Session.addSnippet', function (done) {
+            done();
+        });
+    });
+
+    //test flagSnippet
     describe('#flagSnippet', function() {
         // test invalid snippet id
         it('should return error when invalid snippet id', function(done) {

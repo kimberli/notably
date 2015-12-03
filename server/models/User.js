@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
-// var Course = require('./Course');
-// var Session = require('./Session');
+
+var RECENT_SESSIONS = 5;
 
 var userSchema = mongoose.Schema({
     username: String,
@@ -11,7 +11,7 @@ var userSchema = mongoose.Schema({
     numSubmitted: Number,
     numSaved: Number,
     numSubscribed: Number,
-    // stashes: [{type: mongoose.Schema.Types.ObjectId, ref:'Stash'}],
+    recentSessions: [{type: mongoose.Schema.Types.ObjectId, ref:'Session'}], //in order from most to least recent
     courses: [{type: mongoose.Schema.Types.ObjectId, ref:'Course'}]
 });
 
@@ -240,6 +240,33 @@ userSchema.statics.decrementSaved = function(rawUsername, callback) {
                     else callback(null, {numSaved: user.numSaved});
                 });
             }
+        }
+    });
+}
+
+/**
+ * Track user's 10 recently accessed sessions
+ *
+ * @param rawUsername {string} - username
+ * @param sessionId {string} - session id just accessed; must be valid session
+ * @param callback {function} - function to be called with err and result
+ */
+userSchema.statics.addRecentSession = function(rawUsername, sessionId, callback) {
+    var username = rawUsername.toLowerCase();
+    findUser(username, function(err, user) {
+        if (err) callback(err);
+        else {
+            if (user.recentSessions.indexOf(sessionId) > -1) { //if sessionId is in most recent, remove it
+                user.recentSessions.splice(user.recentSessions.indexOf(sessionId), 1);
+            }
+            user.recentSessions.splice(0, 0 , sessionId); //insert sessionId into front of recentSessions
+            if (user.recentSessions.length > RECENT_SESSIONS) {
+                user.recentSessions.pop();
+            }
+            user.save(function(err, result) {
+                if (err) callback(err);
+                else callback(null, {recentSessions: user.recentSessions});
+            })
         }
     });
 }
