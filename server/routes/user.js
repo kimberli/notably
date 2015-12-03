@@ -4,6 +4,7 @@ path = require('path');
 utils = require('../utils');
 User = require('../models/User');
 Course = require('../models/Course');
+Session = require('../models/Session');
 
 /**
  * Helper function to check whether the user request is valid in POST requests
@@ -33,7 +34,14 @@ router.get('/', function(req, res) {
                         utils.sendErrResponse(res, 403, err);
                     } else {
                         result.courses = courses.courses;
-                        utils.sendSuccessResponse(res, result);
+                        Session.getSessionsByUser(result.username, function(err, sessions) {
+                            if (err) {
+                                utils.sendErrResponse(res, 403, err);
+                            } else {
+                                result.recentSessions = sessions.recentSessions;
+                                utils.sendSuccessResponse(res, result);
+                            }
+                        });
                     }
                 });
             }
