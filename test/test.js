@@ -250,7 +250,10 @@ describe('User', function() {
             User.incrementSubmitted('kim', function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.numSubmitted, 1);
-                done();
+                User.findProfile('kim', function(err, result) {
+                    assert.equal(result.stats.numSubmitted, 1);
+                    done();
+                });
             });
         });
     });
@@ -262,7 +265,10 @@ describe('User', function() {
             User.decrementSubmitted('kim', function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.numSubmitted, 0);
-                done();
+                User.findProfile('kim', function(err, result) {
+                    assert.equal(result.stats.numSubmitted, 0);
+                    done();
+                });
             });
         });
 
@@ -282,7 +288,10 @@ describe('User', function() {
             User.incrementSaved('kim', function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.numSaved, 1);
-                done();
+                User.findProfile('kim', function(err, result) {
+                    assert.equal(result.stats.numSaved, 1);
+                    done();
+                });
             });
         });
     });
@@ -294,7 +303,10 @@ describe('User', function() {
             User.decrementSaved('kim', function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.numSaved, 0);
-                done();
+                User.findProfile('kim', function(err, result) {
+                    assert.equal(result.stats.numSaved, 0);
+                    done();
+                });
             });
         });
 
