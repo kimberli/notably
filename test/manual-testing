@@ -10,6 +10,24 @@ Splash Page:
       Successfully logged in and taken to user's home page.
 
   Register:
+    Register with username that is already taken (e.g. aluh):
+      Received error message: "User already exists"
+    Register with username that is already taken with different capitalization (e.g. ALUH):
+      Received error message: "User already exists"
+    Register with username that is too short (<3 characters):
+      Received error message: "Invalid username (must be between 3 and 16 characters and consist of letters, numbers, underscores, and hyphens)"
+    Register with username that is too long (>16 characters):
+      Received error message: "Invalid username (must be between 3 and 16 characters and consist of letters, numbers, underscores, and hyphens)"
+    Register with username that contains invalid characters:
+      Received error message: "Invalid username (must be between 3 and 16 characters and consist of letters, numbers, underscores, and hyphens)"
+
+    Register with non-MIT email:
+      Received error message: "Must have MIT email address"
+    Register with MIT email that is already used:
+      Received error message: "User already exists"
+
+    Register with valid username, password, name, and MIT email:
+      Successfully registered and taken to user's home page.
 
   Other things noticed:
     Username is not case-sensitive (e.g. aluh and aLuH are the same)
