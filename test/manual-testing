@@ -72,6 +72,35 @@ User Home Page:
     Successfully logs out the user and returns to the splash page.
 
 User Profile Page:
+  When Viewing Another User's Profile
+  User's Statistics:
+    New User:
+      Snippets submitted: 0
+      Snippets saved: 0
+      Subscribed courses: 0
+
+    Returning User:
+      Snippets submitted: This number shows the number of snippets authored by that user.
+      Snippets saved: This number shows the number of snippets saved by that user.
+      Subscribed courses: This number shows the number of courses that user is subscribed to.
+
+  User's Courses:
+    New User:
+      Instead of a list of courses that user is subscribed to, a message is displayed: "{{That user's name}} has not subscribed to any courses!"
+
+    Returning User:
+      A list of courses that user is subscribed to is displayed, with course numbers and names.
+      Clicking on a course in the list redirects to that course's page.
+
+  Search Courses:
+    Search for invalid course:
+      Dropdown displays message: "No results found"
+    Search for valid course:
+      Dropdown displays course with number and name.
+      Clicking on the search result takes the user to that course's page.
+
+  Logout:
+    Successfully logs out the user and returns to the splash page.
 
 Course Page:
 
