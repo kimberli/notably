@@ -120,7 +120,7 @@ sessionSchema.statics.addStash = function(sessionId, username, callback) {
     getSession(sessionId, function(err, session) {
         if (err) callback(err);
         else {
-            Stash.findBySessionAndUsername(sessionId, username, function(err, result) {
+            Stash.findStashBySessionAndUsername(sessionId, username, function(err, result) {
                 if (err === 'Stash not found') {
                     Stash.create(username, session._id, session.title, session.number, function(err, newStash) {
                         if (err) callback(err);
@@ -155,7 +155,7 @@ sessionSchema.statics.addSnippet = function(sessionId, currentUser, text, callba
             getSession(sessionId, function(err, session) {
                 if (err) callback(err);
                 else {
-                    Stash.findBySessionAndUsername(sessionId, currentUser, function(err, stash) {
+                    Stash.findStashBySessionAndUsername(sessionId, currentUser, function(err, stash) {
                         if (err) callback(err);
                         else {
                             Snippet.create(currentUser, text, sessionId, function(err, newSnippet) {

@@ -15,7 +15,7 @@ var stashId2 = null; //for user 123
 var snippetId1 = null; //author kim
 var snippetId2 = null; //author kim
 
-mongoose.connect('mongodb://localhost/model_test',function(){
+mongoose.connect('mongodb://localhost/notably_model_test',function(){
     mongoose.connection.db.dropDatabase();
     User.createNewUser('kim', 'pass123', 'Kim Zhong', 'kimberli@mit.edu', function() {});
     User.createNewUser('123', 'pass', 'Ben Bitdiddle', 'bendit@mit.edu', function(){});
@@ -573,7 +573,6 @@ describe('Session', function() {
             User.addRecentSession('kim', sessionId1, function(err, result) {
                 User.addRecentSession('kim', sessionId2, function(err, result) {
                     Session.getSessionsByUser('kim', function(err, result) {
-                        console.log(result);
                         assert.equal(err, null);
                         assert.equal(result.recentSessions.length, 2);
                         assert.equal(result.recentSessions.filter(function(item) {
@@ -678,21 +677,47 @@ describe('Session', function() {
 // test stash model
 describe('Stash', function() {
 
-    //test getStash
-    describe('#getStash', function () {
+    //test findStash
+    describe('#findStash', function () {
         // test nonexistent stash
         it('should return error when stash does not exist', function (done) {
-            Stash.getStash('blah', function(err, result) {
+            Stash.findStash('blah', function(err, result) {
                 assert.notEqual(err, null);
                 done();
             });
         });
         // test existing stash
         it('should not return error when stash exists', function (done) {
-            Stash.getStash(stashId1, function(err, result) {
+            Stash.findStash(stashId1, function(err, result) {
                 assert.equal(err, null);
                 assert.equal(result.creator, 'kim');
                 assert.equal(result.snippets.length, 2);
+                done();
+            });
+        });
+    });
+
+    //test findStashBySessionAndUsername
+    describe('#findStashBySessionAndUsername', function () {
+        // test invalid session
+        it('should return error when invalid session', function (done) {
+            Stash.findStashBySessionAndUsername('blah', 'kim', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test invalid user
+        it('should return error when invalid username', function (done) {
+            Stash.findStashBySessionAndUsername(sessionId1, '456', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test valid stash
+        it('should not return error when valid username-session pair', function (done) {
+            Stash.findStashBySessionAndUsername(sessionId1, '123', function(err, result) {
+                assert.equal(err, null);
+                assert.deepEqual(result._id, stashId2);
                 done();
             });
         });
@@ -707,51 +732,6 @@ describe('Stash', function() {
                 assert.equal(result.creator, '123');
                 assert.equal(result.snippets.length, 0);
                 stashId2 = result._id;
-                done();
-            });
-        });
-    });
-
-    //test findByStashId
-    describe('#findByStashId', function () {
-        // test invalid session
-        it('should return error when invalid id', function (done) {
-            Stash.findByStashId('fakeid', function(err, result) {
-                assert.notEqual(err, null);
-                done();
-            });
-        });
-        // test valid stash id
-        it('should not return error when valid stash id', function (done) {
-            Stash.findByStashId(stashId2, function(err, result) {
-                assert.equal(err, null);
-                assert.deepEqual(result._id, stashId2);
-                done();
-            });
-        });
-    });
-
-    //test findBySessionAndUsername
-    describe('#findBySessionAndUsername', function () {
-        // test invalid session
-        it('should return error when invalid session', function (done) {
-            Stash.findBySessionAndUsername('blah', 'kim', function(err, result) {
-                assert.notEqual(err, null);
-                done();
-            });
-        });
-        // test invalid user
-        it('should return error when invalid username', function (done) {
-            Stash.findBySessionAndUsername(sessionId1, '456', function(err, result) {
-                assert.notEqual(err, null);
-                done();
-            });
-        });
-        // test valid stash
-        it('should not return error when valid username-session pair', function (done) {
-            Stash.findBySessionAndUsername(sessionId1, '123', function(err, result) {
-                assert.equal(err, null);
-                assert.deepEqual(result._id, stashId2);
                 done();
             });
         });
@@ -937,7 +917,7 @@ describe.skip('Model', function() {
             console.log('------ USERS ------');
             console.log(result);
             done();
-        })
+        });
     });
     // view courses
     it('display all courses', function (done) {
@@ -945,7 +925,7 @@ describe.skip('Model', function() {
             console.log('------ COURSES ------');
             console.log(result);
             done();
-        })
+        });
     });
     // view sessions
     it('display all sessions', function (done) {
@@ -953,7 +933,7 @@ describe.skip('Model', function() {
             console.log('------ SESSIONS ------');
             console.log(result);
             done();
-        })
+        });
     });
     // view stashes
     it('display all stashes', function (done) {
@@ -961,7 +941,7 @@ describe.skip('Model', function() {
         Stash.find({}, function(err, result) {
             console.log(result);
             done();
-        })
+        });
     });
     // view snippets
     it('display all snippets', function (done) {
@@ -969,6 +949,6 @@ describe.skip('Model', function() {
         Snippet.find({}, function(err, result) {
             console.log(result);
             done();
-        })
+        });
     });
 });

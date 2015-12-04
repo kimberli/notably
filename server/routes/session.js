@@ -21,7 +21,7 @@ router.get('/', function(req, res) {
                         utils.sendErrResponse(res, 403, err);
                     }
                     else {
-                        Stash.findBySessionAndUsername(session._id, req.currentUser, function(err, stash) {
+                        Stash.findStashBySessionAndUsername(session._id, req.currentUser, function(err, stash) {
                             if (err) {
                                 Session.addStash(session._id, req.currentUser, function(err, stash) {
                                     if (err) {
