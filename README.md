@@ -24,7 +24,8 @@ URL: `mitnotably.herokuapp.com`
   - [`/api/course/all` - GET](#apicourseall---get)
   - [`/api/course` - GET](#apicourse---get)
   - [`/api/session` - GET](#apisession---get)
-  - [`/api/session` - POST](#apisession---post)
+  - [`/api/session/create` - POST](#apisessioncreate---post)
+  - [`/api/session/visit` - POST](#apisessionvisit---post)
   - [`/api/stash` - GET](#apistash---get)
   - [`/api/stash/save` - POST](#apistashsave---post)
   - [`/api/stash/remove` - POST](#apistashremove---post)
@@ -348,7 +349,7 @@ The snippet object looks like this:
 }
 ```
 
-### `/api/session` - POST
+### `/api/session/create` - POST
 * Add new session to a course
 * Must be authenticated
 
@@ -369,6 +370,32 @@ The snippet object looks like this:
   "number": (string - course number),
   "title": (string - session title),
   "createdAt": (string - timestamp of creation time)
+}
+```
+
+### `/api/session/visit` - POST
+* Register current user's visit to session
+* Must be authenticated
+
+**params**
+
+```javascript
+{ }
+```
+
+**content**
+
+```javascript
+{
+  "recentSessions": [{
+    "_id": (string - session id),
+    "createdAt": (string - creation timestamp)
+    "index": (number - position of session in recentSessions array; 0 is most recent),
+    "meta": {
+        "title": (string - session title),
+        "number": (string - course number),
+    }
+  }]
 }
 ```
 
