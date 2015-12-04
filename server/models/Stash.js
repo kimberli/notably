@@ -17,28 +17,12 @@ var stashSchema = mongoose.Schema({
  * @param stashId {string} - stash id
  * @param callback {function} - function to be called with err and result
  */
-stashSchema.statics.findStash = function(stashId, callback) {
+stashSchema.statics.getStash = function(stashId, callback) {
     Stash.find({ _id: stashId }, function(err, result) {
         if (err) callback(err);
         else if (result.length > 0) callback(null, result[0]);
         else callback('Stash not found');
-    }).populate('snippets');
-}
-
-/**
- * Find a stash by session and username
- *
- * @param sessionId {string} - session id of stash
- * @param username {string} - username of creator
- * @param callback {function} - function to be called with err and result
- */
-stashSchema.statics.findStashBySessionAndUsername = function(sessionId, rawUsername, callback) {
-    var username = rawUsername.toLowerCase();
-    Stash.find({ creator: username, session: sessionId }, function(err, result) {
-        if (err) callback(err);
-        else if (result.length > 0) callback(null, result[0]);
-        else callback('Stash not found');
-    }).populate('snippets');
+    });
 }
 
 /**
@@ -64,6 +48,54 @@ stashSchema.statics.create = function(rawUsername, sessionId, sessionTitle, cour
 }
 
 /**
+ * Find a stash by stashId
+ *
+ * @param stashId {string} -  id of stash
+ * @param callback {function} - function to be called with err and result
+ *
+ */
+stashSchema.statics.findByStashId = function(stashId, callback) {
+    Stash.findById(stashId, function(err, result) {
+        if (err) callback(err);
+        else {
+            var stash = result;
+            Snippet.find({ _id: {$in: stash.snippets}}, function(err, result) {
+                if (err) callback(err);
+                else {
+                    stash.snippets = result;
+                    callback(null, stash);
+                }
+            });
+        }
+    });
+}
+
+
+/**
+ * Find a stash by session and username
+ *
+ * @param sessionId {string} - session id of stash
+ * @param username {string} - username of creator
+ * @param callback {function} - function to be called with err and result
+ */
+stashSchema.statics.findBySessionAndUsername = function(sessionId, rawUsername, callback) {
+    var username = rawUsername.toLowerCase();
+    Stash.find({ creator: username, session: sessionId}, function(err, result) {
+        if (err) callback(err);
+        else if (result.length > 0) {
+            var stash = result[0];
+            Snippet.find({ _id: {$in: stash.snippets}}, function(err, result) {
+                if (err) callback(err);
+                else {
+                    stash.snippets = result;
+                    callback(null, stash);
+                }
+            });
+        } else callback('Stash not found');
+    });
+}
+
+/**
  * Save a snippet to current user's stash
  *
  * @param snippetId {string} - id of snippet to be saved
@@ -71,7 +103,7 @@ stashSchema.statics.create = function(rawUsername, sessionId, sessionTitle, cour
  * @param callback {function} - function to be called with err and result
  */
 stashSchema.statics.saveSnippet = function(snippetId, stashId, callback) {
-    Stash.findStash(stashId, function(err, stash) {
+    Stash.getStash(stashId, function(err, stash) {
         if (err) callback(err);
         else {
             var username = stash.creator;
@@ -110,7 +142,7 @@ stashSchema.statics.saveSnippet = function(snippetId, stashId, callback) {
  * @param callback {function} - function to be called with err and result
  */
 stashSchema.statics.removeSnippet = function(snippetId, stashId, callback) {
-    Stash.findStash(stashId, function(err, stash) {
+    Stash.getStash(stashId, function(err, stash) {
         if (err) callback(err);
         else {
             var username = stash.creator;
