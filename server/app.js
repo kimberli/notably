@@ -10,7 +10,7 @@ var mongoose = require('mongoose');
 // SERVER FILES //
 var config = require('./config');
 
-// ROUTE HANDLERS
+// ROUTE HANDLERS //
 var index = require('./routes/index');
 var user = require('./routes/user');
 var course = require('./routes/course');
@@ -43,7 +43,7 @@ app.use(cookieSession({secret: config.cookieSecret}))
 app.use(bodyParser.json()); // parse json
 app.use(bodyParser.urlencoded({ extended: true })); // parse forms
 
-// AUTH MIDDLEWARE
+// AUTH MIDDLEWARE //
 app.use(function(req, res, next) {
     if (req.session.username) {
         User.auth(req.session.username, function(err, user) {
@@ -66,6 +66,7 @@ app.use('/api/stash', stash);
 app.use('/api/snippet', snippet);
 app.use('/', index); // index routes
 
-app.use(function(err, req, res, next) { res.status(err.status || 500); }); // general error handler
+// ERROR HANDLER //
+app.use(function(err, req, res, next) { res.status(err.status || 500); });
 
 module.exports = app;

@@ -6,7 +6,7 @@ var io = require('socket.io')(server);
 
 io.sockets.on('connection', function(socket){
 
-  // load the number of sockets present in each session into an object
+    // load the number of sockets present in each session into an object
     var loadSessionOccupancy = function() {
         var sessionData = {};
         for (var room in io.sockets.adapter.rooms) {
