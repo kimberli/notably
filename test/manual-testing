@@ -34,6 +34,42 @@ Splash Page:
     Password is case-sensitive (e.g. password and PaSSworD are different)
 
 User Home Page:
+  User's statistics:
+    New User:
+      Snippets submitted: 0
+      Snippets saved: 0
+      Subscribed courses: 0
+
+    Returning User:
+      Snippets submitted: This number shows the number of snippets authored by the user.
+      Snippets saved: This number shows the number of snippets saved by the user.
+      Subscribed courses: This number shows the number of courses the user is subscribed to.
+
+  User's Courses:
+    New User:
+      Instead of a list of courses that the user is subscribed to, a message is displayed: "You have not subscribed to any courses!"
+
+    Returning User:
+      A list of courses that the user is subscribed to is displayed, with course numbers and names.
+      Clicking on a course in the list takes the user to that course's page.
+
+  User's Sessions:
+    New User:
+      Instead of a list of recent sessions that the user has been in, a message is displayed: "You do not have any sessions!"
+
+    Returning User:
+      A list of the 5 most recent sessions that the user was in is displayed, with session numbers and titles.
+      Clicking on a session in the list takes the user to that session's page.
+
+  Search Courses:
+    Search for invalid course:
+      Dropdown displays message: "No results found"
+    Search for valid course:
+      Dropdown displays course with number and name.
+      Clicking on the search result takes the user to that course's page.
+
+  Logout:
+    Successfully logs out the user and returns to the splash page.
 
 User Profile Page:
 
