@@ -4,7 +4,7 @@ Notably
 
 Created by Vahid Fazel-Rezai, Alexander Luh, Akshay Ravikumar, Kimberli Zhong
 
-URL: `mitnotably.herokuapp.com`
+URL: [mitnotably.herokuapp.com](http://mitnotably.herokuapp.com)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -24,7 +24,8 @@ URL: `mitnotably.herokuapp.com`
   - [`/api/course/all` - GET](#apicourseall---get)
   - [`/api/course` - GET](#apicourse---get)
   - [`/api/session` - GET](#apisession---get)
-  - [`/api/session` - POST](#apisession---post)
+  - [`/api/session/create` - POST](#apisessioncreate---post)
+  - [`/api/session/visit` - POST](#apisessionvisit---post)
   - [`/api/stash` - GET](#apistash---get)
   - [`/api/stash/save` - POST](#apistashsave---post)
   - [`/api/stash/remove` - POST](#apistashremove---post)
@@ -51,17 +52,21 @@ For dev:
 * `npm run dev` in another terminal window (or `nodemon bin/www`)
 
 To test:
-* `npm run test` (or `mocha`)
+* `npm run db` in one terminal window (or `mongod`)
+* `npm run test` in another terminal window (or `mocha`)
 
 To update table of contents:
-* `doctoc README.md`
+* `gulp readme` (or `doctoc README.md`)
 
 To add data to database:
 * `node bin/setup`
 
-Run mongo shell:
+To run mongo shell:
 * `mongo notably`
 * `db.courses.find()`
+
+To run Heroku shell:
+* `heroku run bash`
 
 To test API routes:
 * Use [Postman](https://www.getpostman.com/)
@@ -348,7 +353,7 @@ The snippet object looks like this:
 }
 ```
 
-### `/api/session` - POST
+### `/api/session/create` - POST
 * Add new session to a course
 * Must be authenticated
 
@@ -369,6 +374,32 @@ The snippet object looks like this:
   "number": (string - course number),
   "title": (string - session title),
   "createdAt": (string - timestamp of creation time)
+}
+```
+
+### `/api/session/visit` - POST
+* Register current user's visit to session
+* Must be authenticated
+
+**params**
+
+```javascript
+{ }
+```
+
+**content**
+
+```javascript
+{
+  "recentSessions": [{
+    "_id": (string - session id),
+    "createdAt": (string - creation timestamp)
+    "index": (number - position of session in recentSessions array; 0 is most recent),
+    "meta": {
+        "title": (string - session title),
+        "number": (string - course number),
+    }
+  }]
 }
 ```
 

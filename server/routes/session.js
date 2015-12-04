@@ -12,31 +12,24 @@ Course = require('../models/Course');
  */
 router.get('/', function(req, res) {
     if (req.currentUser) {
-        Session.findSession(req.query.sessionId, function(err,session) {
+        Session.findSession(req.query.sessionId, function(err, session) {
             if (err) {
                 utils.sendErrResponse(res, 403, err);
             } else {
-                User.addRecentSession(req.currentUser, session._id, function(err, result) {
+                Stash.findBySessionAndUsername(session._id, req.currentUser, function(err, stash) {
                     if (err) {
-                        utils.sendErrResponse(res, 403, err);
-                    }
-                    else {
-                        Stash.findStashBySessionAndUsername(session._id, req.currentUser, function(err, stash) {
+                        Session.addStash(session._id, req.currentUser, function(err, stash) {
                             if (err) {
-                                Session.addStash(session._id, req.currentUser, function(err, stash) {
-                                    if (err) {
-                                        utils.sendErrResponse(res, 403, err);
-                                    }
-                                    else {
-                                        session.stash = stash;
-                                        utils.sendSuccessResponse(res, session);
-                                    }
-                                });
-                            } else {
+                                utils.sendErrResponse(res, 403, err);
+                            }
+                            else {
                                 session.stash = stash;
                                 utils.sendSuccessResponse(res, session);
                             }
                         });
+                    } else {
+                        session.stash = stash;
+                        utils.sendSuccessResponse(res, session);
                     }
                 });
             }
@@ -45,9 +38,32 @@ router.get('/', function(req, res) {
 });
 
 /**
- * POST - /api/session/
+ * POST - /api/session/visit
  */
-router.post('/', function(req, res) {
+router.post('/visit', function(req, res) {
+    if (req.currentUser) {
+        Session.findSession(req.body.sessionId, function(err, session) {
+            if (err) {
+                utils.sendErrResponse(res, 403, err);
+            } else {
+                User.addRecentSession(req.currentUser, session._id, function(err, result) {
+                    if (err) {
+                        utils.sendErrResponse(res, 403, err);
+                    }
+                    else {
+                        utils.sendSuccessResponse(res, result);
+                    }
+                });
+            }
+        });
+    } else utils.sendErrResponse(res, 403, 'Must be logged in');
+});
+
+
+/**
+ * POST - /api/session/create
+ */
+router.post('/create', function(req, res) {
     if (req.currentUser) {
         Course.addSession(req.body.number, req.body.title, req.currentUser, function(err,result) {
             if (err) {
