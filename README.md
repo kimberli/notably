@@ -4,7 +4,7 @@ Notably
 
 Created by Vahid Fazel-Rezai, Alexander Luh, Akshay Ravikumar, Kimberli Zhong
 
-URL: `mitnotably.herokuapp.com`
+URL: [mitnotably.herokuapp.com](http://mitnotably.herokuapp.com)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
