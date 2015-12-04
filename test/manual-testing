@@ -103,5 +103,38 @@ User Profile Page:
     Successfully logs out the user and returns to the splash page.
 
 Course Page:
+  Subscribe:
+    If the user is not currently subscribed:
+      The button with text "Subscribe" is shown.
+      Clicking the subscribe button adds this course to the user's list of subscribed courses.
+      A toast message is displayed: "You have subscribed to this course"
+    If the user is currently subscribed:
+      The button with text "Unsubscribe" is shown.
+      Clicking the unsubscribe button removes this course from the user's list of subscribed courses.
+      A toast message is displayed: "You have unsubscribed from this course"
+
+  Sessions:
+    If there are no sessions for this course, a message is displayed: "This course has no sessions yet!"
+    Otherwise, a list of sessions for the course is displayed, with session numbers, titles, and number of active users in each session.
+    Clicking on a session in the list takes the user to that session's page.
+
+  Creating a New Session:
+    If there have been no sessions created for this course in the last 15 minutes, a new session can be created by the user.
+    If the most recent session for this course was created within the last 15 minutes:
+      A modal with a message is displayed: "The session {{session title}} was created X minute(s) ago. Would you rather join this one, or make a new session?"
+      The user is presented with three options:
+        "Create Anyways" will create a new session.
+        "Join This Session" will take the user to that session's page.
+        "Cancel" will close the modal and the user will remain on the course page
+
+  Search Courses:
+    Search for invalid course:
+      Dropdown displays message: "No results found"
+    Search for valid course:
+      Dropdown displays course with number and name.
+      Clicking on the search result takes the user to that course's page.
+
+  Logout:
+    Successfully logs out the user and returns to the splash page.
 
 Session (Feed + Stash) Page:
