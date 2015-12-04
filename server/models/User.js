@@ -246,7 +246,7 @@ userSchema.statics.decrementSaved = function(rawUsername, callback) {
 }
 
 /**
- * Track user's 10 recently accessed sessions
+ * Track user's RECENT_SESSIONS recently accessed sessions
  *
  * @param rawUsername {string} - username
  * @param sessionId {string} - session id just accessed; must be valid session
