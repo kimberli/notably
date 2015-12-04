@@ -25,5 +25,9 @@ nav {
     .angucomplete-row {
       line-height: 20px;
     }
+
+    .angucomplete-selected-row {
+      background-color: $secondary-color;
+    }
   }
 }
