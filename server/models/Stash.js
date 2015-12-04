@@ -55,19 +55,11 @@ stashSchema.statics.create = function(rawUsername, sessionId, sessionTitle, cour
  *
  */
 stashSchema.statics.findByStashId = function(stashId, callback) {
-    Stash.findById(stashId, function(err, result) {
+    Stash.find({ _id: stashId }, function(err, result) {
         if (err) callback(err);
-        else {
-            var stash = result;
-            Snippet.find({ _id: {$in: stash.snippets}}, function(err, result) {
-                if (err) callback(err);
-                else {
-                    stash.snippets = result;
-                    callback(null, stash);
-                }
-            });
-        }
-    });
+        else if (result.length > 0) callback(null, result[0]);
+        else callback('Stash not found');
+    }).populate('snippets');
 }
 
 
@@ -80,19 +72,11 @@ stashSchema.statics.findByStashId = function(stashId, callback) {
  */
 stashSchema.statics.findBySessionAndUsername = function(sessionId, rawUsername, callback) {
     var username = rawUsername.toLowerCase();
-    Stash.find({ creator: username, session: sessionId}, function(err, result) {
+    Stash.find({ creator: username, session: sessionId }, function(err, result) {
         if (err) callback(err);
-        else if (result.length > 0) {
-            var stash = result[0];
-            Snippet.find({ _id: {$in: stash.snippets}}, function(err, result) {
-                if (err) callback(err);
-                else {
-                    stash.snippets = result;
-                    callback(null, stash);
-                }
-            });
-        } else callback('Stash not found');
-    });
+        else if (result.length > 0) callback(null, result[0]);
+        else callback('Stash not found');
+    }).populate('snippets');
 }
 
 /**
