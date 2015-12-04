@@ -52,17 +52,21 @@ For dev:
 * `npm run dev` in another terminal window (or `nodemon bin/www`)
 
 To test:
-* `npm run test` (or `mocha`)
+* `npm run db` in one terminal window (or `mongod`)
+* `npm run test` in another terminal window (or `mocha`)
 
 To update table of contents:
-* `doctoc README.md`
+* `gulp readme` (or `doctoc README.md`)
 
 To add data to database:
 * `node bin/setup`
 
-Run mongo shell:
+To run mongo shell:
 * `mongo notably`
 * `db.courses.find()`
+
+To run Heroku shell:
+* `heroku run bash`
 
 To test API routes:
 * Use [Postman](https://www.getpostman.com/)
