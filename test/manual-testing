@@ -1,6 +1,19 @@
 Documentation of Manual Testing of the User Interface and Security Testing
 
 Splash Page:
+  Login:
+    Login with invalid username:
+      Received error message: "Incorrect username/password combination"
+    Login with valid username but wrong password:
+      Received error message: "Incorrect username/password combination"
+    Login with valid username and password:
+      Successfully logged in and taken to user's home page.
+
+  Register:
+
+  Other things noticed:
+    Username is not case-sensitive (e.g. aluh and aLuH are the same)
+    Password is case-sensitive (e.g. password and PaSSworD are different)
 
 User Home Page:
 
