@@ -36,8 +36,10 @@ URL: `mitnotably.herokuapp.com`
 
 ## Instructions
 
+All commands should be run in the root folder.
+
 To install:
-* `sudo npm install` in root
+* `sudo npm install`
 
 To run:
 * `npm run db` in one terminal window (or `mongod`)
@@ -55,11 +57,10 @@ To update table of contents:
 * `doctoc README.md`
 
 To add data to database:
-* `node data/script.js`
+* `node bin/setup`
 
 Run mongo shell:
-* `mongo`
-* `use notably`
+* `mongo notably`
 * `db.courses.find()`
 
 To test API routes:
