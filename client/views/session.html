@@ -130,7 +130,7 @@
                         </button>
                         {{snip.flagCount}}
                         <button
-                          ng-class="{'flag-button-active' : alreadyFlagged[snip._id], 'flag-button snippet-button' : true}"
+                          ng-class="getClassFlag(snip._id)"
                           ng-click="flagSnippet(snip._id)"
                           id="stash-flag-{{ snip._id }}" disabled>
                           <i class="material-icons">flag</i>
