@@ -36,7 +36,6 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
                             $scope.stash = $scope.session.stash.snippets;
                             $scope.$on('lastElementLoaded', function(){
                                 if (!firstLoad) {
-                                    alert("hi");
                                     firstLoad = true;
                                     openPage();
                                 }
