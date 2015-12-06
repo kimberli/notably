@@ -108,8 +108,6 @@ openPage = function() {
 
   // save a snippet, color the button, add to stash, highlight new code
     $scope.saveOrRemoveSnippet = function(id) {
-        setTimeout(function(){$("#feed-save-" + id + ",#stash-save-" + id).prop('disabled', false);}, 5000);
-
         if ($scope.alreadySaved[id]) {
             sessionSocket.emit("removed snippet", {
                 "snippetId" : id,
@@ -216,6 +214,8 @@ openPage = function() {
     $scope.$on("socket:saved snippet", function(ev, data) {
         $scope.incrementSaveCount(data.snippetId, data.username);
         if (data.username === $scope.currentUser) {
+            // reenable button
+            $("#feed-save-" + data.snippetId + ",#stash-save-" + data.snippetId).prop('disabled', false);
             $scope.feed.forEach(function(snippet) {
                 if (snippet._id === data.snippetId) {
                     $scope.alreadySaved[data.snippetId] = true; // its saved by you!
@@ -225,7 +225,6 @@ openPage = function() {
                 }
             });
         }
-        console.log("save", $scope.alreadySaved);
     });
 
   // on flagged snippet, increment flag count
@@ -241,6 +240,8 @@ openPage = function() {
     $scope.$on("socket:removed snippet", function(ev, data) {
         $scope.decrementSaveCount(data.snippetId, data.username);
         if (data.username === $scope.currentUser) {
+            // reenable button
+            $("#feed-save-" + data.snippetId + ",#stash-save-" + data.snippetId).prop('disabled', false);
             $scope.alreadySaved[data.snippetId] = false;
             $scope.stash.forEach(function(snippet, index) {
                 if (snippet._id === data.snippetId) { // found it!
@@ -250,7 +251,6 @@ openPage = function() {
             });
             Materialize.toast('Snippet has been removed!', 1000);
         }
-        console.log("remove", $scope.alreadySaved);
     });
 
     // on added snippet, added snippet to feed
@@ -277,6 +277,9 @@ openPage = function() {
 
     $scope.$on("socket:error", function(ev, data) {
         Materialize.toast(data.message, 1000);
+        if ('snippetId' in data) {
+            $("#feed-save-" + data.snippetId + ",#stash-save-" + data.snippetId).prop('disabled', false);
+        }
     });
 
   // changes the editor to preview mode, making sure to highlight code and parse markdown

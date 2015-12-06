@@ -33,7 +33,7 @@ io.sockets.on('connection', function(socket){
     socket.on("saved snippet", function(data) {
         Stash.saveSnippet(data.snippetId, data.stashId, function(err,result) {
             if (err) {
-                io.to(socket.id).emit('error', {"message" : err});
+                io.to(socket.id).emit('error', {"message" : err, "snippetId" : data.snippetId});
             } else {
                 io.to("session-" + data.sessionId).emit('saved snippet', {"snippetId" : data.snippetId, "username" : data.username});
             }
@@ -66,7 +66,7 @@ io.sockets.on('connection', function(socket){
     socket.on("removed snippet", function(data) {
         Stash.removeSnippet(data.snippetId, data.stashId, function(err,result) {
             if (err) {
-                io.to(socket.id).emit('error', {"message" : err});
+                io.to(socket.id).emit('error', {"message" : err, "snippetId" : data.snippetId});
             } else {
                 io.to("session-" + data.sessionId).emit('removed snippet', {"snippetId" : data.snippetId, "username" : data.username});
             }
