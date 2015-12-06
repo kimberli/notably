@@ -25,6 +25,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
                 if ($scope.session.feed.length === 0) {
                     $scope.feed = $scope.session.feed;
                     $scope.stash = $scope.session.stash.snippets;
+                    openPage();
                 }
                 else {
                     $scope.session.feed.forEach(function(snippet, index) {
