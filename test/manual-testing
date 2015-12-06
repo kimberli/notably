@@ -1,0 +1,221 @@
+Documentation of Manual Testing of the User Interface and Security Testing
+
+Splash Page:
+  Login:
+    Login with invalid username:
+      Received error message: "Incorrect username/password combination"
+    Login with valid username but wrong password:
+      Received error message: "Incorrect username/password combination"
+    Login with valid username and password:
+      Successfully logged in and taken to user's home page.
+
+  Register:
+    Register with username that is already taken (e.g. aluh):
+      Received error message: "User already exists"
+    Register with username that is already taken with different capitalization (e.g. ALUH):
+      Received error message: "User already exists"
+    Register with username that is too short (<3 characters):
+      Received error message: "Invalid username (must be between 3 and 16 characters and consist of letters, numbers, underscores, and hyphens)"
+    Register with username that is too long (>16 characters):
+      Received error message: "Invalid username (must be between 3 and 16 characters and consist of letters, numbers, underscores, and hyphens)"
+    Register with username that contains invalid characters:
+      Received error message: "Invalid username (must be between 3 and 16 characters and consist of letters, numbers, underscores, and hyphens)"
+
+    Register with non-MIT email:
+      Received error message: "Must have MIT email address"
+    Register with MIT email that is already used:
+      Received error message: "User already exists"
+
+    Register with valid username, password, name, and MIT email:
+      Successfully registered and taken to user's home page.
+
+  Other things noticed:
+    Username is not case-sensitive (e.g. aluh and aLuH are the same)
+    Password is case-sensitive (e.g. password and PaSSworD are different)
+
+User Home Page:
+  User's statistics:
+    New User:
+      Snippets submitted: 0
+      Snippets saved: 0
+      Subscribed courses: 0
+
+    Returning User:
+      Snippets submitted: This number shows the number of snippets authored by the user.
+      Snippets saved: This number shows the number of snippets saved by the user.
+      Subscribed courses: This number shows the number of courses the user is subscribed to.
+
+  User's Courses:
+    New User:
+      Instead of a list of courses that the user is subscribed to, a message is displayed: "You have not subscribed to any courses!"
+
+    Returning User:
+      A list of courses that the user is subscribed to is displayed, with course numbers and names.
+      Clicking on a course in the list takes the user to that course's page.
+
+  User's Sessions:
+    New User:
+      Instead of a list of recent sessions that the user has been in, a message is displayed: "You do not have any sessions!"
+
+    Returning User:
+      A list of the 5 most recent sessions that the user was in is displayed, with session numbers and titles.
+      Clicking on a session in the list takes the user to that session's page.
+
+  Search Courses:
+    Search for invalid course:
+      Dropdown displays message: "No results found"
+    Search for valid course:
+      Dropdown displays course with number and name.
+      Clicking on the search result takes the user to that course's page.
+
+  Logout:
+    Successfully logs out the user and returns to the splash page.
+
+User Profile Page:
+  When Viewing Another User's Profile
+  User's Statistics:
+    New User:
+      Snippets submitted: 0
+      Snippets saved: 0
+      Subscribed courses: 0
+
+    Returning User:
+      Snippets submitted: This number shows the number of snippets authored by that user.
+      Snippets saved: This number shows the number of snippets saved by that user.
+      Subscribed courses: This number shows the number of courses that user is subscribed to.
+
+  User's Courses:
+    New User:
+      Instead of a list of courses that user is subscribed to, a message is displayed: "{{That user's name}} has not subscribed to any courses!"
+
+    Returning User:
+      A list of courses that user is subscribed to is displayed, with course numbers and names.
+      Clicking on a course in the list redirects to that course's page.
+
+  Search Courses:
+    Search for invalid course:
+      Dropdown displays message: "No results found"
+    Search for valid course:
+      Dropdown displays course with number and name.
+      Clicking on the search result takes the user to that course's page.
+
+  Logout:
+    Successfully logs out the user and returns to the splash page.
+
+Course Page:
+  Subscribe:
+    If the user is not currently subscribed:
+      The button with text "Subscribe" is shown.
+      Clicking the subscribe button adds this course to the user's list of subscribed courses.
+      A toast message is displayed: "You have subscribed to this course"
+    If the user is currently subscribed:
+      The button with text "Unsubscribe" is shown.
+      Clicking the unsubscribe button removes this course from the user's list of subscribed courses.
+      A toast message is displayed: "You have unsubscribed from this course"
+
+  Sessions:
+    If there are no sessions for this course, a message is displayed: "This course has no sessions yet!"
+    Otherwise, a list of sessions for the course is displayed, with session numbers, titles, and number of active users in each session.
+    Clicking on a session in the list takes the user to that session's page.
+
+  Creating a New Session:
+    If there have been no sessions created for this course in the last 15 minutes, a new session can be created by the user.
+    If the most recent session for this course was created within the last 15 minutes:
+      A modal with a message is displayed: "The session {{session title}} was created X minute(s) ago. Would you rather join this one, or make a new session?"
+      The user is presented with three options:
+        "Create Anyways" will create a new session.
+        "Join This Session" will take the user to that session's page.
+        "Cancel" will close the modal and the user will remain on the course page
+    If the user tries to create a new session without providing a title, an error message is displayed: "Please fill out this field."
+
+  Search Courses:
+    Search for invalid course:
+      Dropdown displays message: "No results found"
+    Search for valid course:
+      Dropdown displays course with number and name.
+      Clicking on the search result takes the user to that course's page.
+
+  Logout:
+    Successfully logs out the user and returns to the splash page.
+
+Session (Feed + Stash) Page:
+  In a new created session:
+    Feed is empty and a message is displayed: "Add a snippet!"
+    The user's stash is empty and a message is displayed: "Your stash is empty!"
+
+  In a session where users have contributed:
+    Feed contains all the snippets contributed by active users in the session.
+    The user's stash contains snippets that the user authored himself and any snippets authored by other users that he saved into his stash.
+
+  Clicking the left arrow next to the session title takes the user back to the course page that this session is associated with.
+
+  By default, both the feed and the user's stash are shown:
+    Selecting feed hides the user's stash while expanding the feed to fill the page.
+    Selecting stash hides the feed while expanding the user's stash to fill the page.
+    Selecting both restores the view to have the feed on the left half of the page and the user's stash on the right half of the page.
+
+  Snippet editor area:
+    Clicking "Hide editor" collapses the editor area.
+    Subsequently, clicking "Show editor" restores the editor area.
+    Clicking the preview button shows what the user's snippet will look like with markdown text.
+    Clicking the submit button:
+      If the snippet editor area is empty, a toast message is displayed: "You cannot submit an empty snippet!"
+      If there is content in the snippet editor area, a toast message is displayed: "Your snippet has been posted!"
+        Additionally, the user's snippet appears in both the session feed and the user's stash.
+
+  Snippets:
+    A user can save any snippet from the feed to his own stash by clicking the star icon in a snippet:
+      If the snippet was not already saved by the user, it will be added to the user's stash.
+        A toast message is displayed: "Snippet has been saved!"
+        The number of saves on the snippet will increase by 1.
+        The star icon becomes colored yellow.
+      If the snippet was already saved by the user, it will be removed from the user's stash.
+        A toast message is displayed: "Snippet has been removed!"
+        The number of saves on the snippet will decrease by 1.
+        The star icon becomes grayed out.
+    A user can flag snippets that he did not author by clicking the flag icon in a snippet:
+      A toast message is displayed: "Snippet has been flagged!"
+      The number of flags on the snippet will increase by 1.
+      The flag icon becomes colored orange.
+    Hiding bad snippets from the feed:
+      If a snippet has more flags than saves, it is considered a bad snippet.
+      A user can hide the bad snippets by clicking the flag icon in the feed:
+        Hovering over the icon displays a message: "Hide flagged snippets"
+        Clicking the flag icon hides the bad snippets from the feed.
+        The flag icon becomes colored white.
+      A user can unhide the bad snippets by clicking again on the flag icon in the feed:
+        Hovering over the icon displays a message: "View flagged snippets"
+        Clicking the flag icon again unhides the bad snippets, displaying them again in the feed.
+        The flag icon becomes colored orange.
+    Every snippet has a maximum fixed height:
+      If there is a large amount of content in a snippet, the displayed content is truncated.
+      Clicking "Show more" will reveal the remaining content of the snippet.
+      Subsequently, clicking "Show less" will hide some of the content.
+
+  Print View:
+    If there are no snippets in the user's stash, print view displays a page with message: "There are no snippets in this stash yet!"
+    If the user's stash contains snippets, print view displays each snippet with the snippet author's name and the content of the snippet.
+
+  Search Courses:
+    Search for invalid course:
+      Dropdown displays message: "No results found"
+    Search for valid course:
+      Dropdown displays course with number and name.
+      Clicking on the search result takes the user to that course's page.
+
+  Logout:
+    Successfully logs out the user and returns to the splash page.
+
+Security:
+  Protecting against code injection:
+    In the frontend of our app, we use Angular's ngSanitize module to sanitize HTML inputs.
+    HTML input strings are sanitized by stripping all potentially dangerous tokens.
+
+  Access control mechanism:
+    We assume only MIT students have MIT emails.
+    Requiring a valid @mit.edu email address in user registration helps us limit access to the content in Notably to MIT students.
+    We require users to be logged in and authenticated to have access to the following resources:
+      Other users' profile pages (seeing user info)
+      Course pages (seeing course info and creating a session for a course)
+      Session pages (joining and viewing the content in a session)
+    This prevents outside users from simply typing in a URL in their browser and gaining access to resources such as user profiles, course info, and sessions.
