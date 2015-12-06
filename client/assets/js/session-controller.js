@@ -11,6 +11,10 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     // initialize Materialize tooltips
     $('.tooltipped').tooltip({delay: 50});
 
+    // register user's visit
+    $http.post('/api/session/visit', {
+        'sessionId': $scope.sessionId
+    });
 
     // retrieve data, set scope variables
     $http.get('/api/session?sessionId=' + $scope.sessionId).then(function (response) {
