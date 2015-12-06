@@ -126,6 +126,7 @@ Course Page:
         "Create Anyways" will create a new session.
         "Join This Session" will take the user to that session's page.
         "Cancel" will close the modal and the user will remain on the course page
+    If the user tries to create a new session without providing a title, an error message is displayed: "Please fill out this field."
 
   Search Courses:
     Search for invalid course:
@@ -167,15 +168,25 @@ Session (Feed + Stash) Page:
       If the snippet was not already saved by the user, it will be added to the user's stash.
         A toast message is displayed: "Snippet has been saved!"
         The number of saves on the snippet will increase by 1.
-        The star icon is colored yellow.
+        The star icon becomes colored yellow.
       If the snippet was already saved by the user, it will be removed from the user's stash.
         A toast message is displayed: "Snippet has been removed!"
         The number of saves on the snippet will decrease by 1.
-        The star icon is grayed out.
+        The star icon becomes grayed out.
     A user can flag snippets that he did not author by clicking the flag icon in a snippet:
       A toast message is displayed: "Snippet has been flagged!"
       The number of flags on the snippet will increase by 1.
-      The flag icon is colored orange.
+      The flag icon becomes colored orange.
+    Hiding bad snippets from the feed:
+      If a snippet has more flags than saves, it is considered a bad snippet.
+      A user can hide the bad snippets by clicking the flag icon in the feed:
+        Hovering over the icon displays a message: "Hide flagged snippets"
+        Clicking the flag icon hides the bad snippets from the feed.
+        The flag icon becomes colored white.
+      A user can unhide the bad snippets by clicking again on the flag icon in the feed:
+        Hovering over the icon displays a message: "View flagged snippets"
+        Clicking the flag icon again unhides the bad snippets, displaying them again in the feed.
+        The flag icon becomes colored orange.
     Every snippet has a maximum fixed height:
       If there is a large amount of content in a snippet, the displayed content is truncated.
       Clicking "Show more" will reveal the remaining content of the snippet.
@@ -194,3 +205,17 @@ Session (Feed + Stash) Page:
 
   Logout:
     Successfully logs out the user and returns to the splash page.
+
+Security:
+  Protecting against code injection:
+    In the frontend of our app, we use Angular's ngSanitize module to sanitize HTML inputs.
+    HTML input strings are sanitized by stripping all potentially dangerous tokens.
+
+  Access control mechanism:
+    We assume only MIT students have MIT emails.
+    Requiring a valid @mit.edu email address in user registration helps us limit access to the content in Notably to MIT students.
+    We require users to be logged in and authenticated to have access to the following resources:
+      Other users' profile pages (seeing user info)
+      Course pages (seeing course info and creating a session for a course)
+      Session pages (joining and viewing the content in a session)
+    This prevents outside users from simply typing in a URL in their browser and gaining access to resources such as user profiles, course info, and sessions.
