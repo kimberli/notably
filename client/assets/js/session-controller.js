@@ -11,10 +11,6 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     // initialize Materialize tooltips
     $('.tooltipped').tooltip({delay: 50});
 
-    // register user's visit
-    $http.post('/api/session/visit', {
-        'sessionId': $scope.sessionId
-    });
 
     // retrieve data, set scope variables
     $http.get('/api/session?sessionId=' + $scope.sessionId).then(function (response) {
@@ -24,28 +20,26 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
             $scope.alreadySaved = {};
             // true for a snippet id if the current user has flagged the snippet
             $scope.alreadyFlagged = {};
-            angular.element(document).ready(function () {
+            //angular.element(document).ready(function () {
                 if ($scope.session.feed.length === 0) {
                     $scope.feed = $scope.session.feed;
                     $scope.stash = $scope.session.stash.snippets;
-                    angular.element(document).ready(function(){
-                        openPage();
-                    });
                 }
                 else {
                     $scope.session.feed.forEach(function(snippet, index) {
                         $scope.alreadySaved[snippet._id] = snippet.savedBy.indexOf($rootScope.user) > -1 ? true : false;
                         $scope.alreadyFlagged[snippet._id] = snippet.flaggedBy.indexOf($rootScope.user) > -1 ? true : false;
+            
                         if (index === $scope.session.feed.length - 1) {
                             $scope.feed = $scope.session.feed;
                             $scope.stash = $scope.session.stash.snippets;
-                            angular.element(document).ready(function(){
+                            $scope.$on('lastElementLoaded', function(){
                                 openPage();
                             });
                         }
                     });
                 }
-            });
+            //});
             // snippets have loaded, can load page now
         } else {
             Materialize.toast("Error! " + response.data.error, 2000);
@@ -58,6 +52,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
 openPage = function() {
 
     console.log("open", $scope.alreadySaved);
+    // $('.dropdown-button').dropdown();
 
   // let the server know you've joined to update view counts, join the room
     sessionSocket.emit("joined session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
@@ -72,8 +67,10 @@ openPage = function() {
   // start out in editor mode, not preview mode
     $scope.preview = false;
 
-  // showown.js markdown parser
+    // showdown.js markdown parser
     var converter = new showdown.Converter();
+
+
 
     $scope.addSnippet = function() {
     // check if input is blank
@@ -343,6 +340,6 @@ openPage = function() {
         allowIn : ['textarea']
     });
 
-  } // end
+} // end
 
 });

@@ -85,4 +85,13 @@ angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment','luegg.dire
             }
         });
     });
+})
+.directive('checkRepeat', function() {
+  return function(scope, element, attrs) {
+    if (scope.$last){
+      // iteration is complete, do whatever post-processing
+      // is necessary
+      scope.$emit('lastElementLoaded');
+    }
+  };
 });

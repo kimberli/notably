@@ -1,4 +1,21 @@
 #session-container {
+  #stash-search {
+    .angucomplete-dropdown {
+      overflow-y: auto;
+      max-height: 200px;
+      z-index: 10000;
+      width: 100%;
+      position: relative;
+    }
+
+    .angucomplete-row {
+      line-height: 20px;
+    }
+
+    .angucomplete-selected-row {
+      background-color: $secondary-color;
+    }
+  }
 
   .thin-text {
     font-weight: 300;
@@ -23,6 +40,7 @@
   }
 
   .feeds {
+
     .col {
       padding: 0;
       margin: auto;
