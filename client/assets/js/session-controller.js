@@ -14,6 +14,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
 
     // retrieve data, set scope variables
     $http.get('/api/session?sessionId=' + $scope.sessionId).then(function (response) {
+        var firstLoad = false;
         if (response.status === 200) {
             $scope.session = response.data;
             // true for a snippet id if the current user has saved the snippet
@@ -34,7 +35,11 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
                             $scope.feed = $scope.session.feed;
                             $scope.stash = $scope.session.stash.snippets;
                             $scope.$on('lastElementLoaded', function(){
-                                openPage();
+                                if (!firstLoad) {
+                                    alert("hi");
+                                    firstLoad = true;
+                                    openPage();
+                                }
                             });
                         }
                     });
