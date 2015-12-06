@@ -93,21 +93,22 @@ openPage = function() {
 
   // flag a snippet
     $scope.flagSnippet = function(id) {
-        $("#feed-flag-" + id + ",#stash-flag-" + id).prop('disabled', true);
-        setTimeout(function(){$("#feed-flag-" + id + ",#stash-flag-" + id).prop('disabled', false);}, 3000);
+        setTimeout(function(){$("#feed-flag-" + id + ",#stash-flag-" + id).prop('disabled', false);}, 5000);
 
         sessionSocket.emit("flagged snippet", {
             "snippetId" : id,
             "username" :  $scope.currentUser,
             "sessionId" : $scope.sessionId,
         });
+
+        $("#feed-flag-" + id + ",#stash-flag-" + id).prop('disabled', true);
+
     }
 
 
   // save a snippet, color the button, add to stash, highlight new code
     $scope.saveOrRemoveSnippet = function(id) {
-        $("#feed-save-" + id + ",#stash-save-" + id).prop('disabled', true);
-        setTimeout(function(){$("#feed-save-" + id + ",#stash-save-" + id).prop('disabled', false);}, 3000);
+        setTimeout(function(){$("#feed-save-" + id + ",#stash-save-" + id).prop('disabled', false);}, 5000);
 
         if ($scope.alreadySaved[id]) {
             sessionSocket.emit("removed snippet", {
@@ -116,6 +117,7 @@ openPage = function() {
                 "sessionId" : $scope.sessionId,
                 "stashId"  : $scope.session.stash._id,
             });
+            $("#feed-save-" + id + ",#stash-save-" + id).prop('disabled', true);
         } else {
             sessionSocket.emit("saved snippet", {
                 "snippetId" : id,
@@ -123,6 +125,7 @@ openPage = function() {
                 "sessionId" : $scope.sessionId,
                 "stashId" : $scope.session.stash._id,
             });
+            $("#feed-save-" + id + ",#stash-save-" + id).prop('disabled', true);
         }
     }
 
