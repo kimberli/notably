@@ -1,11 +1,13 @@
 #session-container {
   #stash-search {
+    width: 200px;
+
     .angucomplete-dropdown {
       overflow-y: auto;
       max-height: 200px;
       z-index: 10000;
-      width: 100%;
-      position: relative;
+      width: 200px;
+      position: absolute;
     }
 
     .angucomplete-row {
@@ -40,6 +42,8 @@
   }
 
   .feeds {
+
+    position: relative;
 
     .col {
       padding: 0;
