@@ -85,6 +85,9 @@ openPage = function() {
 
   // flag a snippet
     $scope.flagSnippet = function(id) {
+        $("#feed-flag-" + id + ",#stash-flag-" + id).prop('disabled', true);
+        setTimeout(function(){$("#feed-flag-" + id + ",#stash-flag-" + id).prop('disabled', false);}, 3000);
+
         sessionSocket.emit("flagged snippet", {
             "snippetId" : id,
             "username" :  $scope.currentUser,
@@ -95,6 +98,9 @@ openPage = function() {
 
   // save a snippet, color the button, add to stash, highlight new code
     $scope.saveOrRemoveSnippet = function(id) {
+        $("#feed-save-" + id + ",#stash-save-" + id).prop('disabled', true);
+        setTimeout(function(){$("#feed-save-" + id + ",#stash-save-" + id).prop('disabled', false);}, 3000);
+
         if ($scope.alreadySaved[id]) {
             sessionSocket.emit("removed snippet", {
                 "snippetId" : id,
