@@ -224,10 +224,12 @@ Security:
       Course pages (seeing course info and creating a session for a course)
       Session pages (joining and viewing the content in a session)
     This prevents outside users from simply typing in a URL in their browser and gaining access to resources such as user profiles, course info, and sessions.
+    As a rep invariant for the models, calling any method that changes data in the database requires that the request comes from a valid user.
 
   CSRF:
     We use a Node.js package called csurf to include CSRF tokens in the login and register forms.
     This prevents malicious third parties from tricking users into authenticating users.
+    Additionally, none of our GET requests change data in our database.
 
   Miscellaneous:
     We also use a Node.js package called helmet that handles general security measures.
