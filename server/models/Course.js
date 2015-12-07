@@ -19,7 +19,7 @@ var courseSchema = mongoose.Schema({
  */
 var getCourse = function(number, callback) {
     Course.find({ number: number }, function(err, result) {
-        if (err) callback(err);
+        if (err) callback('Course not found');
         else if (result.length > 0) callback(null, result[0]);
         else callback('Course not found');
     });
@@ -37,7 +37,7 @@ courseSchema.statics.findCourse = function(number, callback) {
         if (err) callback(err);
         else {
             Session.find({ _id: { $in: course.sessions } }, function(err, result) {
-                if (err) callback(err);
+                if (err) callback('Sessions not found');
                 else callback(null, {
                     _id: course._id,
                     meta: {
@@ -67,7 +67,7 @@ courseSchema.statics.findCourse = function(number, callback) {
  */
 courseSchema.statics.getAllCourses = function(callback) {
     Course.find({}, function(err, courses) {
-        if (err) callback(err);
+        if (err) callback('Courses not found');
         else callback(null, {courses:
             courses.map(function(item) {
                 return {
@@ -90,7 +90,7 @@ courseSchema.statics.getCoursesByUser = function(rawUsername, callback) {
         if (err) callback (err);
         else {
             Course.find({_id: { $in: user.courses}}, function(err, courses) {
-                if (err) callback(err);
+                if (err) callback('Courses not found');
                 else {
                     callback(null, {courses:
                         courses.map(function(item) {
@@ -166,9 +166,9 @@ courseSchema.statics.addSession = function(number, title, username, callback) {
                 else {
                     course.sessions.push(newSession);
                     course.save(function(err) {
-                        if (err) callback(err);
+                        if (err) callback('Error saving course');
                         else newSession.save(function(err, result) {
-                            if (err) callback(err);
+                            if (err) callback('Error saving session');
                             else callback(null, {
                                 _id: result._id,
                                 number: result.number,

@@ -7,7 +7,6 @@ var cookieSession = require('cookie-session');
 var favicon = require('serve-favicon');
 var mongoose = require('mongoose');
 var helmet = require('helmet');
-var csrfProtection = require('csurf')({ cookie: true }); // not used yet
 
 // SERVER FILES //
 var config = require('./config');
