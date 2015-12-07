@@ -18,7 +18,7 @@ angular.module('notablyApp').controller('sessionController', function (sessionSo
         $http.post('/api/session/visit', {
             'sessionId': $scope.sessionId
         });
-        $http.post('/api/user/auth').then(function(response) {
+        $http.get('/api/user/auth').then(function(response) {
             $scope.currentUser = response.data.username;
             $http.get('/api/session?sessionId=' + $scope.sessionId)
             .then(function (response) {
