@@ -18,7 +18,7 @@ var snippetId2 = null; //author kim
 mongoose.connect('mongodb://localhost/model_test',function(){
     mongoose.connection.db.dropDatabase();
     User.createNewUser('kim', 'pass123', 'Kim Zhong', 'kimberli@mit.edu', function() {});
-    User.createNewUser('123', 'pass', 'Ben Bitdiddle', 'bendit@mit.edu', function(){});
+    User.createNewUser('123', 'pass12', 'Ben Bitdiddle', 'bendit@mit.edu', function(){});
     User.createNewUser('456', 'pa1242412ss2', 'Alyssa Hacker', 'alyssa@mit.edu', function(){});
     //user 456 may have some fields breaking rep invariants since this user is used to test submethods
     // e.g. invalid numSubmitted where the field doesn't correspond to real snippets
@@ -139,7 +139,7 @@ describe('User', function() {
     describe('#createNewUser', function () {
         // test nonexistent user
         it('should return error when user exists', function (done) {
-            User.createNewUser('kim', 'pass', 'name', 'email@mit.edu', function(err, result) {
+            User.createNewUser('kim', 'password', 'name', 'email@mit.edu', function(err, result) {
                 assert.notEqual(err, null);
                 done();
             });
@@ -147,7 +147,7 @@ describe('User', function() {
 
         // test username min length
         it('should return error when username too short', function (done) {
-            User.createNewUser('ki', 'pass', 'name', 'email@mit.edu', function(err, result) {
+            User.createNewUser('ki', 'password', 'name', 'email@mit.edu', function(err, result) {
                 assert.notEqual(err, null);
                 done();
             });
@@ -155,7 +155,7 @@ describe('User', function() {
 
         // test username max length
         it('should return error when username too long', function (done) {
-            User.createNewUser('kewfewfweewfefwgi', 'pass', 'name', 'email@mit.edu', function(err, result) {
+            User.createNewUser('kewfewfweewfefwgi', 'password', 'name', 'email@mit.edu', function(err, result) {
                 assert.notEqual(err, null);
                 done();
             });
@@ -163,7 +163,7 @@ describe('User', function() {
 
         // test username invalid characters
         it('should return error when username has invalid chars', function (done) {
-            User.createNewUser('hi<>mi', 'pass', 'name', 'email@mit.edu', function(err, result) {
+            User.createNewUser('hi<>mi', 'password', 'name', 'email@mit.edu', function(err, result) {
                 assert.notEqual(err, null);
                 done();
             });
@@ -171,7 +171,7 @@ describe('User', function() {
 
         // test non-MIT email
         it('should return error when email is non-mit', function (done) {
-            User.createNewUser('hief', 'pass', 'name', 'email@test.com', function(err, result) {
+            User.createNewUser('hief', 'password', 'name', 'email@test.com', function(err, result) {
                 assert.notEqual(err, null);
                 done();
             });
@@ -179,7 +179,15 @@ describe('User', function() {
 
         // test non-unique email
         it('should return error when email taken', function (done) {
-            User.createNewUser('balggw', 'pass', 'name', 'kimberli@mit.edu', function(err, result) {
+            User.createNewUser('balggw', 'password', 'name', 'kimberli@mit.edu', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+
+        // test short password
+        it('should return error when password too short', function (done) {
+            User.createNewUser('balggw', 'pass', 'name', 'wrgre@mit.edu', function(err, result) {
                 assert.notEqual(err, null);
                 done();
             });
@@ -187,7 +195,7 @@ describe('User', function() {
 
         // test new user
         it('should not return error when user does not exist', function (done) {
-            User.createNewUser('eek', 'pass', 'name', 'email@mit.edu', function(err, result) {
+            User.createNewUser('eek', 'password', 'name', 'email@mit.edu', function(err, result) {
                 assert.equal(err, null);
                 assert.deepEqual(result, {username: 'eek'});
                 done();
@@ -196,7 +204,7 @@ describe('User', function() {
 
         // test new user capitalized
         it('should not return error when username capitalized', function (done) {
-            User.createNewUser('Blah', 'pass', 'name', 'email1@mit.edu', function(err, result) {
+            User.createNewUser('Blah', 'password', 'name', 'email1@mit.edu', function(err, result) {
                 assert.equal(err, null);
                 assert.deepEqual(result, {username: 'blah'});
                 done();

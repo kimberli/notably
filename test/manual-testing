@@ -23,6 +23,8 @@ Splash Page:
 
     Register with empty password:
       Received error message: "Invalid password"
+    Regsiter with password that is too short (<6 characters):
+      Received error message: "Password must be at least 6 characters long"
 
     Register with non-MIT email:
       Received error message: "Must have MIT email address"
