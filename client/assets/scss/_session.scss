@@ -69,7 +69,7 @@
         }
 
         .toggle-flag-button-active {
-          color: #e67e22;
+          color: color("red", "accent-2");
         }
 
       }
@@ -110,13 +110,10 @@
         }
 
         .save-button-active, .save-button-animate  {
-          color: #f1c40f;
-        }
-        .remove-button:hover {
-          color: #e74c3c;
+          color: color("amber", "lighten-2");
         }
         .flag-button:enabled:hover, .flag-button-active, .flag-button-animate {
-          color: #e67e22;
+          color: color("red", "accent-2");
         }
       }
     }
