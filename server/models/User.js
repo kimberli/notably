@@ -24,7 +24,7 @@ var userSchema = mongoose.Schema({
 var findUser = function(rawUsername, callback) {
     var username = rawUsername.toLowerCase();
     User.find({ username: username }, function(err, result) {
-        if (err) callback(err);
+        if (err) callback('User not found');
         else if (result.length > 0) callback(null, result[0]);
         else callback('User not found');
     });
@@ -103,31 +103,33 @@ userSchema.statics.verifyPassword = function(rawUsername, candidatepw, callback)
 userSchema.statics.createNewUser = function(rawUsername, password, name, email, callback) {
     var username = rawUsername.toLowerCase();
     if (username.match('^[a-z0-9_-]{3,16}$')) {
-        if(password !== undefined && typeof password === 'string') {
-            if (email.match('^[a-z0-9_-]+@mit.edu$')) {
-                User.find({$or: [{username: username}, {email: email}]}, function(err, result) {
-                    if (err) callback(err);
-                    else if (result.length === 0) {
-                        var salt = bcrypt.genSaltSync(10);
-                        var hash = bcrypt.hashSync(password, salt);
-                        var user = new User({
-                            username: username,
-                            password: hash,
-                            name: name,
-                            email: email,
-                            numSubmitted: 0,
-                            numSaved: 0,
-                            numSubscribed: 0,
-                            stashes: [],
-                            courses: []
-                        });
-                        user.save(function(err,result) {
-                            if (err) callback(err);
-                            else callback(null, {username: username});
-                        });
-                    } else callback('User already exists');
-                });
-            } else callback('Must have MIT email address');
+        if(typeof password === 'string') {
+            if (password.length >= 6) {
+                if (email.match('^[a-z0-9_-]+@mit.edu$')) {
+                    User.find({$or: [{username: username}, {email: email}]}, function(err, result) {
+                        if (err) callback(err);
+                        else if (result.length === 0) {
+                            var salt = bcrypt.genSaltSync(10);
+                            var hash = bcrypt.hashSync(password, salt);
+                            var user = new User({
+                                username: username,
+                                password: hash,
+                                name: name,
+                                email: email,
+                                numSubmitted: 0,
+                                numSaved: 0,
+                                numSubscribed: 0,
+                                stashes: [],
+                                courses: []
+                            });
+                            user.save(function(err,result) {
+                                if (err) callback(err);
+                                else callback(null, {username: username});
+                            });
+                        } else callback('User already exists');
+                    });
+                } else callback('Must have MIT email address');
+            } else callback('Password must be at least 6 characters long');
         } else callback('Invalid password');
     } else callback('Invalid username (must be between 3 and 16 characters and consist of letters, numbers, underscores, and hyphens)');
 }
