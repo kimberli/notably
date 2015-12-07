@@ -585,7 +585,8 @@ The snippet object looks like this:
 }
 ```
 
-* Response: `"session data loaded"` sent to the course page corresponding to the session
+* Response: `"session data loaded"` event emitted to the course page corresponding to the session
+* Sends an `occupancy` Object showing the number of active sockets in each session
 
 **content**
 
@@ -598,7 +599,7 @@ The snippet object looks like this:
 ### `"left session"`
 
 * Fired when a user leaves a session
-* leaves the corresponding session room
+* Leaves the corresponding session room
 
 **params**
 
@@ -622,7 +623,7 @@ The snippet object looks like this:
 }
 ```
 
-* Response: `"session data loaded"` event to the corresponding room
+* Response: `"session data loaded"` event emitted to the course room
 
 **params**
 
@@ -635,7 +636,7 @@ The snippet object looks like this:
 ### `"left course page"`
 
 * Fired when a user leaves a course's home page
-* leaves the corresponding course room
+* Leaves the corresponding course room
 
 **params**
 
@@ -659,7 +660,7 @@ The snippet object looks like this:
 }
 ```
 
-* Response: `"new session"` event sent to the room corresponding to the session's course
+* Response: `"new session"` event emitted to the course room  
 
 **content**
 
@@ -693,8 +694,8 @@ The snippet object looks like this:
 ```
 ### `"left home page"`
 
-* Fired when a user leaves a course's home page
-* leaves the corresponding course room
+* Fired when a user leaves the home page
+* Leaves the corresponding room
 
 **params**
 
@@ -706,7 +707,7 @@ The snippet object looks like this:
 ### `"added snippet"`
 
 * Fired when a user adds a snippet
-* adds the snippet to the corresponding session's feed
+* Adds the snippet to the corresponding session's feed
 
 **params**
 
@@ -718,7 +719,7 @@ The snippet object looks like this:
 }
 ```
 
-* Response: `"added snippet"` sent to every user in the session
+* Response: `"added snippet"` event emitted to every user in the session
 
 **content**
 
@@ -728,7 +729,7 @@ The snippet object looks like this:
 }
 ```
 
-* On Error: `error` event sent only to the sender
+* On Error: `error` event emitted only to the sender
 
 **content**
 
@@ -754,7 +755,7 @@ The snippet object looks like this:
 }
 ```
 
-* Response: `"saved snippet"` sent to every user in the session
+* Response: `"saved snippet"` event emitted to every user in the session
 
 **content**
 
@@ -765,7 +766,7 @@ The snippet object looks like this:
 }
 ```
 
-* On Error: `error` event sent only to the sender
+* On Error: `error` event emitted only to the sender
 
 **content**
 
@@ -790,7 +791,7 @@ The snippet object looks like this:
 "username" :  (string - username)
 }
 ```
-* Response: `"removed snippet"` sent to every user in the session
+* Response: `"removed snippet"` emitted to every user in the session
 
 **content**
 
@@ -800,7 +801,7 @@ The snippet object looks like this:
 "username" : (string - username)
 }
 ```
-* On Error: `error` event sent only to the sender
+* On Error: `error` event emitted only to the sender
 
 **content**
 
@@ -825,7 +826,7 @@ The snippet object looks like this:
 }
 ```
 
-* Response: `"flagged snippet"` sent to every user in the session
+* Response: `"flagged snippet"` emitted to every user in the session
 
 **content**
 
@@ -835,7 +836,7 @@ The snippet object looks like this:
 "username" : (string - username)
 }
 ```  
-* On Error: `error` event sent only to the sender
+* On Error: `error` event emitted only to the sender
 
 **content**
 
@@ -847,9 +848,9 @@ The snippet object looks like this:
 
 ### `"disconnect"`
 
-* Fired when a user exits the website (a standard socket.io call)
+* Fired when a user leaves the website (a standard socket.io call)
 * Updates occupancy for all course and home pages
-* Response: `"session data loaded"` sent to the course page corresponding to the session
+* Response: `"session data loaded"` emitted to the course page corresponding to the session
 
 **content**
 
