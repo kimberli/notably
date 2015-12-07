@@ -39,6 +39,11 @@ gulp.task('startdb', function () {
     startMongo();
 });
 
+// run database populating setup script
+gulp.task('setup', ['startdb'], function () {
+    exec('node bin/setup');
+});
+
 // run node on the server file
 gulp.task('runserver', ['startdb'], function () {
     nodemon({script: 'bin/www'});
