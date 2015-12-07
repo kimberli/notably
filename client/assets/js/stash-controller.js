@@ -23,6 +23,8 @@ angular.module('notablyApp').controller('stashController', function ($scope, $ht
             } else {
                 $scope.error = true;
             }
-        }, function() {$scope.error = true;});
+        }, function(response) {
+            $location.path('/home')
+        });
     });
 });

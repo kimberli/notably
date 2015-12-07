@@ -1,4 +1,4 @@
-angular.module('notablyApp').controller('sessionController', function ($scope, $routeParams, $location, $http, sessionSocket, hotkeys, $rootScope, $timeout) {
+angular.module('notablyApp').controller('sessionController', function (sessionSocket, hotkeys, $scope, $routeParams, $location, $http, $rootScope, $timeout) {
 
     // init important view variables
     $scope.sessionId = '';
@@ -20,7 +20,8 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
             'sessionId': $scope.sessionId
         });
 
-        $http.get('/api/session?sessionId=' + $scope.sessionId).then(function (response) {
+        $http.get('/api/session?sessionId=' + $scope.sessionId)
+        .then(function (response) {
             var firstLoad = false;
             if (response.status === 200) {
                 $scope.session = response.data;
@@ -62,10 +63,10 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
                 //});
                 // snippets have loaded, can load page now
             } else {
-                Materialize.toast("Error! " + response.data.error, 2000);
+                $location.path('/home');
             }
         }, function(response) {
-            Materialize.toast("Error! " + response.data.error, 2000);
+            $location.path('/home');
         });
     });
 

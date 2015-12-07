@@ -18,6 +18,8 @@ angular.module('notablyApp').controller('courseController', function (moment, $s
                 }
                 $scope.loadPage();
             });
+        }, function(response) {
+            $location.path('/home');
         });
     });
 
