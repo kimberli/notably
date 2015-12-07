@@ -8,11 +8,10 @@
   },
   "scripts": {
     "start": "node bin/www",
-    "dev": "nodemon bin/www",
-    "db": "mongod",
-    "gulp": "gulp",
-    "test": "mocha",
-    "setup": "node bin/setup"
+    "setup": "node bin/setup",
+    "test": "gulp test --silent",
+    "update": "gulp update --silent",
+    "dev": "gulp default"
   },
   "repository": {
     "type": "git",
@@ -35,6 +34,9 @@
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-doctoc": "^0.1.2",
+    "gulp-exit": "0.0.2",
+    "gulp-mocha": "^2.2.0",
+    "gulp-nodemon": "^2.0.4",
     "gulp-sass": "^2.1.0",
     "mocha": "^2.3.4",
     "nodemon": "^1.8.1"
