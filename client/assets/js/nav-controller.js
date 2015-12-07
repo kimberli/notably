@@ -1,5 +1,10 @@
 angular.module('notablyApp').controller('navController', function ($scope, $http, $rootScope, $location, $window) {
 
+    $http.get('/api/user/auth', {})
+    .then(function(response) {
+        $scope.navuser = response.data.username;
+    });
+
     $scope.logout = function () {
         $http.post('/api/user/logout', {})
         .then(function (response) {
@@ -20,9 +25,11 @@ angular.module('notablyApp').controller('navController', function ($scope, $http
         $http.get('/api/course/all').then(function (response) {
             $rootScope.courses = response.data.courses;
             $scope.courses = $rootScope.courses;
+            $(".button-collapse").sideNav();
         });
     } else {
         $scope.courses = $rootScope.courses;
+        $(".button-collapse").sideNav();
     }
 
 });
