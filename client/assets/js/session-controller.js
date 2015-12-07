@@ -351,11 +351,11 @@ openPage = function() {
     }
 
     $scope.getClassSave = function(id) {
-        return $scope.alreadySaved[id] ? 'save-button-active save-button snippet-button' : 'save-button snippet-button';
+        return $scope.alreadySaved[id] ? 'save-button-active' : '';
     }
 
     $scope.getClassFlag = function(id) {
-        return $scope.alreadyFlagged[id] ? 'flag-button-active flag-button snippet-button' : 'flag-button snippet-button';
+        return $scope.alreadyFlagged[id] ? 'flag-button-active' : '';
     }
 
     $scope.enableShortcutModal = function () {

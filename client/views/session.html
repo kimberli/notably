@@ -7,7 +7,7 @@
 
   <div ng-show = "!loaded" id="preloader" class="center-align">
     <div id="preloader-content">
-      <div id="loading-message"> Loading Session... </div> <br> 
+      <div id="loading-message"> Loading Session... </div> <br>
       <div class="preloader-wrapper big active" id="spinner">
         <div class="spinner-layer spinner-blue">
           <div class="circle-clipper left">
@@ -87,6 +87,7 @@
                       </button>
                       {{snip.saveCount}}
                       <button
+                          class = 'save-button snippet-button'
                           ng-class="getClassSave(snip._id)"
                           ng-click="saveOrRemoveSnippet(snip._id)"
                           id="feed-save-{{ snip._id }}">
@@ -94,6 +95,7 @@
                       </button>
                       {{snip.flagCount}}
                       <button
+                        class = 'flag-button snippet-button'
                         ng-class="getClassFlag(snip._id)"
                         ng-disabled="alreadyFlagged[snip._id] || currentUser === snip.author"
                         ng-click="flagSnippet(snip._id)"
@@ -160,6 +162,7 @@
                         </button>
                         {{snip.flagCount}}
                         <button
+                          class = 'flag-button snippet-button'
                           ng-class="getClassFlag(snip._id)"
                           ng-click="flagSnippet(snip._id)"
                           id="stash-flag-{{ snip._id }}" disabled>
