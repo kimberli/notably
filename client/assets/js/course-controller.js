@@ -2,25 +2,25 @@ angular.module('notablyApp').controller('courseController', function (moment, $s
 
     $scope.currentUser = $rootScope.user;
 
-    $http.get('/api/course?number=' + $routeParams.courseNumber).then(function (response) {
-        $scope.course = response.data;
-        $http.get('/api/user?username=' + $scope.currentUser).then(function (response) {
-            $scope.user = response.data;
-            $scope.subscribed = false;
-            if ($scope.user.courses.length !== 0) {
-                for (var i = 0; i < $scope.user.courses.length; i++) {
-                    if ($scope.user.courses[i].number === $scope.course.meta.number) {
-                        $scope.subscribed = true;
+    $scope.$on('$routeChangeSuccess', function() {
+        $http.get('/api/course?number=' + $routeParams.courseNumber).then(function (response) {
+            $scope.course = response.data;
+            $http.get('/api/user?username=' + $scope.currentUser).then(function (response) {
+                $scope.user = response.data;
+                $scope.subscribed = false;
+                if ($scope.user.courses.length !== 0) {
+                    for (var i = 0; i < $scope.user.courses.length; i++) {
+                        if ($scope.user.courses[i].number === $scope.course.meta.number) {
+                            $scope.subscribed = true;
+                        }
                     }
                 }
-            }
-            $scope.loadPage();
+                $scope.loadPage();
+            });
         });
     });
 
-
     $scope.loadPage = function() {
-
         sessionSocket.emit("joined course page", {"courseNumber" : $routeParams.courseNumber, "sessions" : $scope.course.sessions});
 
         $scope.$on('$locationChangeStart', function () {
