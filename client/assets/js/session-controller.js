@@ -64,8 +64,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
 
 openPage = function() {
 
-    console.log("open", $scope.alreadySaved);
-    // $('.dropdown-button').dropdown();
+    $('ul.tabs').tabs();
 
   // let the server know you've joined to update view counts, join the room
     sessionSocket.emit("joined session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
