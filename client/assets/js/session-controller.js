@@ -16,7 +16,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     $scope.$on('$routeChangeSuccess', function() {
 
         $scope.sessionId = $routeParams.sessionId;
-        
+
         // register user's visit
         $http.post('/api/session/visit', {
             'sessionId': $scope.sessionId
@@ -31,7 +31,6 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
                 // true for a snippet id if the current user has flagged the snippet
                 $scope.alreadyFlagged = {};
                 //angular.element(document).ready(function () {
-
                 if ($scope.session.feed.length === 0) {
                     $scope.feed = $scope.session.feed;
                     $scope.stash = $scope.session.stash.snippets;
@@ -39,7 +38,6 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
                 }
                 else {
                     $scope.session.feed.forEach(function(snippet, index) {
-
                         $scope.alreadySaved[snippet._id] = snippet.savedBy.indexOf($rootScope.user) > -1 ? true : false;
                         $scope.alreadyFlagged[snippet._id] = snippet.flaggedBy.indexOf($rootScope.user) > -1 ? true : false;
 
@@ -85,6 +83,11 @@ openPage = function() {
 
     // showdown.js markdown parser
     var converter = new showdown.Converter();
+    converter.setOption("headerLevelStart", 3);
+    converter.setOption("simplifiedAutoLink", true);
+    converter.setOption("literalMidWordUnderscores", true);
+    converter.setOption("strikethrough", true);
+    converter.setOption("tables", true);
 
     $scope.addSnippet = function() {
     // check if input is blank

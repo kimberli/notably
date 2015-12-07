@@ -151,17 +151,44 @@
     <!-- a modal if a recent session was created  -->
 
     <div id="keyboard-shortcut-modal" class="modal">
-       <div class="modal-content">
-         <h4>Keyboard Shortcuts</h4>
-         <b>Shift+/: </b> Show keyboard shortcuts<br>
-         <b>Cmd+Enter or Ctrl+Enter: </b> Submit snippet<br>
-         <b>Ctrl+E: </b> Toggle editor<br>
-         <b>Ctrl+P: </b> Toggle preview<br>
-       </div>
-       <div class="modal-footer">
-         <a class="modal-action modal-close waves-effect btn-flat blue-text" ng-click="enableShortcutModal()">Got it!</a>
-       </div>
-     </div>
+      <div class="modal-content">
+        <h5>Keyboard Shortcuts</h5>
+        <b>Shift+/: </b> Show keyboard shortcuts<br>
+        <b>Cmd+Enter or Ctrl+Enter: </b> Submit snippet<br>
+        <b>Ctrl+E: </b> Toggle editor<br>
+        <b>Ctrl+P: </b> Toggle preview<br><br>
+        <h5>Markdown Cheatsheet</h5>
+        <table class="striped markdown-parsed">
+          <tr>
+            <td><b>Header 1</b></td><td><code># header</code></td><td><h5>header</h5></td>
+          </tr>
+          <tr>
+            <td><b>Header 2</b></td><td><code>## header</code></td><td><h6>header</h6></td>
+          </tr>
+          <tr>
+            <td><b>Numbered List</b></td><td><pre>1. item<br>2. item</pre></td><td><ol><li>item</li><li>item</li></ol></td>
+          </tr>
+          <tr>
+            <td><b>Bulleted List</b></td><td><pre>* item<br>* item</pre></td><td><ul><li>item</li><li>item</li></ul></td>
+          </tr>
+          <tr>
+            <td><b>Bold</b></td><td><code>**text**</code></td><td><b>text</b></td>
+          </tr>
+          <tr>
+            <td><b>Italics</b></td><td><code>*text*</code></td><td><em>text</em></td>
+          </tr>
+          <tr>
+            <td><b>Strikethrough</b></td><td><code>~~text~~</code></td><td><del>text</del></td>
+          </tr>
+          <tr>
+            <td><b>Image</b></td><td><code>!(alt text)[dog.jpg]</code></td><td><img class="demo-img" src="http://i.imgur.com/nZlaeSH.jpg"></td></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect btn-flat blue-text" ng-click="enableShortcutModal()">Got it!</a>
+      </div>
+    </div>
 
     <div id="sticky-submit-spacer" ng-if="showEditor"></div>
     <div id="sticky-submit-spacer-small" ng-if="!showEditor"></div>
