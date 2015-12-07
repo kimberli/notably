@@ -2,7 +2,25 @@
 
   <nav-bar></nav-bar>
 
-  <div class="col content-container">
+
+  <div ng-show = "!loaded" id="preloader" class="center-align">
+    <div id="preloader-content">
+      <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col content-container" ng-show="loaded">
 
     <div id="profile-body">
       <div class="row">
@@ -21,7 +39,7 @@
         <div class="col s12 m6 l6">
           <div class="card card-primary">
             <div class="card-content">
-              <span class="card-title">{{ user.name }}'s courses</span>
+              <span class="card-title">{{ user.name }}'s courses</span> <br>
               <em ng-if="user.courses.length === 0">{{ user.name }} has not subscribed to any courses!</em>
               <div ng-if="user.courses.length !== 0" class="collection">
                 <a ng-repeat="course in user.courses" href="/course/{{ course.number }}" class="collection-item">{{ course.number }} - {{ course.name }}</a>
