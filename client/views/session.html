@@ -1,8 +1,29 @@
-<div id="session-container" class="page-container page-wrap">
+
+
+<div id="session-container" class="page-container page-wrap" >
 
   <nav-bar></nav-bar>
 
-  <div class="content-container">
+
+  <div ng-show = "!loaded" id="preloader" class="center-align">
+    <div id="preloader-content">
+      <div id="loading-message"> Loading Session... </div> <br> 
+      <div class="preloader-wrapper big active" id="spinner">
+        <div class="spinner-layer spinner-blue">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="content-container" ng-show="loaded">
     <div class="row" id="session-header">
       <div id="session-header-container">
         <div class="left">
