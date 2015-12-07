@@ -1,4 +1,4 @@
-angular.module('notablyApp').controller('courseController', function ($scope, $http, $routeParams, sessionSocket, $rootScope, $location) {
+angular.module('notablyApp').controller('courseController', function (moment, $scope, $http, $routeParams, sessionSocket, $rootScope, $location) {
 
     $scope.currentUser = $rootScope.user;
 
@@ -87,4 +87,16 @@ angular.module('notablyApp').controller('courseController', function ($scope, $h
             $scope.occupancy = data.occupancy;
         });
     }
+
+    //configure moment calendar settings
+    moment.locale('en', {
+        calendar : {
+            lastDay : '[Yesterday]',
+            sameDay : '[Today]',
+            nextDay : '[Tomorrow]',
+            lastWeek : 'ddd',
+            nextWeek : '[Next] ddd [at] LT',
+            sameElse : 'L'
+        }
+    });
 });

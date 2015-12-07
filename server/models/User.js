@@ -103,7 +103,7 @@ userSchema.statics.verifyPassword = function(rawUsername, candidatepw, callback)
 userSchema.statics.createNewUser = function(rawUsername, password, name, email, callback) {
     var username = rawUsername.toLowerCase();
     if (username.match('^[a-z0-9_-]{3,16}$')) {
-        if(typeof password === 'string') {
+        if(password !== undefined && typeof password === 'string') {
             if (email.match('^[a-z0-9_-]+@mit.edu$')) {
                 User.find({$or: [{username: username}, {email: email}]}, function(err, result) {
                     if (err) callback(err);
