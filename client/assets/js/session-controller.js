@@ -6,6 +6,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     $scope.snippetInput = '';
     $scope.showEditor = true;
     $scope.showFlags = true;
+    $scope.shortcutModalEnabled = true;
     $scope.currentUser = $rootScope.user;
 
     // initialize Materialize tooltips
@@ -64,7 +65,6 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
 
 openPage = function() {
 
-    console.log("open", $scope.alreadySaved);
     // $('.dropdown-button').dropdown();
 
   // let the server know you've joined to update view counts, join the room
@@ -340,6 +340,14 @@ openPage = function() {
         return $scope.alreadyFlagged[id] ? 'flag-button-active flag-button snippet-button' : 'flag-button snippet-button';
     }
 
+    $scope.enableShortcutModal = function () {
+        $scope.shortcutModalEnabled = true;
+    }
+
+    $scope.disableShortcutModal = function () {
+        $scope.shortcutModalEnabled = false;
+    }
+
     // using angular hotkeys to add functionality
     hotkeys.add({
         combo: 'ctrl+p',
@@ -372,7 +380,13 @@ openPage = function() {
     hotkeys.add({
         combo: 'shift+/',
         callback: function() {
-            $('#keyboard-shortcut-modal').openModal();
+            if ($scope.shortcutModalEnabled === true) {
+                $scope.disableShortcutModal();
+                $('#keyboard-shortcut-modal').openModal();
+            } else {
+                $scope.enableShortcutModal();
+                $('#keyboard-shortcut-modal').closeModal();
+            }
         }
     });
 
