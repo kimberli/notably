@@ -353,7 +353,14 @@ openPage = function() {
         allowIn : ['textarea']
     });
     hotkeys.add({
-        combo: 'ctrl+s',
+        combo: 'ctrl+enter',
+        callback: function() {
+            $scope.addSnippet();
+        },
+        allowIn : ['textarea']
+    });
+    hotkeys.add({
+        combo: 'command+enter',
         callback: function() {
             $scope.addSnippet();
         },
