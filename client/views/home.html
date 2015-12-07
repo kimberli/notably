@@ -2,7 +2,25 @@
 
   <nav-bar></nav-bar>
 
-  <div class="col content-container">
+
+  <div ng-show = "!loaded" id="preloader" class="center-align">
+    <div id="preloader-content">
+      <div id="loading-message"> Loading Home... </div> <br>
+      <div class="preloader-wrapper big active" id="spinner">
+        <div class="spinner-layer spinner-blue">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col content-container" ng-show = "loaded">
     <div id="home-body">
       <div class="row">
         <div class="col s12 m6 l6">
