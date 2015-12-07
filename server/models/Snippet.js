@@ -19,7 +19,7 @@ var snippetSchema = mongoose.Schema({
  */
 snippetSchema.statics.findSnippet = function(snippetId, callback) {
     this.find({ _id: snippetId }, function(err, result) {
-        if (err) callback(err);
+        if (err) callback('Snippet not found');
         else if (result.length > 0) callback(null, result[0]);
         else callback('Snippet not found');
     });
@@ -45,7 +45,10 @@ snippetSchema.statics.create = function(rawUsername, text, sessionId, callback) 
         savedBy: [username],
         sessionId: sessionId
     });
-    newSnippet.save(callback);
+    newSnippet.save(function(err, result) {
+        if (err) callback('Error saving callback');
+        else callback(null, result);
+    });
 }
 
 /**

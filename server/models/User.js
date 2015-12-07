@@ -122,8 +122,8 @@ userSchema.statics.createNewUser = function(rawUsername, password, name, email, 
                                 stashes: [],
                                 courses: []
                             });
-                            user.save(function(err,result) {
-                                if (err) callback(err);
+                            user.save(function(err, result) {
+                                if (err) callback('Error saving user');
                                 else callback(null, {username: username});
                             });
                         } else callback('User already exists');
@@ -151,7 +151,7 @@ userSchema.statics.addCourse = function(rawUsername, courseId, callback) {
                 user.courses.push(courseId);
                 user.numSubscribed += 1;
                 user.save(function(err, result) {
-                    if (err) callback(err);
+                    if (err) callback('Error saving user');
                     else User.findProfile(rawUsername, callback);
                 });
             }
@@ -176,7 +176,7 @@ userSchema.statics.removeCourse = function(rawUsername, courseId, callback) {
                 user.courses.splice(user.courses.indexOf(courseId), 1);
                 user.numSubscribed -= 1;
                 user.save(function(err, result) {
-                    if (err) callback(err);
+                    if (err) callback('Error saving user');
                     else User.findProfile(rawUsername, callback);
                 });
             }
@@ -197,7 +197,7 @@ userSchema.statics.incrementSubmitted = function(rawUsername, callback) {
         else {
             user.numSubmitted += 1;
             user.save(function(err, result) {
-                if (err) callback(err);
+                if (err) callback('Error saving user');
                 else callback(null, {numSubmitted: user.numSubmitted})
             });
         }
@@ -217,7 +217,7 @@ userSchema.statics.incrementSaved = function(rawUsername, callback) {
         else {
             user.numSaved += 1;
             user.save(function(err, result) {
-                if (err) callback(err);
+                if (err) callback('Error saving user');
                 else callback(null, {numSaved: user.numSaved});
             });
         }
@@ -239,7 +239,7 @@ userSchema.statics.decrementSaved = function(rawUsername, callback) {
             else {
                 user.numSaved -= 1;
                 user.save(function(err, result) {
-                    if (err) callback(err);
+                    if (err) callback('Error saving user');
                     else callback(null, {numSaved: user.numSaved});
                 });
             }
@@ -267,7 +267,7 @@ userSchema.statics.addRecentSession = function(rawUsername, sessionId, callback)
                 user.recentSessions.pop();
             }
             user.save(function(err, result) {
-                if (err) callback(err);
+                if (err) callback('Error saving user');
                 else callback(null, {recentSessions: user.recentSessions});
             })
         }

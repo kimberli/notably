@@ -10,6 +10,7 @@ URL: [mitnotably.herokuapp.com](http://mitnotably.herokuapp.com)
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
+- [Features](#features)
 - [Instructions](#instructions)
 - [API](#api)
   - [Snippet](#snippet)
@@ -35,6 +36,18 @@ URL: [mitnotably.herokuapp.com](http://mitnotably.herokuapp.com)
 - [Socket.io Events](#socketio-events)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Features
+Notably is a collaborative note-taking app for MIT students! 
+
+You can:
+* Search for a class
+* Create sessions for a class (e.g. for a lecture)
+* Take notes with peers in your class
+
+After some discussion, we decided to remove two features listed in our design document: viewing other users' feeds and hiding feeds when users haven't submitted enough snippets. Both these features were what we considered "reach" features, so removing them does not affect the application's main functionality.
+
+Viewing other users' stashes is a privacy concern, and we don't want students to arbitrarily see what snippets other users have saved. Additionally, it adds additional complexity when the user's stash you're viewing changes state (e.g. upon adding, saving, or flagging a snippet). Hiding feeds when users haven't submitted enough snippets would also require slight modifications in the model, but we ultimately deemed it unnecessary in the spirit of openness. 
 
 ## Instructions
 
@@ -71,7 +84,6 @@ To run Heroku shell:
 
 To test API routes:
 * Use [Postman](https://www.getpostman.com/)
-
 
 ## API
 
