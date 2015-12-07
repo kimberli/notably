@@ -1,8 +1,17 @@
 #session-container {
-
   .tabs {
-    background: none;
-    color: $secondary-color;
+     background: none;
+
+    .tab-button {
+      color: $secondary-color;
+      text-transform: none;
+      cursor: pointer;
+      font-size: 1.2em;
+    }
+
+    .indicator {
+        background-color: $secondary-color;
+    }
   }
 
   .thin-text {
