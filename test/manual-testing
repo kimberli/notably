@@ -169,6 +169,7 @@ Session (Feed + Stash) Page:
         Additionally, the user's snippet appears in both the session feed and the user's stash.
 
   Snippets:
+    A snippet authored by the user is automatically saved in the user's stash.
     A user can save any snippet from the feed to his own stash by clicking the star icon in a snippet:
       If the snippet was not already saved by the user, it will be added to the user's stash.
         A toast message is displayed: "Snippet has been saved!"
@@ -178,10 +179,12 @@ Session (Feed + Stash) Page:
         A toast message is displayed: "Snippet has been removed!"
         The number of saves on the snippet will decrease by 1.
         The star icon becomes grayed out.
+      Note that a snippet can be removed from the user's stash by clicking the star icon in either the copy of the snippet in the feed or the user's stash.
     A user can flag snippets that he did not author by clicking the flag icon in a snippet:
       A toast message is displayed: "Snippet has been flagged!"
       The number of flags on the snippet will increase by 1.
       The flag icon becomes colored orange.
+      Note that snippets cannot be unflagged, so subsequently clicking the flag icon does nothing.
     Hiding bad snippets from the feed:
       If a snippet has more flags than saves, it is considered a bad snippet.
       A user can hide the bad snippets by clicking the flag icon in the feed:
@@ -227,8 +230,6 @@ Security:
     As a rep invariant for the models, calling any method that changes data in the database requires that the request comes from a valid user.
 
   CSRF:
-    We use a Node.js package called csurf to include CSRF tokens in the login and register forms.
-    This prevents malicious third parties from tricking users into authenticating users.
     Additionally, none of our GET requests change data in our database.
 
   Miscellaneous:
