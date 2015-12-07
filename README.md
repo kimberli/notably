@@ -34,6 +34,18 @@ URL: [mitnotably.herokuapp.com](http://mitnotably.herokuapp.com)
   - [`/api/snippet` - POST](#apisnippet---post)
   - [`/api/snippet/flag` - POST](#apisnippetflag---post)
 - [Socket.io Events](#socketio-events)
+  - [`"joined session"`](#joined-session)
+  - [`"left session"`](#left-session)
+  - [`"joined course page"`](#joined-course-page)
+  - [`"left course page"`](#left-course-page)
+  - [`"new session"`](#new-session)
+  - [`"joined home page"`](#joined-home-page)
+  - [`"left home page"`](#left-home-page)
+  - [`"added snippet"`](#added-snippet)
+  - [`"saved snippet"`](#saved-snippet)
+  - [`"removed snippet"`](#removed-snippet)
+  - [`"flagged snippet"`](#flagged-snippet)
+  - [`"disconnect"`](#disconnect)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -559,75 +571,290 @@ The snippet object looks like this:
 
 ## Socket.io Events
 
-* `"joined session"`
-  * Fired when a user joins a session
-    * Content: `{"sessionId" : (string - sessionId), "courseNumber" : (string - course number)}`
-  * Joins a room based on that session Id and username
-  * Response: `"session data loaded"` sent to the course page corresponding to the session
-    * Content: ` {"occupancy" : {(string - sessionId) : (integer - occupancy)}`
-* `"left session"`
-  * Fired when a user leaves a session
-    * Content: `{"sessionId" : (string - sessionId), "courseNumber" : (string - course number)}`
-  * leaves the corresponding session room
-* `"joined course page"`
-  * Fired when a user joins a course's home page
-    * Content: `{"courseNumber" : (string - course number)}`
-  * Joins a room based on the course name and username
-  * Response: `"session data loaded"` event to the corresponding room
-    * Content: ` {"occupancy" : {(string - sessionId) : (integer - occupancy)}`
-* `"left course page"`
-  * Fired when a user leaves a course's home page
-    * Content: `{"courseNumber" : (string - course number)}`
-  * leaves the corresponding course room
-* `"new session"`
-  * Fired when a user creates a new session
-    * Content: `{"session" : (Session), "courseNumber" : (string - course number)}`
-  * Creates the session and adds it to the corresponding course
-  * Response: `"new session"` event sent to the room corresponding to the session's course
-    * Content: ` {"session" : (Session)}`
-* `"joined home page"`
-  * Fired when a user joins a home page
-    * Content: `{"username" : (string - username)}`
-  * Joins a room based on the username
-  * Response: `"session data loaded"` event sent to the corresponding room
-    * Content: ` {"occupancy" : {(string - sessionId) : (integer - occupancy)}`
-* `"left home page"`
-  * Fired when a user leaves a course's home page
-    * Content: `{"username" : (string - username)}`
-  * leaves the corresponding course room
-* `"added snippet"`
-  * Fired when a user adds a snippet
-    * Content: `{"content" : (string - snippet content), "sessionId" : (string - sessionId), "username" :  (string - username)}`
-  * adds the snippet to the corresponding session's feed
-  * Response: `"added snippet"` sent to every user in the session
-    * Content: `{"snippet" : (Snippet)}`
-  * On Error: `error` event sent only to the sender
-    * Content: `{"message" : (string - error message)}`
-* `"saved snippet"`
-  * Fired when a user saves a snippet
-    * Content: `{"snippetId" : (string - snippetId), "sessionId" : (string - sessionId), "stashId" : (string - stashId), "username" :  (string - username)}`
-  * increments the save count of the snippet
-  * Response: `"saved snippet"` sent to every user in the session
-    * Content: `{"snippetId" : (string - snippetId), "username" : (string - username)}`
-  * On Error: `error` event sent only to the sender
-    * Content: `{"message" : (string - error message)}`
-* `"removed snippet"`
-  * Fired when a user removes a snippet
-    * Content: `{"snippetId" : (string - snippetId), "sessionId" : (string - sessionId), "stashId" : (string - stashId), "username" :  (string - username)}`
-  * decrements the save count of the snippet
-  * Response: `"removed snippet"` sent to every user in the session
-    * Content: `{"snippetId" : (string - snippetId), "username" : (string - username)}`
-  * On Error: `error` event sent only to the sender
-    * Content: `{"message" : (string - error message)}`
-* `"flagged snippet"`
-  * Fired when a user flags a snippet
-    * Content: `{"snippetId" : (string - snippetId), "sessionId" : (string - sessionId), "username" :  (string - username)}`
-  * increments the flag count of the snippet
-  * Response: `"flagged snippet"` sent to every user in the session
-    * Content: `{"snippetId" : (string - snippetId), "username" : (string - username)}`
-  * On Error: `error` event sent only to the sender
-    * Content: `{"message" : (string - error message)}`
-* `"disconnect"`
-  * Fired when a user exits the website (a standard socket.io call)
-  * Response: `"session data loaded"` sent to the course page corresponding to the session
-    * Content: ` {"occupancy" : {(string - sessionId) : (integer - occupancy)}`
+###  `"joined session"`
+
+* Fired when a user joins a session
+* Joins a room based on that session Id and username
+
+**params**
+
+```javascript
+{
+"sessionId" : (string - sessionId),
+"courseNumber" : (string - course number)
+}
+```
+
+* Response: `"session data loaded"` sent to the course page corresponding to the session
+
+**content**
+
+```javascript
+{
+"occupancy" : {(string - sessionId) : (integer - occupancy)}
+}
+```
+
+### `"left session"`
+
+* Fired when a user leaves a session
+* leaves the corresponding session room
+
+**params**
+
+```javascript
+{
+"sessionId" : (string - sessionId),
+"courseNumber" : (string - course number)
+}
+```
+
+### `"joined course page"`
+
+* Fired when a user joins a course's home page
+* Joins a room based on the course name and username
+
+**params**
+
+```javascript
+{
+"courseNumber" : (string - course number)
+}
+```
+
+* Response: `"session data loaded"` event to the corresponding room
+
+**params**
+
+```javascript
+{
+"occupancy" : {(string - sessionId) : (integer - occupancy)}
+}
+```
+
+### `"left course page"`
+
+* Fired when a user leaves a course's home page
+* leaves the corresponding course room
+
+**params**
+
+```javascript
+{
+"courseNumber" : (string - course number)
+}
+```
+
+### `"new session"`
+
+* Fired when a user creates a new session
+* Creates the session and adds it to the corresponding course
+
+**params**
+
+```javascript
+{
+"session" : (Session),
+"courseNumber" : (string - course number)
+}
+```
+
+* Response: `"new session"` event sent to the room corresponding to the session's course
+
+**content**
+
+```javascript
+{
+"session" : (Session)
+}
+```
+
+### `"joined home page"`
+
+* Fired when a user joins a home page
+* Joins a room based on the username
+
+**params**
+
+```javascript
+{
+"username" : (string - username)
+}
+```
+
+* Response: `"session data loaded"` event sent to the corresponding room
+
+**content**
+
+```javascript
+{
+"occupancy" : {(string - sessionId) : (integer - occupancy)}
+}
+```
+### `"left home page"`
+
+* Fired when a user leaves a course's home page
+* leaves the corresponding course room
+
+**params**
+
+```javascript
+{
+"username" : (string - username)
+}
+```
+### `"added snippet"`
+
+* Fired when a user adds a snippet
+* adds the snippet to the corresponding session's feed
+
+**params**
+
+```javascript
+{
+"content" : (string - snippet content),
+"sessionId" : (string - sessionId),
+"username" :  (string - username)
+}
+```
+
+* Response: `"added snippet"` sent to every user in the session
+
+**content**
+
+```javascript
+{
+"snippet" : (Snippet)
+}
+```
+
+* On Error: `error` event sent only to the sender
+
+**content**
+
+```javascript
+{
+"message" : (string - error message)
+}
+```
+
+### `"saved snippet"`
+
+* Fired when a user saves a snippet
+* Increments the save count of the snippet
+
+**params**
+
+```javascript
+{
+"snippetId" : (string - snippetId),
+"sessionId" : (string - sessionId),
+"stashId" : (string - stashId),
+"username" :  (string - username)
+}
+```
+
+* Response: `"saved snippet"` sent to every user in the session
+
+**content**
+
+```javascript
+{
+"snippetId" : (string - snippetId),
+"username" : (string - username)
+}
+```
+
+* On Error: `error` event sent only to the sender
+
+**content**
+
+```javascript
+{
+"message" : (string - error message)
+}
+```
+### `"removed snippet"`
+
+* Fired when a user removes a snippet
+* Decrements the save count of the snippet
+
+
+**params**
+
+```javascript
+{
+"snippetId" : (string - snippetId),
+"sessionId" : (string - sessionId),
+"stashId" : (string - stashId),
+"username" :  (string - username)
+}
+```
+* Response: `"removed snippet"` sent to every user in the session
+
+**content**
+
+```javascript
+{
+"snippetId" : (string - snippetId),
+"username" : (string - username)
+}
+```
+* On Error: `error` event sent only to the sender
+
+**content**
+
+```javascript
+{
+"message" : (string - error message)
+}
+```
+
+### `"flagged snippet"`
+
+* Fired when a user flags a snippet
+* Increments the flag count of the snippet
+
+**params**
+
+```javascript
+{
+"snippetId" : (string - snippetId),
+"sessionId" : (string - sessionId),
+"username" :  (string - username)
+}
+```
+
+* Response: `"flagged snippet"` sent to every user in the session
+
+**content**
+
+```javascript
+{
+"snippetId" : (string - snippetId),
+"username" : (string - username)
+}
+```  
+* On Error: `error` event sent only to the sender
+
+**content**
+
+```javascript
+{
+"message" : (string - error message)
+}
+```
+
+### `"disconnect"`
+
+* Fired when a user exits the website (a standard socket.io call)
+* Updates occupancy for all course and home pages
+* Response: `"session data loaded"` sent to the course page corresponding to the session
+
+**content**
+
+```javascript
+{
+"occupancy" : {(string - sessionId) : (integer - occupancy)}
+}
+```
