@@ -8,7 +8,7 @@
       color: $secondary-color;
       text-transform: none;
       cursor: pointer;
-      font-size: 1.2em;
+      font-size: 1em;
     }
 
     .indicator {
@@ -27,7 +27,7 @@
   #session-header {
     font-weight: 300;
 
-    h4 {
+    h5 {
       margin-bottom: 0;
     }
 
@@ -132,7 +132,7 @@
      width: 100%;
      position: fixed;
      left: 0;
-     bottom : 0;
+     bottom: -2px;
      z-index: 150;
 
     #snippet-input-container {

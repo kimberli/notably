@@ -17,7 +17,7 @@
 
 
       <h3 class="center-align" ng-show="snippets.length === 0" id="no-snippets" >There are no snippets in this stash yet!</h3>
-      <table class="bordered responsive-table" id="snippet-table">
+      <table class="bordered table" id="snippet-table">
       <tr ng-repeat="snip in snippets">
             <td class="author-column">{{snip.author}}</div>
             <td class="content-column markdown-parsed" ng-bind-html="snip.text"></div>
