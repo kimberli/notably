@@ -8,7 +8,7 @@
         <div class="col s12 m6 l6">
           <div class="card" id="course-info">
             <div class="card-content">
-              <span class="card-title">{{ course.meta.number }} - {{ course.meta.name }}</span> <br>
+              <span class="card-title card-main">{{ course.meta.number }} - {{ course.meta.name }}</span> <br>
               <em>{{ course.meta.location }}, {{ course.meta.lectureTime }}</em><br>
               <p>{{ course.meta.description }}</p><br>
               <button ng-if="!subscribed" class="waves-effect waves-light btn" id="subscribe-button" ng-click="subscribe(course.meta.number)">Subscribe</button>
@@ -18,7 +18,7 @@
 
           <div class="card">
             <div class="card-content">
-            <span class="card-title">Create a new session for {{ course.meta.number }}</span>
+            <span class="card-title card-main">Create a new session for {{ course.meta.number }}</span>
             <form ng-submit="createSession()">
               <div class="input-field">
                 <input id="newTitle" ng-model="newTitle" type="text" class="validate black-text" required>
