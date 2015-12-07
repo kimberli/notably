@@ -34,7 +34,11 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
                 if ($scope.session.feed.length === 0) {
                     $scope.feed = $scope.session.feed;
                     $scope.stash = $scope.session.stash.snippets;
-                    openPage();
+                    $http.get('/api/user/auth', {})
+                    .then(function (response) {
+                        $scope.currentUser = response.data.username;
+                        openPage();
+                    });
                 }
                 else {
                     $scope.session.feed.forEach(function(snippet, index) {
@@ -46,8 +50,12 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
                             $scope.stash = $scope.session.stash.snippets;
                             $scope.$on('lastElementLoaded', function(){
                                 if (!firstLoad) {
-                                    firstLoad = true;
-                                    openPage();
+                                    $http.get('/api/user/auth', {})
+                                    .then(function (response) {
+                                        $scope.currentUser = response.data.username;
+                                        firstLoad = true;
+                                        openPage();
+                                    });
                                 }
                             });
                         }
@@ -90,7 +98,9 @@ openPage = function() {
     converter.setOption("tables", true);
 
     $scope.addSnippet = function() {
-    // check if input is blank
+
+        console.log("add", $scope.currentUser);
+        // check if input is blank
         if (!$scope.snippetInput || $scope.snippetInput.length === 0) {Materialize.toast('You cannot submit an empty snippet!', 2000); return;}
 
         sessionSocket.emit("added snippet", {
@@ -102,6 +112,9 @@ openPage = function() {
 
   // flag a snippet
     $scope.flagSnippet = function(id) {
+
+        console.log("flag", $scope.currentUser);
+
         setTimeout(function(){$("#feed-flag-" + id + ",#stash-flag-" + id).prop('disabled', false);}, 5000);
 
         sessionSocket.emit("flagged snippet", {
@@ -117,6 +130,8 @@ openPage = function() {
 
   // save a snippet, color the button, add to stash, highlight new code
     $scope.saveOrRemoveSnippet = function(id) {
+        console.log("save/remove", $scope.currentUser);
+
         if ($scope.alreadySaved[id]) {
             sessionSocket.emit("removed snippet", {
                 "snippetId" : id,
