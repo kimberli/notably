@@ -1,4 +1,4 @@
-angular.module('notablyApp').controller('splashController', function ($scope, $http, $location) {
+angular.module('notablyApp').controller('splashController', function ($scope, $http, $location, $window) {
 
     $scope.focusLogin = true;
 
@@ -40,7 +40,7 @@ angular.module('notablyApp').controller('splashController', function ($scope, $h
                 'username': $scope.username,
                 'password': $scope.password
             }).then(function (response) {
-                $location.path('/home');
+                $window.location.href = '/home';
             }, function(response) {
                 $scope.error = response.data.error;
             });
@@ -51,7 +51,7 @@ angular.module('notablyApp').controller('splashController', function ($scope, $h
                 'email': $scope.email,
                 'name': $scope.name
             }).then(function (response) {
-                $location.path('/home');
+                $window.location.href = '/home';
             }, function(response) {
                 $scope.error = response.data.error;
             });
