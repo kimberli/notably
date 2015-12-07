@@ -52,8 +52,15 @@
               <div class="spacer"></div>
               <em ng-if="user.recentSessions.length === 0">You haven't visited any sessions recently!</em>
                <div ng-if="user.recentSessions.length !== 0" class="collection">
-                <a ng-repeat="session in user.recentSessions | orderBy: 'index'" href="/session/{{ session._id }}" class="collection-item">{{ session.meta.number }}: {{ session.meta.title }}
-                <span class="badge" id="badge-{{session._id}}">{{session.createdAt | amCalendar}} ({{ occupancy[session._id] || 0 }} active)</span></a>
+                <a ng-repeat="session in user.recentSessions | orderBy: 'index'" href="/session/{{ session._id }}" class="collection-item">
+                  <div class="row">
+                    <div class="col s12 m6 l9 truncate">
+                    {{ session.meta.number }}: {{ session.meta.title }}
+                    </div>
+                    <div class="col s12 m6 l3 session-info">
+                    <span id="badge-{{session._id}}">{{session.createdAt | amCalendar}} ({{ occupancy[session._id] || 0 }} <i class="material-icons">supervisor_account</i>)</span>
+                    </div>
+                  </div>
                 </a>
               </div>
              </div>
