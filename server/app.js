@@ -6,6 +6,8 @@ var bodyParser = require('body-parser');
 var cookieSession = require('cookie-session');
 var favicon = require('serve-favicon');
 var mongoose = require('mongoose');
+var helmet = require('helmet');
+var csrfProtection = require('csurf')({ cookie: true }); // not used yet
 
 // SERVER FILES //
 var config = require('./config');
@@ -42,6 +44,7 @@ app.use(favicon(__dirname + '/../client/assets/img/favicon/favicon.ico')); // fa
 app.use(cookieSession({secret: config.cookieSecret}))
 app.use(bodyParser.json()); // parse json
 app.use(bodyParser.urlencoded({ extended: true })); // parse forms
+app.use(helmet()); // bunch of security stuff
 
 // AUTH MIDDLEWARE //
 app.use(function(req, res, next) {
