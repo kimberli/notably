@@ -2,6 +2,7 @@ angular.module('notablyApp').controller('homeController', function (moment, $sco
 
     $http.get('/api/user?username=' + $rootScope.user).then(function (response) {
         $scope.user = response.data;
+        console.log($scope.user);
     });
 
     $scope.occupancy = {};
@@ -31,8 +32,8 @@ angular.module('notablyApp').controller('homeController', function (moment, $sco
             sameDay : '[Today]',
             nextDay : '[Tomorrow]',
             lastWeek : 'ddd',
-            nextWeek : '[Next] ddd [at] LT',
-            sameElse : 'L'
+            nextWeek : '[Next] ddd',
+            sameElse : 'M/D/YYYY'
         }
     });
 

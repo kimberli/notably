@@ -95,8 +95,8 @@ angular.module('notablyApp').controller('courseController', function (moment, $s
             sameDay : '[Today]',
             nextDay : '[Tomorrow]',
             lastWeek : 'ddd',
-            nextWeek : '[Next] ddd [at] LT',
-            sameElse : 'L'
+            nextWeek : '[Next] ddd',
+            sameElse : 'M/D/YYYY'
         }
     });
 });
