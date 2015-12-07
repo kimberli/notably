@@ -21,7 +21,7 @@ angular.module('notablyApp').controller('courseController', function (moment, $s
     });
 
     $scope.loadPage = function() {
-        sessionSocket.emit("joined course page", {"courseNumber" : $routeParams.courseNumber, "sessions" : $scope.course.sessions});
+        sessionSocket.emit("joined course page", {"courseNumber" : $routeParams.courseNumber});
 
         $scope.$on('$locationChangeStart', function () {
             sessionSocket.emit("left course page", {"courseNumber" : $routeParams.courseNumber});

@@ -33,11 +33,12 @@ URL: [mitnotably.herokuapp.com](http://mitnotably.herokuapp.com)
   - [`/api/snippet` - GET](#apisnippet---get)
   - [`/api/snippet` - POST](#apisnippet---post)
   - [`/api/snippet/flag` - POST](#apisnippetflag---post)
+- [Socket.io Events](#socketio-events)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Features
-Notably is a collaborative note-taking app for MIT students! 
+Notably is a collaborative note-taking app for MIT students!
 
 You can:
 * Search for a class
@@ -46,8 +47,9 @@ You can:
 
 After some discussion, we decided to remove two features listed in our design document: viewing other users' feeds and hiding feeds when users haven't submitted enough snippets. Both these features were what we considered "reach" features, so removing them does not affect the application's main functionality.
 
-Viewing other users' stashes is a privacy concern, and we don't want students to arbitrarily see what snippets other users have saved. Additionally, it adds additional complexity when the user's stash you're viewing changes state (e.g. upon adding, saving, or flagging a snippet). Hiding feeds when users haven't submitted enough snippets would also require slight modifications in the model, but we ultimately deemed it unnecessary in the spirit of openness. 
+Viewing other users' stashes is a privacy concern, and we don't want students to arbitrarily see what snippets other users have saved. Additionally, it adds additional complexity when the user's stash you're viewing changes state (e.g. upon adding, saving, or flagging a snippet). Hiding feeds when users haven't submitted enough snippets would also require slight modifications in the model, but we ultimately deemed it unnecessary in the spirit of openness.
 
+>>>>>>> 6d8e9f670ee5649c38a0ca0794db0bfd972387d5
 ## Instructions
 
 All commands should be run in the root folder.
@@ -72,7 +74,8 @@ To update table of contents:
 * `gulp readme` (or `doctoc README.md`)
 
 To add data to database:
-* `node bin/setup`
+* `npm run db` in one terminal window (or `mongod`)
+* `npm run setup` in another terminal window (or `node bin/setup`)
 
 To run mongo shell:
 * `mongo notably`
@@ -83,6 +86,7 @@ To run Heroku shell:
 
 To test API routes:
 * Use [Postman](https://www.getpostman.com/)
+
 
 ## API
 
@@ -553,3 +557,40 @@ The snippet object looks like this:
 ```javascript
 (Snippet)
 ```
+
+## Socket.io Events
+
+* `"joined session"`
+  * Fired when a user joins a session
+    * Content: `{"sessionId" : (string - sessionId), "courseNumber" : (string - course number)}`
+  * Joins a room based on that session Id and username
+  * Response: `"session data loaded"` sent to the course page corresponding to the session
+    * Content: ` {"occupancy" : {(string - sessionId) : (integer - occupancy)}`
+* `"left session"`
+  * Fired when a user leaves a session
+    * Content: `{"sessionId" : (string - sessionId), "courseNumber" : (string - course number)}`
+  * leaves the corresponding session room
+* `"joined course page"`
+  * Fired when a user joins a course's home page
+    * Content: `{"courseNumber" : (string - course number)}`
+  * Joins a room based on the course name and username
+  * Response: `"session data loaded"` event to the corresponding room
+    * Content: ` {"occupancy" : {(string - sessionId) : (integer - occupancy)}`
+* `"left course page"`
+  * Fired when a user leaves a course's home page
+    * Content: `{"courseNumber" : (string - course number)}`
+  * leaves the corresponding course room
+* `"joined home page"`
+  * Fired when a user joins a home page
+    * Content: `{"username" : (string - username)}`
+  * Joins a room based on the username
+  * Response: `"session data loaded"` event sent to the corresponding room
+    * Content: ` {"occupancy" : {(string - sessionId) : (integer - occupancy)}`
+* `"left home page"`
+  * Fired when a user leaves a course's home page
+    * Content: `{"username" : (string - username)}`
+  * leaves the corresponding course room
+* `"added snippet"`
+  * Fired when a user adds a snippet
+    * Content: `{"content" : (string - snippet content), "sessionId" : (string - sessionId), "username" :  (string - username)}`
+  * leaves the corresponding course room

@@ -146,18 +146,26 @@ Course Page:
 Session (Feed + Stash) Page:
   In a new created session:
     Feed is empty and a message is displayed: "Add a snippet!"
-    The user's stash is empty and a message is displayed: "Your stash is empty!"
+    The user's stash is empty and a message is displayed: "Your stash is empty! Submit a snippet in the editor below. For keyboard shortcuts and hints, press Shift+/."
 
   In a session where users have contributed:
     Feed contains all the snippets contributed by active users in the session.
     The user's stash contains snippets that the user authored himself and any snippets authored by other users that he saved into his stash.
 
+  Pressing Shift+/ provides a pop up containing keyboard shorcuts and a markdown cheatsheet:
+    Showing/hiding the pop up
+    Submitting snippets
+    Toggling the editor area
+    Toggling the preview mode for snippets
+    Headers, Numbered Lists, Bulleted Lists, Bold, Italics, Strikethrough, Images
+    Clicking "Got It!" or pressing Shift+/ again closes the pop up.
+
   Clicking the left arrow next to the session title takes the user back to the course page that this session is associated with.
 
   By default, both the feed and the user's stash are shown:
-    Selecting feed hides the user's stash while expanding the feed to fill the page.
-    Selecting stash hides the feed while expanding the user's stash to fill the page.
-    Selecting both restores the view to have the feed on the left half of the page and the user's stash on the right half of the page.
+    Selecting the "Feed" tab hides the user's stash while expanding the feed to fill the page.
+    Selecting the "Stash" tab hides the feed while expanding the user's stash to fill the page.
+    Selecting the "Both" tab restores the view to have the feed on the left half of the page and the user's stash on the right half of the page.
 
   Snippet editor area:
     Clicking "Hide editor" collapses the editor area.

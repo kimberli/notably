@@ -91,7 +91,7 @@ io.sockets.on('connection', function(socket){
     });
 
     // fired when a user leaves the course page
-    socket.on("left gome page", function(data) {
+    socket.on("left home page", function(data) {
         socket.leave("home-" + data.username); // join a room named after this session
     });
 
