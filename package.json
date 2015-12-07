@@ -11,7 +11,8 @@
     "dev": "nodemon bin/www",
     "db": "mongod",
     "gulp": "gulp",
-    "test": "mocha"
+    "test": "mocha",
+    "setup": "node bin/setup"
   },
   "repository": {
     "type": "git",
