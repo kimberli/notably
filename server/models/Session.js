@@ -20,7 +20,7 @@ var sessionSchema = mongoose.Schema({
  */
 var getSession = function(sessionId, callback) {
     Session.find({ _id: sessionId }, function(err, result) {
-        if (err) callback(err);
+        if (err) callback('Session not found');
         else if (result.length > 0) callback(null, result[0]);
         else callback('Session not found');
     });
@@ -44,7 +44,10 @@ sessionSchema.statics.create = function(number, title, rawUsername, callback) {
         stashes: [],
         feed: []
     });
-    newSession.save(callback);
+    newSession.save(function(err, result) {
+        if (err) callback('Error saving session');
+        else callback(null, result);
+    });
 }
 
 /**
@@ -54,25 +57,20 @@ sessionSchema.statics.create = function(number, title, rawUsername, callback) {
  * @param callback {function} - function to be called with err and result
  */
 sessionSchema.statics.findSession = function(sessionId, callback) {
-    Session.find({ _id: sessionId }, function(err, result) {
+    getSession(sessionId, function(err, session) {
         if (err) callback(err);
         else {
-            getSession(sessionId, function(err, session) {
-                if (err) callback(err);
-                else {
-                    Snippet.find({ _id: { $in: session.feed } }, function(err, result) {
-                        if (err) callback(err);
-                        else callback(null, {
-                            _id: session._id,
-                            createdAt: session.createdAt,
-                            meta: {
-                                title: session.title,
-                                number: session.number
-                            },
-                            feed: result
-                        });
-                    })
-                }
+            Snippet.find({ _id: { $in: session.feed } }, function(err, result) {
+                if (err) callback('Snippets not found');
+                else callback(null, {
+                    _id: session._id,
+                    createdAt: session.createdAt,
+                    meta: {
+                        title: session.title,
+                        number: session.number
+                    },
+                    feed: result
+                });
             })
         }
     });
@@ -89,7 +87,7 @@ sessionSchema.statics.getSessionsByUser = function(rawUsername, callback) {
         if (err) callback (err);
         else {
             Session.find({_id: { $in: user.recentSessions}}, function(err, sessions) {
-                if (err) callback(err);
+                if (err) callback('Sessions not found');
                 else {
                     callback(null, {recentSessions:
                         sessions.map(function(session) {
@@ -129,7 +127,10 @@ sessionSchema.statics.addStash = function(sessionId, username, callback) {
                             session.stashes.push(newStash);
                             session.save(function(err) {
                                 if (err) callback(err);
-                                else newStash.save(callback);
+                                else newStash.save(function(err, result) {
+                                    if (err) callback('Error saving stash');
+                                    else callback(null, result);
+                                });
                             });
                         }
                     });
@@ -164,7 +165,7 @@ sessionSchema.statics.addSnippet = function(sessionId, currentUser, text, callba
                                 else {
                                     session.feed.push(newSnippet);
                                     session.save(function(err) {
-                                        if (err) callback(err);
+                                        if (err) callback('Error saving session');
                                         else {
                                             User.incrementSubmitted(user.username, function(err, result) {
                                                 if (err) callback(err);
@@ -174,8 +175,11 @@ sessionSchema.statics.addSnippet = function(sessionId, currentUser, text, callba
                                                         else {
                                                             stash.snippets.push(newSnippet);
                                                             stash.save(function(err) {
-                                                                if (err) callback(err);
-                                                                else newSnippet.save(callback);
+                                                                if (err) callback('Error saving stash');
+                                                                else newSnippet.save(function(err, result) {
+                                                                    if (err) callback('Error saving snippet');
+                                                                    else callback(null, result);
+                                                                });
                                                             });
                                                         }
                                                     });
