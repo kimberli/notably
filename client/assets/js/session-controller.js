@@ -64,7 +64,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
 
 
 openPage = function() {
-
+    $('ul.tabs').tabs();
     // $('.dropdown-button').dropdown();
 
   // let the server know you've joined to update view counts, join the room

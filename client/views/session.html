@@ -20,12 +20,13 @@
           </h4>
         </div>
         <div class="right view-selector">
-          <input name="display" type="radio" id="left_option" ng-model="showOption" value="left"/>
-          <label for="left_option">Feed</label>
-          <input name="display" type="radio" id="both_option" ng-model="showOption" value="both"/>
-          <label for="both_option">Both</label>
-          <input name="display" type="radio" id="right_option"  ng-model="showOption" value="right"/>
-          <label for="right_option">Stash</label>
+
+          <ul class="tabs">
+            <li class="tab col s3"><a ng-click="showOption='feed'">Feed</a></li>
+            <li class="tab col s3"><a class="active" ng-click="showOption='both'">Both</a></li>
+            <li class="tab col s3"><a ng-click="showOption='stash'">Stash</a></li>
+          </ul>
+
         </div>
       </div>
     </div>
