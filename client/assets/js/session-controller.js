@@ -95,8 +95,6 @@ openPage = function() {
     converter.setOption("tables", true);
 
     $scope.addSnippet = function() {
-
-        console.log("add", $scope.currentUser);
         // check if input is blank
         if (!$scope.snippetInput || $scope.snippetInput.length === 0) {Materialize.toast('You cannot submit an empty snippet!', 2000); return;}
 
@@ -109,8 +107,6 @@ openPage = function() {
 
   // flag a snippet
     $scope.flagSnippet = function(id) {
-
-        console.log("flag", $scope.currentUser);
 
         setTimeout(function(){$("#feed-flag-" + id + ",#stash-flag-" + id).prop('disabled', false);}, 5000);
 
@@ -127,8 +123,6 @@ openPage = function() {
 
   // save a snippet, color the button, add to stash, highlight new code
     $scope.saveOrRemoveSnippet = function(id) {
-        console.log("save/remove", $scope.currentUser);
-
         if ($scope.alreadySaved[id]) {
             sessionSocket.emit("removed snippet", {
                 "snippetId" : id,
@@ -293,7 +287,6 @@ openPage = function() {
             $scope.previewText = "";
             $("#feed-view").animate({ scrollTop: $('#feed-view').prop("scrollHeight")}, 1000);
         }
-        console.log("add", $scope.alreadySaved);
     });
 
     $scope.$on("socket:error", function(ev, data) {
