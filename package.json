@@ -23,7 +23,6 @@
     "bcrypt": "^0.8.5",
     "body-parser": "^1.14.1",
     "cookie-session": "^2.0.0-alpha.1",
-    "csurf": "^1.8.3",
     "express": "^4.13.3",
     "helmet": "^0.15.0",
     "mongoose": "^4.2.7",
