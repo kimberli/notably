@@ -74,12 +74,12 @@
                       <b ng-if="snip.author === currentUser"><a ng-href="/profile/{{snip.author}}" class="you-posted">you</a></b>
                       posted <em am-time-ago="snip.timestamp"></em>
                     </div>
-                    <div class="right valign-wrapper">
+                    <div class="valign-wrapper snippet-right-buttons">
                       <button class="snippet-button valign-wrapper expand-button" ng-show="isOverflowingFeed(snip._id)" ng-click="toggleSnippetFeed(snip._id)">
-                        Show more <i class="material-icons">expand_more</i>
+                        More <i class="material-icons">expand_more</i>
                       </button>
                       <button class="snippet-button valign-wrapper expand-button" ng-show="hasOverflownFeed(snip._id)" ng-click="toggleSnippetFeed(snip._id)">
-                        Show less <i class="material-icons">expand_less</i>
+                        Less <i class="material-icons">expand_less</i>
                       </button>
                       {{snip.saveCount}}
                       <button
@@ -100,7 +100,6 @@
                       </button>
                     </div>
                   </div>
-                   <br/>
                   <p class="markdown-parsed" ng-bind-html="snip.text"></p>
                 </div>
               </div>
@@ -142,12 +141,12 @@
                          <b ng-if="snip.author === currentUser"><a ng-href="/profile/{{snip.author}}" class="you-posted">you</a></b>
                          posted <em am-time-ago="snip.timestamp"></em>
                       </div>
-                      <div class="right valign-wrapper">
+                      <div class="valign-wrapper snippet-right-buttons">
                         <button class="snippet-button valign-wrapper expand_button" ng-show="isOverflowingStash(snip._id)" ng-click="toggleSnippetStash(snip._id)">
-                          Show more <i class="material-icons">expand_more</i>
+                          More <i class="material-icons">expand_more</i>
                         </button>
                         <button class="snippet-button valign-wrapper expand_button" ng-show="hasOverflownStash(snip._id)" ng-click="toggleSnippetStash(snip._id)">
-                          Show less <i class="material-icons">expand_less</i>
+                          Less <i class="material-icons">expand_less</i>
                         </button>
                         {{snip.saveCount}}
                         <button
@@ -166,7 +165,6 @@
                         </button>
                       </div>
                     </div>
-                     <br/>
                     <p class="markdown-parsed" ng-bind-html="snip.text"></p>
                   </div>
                 </div>
@@ -233,13 +231,17 @@
             <textarea id="snippet-input-area" ng-model="snippetInput" ng-show="!preview" required> </textarea>
             <div ng-bind-html="previewText" id="snippet-preview" class="markdown-parsed" ng-if="preview"> </div>
             <div id="submit-sidebar" ng-class="{true: 'show-sidebar', false: 'hide-sidebar'}[showEditor]">
-              <button ng-click="togglePreview()" class="btn-floating light-blue accent-2" id="toggle-preview-button">
-                  <i class="material-icons small" ng-if="preview">mode_edit</i>
-                  <i class="material-icons small" ng-if="!preview">remove_red_eye</i>
+              <button ng-click="toggleShortcutModal()" class="btn-floating deep-purple lighten-2">
+                <i class="material-icons small">help</i>
               </button>
               <br/>
-              <button ng-click="addSnippet()" ng-disabled="!session" class="btn-floating  green lighten-2">
-                  <i class="material-icons small">send</i>
+              <button ng-click="togglePreview()" class="btn-floating light-blue accent-2">
+                <i class="material-icons small" ng-if="preview">mode_edit</i>
+                <i class="material-icons small" ng-if="!preview">remove_red_eye</i>
+              </button>
+              <br/>
+              <button ng-click="addSnippet()" ng-disabled="!session" class="btn-floating green lighten-2">
+                <i class="material-icons small">send</i>
               </button>
             </div>
           </div>

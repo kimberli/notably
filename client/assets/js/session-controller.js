@@ -359,6 +359,16 @@ openPage = function() {
         $scope.shortcutModalEnabled = false;
     }
 
+    $scope.toggleShortcutModal = function() {
+        if ($scope.shortcutModalEnabled === true) {
+            $scope.disableShortcutModal();
+            $('#keyboard-shortcut-modal').openModal();
+        } else {
+            $scope.enableShortcutModal();
+            $('#keyboard-shortcut-modal').closeModal();
+        }
+    }
+
     // using angular hotkeys to add functionality
     hotkeys.add({
         combo: 'ctrl+p',
@@ -391,13 +401,7 @@ openPage = function() {
     hotkeys.add({
         combo: 'shift+/',
         callback: function() {
-            if ($scope.shortcutModalEnabled === true) {
-                $scope.disableShortcutModal();
-                $('#keyboard-shortcut-modal').openModal();
-            } else {
-                $scope.enableShortcutModal();
-                $('#keyboard-shortcut-modal').closeModal();
-            }
+            $scope.toggleShortcutModal();
         }
     });
 

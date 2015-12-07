@@ -85,13 +85,13 @@ $tabs-text-color: $secondary-color !default;
   background-color: white;
 }
 
-.card .card-title,
+.card .card-content .card-title,
 .card-panel .card-title {
   color: $primary-color-dark;
+  line-height: 1.5em;
 }
 
 .card-panel .card-title {
-  line-height: 48px;
   font-size: 24px;
   font-weight: 300;
 }
@@ -101,7 +101,7 @@ $tabs-text-color: $secondary-color !default;
   color: white;
 }
 
-.card-primary .card-title {
+.card-primary .card-content .card-title {
   color: white;
 }
 
