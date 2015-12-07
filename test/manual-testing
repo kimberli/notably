@@ -169,7 +169,7 @@ Session (Feed + Stash) Page:
         Additionally, the user's snippet appears in both the session feed and the user's stash.
 
   Snippets:
-    A snippet authored by the user is automatically saved in the user's stash.
+    A snippet authored by the user is automatically saved in the user's stash, and the number of saves on that snippet is initialized to 1.
     A user can save any snippet from the feed to his own stash by clicking the star icon in a snippet:
       If the snippet was not already saved by the user, it will be added to the user's stash.
         A toast message is displayed: "Snippet has been saved!"
@@ -230,7 +230,7 @@ Security:
     As a rep invariant for the models, calling any method that changes data in the database requires that the request comes from a valid user.
 
   CSRF:
-    Additionally, none of our GET requests change data in our database.
+    None of our GET requests change data in our database.
 
   Miscellaneous:
     We also use a Node.js package called helmet that handles general security measures.
