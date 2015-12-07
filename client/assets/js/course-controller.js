@@ -1,6 +1,7 @@
 angular.module('notablyApp').controller('courseController', function (moment, $scope, $http, $routeParams, sessionSocket, $rootScope, $location) {
 
     $scope.currentUser = $rootScope.user;
+    $scope.loaded = false;
 
     $scope.$on('$routeChangeSuccess', function() {
         $http.get('/api/course?number=' + $routeParams.courseNumber).then(function (response) {
@@ -86,6 +87,8 @@ angular.module('notablyApp').controller('courseController', function (moment, $s
         $scope.$on("socket:session data loaded", function(ev, data) {
             $scope.occupancy = data.occupancy;
         });
+
+        $scope.loaded = true;
     }
 
     //configure moment calendar settings
