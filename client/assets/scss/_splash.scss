@@ -34,9 +34,12 @@
     }
   }
 
+  #auth-buttons {
+    margin: 10vh 0 20px 0;
+  }
+
   #auth-container {
     position: relative;
-    margin-top: 15vh;
 
     .horizontal-spacer {
       display: inline-block;

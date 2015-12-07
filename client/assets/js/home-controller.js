@@ -21,6 +21,4 @@ angular.module('notablyApp').controller('homeController', function (moment, $sco
         $scope.occupancy = data.occupancy;
     });
 
-
-
 });
