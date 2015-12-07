@@ -10,11 +10,6 @@
     #loading-message {
       font-size: 36px;
       font-weight: 300;
-      margin: auto;
-    }
-
-    #preloader-content {
-      margin: auto;
     }
   }
 
@@ -131,7 +126,7 @@
         .save-button-active, .save-button-animate  {
           color: color("amber", "lighten-2");
         }
-        .flag-button:enabled:hover, .flag-button-active, .flag-button-animate {
+        .flag-button-active, .flag-button-animate {
           color: color("red", "accent-2");
         }
       }
