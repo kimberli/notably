@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node bin/www",
-    "setup": "node bin/setup",
+    "setup": "gulp setup",
     "test": "gulp test --silent",
     "update": "gulp update --silent",
     "dev": "gulp default"
