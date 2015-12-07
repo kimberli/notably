@@ -16,7 +16,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     $scope.$on('$routeChangeSuccess', function() {
 
         $scope.sessionId = $routeParams.sessionId;
-        
+
         // register user's visit
         $http.post('/api/session/visit', {
             'sessionId': $scope.sessionId
@@ -31,7 +31,6 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
                 // true for a snippet id if the current user has flagged the snippet
                 $scope.alreadyFlagged = {};
                 //angular.element(document).ready(function () {
-
                 if ($scope.session.feed.length === 0) {
                     $scope.feed = $scope.session.feed;
                     $scope.stash = $scope.session.stash.snippets;
