@@ -32,6 +32,7 @@ URL: [mitnotably.herokuapp.com](http://mitnotably.herokuapp.com)
   - [`/api/snippet` - GET](#apisnippet---get)
   - [`/api/snippet` - POST](#apisnippet---post)
   - [`/api/snippet/flag` - POST](#apisnippetflag---post)
+- [Socket.io Events](#socketio-events)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -541,3 +542,27 @@ The snippet object looks like this:
 ```javascript
 (Snippet)
 ```
+
+## Socket.io Events
+
+* `"joined session"`
+  * Fired when a user joins a session
+  * Joins a room based on that session Id and username
+  * Response: `"session data loaded"` sent to the course page corresponding to the session
+    * Content: ` {"occupancy" : {(string - sessionId) : (integer - occupancy)}`
+* `"left session"`
+  * Fired when a user leaves a session
+  * leaves the corresponding session room
+* `"joined course page"`
+  * Fired when a user joins a course's home page
+  * Joins a room based on the course name and username
+  * Response: `"session data loaded"` event
+    * Content: ` {"occupancy" : {(string - sessionId) : (integer - occupancy)}`
+* `"left course page"`
+  * Fired when a user leaves a course's home page
+  * leaves the corresponding course room
+* `"joined home page"`
+  * Fired when a user joins a home page
+  * Joins a room based on the username
+  * Response: `"session data loaded"` event
+    * Content: ` {"occupancy" : {(string - sessionId) : (integer - occupancy)}`
