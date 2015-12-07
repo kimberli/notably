@@ -49,7 +49,6 @@ After some discussion, we decided to remove two features listed in our design do
 
 Viewing other users' stashes is a privacy concern, and we don't want students to arbitrarily see what snippets other users have saved. Additionally, it adds additional complexity when the user's stash you're viewing changes state (e.g. upon adding, saving, or flagging a snippet). Hiding feeds when users haven't submitted enough snippets would also require slight modifications in the model, but we ultimately deemed it unnecessary in the spirit of openness.
 
->>>>>>> 6d8e9f670ee5649c38a0ca0794db0bfd972387d5
 ## Instructions
 
 All commands should be run in the root folder.
@@ -580,6 +579,12 @@ The snippet object looks like this:
   * Fired when a user leaves a course's home page
     * Content: `{"courseNumber" : (string - course number)}`
   * leaves the corresponding course room
+* `"new session"`
+  * Fired when a user creates a new session
+    * Content: `{"session" : (Session), "courseNumber" : (string - course number)}`
+  * Creates the session and adds it to the corresponding course
+  * Response: `"new session"` event sent to the room corresponding to the session's course
+    * Content: ` {"session" : (Session)}`
 * `"joined home page"`
   * Fired when a user joins a home page
     * Content: `{"username" : (string - username)}`
@@ -593,4 +598,36 @@ The snippet object looks like this:
 * `"added snippet"`
   * Fired when a user adds a snippet
     * Content: `{"content" : (string - snippet content), "sessionId" : (string - sessionId), "username" :  (string - username)}`
-  * leaves the corresponding course room
+  * adds the snippet to the corresponding session's feed
+  * Response: `"added snippet"` sent to every user in the session
+    * Content: `{"snippet" : (Snippet)}`
+  * On Error: `error` event sent only to the sender
+    * Content: `{"message" : (string - error message)}`
+* `"saved snippet"`
+  * Fired when a user saves a snippet
+    * Content: `{"snippetId" : (string - snippetId), "sessionId" : (string - sessionId), "stashId" : (string - stashId), "username" :  (string - username)}`
+  * increments the save count of the snippet
+  * Response: `"saved snippet"` sent to every user in the session
+    * Content: `{"snippetId" : (string - snippetId), "username" : (string - username)}`
+  * On Error: `error` event sent only to the sender
+    * Content: `{"message" : (string - error message)}`
+* `"removed snippet"`
+  * Fired when a user removes a snippet
+    * Content: `{"snippetId" : (string - snippetId), "sessionId" : (string - sessionId), "stashId" : (string - stashId), "username" :  (string - username)}`
+  * decrements the save count of the snippet
+  * Response: `"removed snippet"` sent to every user in the session
+    * Content: `{"snippetId" : (string - snippetId), "username" : (string - username)}`
+  * On Error: `error` event sent only to the sender
+    * Content: `{"message" : (string - error message)}`
+* `"flagged snippet"`
+  * Fired when a user flags a snippet
+    * Content: `{"snippetId" : (string - snippetId), "sessionId" : (string - sessionId), "username" :  (string - username)}`
+  * increments the flag count of the snippet
+  * Response: `"flagged snippet"` sent to every user in the session
+    * Content: `{"snippetId" : (string - snippetId), "username" : (string - username)}`
+  * On Error: `error` event sent only to the sender
+    * Content: `{"message" : (string - error message)}`
+* `"disconnect"`
+  * Fired when a user exits the website (a standard socket.io call)
+  * Response: `"session data loaded"` sent to the course page corresponding to the session
+    * Content: ` {"occupancy" : {(string - sessionId) : (integer - occupancy)}`
