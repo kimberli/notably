@@ -104,10 +104,19 @@
 
 
             <div id="stash-view">
-              <div class="thin-text" ng-if="!stash || stash.length === 0"><em>Your stash is empty!</em></div>
+                <div class="card snippet-card" ng-if="!stash || stash.length === 0">
+                  <div class="card-content">
+                    <div class="snippet-header">
+                      Your stash is empty!
+                    </div>
+                    <br/>
+                    <p class="help-text">Submit a snippet in the editor below. For keyboard shortcuts and hints, press <code>Shift+/</code>.</p>
+                  </div>
+                </div>
+              </div>
 
               <div ng-repeat="snip in stash | orderBy:'timestamp'">
-                <div  class="card snippet-card collapsed-snippet" id="stash-snippet-{{ snip._id }}">
+                <div class="card snippet-card collapsed-snippet" id="stash-snippet-{{ snip._id }}">
                   <div class="card-content">
                     <div class="snippet-header thin-text">
                       <div class="left">
