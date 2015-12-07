@@ -1,4 +1,4 @@
-angular.module('notablyApp').controller('sessionController', function (sessionSocket, hotkeys, $scope, $routeParams, $location, $http, $rootScope, $timeout) {
+angular.module('notablyApp').controller('sessionController', function (sessionSocket, hotkeys, $scope, $routeParams, $location, $http, $timeout) {
 
     // init important view variables
     $scope.sessionId = '';
@@ -7,7 +7,6 @@ angular.module('notablyApp').controller('sessionController', function (sessionSo
     $scope.showEditor = true;
     $scope.showFlags = true;
     $scope.shortcutModalEnabled = true;
-    $scope.currentUser = $rootScope.user;
     $scope.loaded = false;
 
     // retrieve data, set scope variables
@@ -19,54 +18,56 @@ angular.module('notablyApp').controller('sessionController', function (sessionSo
         $http.post('/api/session/visit', {
             'sessionId': $scope.sessionId
         });
+        $http.post('/api/user/auth').then(function(response) {
+            $scope.currentUser = response.data.username;
+            $http.get('/api/session?sessionId=' + $scope.sessionId)
+            .then(function (response) {
+                var firstLoad = false;
+                if (response.status === 200) {
+                    $scope.session = response.data;
+                    // true for a snippet id if the current user has saved the snippet
+                    $scope.alreadySaved = {};
+                    // true for a snippet id if the current user has flagged the snippet
+                    $scope.alreadyFlagged = {};
+                    //angular.element(document).ready(function () {
+                    if ($scope.session.feed.length === 0) {
+                        $scope.feed = $scope.session.feed;
+                        $scope.stash = $scope.session.stash.snippets;
+                        $http.get('/api/user/auth', {})
+                        .then(function (response) {
+                            $scope.currentUser = response.data.username;
+                            openPage();
+                        });
+                    }
+                    else {
+                        $scope.session.feed.forEach(function(snippet, index) {
+                            $scope.alreadySaved[snippet._id] = snippet.savedBy.indexOf($scope.currentUser) > -1 ? true : false;
+                            $scope.alreadyFlagged[snippet._id] = snippet.flaggedBy.indexOf($scope.currentUser) > -1 ? true : false;
 
-        $http.get('/api/session?sessionId=' + $scope.sessionId)
-        .then(function (response) {
-            var firstLoad = false;
-            if (response.status === 200) {
-                $scope.session = response.data;
-                // true for a snippet id if the current user has saved the snippet
-                $scope.alreadySaved = {};
-                // true for a snippet id if the current user has flagged the snippet
-                $scope.alreadyFlagged = {};
-                //angular.element(document).ready(function () {
-                if ($scope.session.feed.length === 0) {
-                    $scope.feed = $scope.session.feed;
-                    $scope.stash = $scope.session.stash.snippets;
-                    $http.get('/api/user/auth', {})
-                    .then(function (response) {
-                        $scope.currentUser = response.data.username;
-                        openPage();
-                    });
+                            if (index === $scope.session.feed.length - 1) {
+                                $scope.feed = $scope.session.feed;
+                                $scope.stash = $scope.session.stash.snippets;
+                                $scope.$on('lastElementLoaded', function(){
+                                    if (!firstLoad) {
+                                        $http.get('/api/user/auth', {})
+                                        .then(function (response) {
+                                            $scope.currentUser = response.data.username;
+                                            firstLoad = true;
+                                            openPage();
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    //});
+                    // snippets have loaded, can load page now
+                } else {
+                    $location.path('/home');
                 }
-                else {
-                    $scope.session.feed.forEach(function(snippet, index) {
-                        $scope.alreadySaved[snippet._id] = snippet.savedBy.indexOf($rootScope.user) > -1 ? true : false;
-                        $scope.alreadyFlagged[snippet._id] = snippet.flaggedBy.indexOf($rootScope.user) > -1 ? true : false;
-
-                        if (index === $scope.session.feed.length - 1) {
-                            $scope.feed = $scope.session.feed;
-                            $scope.stash = $scope.session.stash.snippets;
-                            $scope.$on('lastElementLoaded', function(){
-                                if (!firstLoad) {
-                                    $http.get('/api/user/auth', {})
-                                    .then(function (response) {
-                                        $scope.currentUser = response.data.username;
-                                        firstLoad = true;
-                                        openPage();
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }
-                //});
-                // snippets have loaded, can load page now
-            } else {
+            }, function(response) {
                 $location.path('/home');
-            }
-        }, function(response) {
-            $location.path('/home');
+            });
         });
     });
 

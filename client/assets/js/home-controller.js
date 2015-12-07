@@ -1,4 +1,4 @@
-angular.module('notablyApp').controller('homeController', function (moment, $scope, $location, $http, $rootScope, sessionSocket) {
+angular.module('notablyApp').controller('homeController', function (moment, $scope, $location, $http, sessionSocket) {
 
     $scope.occupancy = {};
     $scope.loaded = false;

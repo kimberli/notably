@@ -1,4 +1,4 @@
-angular.module('notablyApp').controller('profileController', function ($scope, $routeParams, $http, $rootScope, $location) {
+angular.module('notablyApp').controller('profileController', function ($scope, $routeParams, $http, $location) {
 
     $scope.loaded = false;
 

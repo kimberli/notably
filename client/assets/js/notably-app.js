@@ -73,19 +73,6 @@ angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment','luegg.dire
         controller: 'navController'
     };
 })
-
-.run( function($rootScope, $location, $http) {
-    $rootScope.$on( '$routeChangeStart', function(event, next, current) {
-        $http.get('/api/user/auth', {})
-        .then(function (response) {
-            $rootScope.user = response.data.username;
-        }, function(response) {
-            if (next.templateUrl !== '/views/splash.html') {
-                $location.path('/');
-            }
-        });
-    });
-})
 .directive('checkRepeat', function() {
   return function(scope, element, attrs) {
     if (scope.$last){
