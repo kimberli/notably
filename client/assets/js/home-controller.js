@@ -1,4 +1,4 @@
-angular.module('notablyApp').controller('homeController', function (moment, $scope, $http, $rootScope, sessionSocket) {
+angular.module('notablyApp').controller('homeController', function (moment, $scope, $location, $http, $rootScope, sessionSocket) {
 
     $scope.occupancy = {};
     $scope.loaded = false;
@@ -9,6 +9,8 @@ angular.module('notablyApp').controller('homeController', function (moment, $sco
             $scope.user = response.data;
             $scope.loaded = true;
         });
+    }, function () {
+        $location.path('/');
     });
 
     sessionSocket.emit("joined home page", {"username" : $scope.username});
