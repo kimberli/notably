@@ -1,15 +1,13 @@
 @import "../lib/materialize/sass/components/color";
 
 // Materialize variable overriding
-$primary-color: color("blue", "accent-2") !default;
-$primary-color-accent: color("blue", "accent-2") !default;
-$primary-color-light: color("blue", "accent-1") !default;
+$primary-color: rgb(42,57,144) !default;
+$primary-color-light: rgb(54,73,183) !default;
 $primary-color-white: color("blue", "lighten-5") !default;
-$primary-color-dark: color("blue", "darken-4") !default;
-$secondary-color: color("orange", "accent-2") !default;
-$secondary-color-light: color("orange", "accent-1") !default;
-$secondary-color-white: color("orange", "lighten-5") !default;
-$secondary-color-dark: color("orange", "darken-2") !default;
+$primary-color-dark: rgb(42,57,144) !default;
+$secondary-color: rgb(210,51,105) !default;
+$secondary-color-light: rgb(240,98,146) !default;
+$secondary-color-dark: rgb(193,43,94) !default;
 $background-color: color("grey", "lighten-4") !default;
 
 $radio-fill-color: $secondary-color !default;
