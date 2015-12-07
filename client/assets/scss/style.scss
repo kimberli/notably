@@ -1,4 +1,4 @@
-@import "../lib/materialize/sass/components/color";
+@import "../../../node_modules/materialize-css/sass/components/color";
 
 // Materialize variable overriding
 $primary-color: rgb(42,57,144) !default;
@@ -15,7 +15,7 @@ $tabs-underline-color: $secondary-color !default;
 $tabs-text-color: $secondary-color !default;
 
 
-@import "../lib/materialize/sass/materialize";
+@import "../../../node_modules/materialize-css/sass/materialize";
 
 .page-container {
   min-height: 100vh;

@@ -26,6 +26,7 @@
     "cookie-session": "^2.0.0-alpha.1",
     "express": "^4.13.3",
     "helmet": "^0.15.0",
+    "materialize-css": "^0.97.3",
     "mongoose": "^4.2.7",
     "morgan": "^1.6.1",
     "serve-favicon": "^2.3.0",
