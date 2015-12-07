@@ -147,21 +147,36 @@
       </div>
     </div>
 
-    <div id="sticky-submit-spacer" ng-if="showNotes"></div>
-    <div id="sticky-submit-spacer-small" ng-if="!showNotes"></div>
+    <!-- a modal if a recent session was created  -->
+
+    <div id="keyboard-shortcut-modal" class="modal">
+       <div class="modal-content">
+         <h4>Keyboard Shortcuts</h4>
+         <b>Shift+/: </b> Show keyboard shortcuts<br>
+         <b>Cmd+Enter or Ctrl+Enter: </b> Submit snippet<br>
+         <b>Ctrl+E: </b> Toggle editor<br>
+         <b>Ctrl+P: </b> Toggle preview<br>
+       </div>
+       <div class="modal-footer">
+         <a class="modal-action modal-close waves-effect btn-flat blue-text">Got it!</a>
+       </div>
+     </div>
+
+    <div id="sticky-submit-spacer" ng-if="showEditor"></div>
+    <div id="sticky-submit-spacer-small" ng-if="!showEditor"></div>
 
     <div id="sticky-submit">
       <div class="card-panel" id="snippet-input-container">
         <div id="submit-header" class="center-align" >
-          <button class="snippet-button valign-wrapper expand-button-submit" ng-click="showNotes = !showNotes">
-            <div class="valign expand-button-submit-text"  ng-show="showNotes"> Hide editor </div> <i class="material-icons" ng-show="showNotes">expand_more</i>
-            <div class="valign expand-button-submit-text"  ng-show="!showNotes"> Show editor </div> <i class="material-icons"  ng-show="!showNotes">expand_less</i>
+          <button class="snippet-button valign-wrapper expand-button-submit" ng-click="showEditor = !showEditor">
+            <div class="valign expand-button-submit-text"  ng-show="showEditor"> Hide editor </div> <i class="material-icons" ng-show="showEditor">expand_more</i>
+            <div class="valign expand-button-submit-text"  ng-show="!showEditor"> Show editor </div> <i class="material-icons"  ng-show="!showEditor">expand_less</i>
           </button>
         </div>
-          <div class="card submit-area left-align" ng-class="{false: 'hide-submit'}[showNotes]">
+          <div class="card submit-area left-align" ng-class="{false: 'hide-submit'}[showEditor]">
             <textarea id="snippet-input-area" ng-model="snippetInput" ng-show="!preview" required> </textarea>
             <div ng-bind-html="previewText" id="snippet-preview" class="markdown-parsed" ng-if="preview"> </div>
-            <div id="submit-sidebar" ng-class="{true: 'show-sidebar', false: 'hide-sidebar'}[showNotes]">
+            <div id="submit-sidebar" ng-class="{true: 'show-sidebar', false: 'hide-sidebar'}[showEditor]">
               <button ng-click="togglePreview()" class="btn-floating light-blue accent-2" id="toggle-preview-button">
                   <i class="material-icons small" ng-if="preview">mode_edit</i>
                   <i class="material-icons small" ng-if="!preview">remove_red_eye</i>

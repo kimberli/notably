@@ -4,7 +4,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     $scope.sessionId = '';
     $scope.showOption = 'both';
     $scope.snippetInput = '';
-    $scope.showNotes = true;
+    $scope.showEditor = true;
     $scope.showFlags = true;
     $scope.currentUser = $rootScope.user;
 
@@ -351,7 +351,7 @@ openPage = function() {
     hotkeys.add({
         combo: 'ctrl+e',
         callback: function() {
-            $scope.showNotes = !$scope.showNotes;
+            $scope.showEditor = !$scope.showEditor;
         },
         allowIn : ['textarea']
     });
@@ -368,6 +368,12 @@ openPage = function() {
             $scope.addSnippet();
         },
         allowIn : ['textarea']
+    });
+    hotkeys.add({
+        combo: 'shift+/',
+        callback: function() {
+            $('#keyboard-shortcut-modal').openModal();
+        }
     });
 
 } // end
