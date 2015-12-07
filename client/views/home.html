@@ -19,7 +19,7 @@
             <div class="card-content">
               <span class="card-title">Your courses</span>
               <div class="spacer"></div>
-              <em ng-if="user.courses.length === 0">You have not subscribed to any courses!</em>
+              <em ng-if="user.courses.length === 0">No courses yet! Find courses in the search bar above.</em>
               <div ng-if="user.courses.length !== 0" class="collection">
                 <a ng-repeat="course in user.courses" href="/course/{{ course.number }}" class="collection-item">{{ course.number }} - {{ course.name }}</a>
               </div>
@@ -32,7 +32,7 @@
             <div class="card-content">
               <span class="card-title">Your recent sessions</span>
               <div class="spacer"></div>
-              <em ng-if="user.recentSessions.length === 0">You do not have any sessions!</em>
+              <em ng-if="user.recentSessions.length === 0">You haven't visited any sessions recently!</em>
                <div ng-if="user.recentSessions.length !== 0" class="collection">
                 <a ng-repeat="session in user.recentSessions | orderBy: 'index'" href="/session/{{ session._id }}" class="collection-item">{{ session.meta.number }}: {{ session.meta.title }}
                 <span class="badge" id="badge-{{session._id}}">{{session.createdAt | amCalendar}} ({{ occupancy[session._id] || 0 }} active)</span></a>

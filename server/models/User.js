@@ -100,8 +100,9 @@ userSchema.statics.verifyPassword = function(rawUsername, candidatepw, callback)
  * @param email {string} - email
  * @param callback {function} - function to be called with err and result
  */
-userSchema.statics.createNewUser = function(rawUsername, password, name, email, callback) {
+userSchema.statics.createNewUser = function(rawUsername, password, name, rawEmail, callback) {
     var username = rawUsername.toLowerCase();
+    var email = rawEmail.toLowerCase();
     if (username.match('^[a-z0-9_-]{3,16}$')) {
         if(typeof password === 'string') {
             if (password.length >= 6) {
