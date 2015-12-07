@@ -1,4 +1,4 @@
-angular.module('notablyApp').controller('navController', function ($scope, $http, $rootScope, $location, $window) {
+angular.module('notablyApp').controller('navController', function (moment, $scope, $http, $rootScope, $location, $window) {
 
     $http.get('/api/user/auth', {})
     .then(function(response) {
@@ -31,5 +31,17 @@ angular.module('notablyApp').controller('navController', function ($scope, $http
         $scope.courses = $rootScope.courses;
         $(".button-collapse").sideNav();
     }
+
+    //configure moment calendar settings
+    moment.locale('en', {
+        calendar : {
+            lastDay : 'ddd',
+            sameDay : '[Today]',
+            nextDay : '[Tomorrow]',
+            lastWeek : 'ddd',
+            nextWeek : '[Next] ddd',
+            sameElse : 'M/D/YY'
+        }
+    });
 
 });

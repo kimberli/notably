@@ -90,16 +90,4 @@ angular.module('notablyApp').controller('courseController', function (moment, $s
 
         $scope.loaded = true;
     }
-
-    //configure moment calendar settings
-    moment.locale('en', {
-        calendar : {
-            lastDay : '[Yesterday]',
-            sameDay : '[Today]',
-            nextDay : '[Tomorrow]',
-            lastWeek : 'ddd',
-            nextWeek : '[Next] ddd',
-            sameElse : 'M/D/YYYY'
-        }
-    });
 });

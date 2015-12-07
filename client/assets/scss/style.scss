@@ -129,6 +129,18 @@ p {
 
 .collection-item {
   color: $primary-color-dark;
+  .row, .col {
+    padding: 0;
+  }
+  .session-info {
+    text-align: right;
+    color: color("grey", "base");
+  }
+  i {
+    font-size: 18px;
+    position: relative;
+    top: 4px;
+  }
 }
 
 .collection-item:hover {

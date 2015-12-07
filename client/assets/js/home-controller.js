@@ -21,16 +21,6 @@ angular.module('notablyApp').controller('homeController', function (moment, $sco
         $scope.occupancy = data.occupancy;
     });
 
-    //configure moment calendar settings
-    moment.locale('en', {
-        calendar : {
-            lastDay : 'ddd',
-            sameDay : '[Today]',
-            nextDay : '[Tomorrow]',
-            lastWeek : 'ddd',
-            nextWeek : '[Next] ddd',
-            sameElse : 'M/D/YY'
-        }
-    });
+
 
 });

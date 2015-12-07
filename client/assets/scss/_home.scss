@@ -2,19 +2,4 @@
   .card-main {
     color: $secondary-color;
   }
-
-  .collection-item {
-    .row, .col {
-      padding: 0;
-    }
-    .session-info {
-      text-align: right;
-      color: color("grey", "base");
-    }
-    i {
-      font-size: 18px;
-      position: relative;
-      top: 4px;
-    }
-  }
 }
