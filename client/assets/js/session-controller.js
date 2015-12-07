@@ -404,6 +404,12 @@ openPage = function() {
             $scope.toggleShortcutModal();
         }
     });
+    hotkeys.add({
+        combo: 'command+/',
+        callback: function() {
+            $scope.toggleShortcutModal();
+        }
+    });
 
     $scope.loaded = true;
 
