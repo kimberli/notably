@@ -17,16 +17,33 @@ io.sockets.on('connection', function(socket){
         return sessionData;
     }
 
+    // update the number of sockets in a given session
+    var updateSessionOccupancy = function(sessionId, callback) {
+        for (var room in io.sockets.adapter.rooms) {
+            if (room.indexOf("session-" + sessionId) === 0) {  // check if it's a session and find the number of sockets in it
+                var occupancy = Object.keys(io.sockets.adapter.rooms[room]).length;
+                Session.setOccupancy(sessionId, occupancy, function(err, result) {
+                    if (err) callback(err);
+                    else callback(null, result);
+                })
+            }
+        }
+    }
+
     // fired when a user joins a session, update occupancy for everyone (it doesnt hurt!)
     socket.on("joined session", function(data) {
         socket.join("session-" + data.sessionId); // join a room named after this session
-        io.emit('session data loaded', {"occupancy" : loadSessionOccupancy()});
+        updateSessionOccupancy(data.sessionId, function(err, result) {
+            io.emit('session data loaded', {"occupancy" : loadSessionOccupancy()});
+        })
     });
 
     // fired when a user leaves a session, update occupancy for everyone (it doesnt hurt!)
     socket.on("left session", function(data) {
         socket.leave("session-" + data.sessionId); // join a room named after this session
-        io.emit('session data loaded', {"occupancy" : loadSessionOccupancy()});
+        updateSessionOccupancy(data.sessionId, function(err, result) {
+            io.emit('session data loaded', {"occupancy" : loadSessionOccupancy()});
+        })
     });
 
     // fired when a snippet is saved

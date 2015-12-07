@@ -8,6 +8,7 @@ var sessionSchema = mongoose.Schema({
     title: String,
     createdAt: Date,
     createdBy: String,
+    occupancy: Number,
     stashes: [{type: mongoose.Schema.Types.ObjectId, ref:'Stash'}],
     feed: [{type: mongoose.Schema.Types.ObjectId, ref:'Snippet'}]
 });
@@ -41,6 +42,7 @@ sessionSchema.statics.create = function(number, title, rawUsername, callback) {
         title: title,
         createdBy: username,
         createdAt: Date.now(),
+        occupancy: 0,
         stashes: [],
         feed: []
     });
@@ -65,6 +67,7 @@ sessionSchema.statics.findSession = function(sessionId, callback) {
                         else callback(null, {
                             _id: session._id,
                             createdAt: session.createdAt,
+                            occupancy: session.occupancy,
                             meta: {
                                 title: session.title,
                                 number: session.number
@@ -96,6 +99,8 @@ sessionSchema.statics.getSessionsByUser = function(rawUsername, callback) {
                             return {
                                 _id: session._id,
                                 index: user.recentSessions.indexOf(session._id),
+                                occupancy: session.occupancy,
+                                createdAt: session.createdAt,
                                 meta: {
                                     title: session.title,
                                     number: session.number
@@ -192,6 +197,25 @@ sessionSchema.statics.addSnippet = function(sessionId, currentUser, text, callba
     });
 }
 
+/**
+ * Set session occupancy
+ *
+ * @param sessionId {string} - session id
+ * @param occupancy {number} - number of occupants
+ * @param callback {function} - function to be called with err and result
+ */
+sessionSchema.statics.setOccupancy = function(sessionId, occupancy, callback) {
+    getSession(sessionId, function(err, session) {
+        if (err) callback(err);
+        else {
+            if (typeof occupancy !== 'number') callback('Invalid occupancy');
+            else {
+                session.occupancy = occupancy;
+                session.save(callback);
+            }
+        }
+    });
+}
 var Session = mongoose.model('Session', sessionSchema);
 
 module.exports = Session;

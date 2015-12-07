@@ -573,7 +573,6 @@ describe('Session', function() {
             User.addRecentSession('kim', sessionId1, function(err, result) {
                 User.addRecentSession('kim', sessionId2, function(err, result) {
                     Session.getSessionsByUser('kim', function(err, result) {
-                        console.log(result);
                         assert.equal(err, null);
                         assert.equal(result.recentSessions.length, 2);
                         assert.equal(result.recentSessions.filter(function(item) {
@@ -669,6 +668,28 @@ describe('Session', function() {
                         assert.equal(result.stats.numSubmitted, 2);
                         done();
                     });
+                });
+            });
+        });
+    });
+
+    //test setOccupancy
+    describe('#setOccupancy', function () {
+        // test setting invalid occupancy
+        it('should return error when invalid occupancy', function (done) {
+            Session.setOccupancy(sessionId1, 'hi', function(err, result) {
+                assert.notEqual(err, null);
+                done();
+            });
+        });
+        // test setting valid occupancy
+        it('should not return error when valid occupancy', function (done) {
+            Session.setOccupancy(sessionId1, 2, function(err, result) {
+                assert.equal(err, null);
+                assert.equal(result.occupancy, 2);
+                Session.findSession(sessionId1, function(err, result) {
+                    assert.equal(result.occupancy, 2);
+                    done();
                 });
             });
         });
