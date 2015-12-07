@@ -1,9 +1,6 @@
 angular.module('notablyApp').controller('navController', function (moment, $scope, $http, $rootScope, $location, $window) {
 
-    $http.get('/api/user/auth', {})
-    .then(function(response) {
-        $scope.navuser = response.data.username;
-    });
+    $scope.navuser = $rootScope.user;
 
     $scope.logout = function () {
         $http.post('/api/user/logout', {})
