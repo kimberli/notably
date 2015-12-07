@@ -2,7 +2,7 @@ angular.module('notablyApp').controller('homeController', function (moment, $sco
 
     $scope.occupancy = {};
     $scope.loaded = false;
-    $http.get('/api/user/auth', {})
+    $http.get('/api/user/auth')
     .then(function (response) {
         $scope.username = response.data.username;
         $http.get('/api/user?username=' + $scope.username).then(function (response) {
