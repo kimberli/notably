@@ -82,6 +82,11 @@ openPage = function() {
 
     // showdown.js markdown parser
     var converter = new showdown.Converter();
+    converter.setOption("headerLevelStart", 3);
+    converter.setOption("simplifiedAutoLink", true);
+    converter.setOption("literalMidWordUnderscores", true);
+    converter.setOption("strikethrough", true);
+    converter.setOption("tables", true);
 
     $scope.addSnippet = function() {
     // check if input is blank
