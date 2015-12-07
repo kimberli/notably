@@ -8,9 +8,7 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
     $scope.showFlags = true;
     $scope.shortcutModalEnabled = true;
     $scope.currentUser = $rootScope.user;
-
-    // initialize Materialize tooltips
-    $('.tooltipped').tooltip({delay: 50});
+    $scope.loaded = false;
 
     // retrieve data, set scope variables
     $scope.$on('$routeChangeSuccess', function() {
@@ -73,7 +71,6 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
 
 
 openPage = function() {
-    $('ul.tabs').tabs();
     // $('.dropdown-button').dropdown();
 
     // let the server know you've joined to update view counts, join the room
@@ -410,6 +407,16 @@ openPage = function() {
             }
         }
     });
+
+    $scope.loaded = true;
+
+
+    angular.element(document).ready(function () {
+        $('ul.tabs').tabs();
+        // initialize Materialize tooltips
+        $('.tooltipped').tooltip({delay: 50});
+    });
+
 
 } // end
 
