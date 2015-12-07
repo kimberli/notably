@@ -38,7 +38,6 @@ angular.module('notablyApp').controller('sessionController', function ($scope, $
                 }
                 else {
                     $scope.session.feed.forEach(function(snippet, index) {
-
                         $scope.alreadySaved[snippet._id] = snippet.savedBy.indexOf($rootScope.user) > -1 ? true : false;
                         $scope.alreadyFlagged[snippet._id] = snippet.flaggedBy.indexOf($rootScope.user) > -1 ? true : false;
 
