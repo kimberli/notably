@@ -176,14 +176,14 @@
 
     <!-- a modal if a recent session was created  -->
 
-    <div id="keyboard-shortcut-modal" class="modal">
+    <div id="keyboard-shortcut-modal" class="modal modal-fixed-footer">
       <div class="modal-content">
         <h5>Keyboard Shortcuts</h5>
         <b>Shift+/: </b> Show keyboard shortcuts<br>
         <b>Cmd+Enter or Ctrl+Enter: </b> Submit snippet<br>
         <b>Ctrl+E: </b> Toggle editor<br>
         <b>Ctrl+P: </b> Toggle preview<br><br>
-        <h5>Markdown Cheatsheet</h5>
+        <h5>Syntax Cheatsheet</h5>
         <table class="striped markdown-parsed">
           <tr>
             <td><b>Header 1</b></td><td><code># header</code></td><td><h5>header</h5></td>
@@ -208,6 +208,15 @@
           </tr>
           <tr>
             <td><b>Image</b></td><td><code>!(alt text)[dog.jpg]</code></td><td><img class="demo-img" src="/assets/img/dog.jpg"></td></td>
+          </tr>
+          <tr>
+            <td><b>Code</b></td><td><pre>`var x`</pre></td><td><code>var x</code></td>
+          </tr>
+          <tr>
+            <td><b>Code Block</b></td><td><pre>```def func():<br>  print "hi"<br>```</pre></td><td><pre>def func():<br>  print "hi"</pre></td>
+          </tr>
+          <tr>
+            <td><b>Latex</b></td><td><code>$\int_a^b ln(x)dx = \frac{1}{x} + c$</code></td><td>$\int_a^b ln(x)dx = \frac{1}{x} + c$</td>
           </tr>
         </table>
       </div>
