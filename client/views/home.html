@@ -10,11 +10,9 @@
             <div class="card-content">
               <span class="card-title card-main">Welcome, {{ user.name }}!</span>
               <div class="spacer"></div>
-              Snippets submitted: {{ user.stats.numSubmitted }}
-              <br>
-              Snippets saved: {{ user.stats.numSaved }}
-              <br>
-              Subscribed classes: {{ user.stats.numSubscribed }}
+              <p>Snippets submitted: {{ user.stats.numSubmitted }}</p>
+              <p>Snippets saved: {{ user.stats.numSaved }}</p>
+              <p>Subscribed classes: {{ user.stats.numSubscribed }}</p>
             </div>
           </div>
           <div class="card card-primary">
