@@ -35,7 +35,7 @@
               <em ng-if="user.recentSessions.length === 0">You do not have any sessions!</em>
                <div ng-if="user.recentSessions.length !== 0" class="collection">
                 <a ng-repeat="session in user.recentSessions | orderBy: 'index'" href="/session/{{ session._id }}" class="collection-item">{{ session.meta.number }}: {{ session.meta.title }}
-                <span class="badge" id="badge-{{session._id}}">{{session.createdAt | amCalendar}} ({{ session.occupancy }} active)</span></a>
+                <span class="badge" id="badge-{{session._id}}">{{session.createdAt | amCalendar}} ({{ occupancy[session._id] || 0 }} active)</span></a>
                 </a>
               </div>
              </div>

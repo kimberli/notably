@@ -76,13 +76,13 @@ openPage = function() {
     $('ul.tabs').tabs();
     // $('.dropdown-button').dropdown();
 
-  // let the server know you've joined to update view counts, join the room
+    // let the server know you've joined to update view counts, join the room
     sessionSocket.emit("joined session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
 
     $scope.$on('$locationChangeStart', function () {
-    // remove tooltips (weird for print view)
+        // remove tooltips (weird for print view)
         $('.tooltipped').tooltip('remove');
-    // leave session room on location start (socket disconnect on leave page is handled separately)
+        // leave session room on location start (socket disconnect on leave page is handled separately)
         sessionSocket.emit("left session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
     });
 
