@@ -84,6 +84,17 @@ io.sockets.on('connection', function(socket){
         socket.leave("course-" + data.courseNumber); // join a room named after this session
     });
 
+    // fired when a user joins the course page, update occupancy
+    socket.on("joined home page", function(data) {
+        socket.join("home-" + data.username); // join a room named after this session
+        io.to("home-" + data.username).emit('session data loaded', {"occupancy" : loadSessionOccupancy()});
+    });
+
+    // fired when a user leaves the course page
+    socket.on("left gome page", function(data) {
+        socket.leave("home-" + data.username); // join a room named after this session
+    });
+
     // fired when a user creates a new session, only update for that course
     socket.on("new session", function(data) {
         io.to("course-" + data.courseNumber).emit('new session', {"session" : data.session});
