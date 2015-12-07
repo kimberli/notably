@@ -34,9 +34,13 @@
     }
   }
 
+  #auth-buttons {
+    margin-top: 10vh;
+    margin-bottom: 20px;
+  }
+
   #auth-container {
     position: relative;
-    margin-top: 15vh;
 
     .horizontal-spacer {
       display: inline-block;
@@ -51,7 +55,7 @@
     }
     #authform {
       margin-top: 50px;
-      width: 50vw;
+      width: 100%;
       background-color: white;
       color: $primary-color-dark;
 

@@ -64,39 +64,14 @@ Viewing other users' stashes is a privacy concern, and we don't want students to
 ## Instructions
 
 All commands should be run in the root folder.
-
-To install:
-* `sudo npm install`
-
-To run:
-* `npm run db` in one terminal window (or `mongod`)
-* `npm run start` in another terminal window  (or `node bin/www`)
-
-For dev:
-* `npm run db` in one terminal window (or `mongod`)
-* `npm run gulp` in another terminal window (or `gulp`)
-* `npm run dev` in another terminal window (or `nodemon bin/www`)
-
-To test:
-* `npm run db` in one terminal window (or `mongod`)
-* `npm run test` in another terminal window (or `mocha`)
-
-To update table of contents:
-* `gulp readme` (or `doctoc README.md`)
-
-To add data to database:
-* `npm run db` in one terminal window (or `mongod`)
-* `npm run setup` in another terminal window (or `node bin/setup`)
-
-To run mongo shell:
-* `mongo notably`
-* `db.courses.find()`
-
-To run Heroku shell:
-* `heroku run bash`
-
-To test API routes:
-* Use [Postman](https://www.getpostman.com/)
+* To run server: `node bin/www`
+* To run everything (dev mode): `npm run dev` (or `gulp`)
+* To populate database: `npm run setup`
+* To update packages: `npm run update`
+* To test: `npm test`
+* To run mongo shell: `mongo notably` then e.g. `db.courses.find()`
+* To run Heroku shell: `heroku run bash`
+* To test API routes: use [Postman](https://www.getpostman.com/)
 
 
 ## API

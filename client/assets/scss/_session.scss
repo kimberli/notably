@@ -21,6 +21,7 @@
   }
 
   .demo-img {
+    width: 100%;
     max-width: 200px;
   }
 
@@ -56,6 +57,10 @@
       background-color: $primary-color-light;
       margin:10px;
 
+      .card-title {
+        color: white;
+      }
+
       .card-panel-header {
         .card-panel-header-button {
           border: none;
@@ -74,16 +79,11 @@
         }
 
       }
-    }
-
-    #stash-view, #feed-view {
-      margin: 0 -12px;
-      padding: 0 12px;
-      height: 80vh;
-      overflow: auto;
-
+      .card-content {
+        padding: 10px;
+      }
       .snippet-card {
-        margin: 15px auto;
+        margin: 10px auto;
         overflow-y: hidden;
 
         .you-posted {
@@ -91,32 +91,49 @@
         }
 
         &.expanded-snippet {
-          //max-height: 1000px
           max-height: none;
-          // -webkit-transition: linear 1.0s;
-          // transition: linear 1.0s;
         }
 
         &.collapsed-snippet {
           max-height: 250px;
-          // -webkit-transition: linear 1.0s;
-          // transition: linear 1.0s;
         }
+        .snippet-header {
+          overflow: hidden;
+        }
+        .snippet-right-buttons {
+          position: relative;
+          float: right;
 
-        .snippet-button {
-          border: none;
-          background: none;
-          color: grey;
-          font-size: 75%;
-        }
-
-        .save-button-active, .save-button-animate  {
-          color: color("amber", "lighten-2");
-        }
-        .flag-button-active, .flag-button-animate {
-          color: color("red", "accent-2");
+          .snippet-button {
+            border: none;
+            background: none;
+            color: grey;
+            font-size: 75%;
+            padding: 0 2px;
+          }
+          .save-button,
+          .flag-button {
+            i {
+              position: relative;
+              top: 2px;
+              font-size: 18px;
+            }
+          }
+          .save-button-active, .save-button-animate  {
+            color: color("amber", "lighten-2");
+          }
+          .flag-button-active, .flag-button-animate {
+            color: color("red", "accent-2");
+          }
         }
       }
+    }
+
+    #stash-view, #feed-view {
+      margin: 0 -12px;
+      padding: 0 12px;
+      height: 80vh;
+      overflow: auto;
     }
   }
 
@@ -139,8 +156,8 @@
       padding: 5px 10px;
     }
 
-    #toggle-preview-button {
-      margin-bottom: 5px;
+    .btn-floating {
+      margin-top: 5px;
     }
 
     #submit-header {

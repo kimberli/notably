@@ -1,4 +1,4 @@
-angular.module('notablyApp').controller('splashController', function ($scope, $http, $rootScope, $location) {
+angular.module('notablyApp').controller('splashController', function ($scope, $http, $location) {
 
     $scope.focusLogin = true;
 
@@ -12,7 +12,6 @@ angular.module('notablyApp').controller('splashController', function ($scope, $h
 
     $http.get('/api/user/auth', {})
     .then(function (response) {
-        $rootScope.user = response.data.username;
         $location.path('/home');
     });
 
@@ -41,7 +40,6 @@ angular.module('notablyApp').controller('splashController', function ($scope, $h
                 'username': $scope.username,
                 'password': $scope.password
             }).then(function (response) {
-                $rootScope.user = response.data.username;
                 $location.path('/home');
             }, function(response) {
                 $scope.error = response.data.error;
@@ -53,7 +51,6 @@ angular.module('notablyApp').controller('splashController', function ($scope, $h
                 'email': $scope.email,
                 'name': $scope.name
             }).then(function (response) {
-                $rootScope.user = response.data.username;
                 $location.path('/home');
             }, function(response) {
                 $scope.error = response.data.error;

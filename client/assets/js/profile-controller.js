@@ -1,4 +1,4 @@
-angular.module('notablyApp').controller('profileController', function ($scope, $routeParams, $http, $rootScope) {
+angular.module('notablyApp').controller('profileController', function ($scope, $routeParams, $http, $location) {
 
     $scope.loaded = false;
 
@@ -6,6 +6,8 @@ angular.module('notablyApp').controller('profileController', function ($scope, $
         $http.get('/api/user?username=' + $routeParams.username).then(function (response) {
             $scope.user = response.data;
             $scope.loaded = true;
+        }, function(response) {
+            $location.path('/home')
         });
     });
 

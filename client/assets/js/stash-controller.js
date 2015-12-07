@@ -1,4 +1,4 @@
-angular.module('notablyApp').controller('stashController', function ($scope, $http, $rootScope, $location, $routeParams) {
+angular.module('notablyApp').controller('stashController', function ($scope, $http, $location, $routeParams) {
     $scope.stashId = "";
     $('.tooltipped').tooltip({delay: 50});
     // use highlight js to highlight code blocks, render mathjax
@@ -23,6 +23,8 @@ angular.module('notablyApp').controller('stashController', function ($scope, $ht
             } else {
                 $scope.error = true;
             }
-        }, function() {$scope.error = true;});
+        }, function(response) {
+            $location.path('/home')
+        });
     });
 });

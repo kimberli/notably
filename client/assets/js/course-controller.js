@@ -1,24 +1,31 @@
-angular.module('notablyApp').controller('courseController', function (moment, $scope, $http, $routeParams, sessionSocket, $rootScope, $location) {
+angular.module('notablyApp').controller('courseController', function (moment, $scope, $http, $routeParams, sessionSocket, $location) {
 
-    $scope.currentUser = $rootScope.user;
     $scope.loaded = false;
 
     $scope.$on('$routeChangeSuccess', function() {
-        $http.get('/api/course?number=' + $routeParams.courseNumber).then(function (response) {
-            $scope.course = response.data;
-            $http.get('/api/user?username=' + $scope.currentUser).then(function (response) {
-                $scope.user = response.data;
-                $scope.subscribed = false;
-                if ($scope.user.courses.length !== 0) {
-                    for (var i = 0; i < $scope.user.courses.length; i++) {
-                        if ($scope.user.courses[i].number === $scope.course.meta.number) {
-                            $scope.subscribed = true;
+        $http.get('/api/user/auth').then(function(response) {
+            $scope.currentUser = response.data.username;
+            $http.get('/api/course?number=' + $routeParams.courseNumber).then(function (response) {
+                $scope.course = response.data;
+                $http.get('/api/user?username=' + $scope.currentUser).then(function (response) {
+                    $scope.user = response.data;
+                    $scope.subscribed = false;
+                    if ($scope.user.courses.length !== 0) {
+                        for (var i = 0; i < $scope.user.courses.length; i++) {
+                            if ($scope.user.courses[i].number === $scope.course.meta.number) {
+                                $scope.subscribed = true;
+                            }
                         }
                     }
-                }
-                $scope.loadPage();
+                    $scope.loadPage();
+                });
+            }, function() {
+                $location.path('/home');
             });
+        }, function() {
+            $location.path('/');
         });
+
     });
 
     $scope.loadPage = function() {
