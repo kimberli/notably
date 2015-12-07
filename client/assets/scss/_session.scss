@@ -1,22 +1,8 @@
 #session-container {
-  #stash-search {
-    width: 200px;
 
-    .angucomplete-dropdown {
-      overflow-y: auto;
-      max-height: 200px;
-      z-index: 10000;
-      width: 200px;
-      position: absolute;
-    }
-
-    .angucomplete-row {
-      line-height: 20px;
-    }
-
-    .angucomplete-selected-row {
-      background-color: $secondary-color;
-    }
+  .tabs {
+    background: none;
+    color: $secondary-color;
   }
 
   .thin-text {

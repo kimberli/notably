@@ -21,6 +21,9 @@ Splash Page:
     Register with username that contains invalid characters:
       Received error message: "Invalid username (must be between 3 and 16 characters and consist of letters, numbers, underscores, and hyphens)"
 
+    Register with empty password:
+      Received error message: "Invalid password"
+
     Register with non-MIT email:
       Received error message: "Must have MIT email address"
     Register with MIT email that is already used:
