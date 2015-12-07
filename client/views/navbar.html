@@ -1,6 +1,8 @@
 <nav ng-hide="splash">
   <div class="nav-wrapper">
-    <div angucomplete-alt id="course-search" class="right"
+    <a href="/home" id="nav-brand-logo" class="hide-on-small-and-down">Notably</a>
+    <a href="/home" id="nav-brand-logo" class="hide-on-med-and-up">N</a>
+    <div angucomplete-alt id="course-search"
       placeholder="Search courses"
       pause="100"
       selected-object="selectedCourse"
@@ -12,9 +14,13 @@
       match-class="highlight"
       clear-selected="true">
     </div>
-    <!-- <div class="brand-logo">Notably</div> -->
-    <ul id="nav-mobile" class=" hide-on-small-and-down">
-      <li><a href="/home" id="nav-brand-logo">Notably</a></li>
+    <a href="#" data-activates="mobile-nav" class="button-collapse"><i class="material-icons">menu</i></a>
+    <ul class="right hide-on-med-and-down">
+      <li><a href="/profile/{{navuser}}">{{navuser}}</a></li>
+      <li><a href="" ng-click="logout()">Log out</a></li>
+    </ul>
+    <ul class="side-nav" id="mobile-nav">
+      <li><a href="/profile/{{navuser}}">{{navuser}}</a></li>
       <li><a href="" ng-click="logout()">Log out</a></li>
     </ul>
   </div>

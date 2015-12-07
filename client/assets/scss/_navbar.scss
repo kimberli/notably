@@ -8,12 +8,16 @@ nav {
       font-family: 'Pacifico', cursive;
       text-shadow: 2px 2px 5px #333;
       font-size: 200%;
+      margin-left: 20px;
     }
 
     #course-search {
       width: 400px;
+      max-width: 60%;
       display: inline-block;
       margin: 0 20px;
+      position: relative;
+      top: -10px;
     }
 
     .angucomplete-dropdown {
