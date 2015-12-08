@@ -396,8 +396,8 @@ openPage = function() {
             if (file) {
                 var reader = new FileReader();
 
-                reader.onload = function(readerEvt) {
-                    var binaryString = readerEvt.target.result;
+                reader.onload = function(event) {
+                    var binaryString = event.target.result;
                     Materialize.toast('Trying to upload image...', 2000);
                     uploadImage(btoa(binaryString));
                 };
