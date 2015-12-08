@@ -243,6 +243,11 @@
                 <i class="material-icons small">help</i>
               </button>
               <br/>
+              <button class="file-field input-field btn-floating orange" id="file-upload-button">
+                <i class="material-icons small">camera_alt</i>
+                <input type="file" accept="image/x-png, image/gif, image/jpeg" id="file-upload">
+              </button>
+              <br/>
               <button ng-click="togglePreview()" class="btn-floating light-blue accent-2">
                 <i class="material-icons small" ng-if="preview">mode_edit</i>
                 <i class="material-icons small" ng-if="!preview">remove_red_eye</i>
