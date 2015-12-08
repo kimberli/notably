@@ -371,6 +371,79 @@ openPage = function() {
         }
     }
 
+
+    // the following code is related to copy pasting images in the editor
+    //  jquery function to get cursor position
+    (function ($, undefined) {
+        $.fn.getCursorPosition = function () {
+            var el = $(this).get(0);
+            var pos = 0;
+            if ('selectionStart' in el) {
+                pos = el.selectionStart;
+            } else if ('selection' in document) {
+                el.focus();
+                var Sel = document.selection.createRange();
+                var SelLength = document.selection.createRange().text.length;
+                Sel.moveStart('character', -el.value.length);
+                pos = Sel.text.length - SelLength;
+            }
+            return pos;
+        }
+    })(jQuery);
+
+    // a listener for copy pasting images in the editor
+    //your APIv3 client id
+    var clientId = "b1a95037de715e6";
+
+    document.getElementById("snippet-input-area").onpaste = function(event){
+      var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+      for (index in items) {
+        var item = items[index];
+        if (item.kind === 'file') {
+          var blob = item.getAsFile();
+          var reader = new FileReader();
+          reader.onload = function(event){
+            Materialize.toast('Trying to upload image...', 2000);
+            uploadImage(event.target.result);
+          }; // data url!
+          reader.readAsDataURL(blob);
+        }
+      }
+    }
+
+    uploadImage = function(URL) {
+
+        $.ajax({
+            url: "https://api.imgur.com/3/upload",
+            type: "POST",
+            dataType: "json",
+            data: {
+             		type: 'base64',
+              		image: URL.substr(URL.indexOf(',')+1),
+              		title: 'Upload by Notably'
+            },
+            success: callback,
+            error: callback,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Client-ID " + clientId);
+            }
+        });
+
+        function callback(data) {
+            if(data.success == true) {
+                var imageMarkdown = "![alt text](" + data.data.link + ")";
+                var position = $("#snippet-input-area").getCursorPosition()
+                var content = $('#snippet-input-area').val();
+                var newContent = content.substr(0, position) + imageMarkdown + content.substr(position);
+                $('#snippet-input-area').val(newContent);
+                $scope.snippetInput = newContent;
+              	Materialize.toast('Image uploaded!', 2000);
+            } else {
+                Materialize.toast('Sorry, there was an error uploading your image.', 2000);
+            }
+        }
+    }
+
     // using angular hotkeys to add functionality
     hotkeys.add({
         combo: 'ctrl+p',
@@ -412,6 +485,8 @@ openPage = function() {
             $scope.toggleShortcutModal();
         }
     });
+
+
 
     $scope.loaded = true;
 
