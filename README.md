@@ -26,6 +26,7 @@ URL: [mitnotably.herokuapp.com](http://mitnotably.herokuapp.com)
   - [`/api/course` - GET](#apicourse---get)
   - [`/api/session` - GET](#apisession---get)
   - [`/api/session/create` - POST](#apisessioncreate---post)
+  - [`/api/session/image` - POST](#apisessionimage---post)
   - [`/api/session/visit` - POST](#apisessionvisit---post)
   - [`/api/stash` - GET](#apistash---get)
   - [`/api/stash/save` - POST](#apistashsave---post)
@@ -71,6 +72,7 @@ All commands should be run in the root folder.
 * To test: `npm test`
 * To run mongo shell: `mongo notably` then e.g. `db.courses.find()`
 * To run Heroku shell: `heroku run bash`
+* To enable Imgur posting: get an API key at `api.imgur.com` and `export IMGUR_API_KEY='API KEY'`
 * To test API routes: use [Postman](https://www.getpostman.com/)
 
 
@@ -376,6 +378,26 @@ The snippet object looks like this:
   "number": (string - course number),
   "title": (string - session title),
   "createdAt": (string - timestamp of creation time)
+}
+```
+
+### `/api/session/image` - POST
+* Uploads an image to Imgur and returns the link
+* Must be authenticated
+
+**params**
+
+```javascript
+{
+  "imageData": (string - base64 image data),
+}
+```
+
+**content**
+
+```javascript
+{
+  "link": (string - Imgur link to the uploaded image),
 }
 ```
 
