@@ -395,13 +395,12 @@ openPage = function() {
             var file = document.getElementById("file-upload").files[0];
             if (file) {
                 var reader = new FileReader();
-
                 reader.onload = function(event) {
                     var binaryString = event.target.result;
                     Materialize.toast('Trying to upload image...', 2000);
                     uploadImage(btoa(binaryString));
+                    document.getElementById("file-upload").value = null;
                 };
-
                 reader.readAsBinaryString(file);
             } else {
                 Materialize.toast('Sorry, there was an error uploading your image.', 2000);
@@ -412,7 +411,6 @@ openPage = function() {
 
     // a listener for copy pasting images in the editor
     //your APIv3 client id
-    var clientId = "b1a95037de715e6";
 
     document.getElementById("snippet-input-area").onpaste = function(event){
       var items = (event.clipboardData || event.originalEvent.clipboardData).items;
@@ -430,37 +428,20 @@ openPage = function() {
       }
     }
 
-    uploadImage = function(URL) {
-
-        $.ajax({
-            url: "https://api.imgur.com/3/upload",
-            type: "POST",
-            dataType: "json",
-            data: {
-             		type: 'base64',
-              		image: URL.substr(URL.indexOf(',')+1),
-              		title: 'Upload by Notably'
-            },
-            success: callback,
-            error: callback,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Client-ID " + clientId);
-            }
+    uploadImage = function(data) {
+        $http.post('/api/session/image', {
+            'imageData': data.substr(data.indexOf(',')+1)
+        }).then(function (response) {
+            var imageMarkdown = "![alt text](" + response.data.link + ")";
+            var position = getCursorPosition();
+            var content = $('#snippet-input-area').val();
+            var newContent = content.substr(0, position) + imageMarkdown + content.substr(position);
+            $('#snippet-input-area').val(newContent);
+            $scope.snippetInput = newContent;
+            Materialize.toast('Image uploaded!', 2000);
+        }, function(response) {
+            Materialize.toast(response.data.error, 2000);
         });
-
-        function callback(data) {
-            if(data.success == true) {
-                var imageMarkdown = "![alt text](" + data.data.link + ")";
-                var position = getCursorPosition();
-                var content = $('#snippet-input-area').val();
-                var newContent = content.substr(0, position) + imageMarkdown + content.substr(position);
-                $('#snippet-input-area').val(newContent);
-                $scope.snippetInput = newContent;
-              	Materialize.toast('Image uploaded!', 2000);
-            } else {
-                Materialize.toast('Sorry, there was an error uploading your image.', 2000);
-            }
-        }
     }
 
     // using angular hotkeys to add functionality

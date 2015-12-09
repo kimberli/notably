@@ -1,6 +1,7 @@
 // PACKAGES //
 router = require('express').Router();
 path = require('path');
+request = require('request');
 utils = require('../utils');
 Session = require('../models/Session');
 User = require('../models/User');
@@ -74,5 +75,30 @@ router.post('/create', function(req, res) {
         });
     } else utils.sendErrResponse(res, 403, 'Must be logged in');
 });
+
+/**
+ * POST - /api/session/image
+ */
+router.post('/image', function(req, res) {
+    if (req.currentUser) {
+        request.post(
+            "https://api.imgur.com/3/upload",
+            {
+                form: {type: 'base64', image: req.body.imageData, title: 'Upload by Notably'},
+                headers: {'Authorization': "Client-ID " + process.env.IMGUR_API_KEY}
+            },
+            function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    utils.sendSuccessResponse(res, {'link' : JSON.parse(body).data.link})
+                } else {
+                    utils.sendErrResponse(res, 403, 'Error uploading image');
+                }
+            }
+        );
+    } else utils.sendErrResponse(res, 403, 'Must be logged in');
+});
+
+
+
 
 module.exports = router;
