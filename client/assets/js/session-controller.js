@@ -76,13 +76,13 @@ openPage = function() {
     // $('.dropdown-button').dropdown();
 
     // let the server know you've joined to update view counts, join the room
-    sessionSocket.emit("joined session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
+    sessionSocket.emit("joined session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number, "username" : $scope.currentUser});
 
     $scope.$on('$locationChangeStart', function () {
         // remove tooltips (weird for print view)
         $('.tooltipped').tooltip('remove');
         // leave session room on location start (socket disconnect on leave page is handled separately)
-        sessionSocket.emit("left session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number});
+        sessionSocket.emit("left session", {"sessionId" : $scope.sessionId, "courseNumber" : $scope.session.meta.number, "username" : $scope.currentUser});
     });
 
   // start out in editor mode, not preview mode
@@ -296,6 +296,15 @@ openPage = function() {
         if ('snippetId' in data) {
             $("#feed-save-" + data.snippetId + ",#stash-save-" + data.snippetId).prop('disabled', false);
         }
+    });
+
+    $scope.$on("socket:session data loaded", function(ev, data) {
+        $scope.occupants = data.occupancy[$scope.sessionId];
+        console.log($scope.occupants);
+    });
+
+    $scope.$on("socket:query username", function(ev, data) {
+        sessionSocket.emit("username data loaded", {"username" : $scope.currentUser});
     });
 
   // changes the editor to preview mode, making sure to highlight code and parse markdown

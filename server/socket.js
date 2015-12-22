@@ -4,22 +4,35 @@ var app = require('./app');
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
+
+
 io.sockets.on('connection', function(socket){
+
+    io.emit('query username', {});
 
     // load the number of sockets present in each session into an object
     var loadSessionOccupancy = function() {
         var sessionData = {};
         for (var room in io.sockets.adapter.rooms) {
             if (room.indexOf("session-") === 0) {  // check if it's a session and find the number of sockets in it
-                sessionData[room.substring(8, room.length)] = Object.keys(io.sockets.adapter.rooms[room]).length;
+                var sockets = Object.keys(io.sockets.adapter.rooms[room]).map(function(element) {return io.sockets.connected[element].username;});
+                var seen = {};
+                sessionData[room.substring(8, room.length)] = sockets.filter(function(item) {
+                    return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+                });
             }
         }
         return sessionData;
     }
 
+    socket.on("username data loaded", function(data) {
+        socket.username = data.username;
+    });
+
     // fired when a user joins a session, update occupancy for everyone (it doesnt hurt!)
     socket.on("joined session", function(data) {
         socket.join("session-" + data.sessionId); // join a room named after this session
+        socket.username = data.username;
         io.emit('session data loaded', {"occupancy" : loadSessionOccupancy()});
     });
 

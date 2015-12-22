@@ -56,7 +56,7 @@
                     {{ session.meta.number }}: {{ session.meta.title }}
                     </div>
                     <div class="col s12 m6 l3 session-info">
-                    <span id="badge-{{session._id}}">{{session.createdAt | amCalendar}} <i class="material-icons">supervisor_account</i> {{ occupancy[session._id] || 0 }}</span>
+                    <span id="badge-{{session._id}}">{{session.createdAt | amCalendar}} <i class="material-icons">supervisor_account</i> {{ occupancy[session._id].length || 0 }}</span>
                     </div>
                   </div>
                 </a>

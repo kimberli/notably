@@ -47,6 +47,8 @@
       </div>
     </div>
 
+    <div class="truncate" id="occupancy"> <b>Occupants:</b> {{occupants.join(", ")}} </div>
+
     <div class="row feeds" id="stash-feed-rows">
       <div ng-class="{true: 's12 m6', false: 's12'}[showOption === 'both']" class="col" ng-hide="showOption === 'right'" >
         <!-- feed card panel -->

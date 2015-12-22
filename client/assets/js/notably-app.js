@@ -61,9 +61,10 @@ angular.module('notablyApp', ['ngRoute', 'ngFitText','angularMoment','luegg.dire
     sessionSocket.forward('left session');
     sessionSocket.forward('new session');
     sessionSocket.forward('session data loaded');
+    sessionSocket.forward('query username');
     sessionSocket.forward('error');
 
-  return sessionSocket;
+    return sessionSocket;
 })
 
 .directive('navBar', function() {
