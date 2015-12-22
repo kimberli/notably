@@ -381,77 +381,77 @@ openPage = function() {
     }
 
 
-    // the following code is related to copy pasting omages
-    //  jquery function to get cursor position
-    var getCursorPosition = function () {
-        var el = $('#snippet-input-area').get(0);
-        var pos = 0;
-        if ('selectionStart' in el) {
-            pos = el.selectionStart;
-        } else if ('selection' in document) {
-            el.focus();
-            var Sel = document.selection.createRange();
-            var SelLength = document.selection.createRange().text.length;
-            Sel.moveStart('character', -el.value.length);
-            pos = Sel.text.length - SelLength;
-        }
-        return pos;
-    }
+    // // the following code is related to copy pasting omages
+    // //  jquery function to get cursor position
+    // var getCursorPosition = function () {
+    //     var el = $('#snippet-input-area').get(0);
+    //     var pos = 0;
+    //     if ('selectionStart' in el) {
+    //         pos = el.selectionStart;
+    //     } else if ('selection' in document) {
+    //         el.focus();
+    //         var Sel = document.selection.createRange();
+    //         var SelLength = document.selection.createRange().text.length;
+    //         Sel.moveStart('character', -el.value.length);
+    //         pos = Sel.text.length - SelLength;
+    //     }
+    //     return pos;
+    // }
 
-    // listen on a change to the file input field
-    $('input[type=file]#file-upload').change(
-        function() {
-            var file = document.getElementById("file-upload").files[0];
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function(event) {
-                    var binaryString = event.target.result;
-                    Materialize.toast('Trying to upload image...', 2000);
-                    uploadImage(btoa(binaryString));
-                    document.getElementById("file-upload").value = null;
-                };
-                reader.readAsBinaryString(file);
-            } else {
-                Materialize.toast('Sorry, there was an error uploading your image.', 2000);
-            }
-        }
-    );
+    // // listen on a change to the file input field
+    // $('input[type=file]#file-upload').change(
+    //     function() {
+    //         var file = document.getElementById("file-upload").files[0];
+    //         if (file) {
+    //             var reader = new FileReader();
+    //             reader.onload = function(event) {
+    //                 var binaryString = event.target.result;
+    //                 Materialize.toast('Trying to upload image...', 2000);
+    //                 uploadImage(btoa(binaryString));
+    //                 document.getElementById("file-upload").value = null;
+    //             };
+    //             reader.readAsBinaryString(file);
+    //         } else {
+    //             Materialize.toast('Sorry, there was an error uploading your image.', 2000);
+    //         }
+    //     }
+    // );
 
 
-    // a listener for copy pasting images in the editor
-    //your APIv3 client id
+    // // a listener for copy pasting images in the editor
+    // //your APIv3 client id
 
-    document.getElementById("snippet-input-area").onpaste = function(event){
-      var items = (event.clipboardData || event.originalEvent.clipboardData).items;
-      for (index in items) {
-        var item = items[index];
-        if (item.kind === 'file') {
-          var blob = item.getAsFile();
-          var reader = new FileReader();
-          reader.onload = function(event){
-            Materialize.toast('Trying to upload image...', 2000);
-            uploadImage(event.target.result);
-          }; // data url!
-          reader.readAsDataURL(blob);
-        }
-      }
-    }
+    // document.getElementById("snippet-input-area").onpaste = function(event){
+    //   var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    //   for (index in items) {
+    //     var item = items[index];
+    //     if (item.kind === 'file') {
+    //       var blob = item.getAsFile();
+    //       var reader = new FileReader();
+    //       reader.onload = function(event){
+    //         Materialize.toast('Trying to upload image...', 2000);
+    //         uploadImage(event.target.result);
+    //       }; // data url!
+    //       reader.readAsDataURL(blob);
+    //     }
+    //   }
+    // }
 
-    uploadImage = function(data) {
-        $http.post('/api/session/image', {
-            'imageData': data.substr(data.indexOf(',')+1)
-        }).then(function (response) {
-            var imageMarkdown = "![alt text](" + response.data.link + ")";
-            var position = getCursorPosition();
-            var content = $('#snippet-input-area').val();
-            var newContent = content.substr(0, position) + imageMarkdown + content.substr(position);
-            $('#snippet-input-area').val(newContent);
-            $scope.snippetInput = newContent;
-            Materialize.toast('Image uploaded!', 2000);
-        }, function(response) {
-            Materialize.toast(response.data.error, 2000);
-        });
-    }
+    // uploadImage = function(data) {
+    //     $http.post('/api/session/image', {
+    //         'imageData': data.substr(data.indexOf(',')+1)
+    //     }).then(function (response) {
+    //         var imageMarkdown = "![alt text](" + response.data.link + ")";
+    //         var position = getCursorPosition();
+    //         var content = $('#snippet-input-area').val();
+    //         var newContent = content.substr(0, position) + imageMarkdown + content.substr(position);
+    //         $('#snippet-input-area').val(newContent);
+    //         $scope.snippetInput = newContent;
+    //         Materialize.toast('Image uploaded!', 2000);
+    //     }, function(response) {
+    //         Materialize.toast(response.data.error, 2000);
+    //     });
+    // }
 
     // using angular hotkeys to add functionality
     hotkeys.add({
